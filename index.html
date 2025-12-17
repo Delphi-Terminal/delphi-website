@@ -119,10 +119,13 @@
 						<div class="inner">
 							<h2>Get in touch</h2>
 							<p>Please reach out for more information about Delphi and how we can help power your prediction market trading.</p>
-							<form method="POST" action="https://formsubmit.co/mbrownrigg@delphiterminal.co">
+							<div id="form-success" style="display: none; padding: 1em; background-color: rgba(255, 47, 82, 0.1); border: 1px solid #ff2f52; border-radius: 0.25em; margin-bottom: 2em;">
+								<p style="color: #ff2f52; margin: 0;"><strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.</p>
+							</div>
+							<form method="POST" action="https://formsubmit.co/mbrownrigg@delphiterminal.co" id="contact-form">
 								<input type="hidden" name="_subject" value="New Contact Form Submission from Delphi Website">
 								<input type="hidden" name="_captcha" value="false">
-								<input type="hidden" name="_next" value="">
+								<input type="hidden" name="_next" id="form-redirect" value="">
 								<div class="fields">
 									<div class="field half">
 										<label for="name">Name</label>
@@ -163,6 +166,36 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script>
+				// Set redirect URL to current page with success parameter
+				document.addEventListener('DOMContentLoaded', function() {
+					var form = document.getElementById('contact-form');
+					var redirectInput = document.getElementById('form-redirect');
+					var successMessage = document.getElementById('form-success');
+					
+					if (form && redirectInput) {
+						// Get current page URL and add success parameter
+						var currentUrl = window.location.origin + window.location.pathname + '?submitted=true';
+						redirectInput.value = currentUrl;
+					}
+					
+					// Check if form was just submitted
+					var urlParams = new URLSearchParams(window.location.search);
+					if (urlParams.get('submitted') === 'true') {
+						if (successMessage) {
+							successMessage.style.display = 'block';
+							// Hide form
+							if (form) {
+								form.style.display = 'none';
+							}
+							// Scroll to success message
+							successMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							// Clean up URL
+							window.history.replaceState({}, document.title, window.location.pathname);
+						}
+					}
+				});
+			</script>
 
 	</body>
 </html>
