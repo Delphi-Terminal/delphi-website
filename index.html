@@ -14,6 +14,35 @@
 	</head>
 	<body class="is-preload">
 
+		<!-- Left Vertical Rail -->
+			<aside id="vertical-rail" class="vertical-rail" aria-label="Application rail">
+				<div class="rail-brand">
+					<span aria-hidden="true">D</span>
+				</div>
+				<div class="rail-icons">
+					<span class="icon solid fa-chart-line" aria-hidden="true" title="Markets"></span>
+					<span class="icon solid fa-database" aria-hidden="true" title="Data"></span>
+					<span class="icon solid fa-code" aria-hidden="true" title="API"></span>
+				</div>
+			</aside>
+
+		<!-- Product Header -->
+			<header id="product-header" class="product-header">
+				<div class="header-inner">
+					<div class="header-brand">
+						<a href="#intro">DELPHI</a>
+					</div>
+					<nav class="header-nav">
+						<ul>
+							<li><a href="#product-preview">Markets</a></li>
+							<li><a href="#use-cases">Use Cases</a></li>
+							<li><a href="#developer-ready">Developers</a></li>
+						</ul>
+						<a href="#three" class="button primary">Request Demo</a>
+					</nav>
+				</div>
+			</header>
+
 		<!-- Sidebar -->
 			<section id="sidebar">
 				<div class="inner">
@@ -22,6 +51,8 @@
 							<li><a href="#intro">Welcome</a></li>
 							<li><a href="#one">Who we are</a></li>
 							<li><a href="#two">What we do</a></li>
+							<li><a href="#how-it-works">How it works</a></li>
+							<li><a href="#product-preview">Product Preview</a></li>
 							<li><a href="#three">Get in touch</a></li>
 						</ul>
 					</nav>
@@ -34,8 +65,9 @@
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
 						<div class="inner">
-							<h1>Delphi</h1>
-							<p>Delphi is a real-time prediction-market data and analytics engine powering lightning-fast market feeds, smart insights, and a Bloomberg-style trading experience.</p>
+							<div style="font-size: 1.2em; color: #ff2f52; font-weight: bold; margin-bottom: 0.5em; letter-spacing: 0.1em; text-transform: uppercase;">Delphi</div>
+							<h1>Prediction-market data, finally made usable.</h1>
+							<p>Real-time and historical data from every major prediction market, normalized into a single, consistent format for traders and researchers.</p>
 							<ul class="actions">
 								<li><a href="#one" class="button scrolly">Learn more</a></li>
 							</ul>
@@ -110,6 +142,240 @@
 									<h3>Institutional-Grade Infrastructure</h3>
 									<p>Built for reliability and scale. Unlike retail-focused solutions, Delphi provides the uptime, data quality, and performance standards that professional traders and institutions require.</p>
 								</section>
+							</div>
+						</div>
+					</section>
+
+				<!-- How It Works -->
+					<section id="how-it-works" class="wrapper style1 fade-up">
+						<div class="inner">
+							<h2>How It Works</h2>
+							<p>Delphi takes raw prediction-market feeds and turns them into clean, structured, and actionable data your team can rely on.</p>
+							<div class="features">
+								<section>
+									<span class="icon solid major fa-cloud-download-alt"></span>
+									<h3>Ingest</h3>
+									<p>Continuously ingests orderbooks, trades, and market metadata from leading prediction venues via websockets and APIs.</p>
+								</section>
+								<section>
+									<span class="icon solid major fa-sliders-h"></span>
+									<h3>Normalize</h3>
+									<p>Standardizes symbols, contracts, and market structures into a unified schema so every venue looks and behaves the same.</p>
+								</section>
+								<section>
+									<span class="icon solid major fa-chart-bar"></span>
+									<h3>Analyze</h3>
+									<p>Runs analytics, signals, and cross-market views on top of the normalized feed to surface the most important information.</p>
+								</section>
+								<section>
+									<span class="icon solid major fa-share-alt"></span>
+									<h3>Distribute</h3>
+									<p>Delivers data to traders and teams through dashboards, feeds, and APIs that plug directly into existing workflows.</p>
+								</section>
+							</div>
+						</div>
+					</section>
+
+				<!-- Use Cases -->
+					<section id="use-cases" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>Who Uses Delphi</h2>
+							<div class="use-cases-grid">
+								<div class="use-case-card">
+									<div class="card-header">
+										<span class="icon solid major fa-user-tie"></span>
+										<h3>Traders</h3>
+									</div>
+									<p>Power systematic research and trading strategies with a unified, normalized view across every major prediction venue.</p>
+								</div>
+								<div class="use-case-card">
+									<div class="card-header">
+										<span class="icon solid major fa-flask"></span>
+										<h3>Researchers</h3>
+									</div>
+									<p>Track crowd-implied probabilities on key macro, policy, and technology questions in a single, consistent interface.</p>
+								</div>
+								<div class="use-case-card">
+									<div class="card-header">
+										<span class="icon solid major fa-building"></span>
+										<h3>Firms</h3>
+									</div>
+									<p>Backtest, monitor, and deploy models on clean probability time series without managing brittle data plumbing.</p>
+								</div>
+							</div>
+						</div>
+					</section>
+
+				<!-- Developer Ready -->
+					<section id="developer-ready" class="wrapper style1 fade-up">
+						<div class="inner">
+							<h2>Developer Ready</h2>
+							<p>Built as technical infrastructure with APIs and data access at the core.</p>
+							<div class="developer-features">
+								<div class="developer-feature">
+									<div class="developer-feature-header">
+										<span class="icon solid major fa-code"></span>
+										<h3>Unified API</h3>
+									</div>
+									<p>Single endpoint architecture across all venues and markets.</p>
+									<div class="code-snippet">
+										<pre><code>GET /api/v1/markets/{market_id}
+{
+  "venue": "normalized",
+  "symbol": "US_ELECTION_2024",
+  "probability": 0.523,
+  "volume": 2400000
+}</code></pre>
+									</div>
+								</div>
+								<div class="developer-feature">
+									<div class="developer-feature-header">
+										<span class="icon solid major fa-database"></span>
+										<h3>Normalized Schemas</h3>
+									</div>
+									<p>Consistent data structures regardless of source exchange.</p>
+									<div class="code-snippet">
+										<pre><code>{
+  "market_id": "string",
+  "timestamp": "ISO8601",
+  "price": "decimal",
+  "volume": "integer"
+}</code></pre>
+									</div>
+								</div>
+								<div class="developer-feature">
+									<div class="developer-feature-header">
+										<span class="icon solid major fa-clock"></span>
+										<h3>Real-time & Historical</h3>
+									</div>
+									<p>Live websocket streams and queryable historical archives.</p>
+									<div class="code-snippet">
+										<pre><code>ws://api.delphi/markets/stream
+{
+  "type": "price_update",
+  "market": "...",
+  "timestamp": "2024-01-15T14:32:18Z"
+}</code></pre>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+				<!-- Product Preview -->
+					<section id="product-preview" class="wrapper style2 fade-up">
+						<div class="inner">
+							<h2>See Delphi in Action</h2>
+							<p>Get a quick look at how Delphi tracks and analyzes prediction markets.</p>
+							<div class="table-wrapper">
+								<table class="delphi-dashboard">
+									<thead>
+										<tr>
+											<th>Market Name</th>
+											<th>Probability</th>
+											<th>Volume</th>
+											<th>Timestamp</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>US Election 2024 - Biden Wins</td>
+											<td>52.3%</td>
+											<td>$2.4M</td>
+											<td>2024-01-15 14:32:18</td>
+										</tr>
+										<tr>
+											<td>Fed Rate Cut by Q2 2024</td>
+											<td>68.7%</td>
+											<td>$1.8M</td>
+											<td>2024-01-15 14:31:45</td>
+										</tr>
+										<tr>
+											<td>Bitcoin > $50K by EOY</td>
+											<td>41.2%</td>
+											<td>$3.1M</td>
+											<td>2024-01-15 14:31:12</td>
+										</tr>
+										<tr>
+											<td>AI Regulation Passes in 2024</td>
+											<td>29.5%</td>
+											<td>$950K</td>
+											<td>2024-01-15 14:30:58</td>
+										</tr>
+										<tr>
+											<td>SP500 Closes Above 5000</td>
+											<td>76.4%</td>
+											<td>$4.2M</td>
+											<td>2024-01-15 14:30:33</td>
+										</tr>
+										<tr>
+											<td>Climate Summit Agreement Reached</td>
+											<td>33.8%</td>
+											<td>$1.2M</td>
+											<td>2024-01-15 14:30:07</td>
+										</tr>
+									</tbody>
+								</table>
+								<div style="margin-top: 1em; font-family: 'Courier New', monospace; color: rgba(255, 255, 255, 0.6); font-size: 0.85em;">
+									<span>delphi@terminal:~$</span><span class="terminal-cursor"></span>
+								</div>
+							</div>
+						</div>
+					</section>
+
+				<!-- Key Metrics Strip -->
+					<section id="key-metrics" class="key-metrics-strip">
+						<div class="inner">
+							<div class="key-metrics-grid">
+								<div class="key-metric">
+									<div class="key-metric-value">100+</div>
+									<div class="key-metric-label">Markets Tracked</div>
+								</div>
+								<div class="key-metric">
+									<div class="key-metric-value">&lt;50ms</div>
+									<div class="key-metric-label">Data Latency</div>
+								</div>
+								<div class="key-metric">
+									<div class="key-metric-value">5+ Years</div>
+									<div class="key-metric-label">Historical Coverage</div>
+								</div>
+								<div class="key-metric">
+									<div class="key-metric-value">100%</div>
+									<div class="key-metric-label">Normalized Schemas</div>
+								</div>
+								<div class="key-metric">
+									<div class="key-metric-value">24/7</div>
+									<div class="key-metric-label">API Availability</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+				<!-- Metrics -->
+					<section id="metrics" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h2>Delphi by the Numbers</h2>
+							<div class="metrics-grid">
+								<div class="metric-item">
+									<span class="icon solid major fa-chart-line"></span>
+									<div class="metric-number" data-target="100" data-suffix="+">0</div>
+									<div class="metric-label">Markets Tracked</div>
+								</div>
+								<div class="metric-item">
+									<span class="icon solid major fa-bolt"></span>
+									<div class="metric-number" data-target="24" data-suffix="/7">0</div>
+									<div class="metric-label">Real-Time Updates</div>
+								</div>
+								<div class="metric-item">
+									<span class="icon solid major fa-code"></span>
+									<div class="metric-number" data-target="10" data-suffix="+">0</div>
+									<div class="metric-label">Exchanges Integrated</div>
+								</div>
+								<div class="metric-item">
+									<span class="icon solid major fa-sliders-h"></span>
+									<div class="metric-number" data-target="100" data-suffix="%">0</div>
+									<div class="metric-label">Cross-Market Normalization</div>
+								</div>
 							</div>
 						</div>
 					</section>
@@ -196,6 +462,323 @@
 					}
 				});
 			</script>
+			<script>
+				// Smooth scrolling navigation and active section indicator
+				(function() {
+					'use strict';
+					
+					var navLinks = document.querySelectorAll('#sidebar nav a[href^="#"]');
+					var sections = [];
+					var isScrolling = false;
+					var scrollTimeout;
+					
+					// Build sections array from nav links
+					navLinks.forEach(function(link) {
+						var href = link.getAttribute('href');
+						if (href && href !== '#') {
+							var section = document.querySelector(href);
+							if (section) {
+								sections.push({
+									id: href.substring(1),
+									element: section,
+									link: link
+								});
+							}
+						}
+					});
+					
+					// Function to update active nav item
+					function updateActiveNav() {
+						if (isScrolling) return;
+						
+						var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+						var windowHeight = window.innerHeight;
+						var offset = windowHeight * 0.3; // 30% from top of viewport
+						
+						// Find the section currently in view
+						var activeSection = null;
+						
+						for (var i = sections.length - 1; i >= 0; i--) {
+							var section = sections[i];
+							var sectionTop = section.element.offsetTop;
+							var sectionHeight = section.element.offsetHeight;
+							
+							// Check if section is in viewport (with offset)
+							if (scrollPosition + offset >= sectionTop && 
+							    scrollPosition + offset < sectionTop + sectionHeight) {
+								activeSection = section;
+								break;
+							}
+						}
+						
+						// If no section found and we're at the top, activate first section
+						if (!activeSection && scrollPosition < 100) {
+							activeSection = sections[0];
+						}
+						
+						// If no section found and we're near bottom, activate last section
+						if (!activeSection && scrollPosition + windowHeight >= document.documentElement.scrollHeight - 100) {
+							activeSection = sections[sections.length - 1];
+						}
+						
+						// Update active class
+						navLinks.forEach(function(link) {
+							link.classList.remove('active');
+						});
+						
+						if (activeSection) {
+							activeSection.link.classList.add('active');
+						}
+					}
+					
+					// Handle smooth scrolling on nav link click
+					navLinks.forEach(function(link) {
+						link.addEventListener('click', function(e) {
+							var href = this.getAttribute('href');
+							if (href && href !== '#') {
+								var targetSection = document.querySelector(href);
+								if (targetSection) {
+									e.preventDefault();
+									
+									// Set scrolling flag
+									isScrolling = true;
+									
+									// Update active nav immediately
+									navLinks.forEach(function(l) {
+										l.classList.remove('active');
+									});
+									this.classList.add('active');
+									
+									// Smooth scroll to section
+									var targetPosition = targetSection.offsetTop;
+									var sidebar = document.getElementById('sidebar');
+									var offset = 0;
+									
+									// Account for sidebar height on mobile/tablet
+									if (window.innerWidth <= 1280 && sidebar) {
+										offset = sidebar.offsetHeight;
+									}
+									
+									window.scrollTo({
+										top: targetPosition - offset,
+										behavior: 'smooth'
+									});
+									
+									// Clear scrolling flag after scroll completes
+									clearTimeout(scrollTimeout);
+									scrollTimeout = setTimeout(function() {
+										isScrolling = false;
+										updateActiveNav();
+									}, 1000);
+								}
+							}
+						});
+					});
+					
+					// Update active nav on scroll
+					var scrollHandler = function() {
+						if (!isScrolling) {
+							updateActiveNav();
+						}
+					};
+					
+					// Throttle scroll events for performance
+					var scrollThrottle;
+					window.addEventListener('scroll', function() {
+						if (!scrollThrottle) {
+							window.requestAnimationFrame(function() {
+								scrollHandler();
+								scrollThrottle = null;
+							});
+							scrollThrottle = true;
+						}
+					}, { passive: true });
+					
+					// Initial update on page load
+					window.addEventListener('load', function() {
+						setTimeout(updateActiveNav, 100);
+					});
+					
+					// Update on hash change (e.g., direct link to section)
+					window.addEventListener('hashchange', function() {
+						setTimeout(updateActiveNav, 100);
+					});
+					
+					// Initial check
+					if (document.readyState === 'loading') {
+						document.addEventListener('DOMContentLoaded', function() {
+							setTimeout(updateActiveNav, 100);
+						});
+					} else {
+						setTimeout(updateActiveNav, 100);
+					}
+				})();
+			</script>
+			<script>
+				// IntersectionObserver-based reveal animations
+				(function() {
+					'use strict';
 
-	</body>
+					if (!('IntersectionObserver' in window)) {
+						return;
+					}
+
+					var revealElements = [];
+
+					function addReveal(targets, options) {
+						if (!targets) return;
+						var delayBase = options && options.delayBase ? options.delayBase : 0;
+						targets.forEach(function(el, index) {
+							if (!el) return;
+							el.classList.add('reveal');
+							if (options && options.stagger) {
+								var delayIndex = Math.min(index, 3);
+								if (delayIndex > 0) {
+									el.classList.add('reveal-delay-' + delayIndex);
+								}
+							}
+							revealElements.push(el);
+						});
+					}
+
+					function selectAll(selector) {
+						return Array.prototype.slice.call(document.querySelectorAll(selector));
+					}
+
+					// Major sections
+					addReveal(selectAll('#intro .inner'));
+					addReveal(selectAll('#one > section'));
+					addReveal(selectAll('#two .inner'));
+					addReveal(selectAll('#how-it-works .inner'));
+					addReveal(selectAll('#use-cases .inner'));
+					addReveal(selectAll('#developer-ready .inner'));
+					addReveal(selectAll('#product-preview .inner'));
+					addReveal(selectAll('#key-metrics .inner'));
+					addReveal(selectAll('#metrics .inner'));
+					addReveal(selectAll('#three .inner'));
+
+					// Feature cards with subtle stagger
+					addReveal(selectAll('#two .features > section'), { stagger: true });
+					addReveal(selectAll('#how-it-works .features > section'), { stagger: true });
+					addReveal(selectAll('#use-cases .use-case-card'), { stagger: true });
+					addReveal(selectAll('#developer-ready .developer-feature'), { stagger: true });
+
+					if (!revealElements.length) {
+						return;
+					}
+
+					var observer = new IntersectionObserver(function(entries) {
+						entries.forEach(function(entry) {
+							if (entry.isIntersecting) {
+								var el = entry.target;
+								el.classList.add('reveal-visible');
+								observer.unobserve(el);
+							}
+						});
+					}, {
+						threshold: 0.2
+					});
+
+					revealElements.forEach(function(el) {
+						observer.observe(el);
+					});
+				})();
+			</script>
+			<script>
+				// Count-up animation for metrics
+				(function() {
+					'use strict';
+
+					if (!('IntersectionObserver' in window)) {
+						return;
+					}
+
+					var metricNumbers = document.querySelectorAll('.metric-number');
+					if (!metricNumbers.length) {
+						return;
+					}
+
+					var animatedMetrics = {};
+
+					function animateValue(element, start, end, duration, suffix) {
+						var startTime = null;
+						suffix = suffix || '';
+
+						function animate(currentTime) {
+							if (startTime === null) startTime = currentTime;
+							var timeElapsed = currentTime - startTime;
+							var progress = Math.min(timeElapsed / duration, 1);
+
+							// Easing function (ease-out)
+							var easeOut = 1 - Math.pow(1 - progress, 3);
+							var current = start + (end - start) * easeOut;
+
+							if (suffix === '%') {
+								element.textContent = Math.floor(current) + suffix;
+							} else if (suffix === '/7') {
+								element.textContent = Math.floor(current) + suffix;
+							} else {
+								element.textContent = Math.floor(current) + suffix;
+							}
+
+							if (progress < 1) {
+								requestAnimationFrame(animate);
+							} else {
+								if (suffix === '%') {
+									element.textContent = Math.floor(end) + suffix;
+								} else if (suffix === '/7') {
+									element.textContent = Math.floor(end) + suffix;
+								} else {
+									element.textContent = Math.floor(end) + suffix;
+								}
+							}
+						}
+
+						requestAnimationFrame(animate);
+					}
+
+					var metricsObserver = new IntersectionObserver(function(entries) {
+						entries.forEach(function(entry) {
+							if (entry.isIntersecting) {
+								var metricItems = entry.target.querySelectorAll('.metric-item');
+								metricItems.forEach(function(metricItem) {
+									if (animatedMetrics[metricItem]) {
+										return;
+									}
+
+									var numberEl = metricItem.querySelector('.metric-number');
+									if (!numberEl) {
+										return;
+									}
+
+									var targetValue = parseFloat(numberEl.getAttribute('data-target'));
+									if (isNaN(targetValue)) {
+										return;
+									}
+
+									animatedMetrics[metricItem] = true;
+
+									// Get suffix from data attribute
+									var suffix = numberEl.getAttribute('data-suffix') || '';
+
+									// Start animation
+									animateValue(numberEl, 0, targetValue, 2000, suffix);
+								});
+
+								metricsObserver.unobserve(entry.target);
+							}
+						});
+					}, {
+						threshold: 0.5
+					});
+
+					// Observe the metrics section
+					var metricsSection = document.getElementById('metrics');
+					if (metricsSection) {
+						metricsObserver.observe(metricsSection);
+					}
+				})();
+			</script>
+
+		</body>
 </html>
