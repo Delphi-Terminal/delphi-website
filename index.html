@@ -358,22 +358,22 @@
 							<div class="metrics-grid">
 								<div class="metric-item">
 									<span class="icon solid major fa-chart-line"></span>
-									<div class="metric-number" data-target="100" data-suffix="+">0</div>
+									<div class="metric-number" data-target="100" data-suffix="+">100+</div>
 									<div class="metric-label">Markets Tracked</div>
 								</div>
 								<div class="metric-item">
 									<span class="icon solid major fa-bolt"></span>
-									<div class="metric-number" data-target="24" data-suffix="/7">0</div>
+									<div class="metric-number" data-target="50" data-suffix="+">50+</div>
 									<div class="metric-label">Real-Time Updates</div>
 								</div>
 								<div class="metric-item">
 									<span class="icon solid major fa-code"></span>
-									<div class="metric-number" data-target="10" data-suffix="+">0</div>
+									<div class="metric-number" data-target="10" data-suffix="+">10+</div>
 									<div class="metric-label">Exchanges Integrated</div>
 								</div>
 								<div class="metric-item">
 									<span class="icon solid major fa-sliders-h"></span>
-									<div class="metric-number" data-target="100" data-suffix="%">0</div>
+									<div class="metric-number" data-target="25" data-suffix="+">25+</div>
 									<div class="metric-label">Cross-Market Normalization</div>
 								</div>
 							</div>
@@ -761,8 +761,14 @@
 									// Get suffix from data attribute
 									var suffix = numberEl.getAttribute('data-suffix') || '';
 
-									// Start animation
-									animateValue(numberEl, 0, targetValue, 2000, suffix);
+									// Parse current value or start from 0
+									var currentText = numberEl.textContent;
+									var currentValue = parseFloat(currentText) || 0;
+									
+									// Only animate if current value is less than target
+									if (currentValue < targetValue) {
+										animateValue(numberEl, currentValue, targetValue, 2000, suffix);
+									}
 								});
 
 								metricsObserver.unobserve(entry.target);
