@@ -3919,3 +3919,158 @@ input, select, textarea {
 			}
 
 		}
+
+	/* Live Market Demo - Real-time prediction market data feed */
+		#market-table {
+			width: 100%;
+			overflow-x: auto;
+			margin-top: 2em;
+			-webkit-overflow-scrolling: touch; /* Touch-friendly scrolling */
+		}
+
+		#market-data-table {
+			width: 100%;
+			border-collapse: collapse;
+			font-family: 'Courier New', monospace;
+		}
+
+		#market-data-table thead {
+			display: table-header-group;
+		}
+
+		#market-data-table thead th {
+			text-transform: uppercase;
+			color: #ff2f52;
+			padding: 1em 1.5em;
+			text-align: left;
+			font-weight: 600;
+			font-size: 0.9rem;
+			background-color: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		#market-data-table tbody tr {
+			background-color: rgba(255, 255, 255, 0.05);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			transition: background-color 0.3s ease;
+		}
+
+		#market-data-table tbody tr:hover {
+			background-color: rgba(255, 255, 255, 0.08);
+		}
+
+		#market-data-table tbody tr.flash {
+			animation: flashUpdate 0.6s ease-out;
+		}
+
+		#market-data-table tbody td {
+			padding: 1em 1.5em;
+			color: #ffffff;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		#market-data-table tbody td.market-name {
+			font-weight: 600;
+			color: #ffffff;
+			text-align: left;
+		}
+
+		#market-data-table tbody td.price {
+			font-weight: 600;
+			font-size: 1.1rem;
+			color: #ffffff;
+		}
+
+		#market-data-table tbody td.change {
+			font-weight: 600;
+		}
+
+		#market-data-table tbody td.change.positive {
+			color: #ff2f52;
+		}
+
+		#market-data-table tbody td.change.negative {
+			color: #888;
+		}
+
+		#market-data-table tbody td.exchange,
+		#market-data-table tbody td.volume {
+			font-size: 0.9rem;
+			color: rgba(255, 255, 255, 0.7);
+		}
+
+		@keyframes fadeIn {
+			from {
+				opacity: 0;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		@keyframes flashUpdate {
+			0% {
+				background-color: rgba(255, 47, 82, 0.3);
+			}
+			50% {
+				background-color: rgba(255, 47, 82, 0.15);
+			}
+			100% {
+				background-color: rgba(255, 255, 255, 0.05);
+			}
+		}
+
+		/* Mobile Responsive - Convert to stacked cards under 980px */
+		@media screen and (max-width: 980px) {
+			#market-data-table {
+				display: block;
+			}
+
+			#market-data-table thead {
+				display: none;
+			}
+
+			#market-data-table tbody {
+				display: block;
+			}
+
+			#market-data-table tbody tr {
+				display: block;
+				margin-bottom: 1em;
+				border-radius: 0.25em;
+				padding: 1em;
+			}
+
+			#market-data-table tbody td {
+				display: block;
+				padding: 0.5em 0;
+				border: none;
+				text-align: left;
+			}
+
+			#market-data-table tbody td:before {
+				content: attr(data-label) ": ";
+				font-weight: 600;
+				color: rgba(255, 255, 255, 0.7);
+			}
+
+			#market-data-table tbody td.market-name:before {
+				content: "Market: ";
+			}
+
+			#market-data-table tbody td.price:before {
+				content: "Price: ";
+			}
+
+			#market-data-table tbody td.change:before {
+				content: "Change: ";
+			}
+
+			#market-data-table tbody td.exchange:before {
+				content: "Exchange: ";
+			}
+
+			#market-data-table tbody td.volume:before {
+				content: "Volume: ";
+			}
+		}

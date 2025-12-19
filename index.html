@@ -9,8 +9,968 @@
 		<title>Delphi</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* Prevent horizontal scrolling and center everything */
+			html, body {
+				overflow-x: hidden !important;
+				max-width: 100vw !important;
+				margin: 0 !important;
+				padding: 0 !important;
+				width: 100% !important;
+			}
+
+			body {
+				width: 100% !important;
+				margin: 0 auto !important;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			/* Center wrapper */
+			#wrapper {
+				width: 100% !important;
+				max-width: 100% !important;
+				margin: 0 auto !important;
+				padding-top: 60px !important;
+				overflow-x: hidden;
+				display: block !important;
+			}
+
+			/* Center all inner containers */
+			.inner {
+				max-width: 1200px !important;
+				margin: 0 auto !important;
+				width: 100% !important;
+				padding: 0 2rem !important;
+				box-sizing: border-box !important;
+				display: block !important;
+			}
+
+			/* Center all sections */
+			section {
+				width: 100% !important;
+				max-width: 100% !important;
+				overflow-x: hidden;
+				margin: 0 auto !important;
+				display: block !important;
+			}
+
+			/* Center all section headings */
+			h1, h2, h3 {
+				text-align: center !important;
+			}
+
+			/* Center intro section */
+			#intro {
+				text-align: center !important;
+				display: flex !important;
+				align-items: center !important;
+				justify-content: center !important;
+			}
+
+			#intro .inner {
+				text-align: center !important;
+				display: flex !important;
+				flex-direction: column !important;
+				align-items: center !important;
+				justify-content: center !important;
+			}
+
+			/* Center "Who We Are" section */
+			#one {
+				width: 100% !important;
+				margin: 0 auto !important;
+				text-align: center !important;
+				border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+				padding-top: 4rem !important;
+			}
+
+			#one .inner {
+				text-align: center !important;
+			}
+
+			#one h2 {
+				text-align: center !important;
+			}
+
+			#one h3 {
+				text-align: center !important;
+			}
+
+			/* Center feature cards */
+			#one .features {
+				width: 100% !important;
+				margin: 0 auto !important;
+				justify-items: center !important;
+			}
+
+			#one .features > section {
+				margin: 0 auto !important;
+			}
+
+			/* Hide icons in #one section */
+			#one .features > section .icon {
+				display: none !important;
+			}
+
+			/* Center "What we do" section */
+			#two {
+				width: 100% !important;
+				margin: 0 auto !important;
+				text-align: center !important;
+				border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+				padding-top: 4rem !important;
+				background-image: url('images/delphi-desk.jpg') !important;
+				background-size: cover !important;
+				background-position: center center !important;
+				background-repeat: no-repeat !important;
+				background-attachment: fixed !important;
+				position: relative !important;
+			}
+
+			/* Add overlay to ensure text readability */
+			#two::before {
+				content: '' !important;
+				position: absolute !important;
+				top: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				bottom: 0 !important;
+				background: rgba(0, 0, 0, 0.4) !important;
+				z-index: 0 !important;
+			}
+
+			#two .inner {
+				text-align: center !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			/* Center feature cards */
+			#two .features {
+				width: 100% !important;
+				margin: 0 auto !important;
+				justify-items: center !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#two .features > section {
+				margin: 0 auto !important;
+			}
+
+			/* Center contact section */
+			#three {
+				width: 100% !important;
+				margin: 0 auto !important;
+				text-align: center !important;
+				border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+				padding-top: 4rem !important;
+			}
+
+			#three .inner {
+				text-align: center !important;
+			}
+
+			#three form {
+				margin: -3.5rem auto 0 auto !important;
+				max-width: 800px !important;
+			}
+
+			#three .fields {
+				margin-top: 0 !important;
+			}
+
+			/* Center live demo section */
+			#live-demo {
+				width: 100% !important;
+				margin: 0 auto !important;
+				text-align: center !important;
+			}
+
+			#live-demo .inner {
+				text-align: center !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#market-feed-container {
+				margin: 0 auto !important;
+				max-width: 100% !important;
+			}
+
+			/* Ensure images don't overflow */
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+
+
+			/* Ensure tables don't overflow */
+			table {
+				width: 100%;
+				max-width: 100%;
+				table-layout: auto;
+			}
+
+			/* Ensure market feed doesn't overflow */
+			#market-feed-container {
+				width: 100%;
+				max-width: 100%;
+				overflow-x: auto;
+			}
+
+			.market-feed-header,
+			.market-feed-row {
+				min-width: 0;
+			}
+
+			/* Ensure features grid doesn't overflow */
+			.features {
+				width: 100%;
+				max-width: 100%;
+			}
+
+			/* Center all buttons and actions */
+			.actions {
+				display: flex !important;
+				justify-content: center !important;
+				align-items: center !important;
+				margin: 0 auto !important;
+			}
+
+			.actions li {
+				margin: 0 !important;
+			}
+
+			/* Center forms */
+			form {
+				margin: 0 auto !important;
+			}
+
+			.fields {
+				margin: 0 auto !important;
+			}
+
+			@media screen and (max-width: 736px) {
+				.inner {
+					padding: 0 1rem !important;
+				}
+
+				#market-feed-container {
+					overflow-x: auto;
+					-webkit-overflow-scrolling: touch;
+				}
+
+				/* Ensure mobile centering */
+				section {
+					width: 100% !important;
+					margin: 0 auto !important;
+				}
+
+				.inner {
+					width: 100% !important;
+					margin: 0 auto !important;
+					text-align: center !important;
+				}
+			}
+
+			/* Global Font - Merriweather */
+			body, body * {
+				font-family: 'Merriweather', serif !important;
+			}
+
+			/* Preserve monospace for terminal-like elements */
+			#market-feed-container,
+			#market-feed-container *,
+			code,
+			pre {
+				font-family: 'Courier New', monospace !important;
+			}
+
+			/* Make all descriptive text white, not bold, and use original font */
+			#intro p,
+			#intro .intro-description,
+			#one .inner p,
+			#one .features > section p,
+			#two > .inner > p,
+			#two .features > section p,
+			#three .inner p {
+				color: #ffffff !important;
+				font-family: Arial, Helvetica, sans-serif !important;
+				font-weight: normal !important;
+				line-height: 1.6 !important;
+			}
+
+			/* Live Demo Styles */
+			#live-demo {
+				background: #000000;
+				background-image: url('images/delphi-corporate.png') !important;
+				background-size: cover !important;
+				background-position: center center !important;
+				background-repeat: no-repeat !important;
+				background-attachment: fixed !important;
+				color: #ffffff;
+				padding: 4rem 0;
+				border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+				position: relative !important;
+			}
+
+			/* Add overlay to ensure text readability */
+			#live-demo::before {
+				content: '' !important;
+				position: absolute !important;
+				top: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				bottom: 0 !important;
+				background: rgba(0, 0, 0, 0.4) !important;
+				z-index: 0 !important;
+			}
+
+
+			#live-demo h2 {
+				text-align: center;
+				display: inline-block;
+				padding: 1rem 2rem;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				background: rgba(0, 0, 0, 0.85) !important;
+				backdrop-filter: blur(5px) !important;
+				margin-bottom: 1.5rem !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#live-demo p {
+				text-align: center;
+				display: inline-block;
+				padding: 0.75rem 1.5rem;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				background: rgba(0, 0, 0, 0.85) !important;
+				backdrop-filter: blur(5px) !important;
+				margin-bottom: 2rem !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#market-feed-container {
+				margin-top: 2rem;
+				background: rgba(0, 0, 0, 0.85) !important;
+				backdrop-filter: blur(5px) !important;
+				border: 1px solid rgba(255, 255, 255, 0.1);
+				border-radius: 4px;
+				overflow: hidden;
+				font-family: 'Courier New', monospace;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			.market-feed-header {
+				display: grid;
+				grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+				gap: 1rem;
+				padding: 1rem 1.5rem;
+				background: rgba(255, 255, 255, 0.05);
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				font-weight: bold;
+				color: #ff2f52;
+				text-transform: uppercase;
+				font-size: 0.85rem;
+				letter-spacing: 0.05em;
+			}
+
+			.market-feed-header .feed-column:first-child {
+				padding-left: 1rem;
+			}
+
+			.market-feed-header .feed-column {
+				text-align: center;
+				justify-content: center;
+			}
+
+			.market-feed-row {
+				display: grid;
+				grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+				gap: 1rem;
+				padding: 1rem 1.5rem;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+				transition: background-color 0.3s ease;
+				animation: fadeIn 0.5s ease-in;
+			}
+
+			.market-feed-row:hover {
+				background: rgba(255, 255, 255, 0.05);
+			}
+
+			.market-feed-row.price-update {
+				background: rgba(255, 47, 82, 0.1);
+				animation: priceFlash 0.6s ease-out;
+			}
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(-10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			@keyframes priceFlash {
+				0% {
+					background: rgba(255, 47, 82, 0.3);
+				}
+				100% {
+					background: rgba(255, 47, 82, 0.1);
+				}
+			}
+
+			.feed-column {
+				display: flex;
+				align-items: center;
+			}
+
+			.market-feed-row .feed-column {
+				text-align: center;
+				justify-content: center;
+			}
+
+			.market-feed-row .feed-column:first-child {
+				padding-left: 1rem;
+				text-align: left;
+				justify-content: flex-start;
+			}
+
+			.market-name {
+				font-weight: 600;
+				color: #ffffff;
+				display: block;
+				text-align: left;
+				width: 100%;
+			}
+
+			.market-price {
+				font-weight: 600;
+				color: #ffffff;
+				font-size: 1.1rem;
+			}
+
+			.market-change {
+				font-weight: 600;
+			}
+
+			.market-change.positive {
+				color: #ff2f52;
+			}
+
+			.market-change.negative {
+				color: #888888;
+			}
+
+			.market-exchange {
+				color: rgba(255, 255, 255, 0.7);
+				font-size: 0.9rem;
+			}
+
+			.market-volume {
+				color: rgba(255, 255, 255, 0.6);
+				font-size: 0.9rem;
+			}
+
+			/* Responsive Design */
+			@media screen and (max-width: 980px) {
+				.market-feed-header,
+				.market-feed-row {
+					grid-template-columns: 1fr;
+					gap: 0.5rem;
+				}
+
+				.feed-column {
+					justify-content: space-between;
+					padding: 0.25rem 0;
+				}
+
+				.feed-column::before {
+					content: attr(data-label);
+					font-weight: bold;
+					color: #ff2f52;
+					margin-right: 1rem;
+					text-transform: uppercase;
+					font-size: 0.75rem;
+				}
+
+				.market-feed-header {
+					display: none;
+				}
+			}
+
+			@media screen and (max-width: 736px) {
+				#live-demo {
+					padding: 2rem 0;
+				}
+
+				.market-feed-row {
+					padding: 0.75rem 1rem;
+				}
+			}
+
+			/* Intro Hero Enhancements */
+			#intro {
+				position: relative;
+				overflow: hidden;
+				background: #000000 !important;
+			}
+
+			#intro .inner {
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.intro-title {
+				font-size: 4.5em;
+				margin-bottom: 1.5rem;
+				text-align: center;
+			}
+
+			.intro-description {
+				text-align: center;
+				margin: 0 auto 2rem;
+				max-width: 1000px;
+				font-family: 'Merriweather', serif;
+				font-size: 1.1em;
+				line-height: 1.5;
+				max-height: calc(1.5em * 2);
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-line-clamp: 2;
+				line-clamp: 2;
+				-webkit-box-orient: vertical;
+			}
+
+			#particles-container {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
+				pointer-events: none;
+				z-index: 1;
+			}
+
+			.particle {
+				position: absolute;
+				width: 2px;
+				height: 2px;
+				background: rgba(255, 255, 255, 0.3);
+				border-radius: 50%;
+				animation: floatUp 20s linear infinite;
+				will-change: transform, opacity;
+			}
+
+			@keyframes floatUp {
+				0% {
+					transform: translateY(100vh) translateX(0);
+					opacity: 0;
+				}
+				10% {
+					opacity: 0.3;
+				}
+				90% {
+					opacity: 0.3;
+				}
+				100% {
+					transform: translateY(-100vh) translateX(0);
+					opacity: 0;
+				}
+			}
+
+			#intro .inner {
+				position: relative;
+				z-index: 2;
+			}
+
+			#typing-text {
+				min-height: 1.5em;
+				display: inline-block;
+			}
+
+			#typed-text {
+				color: #ffffff;
+			}
+
+			#typing-cursor {
+				color: #ffffff;
+				animation: blink 1s step-end infinite;
+				margin-left: 2px;
+			}
+
+			@keyframes blink {
+				0%, 50% {
+					opacity: 1;
+				}
+				51%, 100% {
+					opacity: 0;
+				}
+			}
+
+			.button-primary {
+				background-color: transparent !important;
+				border-color: #ff2f52 !important;
+				color: #ff2f52 !important;
+				transition: all 0.3s ease;
+			}
+
+			.button-primary:hover {
+				background-color: rgba(255, 47, 82, 0.1) !important;
+				border-color: #ff4f72 !important;
+				color: #ff4f72 !important;
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(255, 47, 82, 0.2);
+			}
+
+			.button-secondary {
+				background-color: transparent !important;
+				border-color: #ff2f52 !important;
+				color: #ff2f52 !important;
+				transition: all 0.3s ease;
+			}
+
+			.button-secondary:hover {
+				background-color: rgba(255, 47, 82, 0.1) !important;
+				border-color: #ff4f72 !important;
+				color: #ff4f72 !important;
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(255, 47, 82, 0.2);
+			}
+
+			#intro .actions {
+				display: flex !important;
+				gap: 1rem;
+				flex-wrap: wrap;
+				justify-content: center !important;
+				align-items: center !important;
+				margin: 2rem auto 0 !important;
+				width: 100%;
+				text-align: center !important;
+			}
+
+			#intro .actions li {
+				margin: 0 !important;
+				display: inline-block !important;
+			}
+
+			#intro .actions .button {
+				display: inline-block !important;
+				margin: 0 !important;
+			}
+
+			@media screen and (max-width: 736px) {
+				.intro-title {
+					font-size: 3em;
+				}
+
+				.intro-description {
+					font-size: 0.95em;
+					max-width: 90%;
+					line-height: 1.4;
+					max-height: calc(1.4em * 2);
+				}
+
+				#intro .actions {
+					flex-direction: column;
+				}
+
+				#intro .actions li {
+					width: 100%;
+				}
+
+				#intro .actions .button {
+					width: 100%;
+					text-align: center;
+				}
+			}
+
+			/* Feature Cards Enhancements */
+			/* Who We Are section styling */
+
+			#one h2 {
+				text-align: center;
+				display: inline-block;
+				padding: 1rem 2rem;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				background: rgba(0, 0, 0, 0.75) !important;
+				backdrop-filter: blur(5px) !important;
+				margin-bottom: 2rem !important;
+			}
+
+			#one .features {
+				display: grid !important;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+				gap: 2rem !important;
+				border: none !important;
+				background: transparent !important;
+				margin: 2rem 0 !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#one .features > section {
+				position: relative;
+				padding: 2rem !important;
+				width: 100% !important;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+				border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+				background: rgba(0, 0, 0, 0.75) !important;
+				backdrop-filter: blur(5px) !important;
+				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+				opacity: 0;
+				transform: translateY(30px);
+				will-change: transform, opacity;
+				z-index: 1 !important;
+			}
+
+			#one .features > section.animate-in {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			#one .features > section:hover {
+				transform: translateY(-10px) !important;
+				background: rgba(255, 47, 82, 0.05) !important;
+				border-color: rgba(255, 47, 82, 0.3) !important;
+				box-shadow: 0 10px 30px rgba(255, 47, 82, 0.15);
+			}
+
+			#one .features > section h3 {
+				font-size: 1.5em !important;
+				margin: 0 0 1.5rem 0 !important;
+				text-align: center !important;
+				transition: color 0.3s ease;
+			}
+
+			#one .features > section:hover h3 {
+				color: #ff2f52 !important;
+			}
+
+			#one .features > section p {
+				margin-top: 0;
+				transition: color 0.3s ease;
+				text-align: center;
+			}
+
+			/* Hide any icons in #one section */
+			#one .features > section .icon {
+				display: none !important;
+			}
+
+			#two .inner {
+				text-align: center;
+			}
+
+			#two h2 {
+				text-align: center;
+				display: inline-block;
+				padding: 1rem 2rem;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				background: rgba(0, 0, 0, 0.85) !important;
+				backdrop-filter: blur(5px) !important;
+				margin-bottom: 1.5rem !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#two > .inner > p {
+				text-align: center;
+				display: inline-block;
+				padding: 0.75rem 1.5rem;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				background: rgba(0, 0, 0, 0.85) !important;
+				backdrop-filter: blur(5px) !important;
+				margin-bottom: 2rem !important;
+				position: relative !important;
+				z-index: 1 !important;
+			}
+
+			#two .features {
+				display: grid !important;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+				gap: 2rem !important;
+				border: none !important;
+				background: transparent !important;
+				margin: 2rem 0 !important;
+			}
+
+			#two .features > section {
+				position: relative;
+				padding: 2rem !important;
+				width: 100% !important;
+				border: 1px solid rgba(255, 255, 255, 0.1) !important;
+				border-radius: 8px !important;
+				border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+				border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+				background: rgba(0, 0, 0, 0.75) !important;
+				backdrop-filter: blur(5px) !important;
+				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+				opacity: 0;
+				transform: translateY(30px);
+				will-change: transform, opacity;
+				z-index: 1 !important;
+			}
+
+			#two .features > section.animate-in {
+				opacity: 1;
+				transform: translateY(0);
+			}
+
+			#two .features > section:hover {
+				transform: translateY(-10px) !important;
+				background: rgba(255, 47, 82, 0.05) !important;
+				border-color: rgba(255, 47, 82, 0.3) !important;
+				box-shadow: 0 10px 30px rgba(255, 47, 82, 0.15);
+			}
+
+			/* Hide icons in #two section */
+			#two .features > section .icon {
+				display: none !important;
+			}
+
+			#two .features > section h3 {
+				font-size: 1.5em !important;
+				margin: 0 0 1.5rem 0 !important;
+				text-align: center !important;
+				transition: color 0.3s ease;
+			}
+
+			#two .features > section:hover h3 {
+				color: #ff2f52 !important;
+			}
+
+			#two .features > section p {
+				margin-top: 0;
+				transition: color 0.3s ease;
+				text-align: left;
+			}
+
+			/* Responsive Design */
+			@media screen and (max-width: 980px) {
+				#one .features {
+					grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+					gap: 1.5rem !important;
+				}
+
+				#one .features > section {
+					padding: 1.5rem !important;
+				}
+
+				#two .features {
+					grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+					gap: 1.5rem !important;
+				}
+
+				#two .features > section {
+					padding: 1.5rem !important;
+				}
+			}
+
+			@media screen and (max-width: 736px) {
+				#one .features {
+					grid-template-columns: 1fr !important;
+					gap: 1rem !important;
+				}
+
+				#one .features > section {
+					padding: 1.25rem !important;
+				}
+
+				#two .features {
+					grid-template-columns: 1fr !important;
+					gap: 1rem !important;
+				}
+
+				#two .features > section {
+					padding: 1.25rem !important;
+				}
+			}
+
+			/* Make sidebar navigation fixed at top and smaller */
+			#sidebar {
+				position: fixed !important;
+				top: 0 !important;
+				left: 0 !important;
+				right: 0 !important;
+				width: 100% !important;
+				height: auto !important;
+				z-index: 1000 !important;
+				background: rgba(0, 0, 0, 0.9) !important;
+				backdrop-filter: blur(10px) !important;
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+
+			#sidebar > .inner {
+				padding: 1rem 2rem !important;
+				max-width: 1400px !important;
+				margin: 0 auto !important;
+				width: 100% !important;
+				text-align: center !important;
+			}
+
+			#sidebar nav > ul {
+				display: flex !important;
+				flex-direction: row !important;
+				justify-content: center !important;
+				align-items: center !important;
+				gap: 1.5rem !important;
+				margin: 0 !important;
+				padding: 0 !important;
+			}
+
+			#sidebar nav > ul > li {
+				margin: 0 !important;
+			}
+
+			#sidebar nav > ul > li > a {
+				font-size: 0.9em !important;
+				padding: 0.5em 0.75em !important;
+			}
+
+
+			@media screen and (max-width: 736px) {
+				#sidebar nav > ul {
+					flex-wrap: wrap !important;
+					gap: 0.75rem !important;
+				}
+
+				#sidebar nav > ul > li > a {
+					font-size: 0.85em !important;
+					padding: 0.4em 0.6em !important;
+				}
+
+				#wrapper {
+					padding-top: 80px !important;
+				}
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -20,7 +980,8 @@
 					<nav>
 						<ul>
 							<li><a href="#intro">Welcome</a></li>
-							<li><a href="#one">Who we are</a></li>
+							<li><a href="#live-demo">Live Demo</a></li>
+							<li><a href="#one">Who We Are</a></li>
 							<li><a href="#two">What we do</a></li>
 							<li><a href="#three">Get in touch</a></li>
 						</ul>
@@ -33,45 +994,53 @@
 
 				<!-- Intro -->
 					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div id="particles-container"></div>
 						<div class="inner">
-							<h1>Delphi</h1>
-							<p>Delphi is a real-time prediction-market data and analytics engine powering lightning-fast market feeds, smart insights, and a Bloomberg-style trading experience.</p>
+							<h1 class="intro-title">Delphi</h1>
+							<p id="typing-text" class="intro-description"><span id="typed-text"></span><span id="typing-cursor">|</span></p>
 							<ul class="actions">
-								<li><a href="#one" class="button scrolly">Learn more</a></li>
+								<li><a href="#three" class="button button-primary scrolly">Request Demo</a></li>
 							</ul>
 						</div>
 					</section>
 
+				<!-- Live Demo -->
+					<section id="live-demo" class="wrapper style1-alt fade-up">
+						<div class="inner">
+							<h2>Live Market Data Feed</h2>
+							<p>8 Sample real-time prediction market data aggregation from multiple exchanges</p>
+							<div id="market-feed-container">
+								<div class="market-feed-header">
+									<div class="feed-column">Market</div>
+									<div class="feed-column">Price</div>
+									<div class="feed-column">Change</div>
+									<div class="feed-column">Exchange</div>
+									<div class="feed-column">Volume</div>
+								</div>
+								<div id="market-feed-rows"></div>
+							</div>
+						</div>
+					</section>
+
 				<!-- One -->
-					<section id="one" class="wrapper style2 spotlights">
-						<section>
-							<a href="#" class="image"><img src="images/delphi-corporate.png" alt="Delphi Corporate" data-position="center center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>Mission</h2>
-									<p>We believe prediction markets deserve Wall-Street-grade infrastructure.</p>
-									<p>Delphi builds the fastest, most reliable data and analytics engine in the space — so traders, researchers, and institutions can see the future more clearly.</p>
-								</div>
-							</div>
-						</section>
-						<section>
-							<a href="#" class="image"><img src="images/delphi-logo.png" alt="Delphi Logo" data-position="top center" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>How We Build</h2>
+					<section id="one" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h2>Who We Are</h2>
+							<div class="features">
+								<section>
+									<h3>Mission</h3>
+									<p>We believe prediction markets deserve Wall-Street-grade infrastructure. Delphi builds the fastest, most reliable data and analytics engine in the space — so traders, researchers, and institutions can see the future more clearly.</p>
+								</section>
+								<section>
+									<h3>How We Build</h3>
 									<p>We design Delphi like a trading system, not a toy app. We optimize for speed, reliability, and clarity: real-time pipelines, fully normalized schemas, and analytics that stay close to the metal. Every feature starts from a simple question — would a serious trader or desk actually depend on this? If the answer's no, we don't ship it.</p>
-								</div>
-							</div>
-						</section>
-						<section>
-							<a href="#" class="image"><img src="images/delphi-desk.jpg" alt="Delphi Desk" data-position="25% 25%" /></a>
-							<div class="content">
-								<div class="inner">
-									<h2>Why We're Different</h2>
+								</section>
+								<section>
+									<h3>Why We're Different</h3>
 									<p>We built Delphi from a trader's perspective — we've lived the microstructure, the bottlenecks, and the speed requirements. Our system doesn't just stream data; it understands it. We normalize every venue, link related markets, and surface cross-market signals others miss. That's why institutional traders trust Delphi for clean, consistent, context-rich data that meets true financial-market standards.</p>
-								</div>
+								</section>
 							</div>
-						</section>
+						</div>
 					</section>
 
 				<!-- Two -->
@@ -81,32 +1050,26 @@
 							<p>Delphi centralizes fragmented prediction markets into a unified platform, enabling traders and institutions to analyze data in one place. We eliminate the need for custom infrastructure setups and data pipelines, saving traders 40+ hours of initial setup and 8+ hours of weekly maintenance.</p>
 							<div class="features">
 								<section>
-									<span class="icon solid major fa-bolt"></span>
 									<h3>Real-Time Data Aggregation</h3>
 									<p>Clean and aggregate data from 10+ prediction market exchanges in real time. Our system processes live websocket streams and exchange APIs, ensuring you always have the latest market data at your fingertips.</p>
 								</section>
 								<section>
-									<span class="icon solid major fa-database"></span>
 									<h3>Normalized Data Structure</h3>
 									<p>Transform unnormalized, fragmented exchange data into a unified structure. Every venue is standardized, related markets are linked, and cross-market signals are surfaced automatically.</p>
 								</section>
 								<section>
-									<span class="icon solid major fa-code"></span>
 									<h3>Query Language & Analytics</h3>
 									<p>Powerful querying language for price and orderbook data enables systematic research across thousands of markets. Build fast with an easily queryable interface designed for institutional trading.</p>
 								</section>
 								<section>
-									<span class="icon solid major fa-chart-line"></span>
 									<h3>Custom Functions & Tools</h3>
 									<p>Advanced analytics including volatility surfaces, scenario analyses, and market-specific functions. Features that traders typically spend months manually developing are built-in and ready to use.</p>
 								</section>
 								<section>
-									<span class="icon solid major fa-plug"></span>
 									<h3>Seamless Integrations</h3>
 									<p>Facilitate integrations with existing trading systems and models. Our API and Excel plug-in make it easy to incorporate Delphi data into your current workflow without disruption.</p>
 								</section>
 								<section>
-									<span class="icon solid major fa-shield"></span>
 									<h3>Institutional-Grade Infrastructure</h3>
 									<p>Built for reliability and scale. Unlike retail-focused solutions, Delphi provides the uptime, data quality, and performance standards that professional traders and institutions require.</p>
 								</section>
@@ -195,6 +1158,264 @@
 						}
 					}
 				});
+
+				// Intro Hero Enhancements
+				(function() {
+					// Typing Animation
+					var typingText = "A real-time prediction-market data and analytics engine powering lightning-fast market feeds, smart insights, and a Bloomberg-style trading experience.";
+					var typedTextElement = document.getElementById('typed-text');
+					var typingCursor = document.getElementById('typing-cursor');
+					
+					if (typedTextElement) {
+						var charIndex = 0;
+						var typingSpeed = 30; // milliseconds per character
+						
+						function typeCharacter() {
+							if (charIndex < typingText.length) {
+								typedTextElement.textContent += typingText.charAt(charIndex);
+								charIndex++;
+								setTimeout(typeCharacter, typingSpeed);
+							} else {
+								// Keep cursor blinking after typing is complete
+								if (typingCursor) {
+									typingCursor.style.animation = 'blink 1s step-end infinite';
+								}
+							}
+						}
+						
+						// Start typing animation after a short delay
+						setTimeout(function() {
+							typeCharacter();
+						}, 500);
+					}
+
+					// Particle Effects
+					function createParticle() {
+						var container = document.getElementById('particles-container');
+						if (!container) return;
+
+						var particle = document.createElement('div');
+						particle.className = 'particle';
+						
+						// Random starting position and animation duration
+						var startX = Math.random() * 100;
+						var duration = 15 + Math.random() * 10;
+						var delay = Math.random() * 2;
+						
+						particle.style.left = startX + '%';
+						particle.style.animationDuration = duration + 's';
+						particle.style.animationDelay = delay + 's';
+						
+						container.appendChild(particle);
+						
+						// Remove particle after animation completes
+						setTimeout(function() {
+							if (particle.parentNode) {
+								particle.parentNode.removeChild(particle);
+							}
+						}, (duration + delay) * 1000);
+					}
+
+					// Create particles periodically
+					function startParticles() {
+						// Create initial particles
+						for (var i = 0; i < 20; i++) {
+							setTimeout(function() {
+								createParticle();
+							}, i * 500);
+						}
+						
+						// Continue creating particles
+						setInterval(function() {
+							createParticle();
+						}, 2000);
+					}
+
+					// Initialize on page load
+					document.addEventListener('DOMContentLoaded', function() {
+						startParticles();
+					});
+				})();
+
+				// Live Market Data Feed
+				(function() {
+					var markets = [
+						{ name: 'Highest temp in LA today?', basePrice: 0.48, exchange: 'Kalshi', volume: '1.2M' },
+						{ name: 'Fed cuts rates by 50+ bps in January 2025', basePrice: 0.35, exchange: 'Polymarket', volume: '3.8M' },
+						{ name: 'Bitcoin above $100K by end of 2025', basePrice: 0.62, exchange: 'Polymarket', volume: '6.5M' },
+						{ name: 'US enters recession in 2026', basePrice: 0.28, exchange: 'Kalshi', volume: '2.9M' },
+						{ name: 'Nvidia market cap exceeds $4 trillion', basePrice: 0.41, exchange: 'Polymarket', volume: '4.2M' },
+						{ name: 'Who will Trump nominate as Fed Chair', basePrice: 0.55, exchange: 'PredictIt', volume: '2.1M' },
+						{ name: 'Taylor Swift wins Album of the Year Grammy 2025', basePrice: 0.67, exchange: 'PredictIt', volume: '1.8M' },
+						{ name: 'Will FedEx say Smith during their next earnings call?', basePrice: 0.39, exchange: 'Kalshi', volume: '950K' }
+					];
+
+					var marketData = markets.map(function(market) {
+						return {
+							name: market.name,
+							price: market.basePrice,
+							previousPrice: market.basePrice,
+							exchange: market.exchange,
+							volume: market.volume,
+							change: 0,
+							rowElement: null
+						};
+					});
+
+					function formatPrice(price) {
+						return (price * 100).toFixed(2) + '%';
+					}
+
+					function formatChange(change) {
+						var sign = change >= 0 ? '+' : '';
+						return sign + (change * 100).toFixed(2) + '%';
+					}
+
+					function updatePrice(market) {
+						var volatility = 0.02; // 2% max change per update
+						var change = (Math.random() - 0.5) * 2 * volatility;
+						var newPrice = Math.max(0.01, Math.min(0.99, market.price + change));
+						
+						market.previousPrice = market.price;
+						market.price = newPrice;
+						market.change = newPrice - market.previousPrice;
+					}
+
+					function updateMarketRow(market, index) {
+						if (!market.rowElement) return;
+
+						// Update only the price, change, and change class
+						var priceElement = market.rowElement.querySelector('.market-price');
+						var changeElement = market.rowElement.querySelector('.market-change');
+						
+						if (priceElement) {
+							priceElement.textContent = formatPrice(market.price);
+						}
+						
+						if (changeElement) {
+							changeElement.textContent = formatChange(market.change);
+							// Update class based on change direction
+							changeElement.className = 'market-change ' + (market.change >= 0 ? 'positive' : 'negative');
+						}
+					}
+
+					function renderMarketFeed() {
+						var container = document.getElementById('market-feed-rows');
+						if (!container) return;
+
+						container.innerHTML = '';
+
+						marketData.forEach(function(market, index) {
+							var row = document.createElement('div');
+							row.className = 'market-feed-row';
+							
+							row.innerHTML = 
+								'<div class="feed-column" data-label="Market"><span class="market-name">' + market.name + '</span></div>' +
+								'<div class="feed-column" data-label="Price"><span class="market-price">' + formatPrice(market.price) + '</span></div>' +
+								'<div class="feed-column" data-label="Change"><span class="market-change ' + (market.change >= 0 ? 'positive' : 'negative') + '">' + formatChange(market.change) + '</span></div>' +
+								'<div class="feed-column" data-label="Exchange"><span class="market-exchange">' + market.exchange + '</span></div>' +
+								'<div class="feed-column" data-label="Volume"><span class="market-volume">' + market.volume + '</span></div>';
+
+							container.appendChild(row);
+							market.rowElement = row;
+						});
+					}
+
+					function animatePriceUpdate() {
+						// Randomly update 1-3 markets at a time
+						var numUpdates = Math.floor(Math.random() * 3) + 1;
+						var updatedIndices = [];
+
+						for (var i = 0; i < numUpdates; i++) {
+							var index = Math.floor(Math.random() * marketData.length);
+							if (updatedIndices.indexOf(index) === -1) {
+								updatedIndices.push(index);
+								updatePrice(marketData[index]);
+							}
+						}
+
+						// Update only the changed market rows
+						updatedIndices.forEach(function(index) {
+							updateMarketRow(marketData[index], index);
+							
+							// Add flash animation to updated row
+							if (marketData[index].rowElement) {
+								marketData[index].rowElement.classList.add('price-update');
+								setTimeout(function() {
+									if (marketData[index].rowElement) {
+										marketData[index].rowElement.classList.remove('price-update');
+									}
+								}, 600);
+							}
+						});
+					}
+
+					// Initialize on page load
+					document.addEventListener('DOMContentLoaded', function() {
+						renderMarketFeed();
+						
+						// Update prices every 2-4 seconds
+						setInterval(function() {
+							animatePriceUpdate();
+						}, 2000 + Math.random() * 2000);
+					});
+
+					// Handle window resize for responsive design
+					var resizeTimeout;
+					window.addEventListener('resize', function() {
+						clearTimeout(resizeTimeout);
+						resizeTimeout = setTimeout(function() {
+							renderMarketFeed();
+						}, 250);
+					});
+				})();
+
+				// Feature Cards Scroll Animation
+				(function() {
+					function initFeatureCards() {
+						var featureCards = document.querySelectorAll('.features > section');
+						
+						if (featureCards.length === 0) return;
+
+						// Check if Intersection Observer is supported
+						if ('IntersectionObserver' in window) {
+							var observerOptions = {
+								threshold: 0.1,
+								rootMargin: '0px 0px -50px 0px'
+							};
+
+							var observer = new IntersectionObserver(function(entries) {
+								entries.forEach(function(entry, index) {
+									if (entry.isIntersecting) {
+										// Stagger the animation
+										setTimeout(function() {
+											entry.target.classList.add('animate-in');
+										}, index * 100);
+										observer.unobserve(entry.target);
+									}
+								});
+							}, observerOptions);
+
+							// Observe each card
+							featureCards.forEach(function(card) {
+								observer.observe(card);
+							});
+						} else {
+							// Fallback for browsers without Intersection Observer
+							featureCards.forEach(function(card, index) {
+								setTimeout(function() {
+									card.classList.add('animate-in');
+								}, index * 100);
+							});
+						}
+					}
+
+					// Initialize on page load
+					document.addEventListener('DOMContentLoaded', function() {
+						initFeatureCards();
+					});
+				})();
+
 			</script>
 
 	</body>
