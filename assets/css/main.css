@@ -4514,7 +4514,33 @@ input, select, textarea {
 		background-size: 100% 100%;
 		background-color: #000000 !important;
 		color: #ff2f52;
+		position: relative;
 	}
+ 
+		 	#intro::before {
+			content: '';
+			position: absolute;
+			top: 20%;
+			left: 50%;
+			-moz-transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			width: 550px;
+			height: 550px;
+			background-image: url("../../images/DelphiLogo.png");
+			background-size: contain;
+			background-position: center;
+			background-repeat: no-repeat;
+			opacity: 1;
+			z-index: 0;
+			pointer-events: none;
+		} 
+
+		#intro > .inner {
+			position: relative;
+			z-index: 1;
+		}
 
 	#intro.wrapper.style1 {
 		background-color: #000000 !important;
@@ -4553,4 +4579,138 @@ input, select, textarea {
 				background-attachment: scroll;
 			}
 
+			#intro::before {
+				width: 300px;
+				height: 300px;
+			}
+
+		}
+
+		@media screen and (max-width: 736px) {
+
+			#intro::before {
+				width: 250px;
+				height: 250px;
+				opacity: 0.1;
+			}
+
+		}
+
+/* Center-align sections */
+	.spotlights > section > .content > .inner {
+		text-align: center;
+	}
+
+		.spotlights > section > .content > .inner h2,
+		.spotlights > section > .content > .inner p {
+			text-align: center;
+		}
+
+	#two .inner > h2,
+	#two .inner > p {
+		text-align: center;
+	}
+
+	#how-it-works .inner > h2,
+	#how-it-works .inner > p {
+		text-align: center;
+	}
+
+	#use-cases .inner > h2 {
+		text-align: center;
+	}
+
+	#developer-ready .inner > h2,
+	#developer-ready .inner > p {
+		text-align: center;
+	}
+
+	.developer-feature-header {
+		-moz-justify-content: center;
+		-webkit-justify-content: center;
+		-ms-justify-content: center;
+		justify-content: center;
+	}
+
+		.developer-feature-header h3 {
+			text-align: center;
+		}
+
+		.developer-feature-header .icon {
+			display: none !important;
+		}
+
+		.developer-feature > p {
+			text-align: center;
+		}
+
+	#product-preview .inner > h2,
+	#product-preview .inner > p {
+		text-align: center;
+	}
+
+	#two .features section {
+		padding: 3.5em 3em 1em 3em;
+		text-align: center;
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		-moz-flex-direction: column;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-moz-align-items: center;
+		-webkit-align-items: center;
+		-ms-align-items: center;
+		align-items: center;
+	}
+
+		#two .features section .icon {
+			position: relative;
+			left: auto;
+			top: auto;
+			margin-bottom: 1em;
+		}
+
+		#two .features section h3 {
+			text-align: center;
+		}
+
+	#metrics .inner > h2 {
+		text-align: center;
+	}
+
+	#three .inner > h2,
+	#three .inner > p {
+		text-align: center;
+	}
+
+	#how-it-works .features section {
+		padding: 3.5em 3em 1em 3em;
+		text-align: center;
+		display: -moz-flex;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		-moz-flex-direction: column;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-moz-align-items: center;
+		-webkit-align-items: center;
+		-ms-align-items: center;
+		align-items: center;
+	}
+
+		#how-it-works .features section .icon {
+			position: relative;
+			left: auto;
+			top: auto;
+			margin-bottom: 1em;
+		}
+
+		#how-it-works .features section h3,
+		#how-it-works .features section p {
+			text-align: center;
 		}
