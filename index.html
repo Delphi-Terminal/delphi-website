@@ -29,11 +29,14 @@
 		<!-- Product Header -->
 			<header id="product-header" class="product-header">
 				<div class="header-inner">
+					<button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+						<span>Menu</span>
+					</button>
 					<div class="header-brand">
 						<a href="#intro">DELPHI</a>
 					</div>
 					<nav class="header-nav">
-						<ul>
+						<ul class="nav-menu">
 							<li><a href="#intro">Welcome</a></li>
 							<li><a href="#one">Who we are</a></li>
 							<li><a href="#two">What we do</a></li>
@@ -41,7 +44,7 @@
 							<li><a href="#product-preview">Product Preview</a></li>
 							<li><a href="#three">Get in touch</a></li>
 						</ul>
-						<a href="#three" class="button primary">Request Demo</a>
+						<a href="#three" class="button primary mobile-contact-btn">Contact</a>
 					</nav>
 				</div>
 			</header>
@@ -390,6 +393,30 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script>
+				// Mobile menu toggle
+				document.addEventListener('DOMContentLoaded', function() {
+					var menuToggle = document.querySelector('.mobile-menu-toggle');
+					var header = document.getElementById('product-header');
+					
+					if (menuToggle && header) {
+						menuToggle.addEventListener('click', function() {
+							var isOpen = header.classList.contains('menu-open');
+							header.classList.toggle('menu-open');
+							menuToggle.setAttribute('aria-expanded', !isOpen);
+						});
+						
+						// Close menu when clicking on a link
+						var navLinks = header.querySelectorAll('.nav-menu a');
+						navLinks.forEach(function(link) {
+							link.addEventListener('click', function() {
+								header.classList.remove('menu-open');
+								menuToggle.setAttribute('aria-expanded', 'false');
+							});
+						});
+					}
+				});
+			</script>
 			<script>
 				// Set redirect URL to current page with success parameter
 				document.addEventListener('DOMContentLoaded', function() {
