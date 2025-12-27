@@ -4143,6 +4143,13 @@ input, select, textarea {
 				border: 0;
 				color: #ffffff;
 				text-decoration: none;
+				display: block;
+			}
+
+			#product-header .header-brand img {
+				height: 4.5em;
+				width: auto;
+				display: block;
 			}
 
 		#product-header .header-nav {
@@ -4194,27 +4201,35 @@ input, select, textarea {
 					#product-header .header-nav > ul > li a,
 					#product-header .header-nav > .nav-menu > li a {
 						border: 0;
-						color: #ff2f52;
+						color: #ffffff;
 						display: inline-block;
 						font-size: 0.6em;
 						font-weight: bold;
 						letter-spacing: 0.25em;
 						text-transform: uppercase;
 						text-decoration: none;
+						-moz-transition: color 0.3s ease;
+						-webkit-transition: color 0.3s ease;
+						-ms-transition: color 0.3s ease;
+						transition: color 0.3s ease;
 					}
 
 						#product-header .header-nav > ul > li a:hover,
 						#product-header .header-nav > .nav-menu > li a:hover {
-							color: rgba(255, 255, 255, 0.55);
+							color: rgba(255, 255, 255, 0.7);
 						}
 
 						#product-header .header-nav > ul > li a.active,
 						#product-header .header-nav > .nav-menu > li a.active {
-							color: #ffffff;
+							color: #ff2f52;
 						}
 
 			#product-header .header-nav > .button {
 				margin-left: auto;
+			}
+
+			#product-header .header-nav > .button.mobile-contact-btn {
+				color: #ffffff !important;
 			}
 
 		@media screen and (max-width: 736px) {
@@ -5307,6 +5322,10 @@ input, select, textarea {
 
 					#product-header .header-nav > .nav-menu > li > a:hover {
 						background: rgba(255, 47, 82, 0.1);
+						color: rgba(255, 255, 255, 0.7);
+					}
+
+					#product-header .header-nav > .nav-menu > li > a.active {
 						color: #ff2f52;
 					}
 
@@ -5340,6 +5359,7 @@ input, select, textarea {
 			height: auto;
 			line-height: 1.5;
 			border-radius: 2em;
+			color: #ffffff !important;
 			text-transform: uppercase;
 		}
 
