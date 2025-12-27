@@ -100,9 +100,151 @@ input, select, textarea {
 	}
 
 	body {
-		background: #000000;
+		background: #0a0a0f;
+		background-image: radial-gradient(circle at center, rgba(10, 10, 15, 0.8) 0%, #000000 100%);
+		background-attachment: fixed;
 		padding-top: 5.5em;
+		position: relative;
+		overflow-x: hidden;
 	}
+
+		/* Global geometric web overlay - complex intersecting lines */
+		.global-bg-web {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-image: 
+				linear-gradient(0deg, transparent 49.5%, rgba(255, 255, 255, 0.08) 50%, transparent 50.5%),
+				linear-gradient(90deg, transparent 49.5%, rgba(255, 255, 255, 0.08) 50%, transparent 50.5%),
+				linear-gradient(45deg, transparent 49.5%, rgba(255, 47, 82, 0.06) 50%, transparent 50.5%),
+				linear-gradient(-45deg, transparent 49.5%, rgba(0, 150, 255, 0.06) 50%, transparent 50.5%),
+				linear-gradient(30deg, transparent 49.5%, rgba(255, 255, 255, 0.04) 50%, transparent 50.5%),
+				linear-gradient(-30deg, transparent 49.5%, rgba(255, 255, 255, 0.04) 50%, transparent 50.5%);
+			background-size: 
+				100% 60px,
+				60px 100%,
+				120px 120px,
+				120px 120px,
+				150px 150px,
+				150px 150px;
+			background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+			opacity: 0.7;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		/* Global atmospheric glows - multi-colored vibrant glows */
+		.global-bg-glow {
+			position: fixed;
+			border-radius: 50%;
+			filter: blur(100px);
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		.global-bg-glow-crimson-top-left {
+			top: -15%;
+			left: -10%;
+			width: 700px;
+			height: 700px;
+			background: radial-gradient(circle, rgba(255, 20, 147, 0.5) 0%, rgba(255, 47, 82, 0.35) 30%, rgba(200, 20, 50, 0.2) 60%, transparent 80%);
+			animation: pulse-glow-crimson 4s ease-in-out infinite;
+		}
+
+		.global-bg-glow-crimson-top-right {
+			top: -15%;
+			right: -10%;
+			width: 650px;
+			height: 650px;
+			background: radial-gradient(circle, rgba(255, 105, 180, 0.45) 0%, rgba(255, 47, 82, 0.3) 30%, rgba(200, 20, 50, 0.15) 60%, transparent 80%);
+			animation: pulse-glow-crimson 5s ease-in-out infinite;
+		}
+
+		.global-bg-glow-blue-bottom {
+			bottom: -15%;
+			right: -10%;
+			width: 800px;
+			height: 800px;
+			background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, rgba(0, 150, 255, 0.45) 30%, rgba(0, 100, 200, 0.3) 60%, transparent 80%);
+			animation: pulse-glow-blue 6s ease-in-out infinite;
+		}
+
+		/* Global sharp glowing light shards */
+		.global-bg-shard {
+			position: fixed;
+			pointer-events: none;
+			z-index: 1;
+			filter: blur(0.5px);
+			box-shadow: 0 0 10px currentColor;
+		}
+
+		.global-bg-shard-1 {
+			top: 20%;
+			left: 15%;
+			width: 250px;
+			height: 2px;
+			transform: rotate(45deg);
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
+			opacity: 0.8;
+			animation: shard-drift-1 7s ease-in-out infinite;
+		}
+
+		.global-bg-shard-2 {
+			top: 35%;
+			right: 20%;
+			width: 180px;
+			height: 3px;
+			transform: rotate(-35deg);
+			background: linear-gradient(90deg, transparent, #ff2f52, transparent);
+			opacity: 0.9;
+			animation: shard-drift-2 9s ease-in-out infinite;
+		}
+
+		.global-bg-shard-3 {
+			bottom: 30%;
+			left: 25%;
+			width: 220px;
+			height: 2px;
+			transform: rotate(55deg);
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
+			opacity: 0.7;
+			animation: shard-drift-3 11s ease-in-out infinite;
+		}
+
+		.global-bg-shard-4 {
+			bottom: 45%;
+			right: 30%;
+			width: 150px;
+			height: 2.5px;
+			transform: rotate(-50deg);
+			background: linear-gradient(90deg, transparent, #ff2f52, transparent);
+			opacity: 0.85;
+			animation: shard-drift-4 8s ease-in-out infinite;
+		}
+
+		.global-bg-shard-5 {
+			top: 50%;
+			left: 10%;
+			width: 200px;
+			height: 1.5px;
+			transform: rotate(25deg);
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
+			opacity: 0.6;
+			animation: shard-drift-5 10s ease-in-out infinite;
+		}
+
+		.global-bg-shard-6 {
+			top: 60%;
+			right: 15%;
+			width: 170px;
+			height: 2px;
+			transform: rotate(-60deg);
+			background: linear-gradient(90deg, transparent, #ff2f52, transparent);
+			opacity: 0.75;
+			animation: shard-drift-6 12s ease-in-out infinite;
+		}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
 			-moz-animation: none !important;
@@ -3290,9 +3432,30 @@ input, select, textarea {
 				opacity: 1;
 			}
 
+		/* Mission section - add left margin to image */
+		.spotlights > section:nth-child(1) > .image {
+			margin-left: 9em;
+		}
+
 		.spotlights > section:nth-child(2) {
 			background-color: rgba(0, 0, 0, 0.05);
 		}
+
+			/* Swap image and content order for "Our Approach" section */
+			.spotlights > section:nth-child(2) > .image {
+				-moz-order: 2;
+				-webkit-order: 2;
+				-ms-order: 2;
+				order: 2;
+				margin-right: 2em;
+			}
+
+			.spotlights > section:nth-child(2) > .content {
+				-moz-order: 1;
+				-webkit-order: 1;
+				-ms-order: 1;
+				order: 1;
+			}
 
 		.spotlights > section:nth-child(3) {
 			background-color: rgba(0, 0, 0, 0.1);
@@ -3638,6 +3801,8 @@ input, select, textarea {
 			max-width: 100%;
 			width: 75em;
 			margin: 0 auto;
+			position: relative;
+			z-index: 1;
 		}
 
 			@media screen and (max-width: 1680px) {
@@ -3669,27 +3834,27 @@ input, select, textarea {
 		}
 
 		.wrapper.style1 {
-			background-color: #000000;
+			background-color: transparent;
 		}
 
 		.wrapper.style1-alt {
-			background-color: #000000;
+			background-color: transparent;
 		}
 
 		.wrapper.style2 {
-			background-color: #000000;
+			background-color: transparent;
 		}
 
 		.wrapper.style2-alt {
-			background-color: #000000;
+			background-color: transparent;
 		}
 
 		.wrapper.style3 {
-			background-color: #000000;
+			background-color: transparent;
 		}
 
 		.wrapper.style3-alt {
-			background-color: #000000;
+			background-color: transparent;
 		}
 
 		.wrapper.fullscreen {
@@ -3929,7 +4094,9 @@ input, select, textarea {
 
 #product-header {
     display: flex;
-    background-color: #000000;
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     cursor: default;
     padding: 1.75em 5em;  /* Keep this */
     /* Remove padding-left: 0 and padding-right: 0 */
@@ -4117,6 +4284,9 @@ input, select, textarea {
 
 	#sidebar + #wrapper {
 		margin-left: 0;
+		background: transparent;
+		position: relative;
+		z-index: 1;
 	}
 
 		@media screen and (max-width: 1280px) {
@@ -4536,16 +4706,42 @@ input, select, textarea {
 
 	#intro {
 		background-attachment: fixed;
-		background-image: url("images/intro.svg");
-		background-position: top right;
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		background-color: #000000 !important;
+		background-color: transparent !important;
+		background-image: none;
 		color: #ff2f52;
 		position: relative;
+		overflow: hidden;
 	}
- 
-		 	#intro::before {
+
+		/* Geometric web overlay - complex intersecting lines */
+		.hero-web {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-image: 
+				linear-gradient(0deg, transparent 49.5%, rgba(255, 255, 255, 0.08) 50%, transparent 50.5%),
+				linear-gradient(90deg, transparent 49.5%, rgba(255, 255, 255, 0.08) 50%, transparent 50.5%),
+				linear-gradient(45deg, transparent 49.5%, rgba(255, 47, 82, 0.06) 50%, transparent 50.5%),
+				linear-gradient(-45deg, transparent 49.5%, rgba(0, 150, 255, 0.06) 50%, transparent 50.5%),
+				linear-gradient(30deg, transparent 49.5%, rgba(255, 255, 255, 0.04) 50%, transparent 50.5%),
+				linear-gradient(-30deg, transparent 49.5%, rgba(255, 255, 255, 0.04) 50%, transparent 50.5%);
+			background-size: 
+				100% 60px,
+				60px 100%,
+				120px 120px,
+				120px 120px,
+				150px 150px,
+				150px 150px;
+			background-position: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+			opacity: 0.7;
+			z-index: 1;
+			pointer-events: none;
+		}
+
+		/* Logo overlay - no glow */
+		#intro::after {
 			content: '';
 			position: absolute;
 			top: 20%;
@@ -4563,18 +4759,180 @@ input, select, textarea {
 			opacity: 1;
 			z-index: 0;
 			pointer-events: none;
+		}
+
+		/* Atmospheric glows - multi-colored vibrant glows */
+		.hero-glow {
+			position: absolute;
+			border-radius: 50%;
+			filter: blur(100px);
+			pointer-events: none;
+			z-index: 0;
+		}
+
+		.hero-glow-crimson-top-left {
+			top: -15%;
+			left: -10%;
+			width: 700px;
+			height: 700px;
+			background: radial-gradient(circle, rgba(255, 20, 147, 0.5) 0%, rgba(255, 47, 82, 0.35) 30%, rgba(200, 20, 50, 0.2) 60%, transparent 80%);
+			animation: pulse-glow-crimson 4s ease-in-out infinite;
+		}
+
+		.hero-glow-crimson-top-right {
+			top: -15%;
+			right: -10%;
+			width: 650px;
+			height: 650px;
+			background: radial-gradient(circle, rgba(255, 105, 180, 0.45) 0%, rgba(255, 47, 82, 0.3) 30%, rgba(200, 20, 50, 0.15) 60%, transparent 80%);
+			animation: pulse-glow-crimson 5s ease-in-out infinite;
+		}
+
+		.hero-glow-blue-bottom {
+			bottom: -15%;
+			right: -10%;
+			width: 800px;
+			height: 800px;
+			background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, rgba(0, 150, 255, 0.45) 30%, rgba(0, 100, 200, 0.3) 60%, transparent 80%);
+			animation: pulse-glow-blue 6s ease-in-out infinite;
+		}
+
+		@keyframes pulse-glow-crimson {
+			0%, 100% { opacity: 0.5; transform: scale(1); }
+			50% { opacity: 0.7; transform: scale(1.15); }
+		}
+
+		@keyframes pulse-glow-blue {
+			0%, 100% { opacity: 0.45; transform: scale(1); }
+			50% { opacity: 0.65; transform: scale(1.2); }
+		}
+
+		/* Sharp glowing light shards - white and red diagonal lines */
+		.hero-shard {
+			position: absolute;
+			pointer-events: none;
+			z-index: 1;
+			filter: blur(0.5px);
+			box-shadow: 0 0 10px currentColor;
+		}
+
+		.hero-shard-1 {
+			top: 20%;
+			left: 15%;
+			width: 250px;
+			height: 2px;
+			transform: rotate(45deg);
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
+			opacity: 0.8;
+			animation: shard-drift-1 7s ease-in-out infinite;
+		}
+
+		.hero-shard-2 {
+			top: 35%;
+			right: 20%;
+			width: 180px;
+			height: 3px;
+			transform: rotate(-35deg);
+			background: linear-gradient(90deg, transparent, #ff2f52, transparent);
+			opacity: 0.9;
+			animation: shard-drift-2 9s ease-in-out infinite;
+		}
+
+		.hero-shard-3 {
+			bottom: 30%;
+			left: 25%;
+			width: 220px;
+			height: 2px;
+			transform: rotate(55deg);
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
+			opacity: 0.7;
+			animation: shard-drift-3 11s ease-in-out infinite;
+		}
+
+		.hero-shard-4 {
+			bottom: 45%;
+			right: 30%;
+			width: 150px;
+			height: 2.5px;
+			transform: rotate(-50deg);
+			background: linear-gradient(90deg, transparent, #ff2f52, transparent);
+			opacity: 0.85;
+			animation: shard-drift-4 8s ease-in-out infinite;
+		}
+
+		.hero-shard-5 {
+			top: 50%;
+			left: 10%;
+			width: 200px;
+			height: 1.5px;
+			transform: rotate(25deg);
+			background: linear-gradient(90deg, transparent, #ffffff, transparent);
+			opacity: 0.6;
+			animation: shard-drift-5 10s ease-in-out infinite;
+		}
+
+		.hero-shard-6 {
+			top: 60%;
+			right: 15%;
+			width: 170px;
+			height: 2px;
+			transform: rotate(-60deg);
+			background: linear-gradient(90deg, transparent, #ff2f52, transparent);
+			opacity: 0.75;
+			animation: shard-drift-6 12s ease-in-out infinite;
+		}
+
+		@keyframes shard-drift-1 {
+			0%, 100% { transform: rotate(45deg) translateX(0) translateY(0); opacity: 0.8; }
+			50% { transform: rotate(45deg) translateX(30px) translateY(-20px); opacity: 1; }
+		}
+
+		@keyframes shard-drift-2 {
+			0%, 100% { transform: rotate(-35deg) translateX(0) translateY(0); opacity: 0.9; }
+			50% { transform: rotate(-35deg) translateX(-25px) translateY(25px); opacity: 1; }
+		}
+
+		@keyframes shard-drift-3 {
+			0%, 100% { transform: rotate(55deg) translateX(0) translateY(0); opacity: 0.7; }
+			50% { transform: rotate(55deg) translateX(35px) translateY(15px); opacity: 0.95; }
+		}
+
+		@keyframes shard-drift-4 {
+			0%, 100% { transform: rotate(-50deg) translateX(0) translateY(0); opacity: 0.85; }
+			50% { transform: rotate(-50deg) translateX(-30px) translateY(-30px); opacity: 1; }
+		}
+
+		@keyframes shard-drift-5 {
+			0%, 100% { transform: rotate(25deg) translateX(0) translateY(0); opacity: 0.6; }
+			50% { transform: rotate(25deg) translateX(20px) translateY(-25px); opacity: 0.9; }
+		}
+
+		@keyframes shard-drift-6 {
+			0%, 100% { transform: rotate(-60deg) translateX(0) translateY(0); opacity: 0.75; }
+			50% { transform: rotate(-60deg) translateX(-25px) translateY(20px); opacity: 1; }
 		} 
 
 		#intro > .inner {
 			position: relative;
-			z-index: 1;
+			z-index: 2;
+		}
+
+		/* Hide intro section's local decorative elements - using global ones instead */
+		#intro .hero-web,
+		#intro .hero-glow,
+		#intro .hero-shard {
+			display: none;
 		}
 
 	#intro.wrapper.style1 {
-		background-color: #000000 !important;
+		background-color: transparent !important;
 	}
 
-		#intro h1,
+		/* H1 text - no glow */
+		#intro h1 {
+			color: #ff2f52 !important;
+		}
+
 		#intro p,
 		#intro a {
 			color: #ff2f52 !important;
@@ -4584,6 +4942,33 @@ input, select, textarea {
 			color: #ffffff !important;
 			font-size: 1.25em;
 		}
+
+		/* Glassmorphism effect on buttons with red glow */
+		#intro .button {
+			background: rgba(255, 255, 255, 0.05) !important;
+			backdrop-filter: blur(20px);
+			-webkit-backdrop-filter: blur(20px);
+			border: 1px solid rgba(255, 47, 82, 0.3) !important;
+			box-shadow: 
+				0 0 20px rgba(255, 47, 82, 0.5),
+				0 0 40px rgba(255, 47, 82, 0.3),
+				0 0 60px rgba(255, 47, 82, 0.2),
+				inset 0 0 20px rgba(255, 47, 82, 0.1);
+			-moz-transition: all 0.3s ease;
+			-webkit-transition: all 0.3s ease;
+			-ms-transition: all 0.3s ease;
+			transition: all 0.3s ease;
+		}
+
+			#intro .button:hover {
+				background: rgba(255, 255, 255, 0.1) !important;
+				box-shadow: 
+					0 0 30px rgba(255, 47, 82, 0.7),
+					0 0 50px rgba(255, 47, 82, 0.5),
+					0 0 70px rgba(255, 47, 82, 0.3),
+					inset 0 0 30px rgba(255, 47, 82, 0.15);
+				transform: translateY(-2px);
+			}
 
 			@media screen and (max-width: 980px) {
 
@@ -4607,19 +4992,53 @@ input, select, textarea {
 				background-attachment: scroll;
 			}
 
-			#intro::before {
+			#intro::after {
 				width: 300px;
 				height: 300px;
+			}
+
+			.hero-glow-crimson-top-left {
+				width: 500px;
+				height: 500px;
+			}
+
+			.hero-glow-crimson-top-right {
+				width: 450px;
+				height: 450px;
+			}
+
+			.hero-glow-blue-bottom {
+				width: 600px;
+				height: 600px;
 			}
 
 		}
 
 		@media screen and (max-width: 736px) {
 
-			#intro::before {
+			#intro::after {
 				width: 250px;
 				height: 250px;
 				opacity: 0.1;
+			}
+
+			.hero-glow-crimson-top-left {
+				width: 400px;
+				height: 400px;
+			}
+
+			.hero-glow-crimson-top-right {
+				width: 350px;
+				height: 350px;
+			}
+
+			.hero-glow-blue-bottom {
+				width: 500px;
+				height: 500px;
+			}
+
+			.hero-shard {
+				opacity: 0.3;
 			}
 
 		}
@@ -4632,6 +5051,15 @@ input, select, textarea {
 		.spotlights > section > .content > .inner h2,
 		.spotlights > section > .content > .inner p {
 			text-align: center;
+		}
+
+		/* Reduce gap between paragraphs in Mission section */
+		.spotlights > section:nth-child(1) > .content > .inner p {
+			margin-bottom: 0.5em;
+		}
+
+		.spotlights > section:nth-child(1) > .content > .inner p:last-child {
+			margin-bottom: 0;
 		}
 
 	#two .inner > h2,
@@ -4713,6 +5141,20 @@ input, select, textarea {
 	#three .inner > p {
 		text-align: center;
 	}
+
+	/* Center Send Message button and add spacing */
+	#three form > .actions {
+		-moz-justify-content: center;
+		-webkit-justify-content: center;
+		-ms-justify-content: center;
+		justify-content: center;
+		margin-top: 2.5em;
+		margin-left: 0;
+	}
+
+		#three form > .actions li {
+			padding: 0;
+		}
 
 	#how-it-works .features section {
 		padding: 3.5em 3em 1em 3em;
