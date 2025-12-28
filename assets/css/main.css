@@ -3510,9 +3510,25 @@ input, select, textarea {
 
 		@media screen and (max-width: 736px) {
 
+			.spotlights > section {
+				margin-left: 0;
+				margin-right: 0;
+				padding-left: 0;
+				padding-right: 0;
+			}
+
 			.spotlights > section > .image {
 				height: 50vh;
 				min-height: 15em;
+				margin-left: 0 !important;
+				margin-right: 0;
+				width: 100%;
+			}
+
+			.spotlights > section:nth-child(1) > .image {
+				margin-left: 0 !important;
+				margin-right: 0;
+				width: 100%;
 			}
 
 			.spotlights > section > .content {
@@ -5429,7 +5445,17 @@ input, select, textarea {
 		/* Spotlights - ensure proper mobile layout */
 		.spotlights > section {
 			display: block !important;
+			margin-left: 0 !important;
+			margin-right: 0 !important;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
 		}
+
+			.spotlights > section > .image {
+				margin-left: 0 !important;
+				margin-right: 0 !important;
+				width: 100% !important;
+			}
 
 			.spotlights > section > .content {
 				width: 100% !important;
