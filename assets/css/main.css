@@ -6811,3 +6811,1506 @@ section > *,
 		margin-top: 1rem;
 	}
 }
+
+/* ============================================
+   VS CODE TERMINAL INTERFACE STYLING
+   ============================================ */
+
+/* Terminal Loading Sequence */
+.terminal-loader {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: #000000;
+	z-index: 20000;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.terminal-loader.hidden {
+	opacity: 0;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+.loader-terminal-content {
+	width: 90%;
+	max-width: 900px;
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 0.9375rem;
+	line-height: 1.6;
+}
+
+.loader-output {
+	min-height: 200px;
+	margin-bottom: 1rem;
+	color: rgba(255, 255, 255, 0.7);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.loader-output-line {
+	margin-bottom: 0.5rem;
+	opacity: 0;
+	animation: fadeInLine 0.3s ease forwards;
+}
+
+.loader-output-line.typing {
+	color: #ff2f52;
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.6);
+}
+
+.loader-output-line:first-child {
+	font-size: 1.2rem;
+	font-weight: 500;
+	color: #00ff88;
+	margin-bottom: 1rem;
+}
+
+.loader-output-line:first-child.typing {
+	color: #ff2f52;
+	text-shadow: 0 0 12px rgba(255, 47, 82, 0.8);
+}
+
+.loader-output-line:nth-child(2) {
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 0.875rem;
+	margin-bottom: 1.5rem;
+}
+
+.loader-output-line.fade-out {
+	animation: fadeOutLine 0.5s ease forwards;
+}
+
+@keyframes fadeInLine {
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOutLine {
+	to {
+		opacity: 0.3;
+	}
+}
+
+.loader-prompt-line {
+	display: flex;
+	align-items: center;
+	margin-top: 1rem;
+}
+
+.loader-prompt {
+	color: #00ff88;
+	font-weight: 500;
+	margin-right: 0.5rem;
+}
+
+.loader-command {
+	color: rgba(255, 255, 255, 0.9);
+	min-height: 1.2em;
+	display: inline-block;
+}
+
+.loader-command.typing {
+	color: #ff2f52;
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.6);
+}
+
+.loader-cursor {
+	display: inline-block;
+	width: 8px;
+	height: 1.2em;
+	background: #00ff88;
+	vertical-align: middle;
+	margin-left: 2px;
+	animation: blinkCursor 1s infinite;
+}
+
+.loader-cursor.hidden {
+	display: none;
+}
+
+.loader-cursor.typing {
+	background: #ff2f52;
+	box-shadow: 0 0 8px rgba(255, 47, 82, 0.6);
+}
+
+@keyframes blinkCursor {
+	0%, 49% {
+		opacity: 1;
+	}
+	50%, 100% {
+		opacity: 0;
+	}
+}
+
+.loader-progress {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.loader-progress-bar {
+	width: 100%;
+	height: 2px;
+	background: #1a1a1a;
+	border-radius: 2px;
+	overflow: hidden;
+	margin-top: 0.5rem;
+}
+
+.loader-progress-fill {
+	height: 100%;
+	background: linear-gradient(90deg, #00ff88, #ff2f52);
+	width: 0%;
+	transition: width 0.3s ease;
+	box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.loader-skip-hint {
+	position: absolute;
+	bottom: 2rem;
+	color: rgba(255, 255, 255, 0.3);
+	font-size: 0.75rem;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	animation: pulseHint 2s ease infinite;
+}
+
+@keyframes pulseHint {
+	0%, 100% {
+		opacity: 0.3;
+	}
+	50% {
+		opacity: 0.6;
+	}
+}
+
+/* Terminal Window Container */
+.terminal-window {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: #000000;
+	border: 1px solid #1a1a1a;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	z-index: 10000;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.terminal-window.visible {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* Hero content fade-in after loader */
+.terminal-window:not(.visible) #wrapper {
+	opacity: 0;
+}
+
+.terminal-window.visible #wrapper {
+	animation: fadeInContent 1s ease forwards;
+}
+
+@keyframes fadeInContent {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Prevent body scroll */
+html,
+body {
+	overflow: hidden;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+/* Terminal Title Bar */
+.terminal-title-bar {
+	display: flex;
+	align-items: center;
+	background: #1a1a1a;
+	border-bottom: 1px solid #1a1a1a;
+	padding: 0.5rem 1rem;
+	min-height: 40px;
+	flex-shrink: 0;
+	font-size: 0.8125rem;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* macOS Window Controls */
+.terminal-window-controls {
+	display: flex;
+	gap: 0.5rem;
+	margin-right: 1rem;
+}
+
+.window-control {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.window-control-close {
+	background: #ff5f57;
+}
+
+.window-control-minimize {
+	background: #ffbd2e;
+}
+
+.window-control-maximize {
+	background: #28ca42;
+}
+
+/* Terminal Title Text */
+.terminal-title-text {
+	color: rgba(255, 255, 255, 0.6);
+	font-size: 0.75rem;
+	margin-right: 2rem;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	white-space: nowrap;
+}
+
+/* Terminal Navigation Tabs */
+.terminal-nav-tabs {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex: 1;
+	overflow-x: auto;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.terminal-nav-tabs::-webkit-scrollbar {
+	display: none;
+}
+
+.terminal-tab {
+	color: rgba(255, 255, 255, 0.6);
+	font-size: 0.8125rem;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	text-decoration: none;
+	padding: 0.375rem 0.75rem;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+	white-space: nowrap;
+	border: 1px solid transparent;
+	position: relative;
+}
+
+.terminal-tab:hover {
+	color: #ff2f52;
+	background: rgba(255, 47, 82, 0.1);
+	border-color: rgba(255, 47, 82, 0.3);
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.6);
+}
+
+.terminal-tab.active {
+	color: #ffffff;
+	border-bottom: 2px solid #ff2f52;
+	background: rgba(255, 47, 82, 0.05);
+}
+
+/* Terminal Content Area */
+.terminal-content {
+	flex: 1;
+	overflow: hidden;
+	background: #000000;
+	position: relative;
+}
+
+/* Hide wrapper content - we'll show terminal output instead */
+.terminal-content #wrapper {
+	display: none;
+}
+
+.terminal-content #wrapper.terminal-visible {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+/* Visual Effects */
+
+/* CRT Scanline Effect Overlay (Optional, toggleable) */
+.terminal-window::after {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	background: repeating-linear-gradient(
+		0deg,
+		rgba(0, 255, 136, 0.02) 0px,
+		rgba(0, 255, 136, 0.02) 1px,
+		transparent 1px,
+		transparent 2px
+	);
+	opacity: 0;
+	z-index: 9999;
+	transition: opacity 0.3s ease;
+}
+
+.terminal-window.scanlines-enabled::after {
+	opacity: 0.4;
+}
+
+/* Vignette Effect */
+.terminal-window::before {
+	content: '';
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+	z-index: 9998;
+}
+
+/* Glow Effects for Red Text */
+.terminal-output-line.error,
+a:hover,
+.terminal-link:hover {
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.6), 0 0 12px rgba(255, 47, 82, 0.4);
+}
+
+/* Cursor Glow When Active/Typing */
+.prompt-cursor {
+	box-shadow: 0 0 6px rgba(0, 255, 136, 0.8), 0 0 12px rgba(0, 255, 136, 0.4);
+	transition: box-shadow 0.2s ease;
+}
+
+.prompt-cursor.typing {
+	box-shadow: 0 0 8px rgba(255, 47, 82, 0.8), 0 0 16px rgba(255, 47, 82, 0.5);
+}
+
+/* Text Shadow for Depth on Headers */
+.terminal-section-header,
+.terminal-output-line.header {
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth Transitions */
+.terminal-output-line,
+.terminal-tab,
+.terminal-command-button,
+.terminal-link {
+	transition: all 0.2s ease;
+}
+
+/* Terminal Settings Panel */
+.terminal-settings {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #000000;
+	border: 1px solid #1a1a1a;
+	border-radius: 8px;
+	padding: 2rem;
+	z-index: 20000;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease, visibility 0.3s ease;
+	max-width: 500px;
+	width: 90%;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.terminal-settings[aria-hidden="false"] {
+	opacity: 1;
+	visibility: visible;
+}
+
+.settings-content {
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.settings-title {
+	color: #00ff88;
+	font-size: 1.25rem;
+	margin-bottom: 1.5rem;
+	text-align: center;
+}
+
+.settings-group {
+	margin-bottom: 1.5rem;
+}
+
+.settings-label {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 0.875rem;
+	cursor: pointer;
+	padding: 0.5rem;
+	border-radius: 4px;
+	transition: background 0.2s ease;
+}
+
+.settings-label:hover {
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.settings-checkbox,
+.settings-range,
+.settings-select {
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.settings-range {
+	flex: 1;
+	max-width: 200px;
+}
+
+.settings-select {
+	background: #000000;
+	border: 1px solid #1a1a1a;
+	color: rgba(255, 255, 255, 0.9);
+	padding: 0.5rem;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.875rem;
+}
+
+.settings-close {
+	width: 100%;
+	padding: 0.75rem;
+	background: transparent;
+	border: 1px solid #00ff88;
+	color: #00ff88;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	cursor: pointer;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+	margin-top: 1rem;
+}
+
+.settings-close:hover {
+	background: rgba(0, 255, 136, 0.1);
+	box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+}
+
+/* Focus Indicators for Accessibility */
+*:focus-visible {
+	outline: 2px solid #00ff88;
+	outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+	.terminal-output-line {
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		padding: 0.25rem;
+	}
+	
+	.terminal-tab {
+		border: 1px solid rgba(255, 255, 255, 0.5);
+	}
+	
+	.prompt-input {
+		border: 1px solid rgba(255, 255, 255, 0.5);
+	}
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+	
+	.terminal-output-line {
+		animation: none !important;
+	}
+	
+	.prompt-cursor,
+	.loader-cursor {
+		animation: none !important;
+	}
+	
+	.terminal-window::after {
+		transition: none !important;
+	}
+}
+
+/* Theme Variations */
+.terminal-window.theme-red {
+	--accent-color: #ff2f52;
+}
+
+.terminal-window.theme-red .prompt-text,
+.terminal-window.theme-red .terminal-output-line.success,
+.terminal-window.theme-red .terminal-tab.active {
+	color: #ff2f52;
+}
+
+.terminal-window.theme-red .prompt-cursor {
+	background: #ff2f52;
+	box-shadow: 0 0 6px rgba(255, 47, 82, 0.8);
+}
+
+/* Font Size Control */
+.terminal-window.font-small {
+	font-size: 0.875em;
+}
+
+.terminal-window.font-large {
+	font-size: 1.125em;
+}
+
+/* Browser Compatibility Fallbacks */
+@supports not (backdrop-filter: blur(10px)) {
+	.autocomplete-suggestions {
+		background: #0a0a0a; /* Darker background without backdrop filter */
+	}
+}
+
+/* Fallback for older browsers without CSS Grid/Flexbox */
+@supports not (display: flex) {
+	.terminal-title-bar,
+	.terminal-prompt,
+	.terminal-nav-tabs {
+		display: block;
+	}
+	
+	.terminal-title-bar > * {
+		display: inline-block;
+		vertical-align: middle;
+	}
+}
+
+/* Print-friendly styles */
+@media print {
+	.terminal-window::before,
+	.terminal-window::after {
+		display: none;
+	}
+	
+	.terminal-prompt,
+	.autocomplete-suggestions,
+	.mobile-menu-toggle {
+		display: none;
+	}
+	
+	.terminal-output {
+		bottom: 0;
+		position: static;
+		overflow: visible;
+		page-break-inside: avoid;
+	}
+	
+	.terminal-output-line {
+		page-break-inside: avoid;
+		color: #000000;
+		text-shadow: none;
+	}
+	
+	.terminal-title-bar {
+		position: static;
+		border-bottom: 2px solid #000000;
+		page-break-after: avoid;
+	}
+}
+
+/* Terminal Output Area */
+.terminal-output {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 70px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 2rem;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	line-height: 1.6;
+	color: rgba(255, 255, 255, 0.9);
+	scroll-behavior: smooth;
+}
+
+.terminal-output::-webkit-scrollbar {
+	width: 8px;
+}
+
+.terminal-output::-webkit-scrollbar-track {
+	background: #000000;
+}
+
+.terminal-output::-webkit-scrollbar-thumb {
+	background: #1a1a1a;
+	border-radius: 4px;
+}
+
+.terminal-output::-webkit-scrollbar-thumb:hover {
+	background: #2a2a2a;
+}
+
+.terminal-output-line {
+	margin-bottom: 0.5rem;
+	opacity: 0;
+	animation: fadeInTerminalLine 0.3s ease forwards;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+
+.terminal-output-line.typing {
+	position: relative;
+}
+
+.terminal-output-line.typing::after {
+	content: '█';
+	color: #00ff88;
+	animation: blinkCursor 1s infinite;
+	margin-left: 2px;
+}
+
+.terminal-output-line.faded {
+	opacity: 0.4;
+	transition: opacity 0.3s ease;
+}
+
+.terminal-output-line.error {
+	color: #ff2f52;
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.4);
+}
+
+.terminal-output-line.success {
+	color: #00ff88;
+}
+
+.terminal-output-line.info {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.terminal-output-line.header {
+	color: #ffffff;
+	font-weight: 500;
+	font-size: 1.1rem;
+}
+
+.terminal-output-line.ascii-art {
+	color: #00ff88;
+	font-size: 0.75rem;
+	line-height: 1.2;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	letter-spacing: 0;
+}
+
+.terminal-output-line.comment {
+	color: rgba(255, 255, 255, 0.5);
+	font-style: italic;
+}
+
+.terminal-output-prompt {
+	color: #00ff88;
+	margin-right: 0.5rem;
+	font-weight: 500;
+}
+
+.terminal-output-command {
+	color: rgba(255, 255, 255, 0.9);
+	margin-right: 0.5rem;
+}
+
+.terminal-section-header {
+	color: #ffffff;
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin: 2rem 0 1rem 0;
+	padding-bottom: 0.5rem;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.terminal-section-divider {
+	color: #1a1a1a;
+	margin: 1rem 0;
+	border-top: 1px solid #1a1a1a;
+}
+
+.terminal-list-item {
+	margin: 0.5rem 0;
+	padding-left: 1.5rem;
+	position: relative;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.terminal-list-item::before {
+	content: '>';
+	position: absolute;
+	left: 0;
+	color: #00ff88;
+	font-weight: bold;
+}
+
+.terminal-list-item.bullet::before {
+	content: '•';
+}
+
+.terminal-ascii-box {
+	border: 1px solid #1a1a1a;
+	padding: 1rem;
+	margin: 1rem 0;
+	background: rgba(255, 255, 255, 0.02);
+}
+
+/* Terminal Command Buttons */
+.terminal-command-button,
+.terminal-cta {
+	display: inline-block;
+	padding: 0.5rem 1rem;
+	color: #00ff88;
+	border: 1px solid #00ff88;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	text-decoration: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	margin: 0.5rem 0;
+	background: transparent;
+}
+
+.terminal-command-button:hover,
+.terminal-cta:hover {
+	background: rgba(0, 255, 136, 0.1);
+	box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+	text-shadow: 0 0 8px rgba(0, 255, 136, 0.6);
+	transform: translateX(2px);
+}
+
+.terminal-command-button:active,
+.terminal-cta:active {
+	background: rgba(0, 255, 136, 0.2);
+	transform: translateX(0);
+}
+
+.terminal-command-button::before {
+	content: '[>';
+}
+
+.terminal-command-button::after {
+	content: ']';
+}
+
+/* Terminal Links */
+.terminal-link {
+	color: rgba(255, 255, 255, 0.8);
+	text-decoration: none;
+	border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+	transition: all 0.2s ease;
+}
+
+.terminal-link:hover {
+	color: #ff2f52;
+	border-bottom-color: #ff2f52;
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.5);
+}
+
+.terminal-link::before {
+	content: '→ ';
+	color: #00ff88;
+	margin-right: 0.25rem;
+}
+
+/* Terminal Form Elements */
+.terminal-form-field {
+	margin: 1rem 0;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.terminal-form-label {
+	color: #00ff88;
+	font-weight: 500;
+	display: block;
+	margin-bottom: 0.5rem;
+}
+
+.terminal-form-label::after {
+	content: ':';
+}
+
+.terminal-form-input {
+	background: transparent;
+	border: 1px solid #1a1a1a;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	color: rgba(255, 255, 255, 0.9);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	padding: 0.5rem;
+	width: 100%;
+	max-width: 500px;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.terminal-form-input:focus {
+	outline: none;
+	border-bottom-color: #00ff88;
+	box-shadow: 0 2px 0 rgba(0, 255, 136, 0.2);
+}
+
+.terminal-form-input::placeholder {
+	color: rgba(255, 255, 255, 0.3);
+}
+
+@keyframes fadeInTerminalLine {
+	from {
+		opacity: 0;
+		transform: translateY(5px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes typeIn {
+	from {
+		width: 0;
+	}
+	to {
+		width: 100%;
+	}
+}
+
+/* Terminal ASCII Table */
+.terminal-table {
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	margin: 1.5rem 0;
+	white-space: pre;
+	line-height: 1.6;
+}
+
+.terminal-table .table-header {
+	color: #00ff88;
+	font-weight: 500;
+}
+
+.terminal-table .table-row {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.terminal-table .table-row:hover {
+	color: #ffffff;
+	background: rgba(255, 255, 255, 0.02);
+}
+
+/* Terminal Prompt at Bottom */
+.terminal-prompt {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: #000000;
+	border-top: 1px solid #1a1a1a;
+	padding: 1rem 2rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	z-index: 100;
+	flex-shrink: 0;
+	position: relative;
+}
+
+.prompt-text {
+	color: #00ff88;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.prompt-input {
+	flex: 1;
+	background: transparent;
+	border: none;
+	outline: none;
+	color: rgba(255, 255, 255, 0.9);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	padding: 0;
+	min-width: 0;
+}
+
+.prompt-input::placeholder {
+	color: rgba(255, 255, 255, 0.3);
+}
+
+.prompt-input:focus {
+	outline: none;
+}
+
+/* Autocomplete Suggestions */
+.autocomplete-suggestions {
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	right: 0;
+	background: #1a1a1a;
+	border: 1px solid #2a2a2a;
+	border-bottom: none;
+	max-height: 200px;
+	overflow-y: auto;
+	display: none;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.8125rem;
+	z-index: 101;
+}
+
+.autocomplete-suggestions.visible {
+	display: block;
+}
+
+.autocomplete-suggestion {
+	padding: 0.5rem 2rem;
+	color: rgba(255, 255, 255, 0.7);
+	cursor: pointer;
+	transition: background 0.2s ease, color 0.2s ease;
+}
+
+.autocomplete-suggestion:hover,
+.autocomplete-suggestion.selected {
+	background: rgba(0, 255, 136, 0.1);
+	color: #00ff88;
+}
+
+.autocomplete-suggestion .command {
+	font-weight: 500;
+	color: #00ff88;
+	margin-right: 0.5rem;
+}
+
+.autocomplete-suggestion .description {
+	color: rgba(255, 255, 255, 0.5);
+	font-size: 0.75rem;
+}
+
+.prompt-cursor {
+	width: 8px;
+	height: 1rem;
+	background: #00ff88;
+	animation: blinkCursor 1s infinite;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 2px;
+}
+
+.prompt-cursor.hidden {
+	display: none;
+}
+
+@keyframes blinkCursor {
+	0%, 49% {
+		opacity: 1;
+	}
+	50%, 100% {
+		opacity: 0;
+	}
+}
+
+/* Override body styles for terminal */
+body {
+	background: #000000 !important;
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
+	font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+}
+
+/* Hide old header */
+#product-header,
+#header,
+#sidebar,
+#vertical-rail,
+.flowing-background {
+	display: none !important;
+}
+
+/* Apply monospace to all text content */
+#wrapper,
+#wrapper * {
+	font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+}
+
+/* Terminal output styling for sections */
+.terminal-hero,
+.terminal-grid-section,
+.wrapper {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+.terminal-hero h1,
+.terminal-hero h2,
+.terminal-hero h3,
+.terminal-grid-section h2,
+.terminal-grid-section h3,
+.wrapper h2,
+.wrapper h3 {
+	color: rgba(255, 255, 255, 0.95);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-weight: 500;
+}
+
+/* Terminal green for important elements */
+.section-super-title,
+code,
+pre {
+	color: #00ff88;
+}
+
+/* Glowing red for accents and hover states */
+strong,
+b,
+a:hover {
+	color: #ff2f52;
+	text-shadow: 0 0 8px rgba(255, 47, 82, 0.5);
+}
+
+/* Update hero section for terminal */
+.terminal-hero {
+	background: #000000;
+	border-bottom: 1px solid #1a1a1a;
+	padding: 4rem 2rem;
+}
+
+.hero-pattern {
+	opacity: 0.3;
+}
+
+.hero-title {
+	color: #00ff88;
+	font-size: 2rem;
+	font-weight: 500;
+	margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+	color: rgba(255, 255, 255, 0.8);
+	font-size: 1rem;
+	line-height: 1.6;
+	margin-bottom: 2rem;
+}
+
+.hero-cta {
+	color: #00ff88;
+	border: 1px solid #00ff88;
+	padding: 0.75rem 1.5rem;
+	border-radius: 4px;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	transition: all 0.2s ease;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.hero-cta:hover {
+	background: rgba(0, 255, 136, 0.1);
+	box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+}
+
+/* Grid sections terminal styling */
+.terminal-grid-section {
+	background: #000000;
+	border-bottom: 1px solid #1a1a1a;
+	padding: 3rem 0;
+}
+
+.grid-cell {
+	background: transparent;
+	border: 1px solid #1a1a1a;
+}
+
+.cell-title,
+.feature-title {
+	color: rgba(255, 255, 255, 0.95);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.cell-text,
+.feature-text {
+	color: rgba(255, 255, 255, 0.7);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Section headers */
+.section-header {
+	margin-bottom: 3rem;
+}
+
+.section-title {
+	color: #00ff88;
+	font-size: 1.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.section-description {
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 0.9375rem;
+}
+
+.section-label {
+	color: #00ff88;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+/* Table terminal styling */
+.delphi-dashboard {
+	background: #000000;
+	border: 1px solid #1a1a1a;
+}
+
+.delphi-dashboard thead th {
+	color: #00ff88;
+	border-bottom: 1px solid #1a1a1a;
+}
+
+.delphi-dashboard tbody tr:hover {
+	background-color: rgba(0, 255, 136, 0.05);
+}
+
+/* Form terminal styling */
+#three .inner {
+	color: rgba(255, 255, 255, 0.9);
+}
+
+#three h2 {
+	color: #00ff88;
+}
+
+#three input,
+#three textarea,
+#three select {
+	background: #000000;
+	border: 1px solid #1a1a1a;
+	color: rgba(255, 255, 255, 0.9);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+#three input:focus,
+#three textarea:focus {
+	border-color: #00ff88;
+	outline: none;
+	box-shadow: 0 0 8px rgba(0, 255, 136, 0.2);
+}
+
+#three .button {
+	background: transparent;
+	border: 1px solid #00ff88;
+	color: #00ff88;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+#three .button:hover {
+	background: rgba(0, 255, 136, 0.1);
+	box-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+}
+
+/* Footer terminal styling */
+#footer {
+	background: #000000;
+	border-top: 1px solid #1a1a1a;
+	color: rgba(255, 255, 255, 0.6);
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.8125rem;
+}
+
+#footer a {
+	color: rgba(255, 255, 255, 0.6);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#footer a:hover {
+	color: #ff2f52;
+	border-bottom-color: #ff2f52;
+}
+
+/* Adjust padding for terminal content to account for prompt */
+.terminal-content {
+	padding-bottom: 80px;
+}
+
+/* Smooth scrolling */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Active tab detection via scroll */
+@media screen and (min-width: 769px) {
+	.terminal-nav-tabs {
+		justify-content: flex-start;
+	}
+}
+
+/* Mobile Hamburger Menu */
+.mobile-menu-toggle {
+	display: none;
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: rgba(255, 255, 255, 0.9);
+	padding: 0.5rem;
+	cursor: pointer;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+	font-size: 0.875rem;
+	min-width: 44px;
+	min-height: 44px;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+}
+
+.mobile-menu-toggle:hover {
+	background: rgba(255, 255, 255, 0.05);
+	border-color: #00ff88;
+}
+
+.mobile-menu-toggle:focus {
+	outline: 2px solid #00ff88;
+	outline-offset: 2px;
+}
+
+.mobile-menu-toggle span {
+	display: block;
+	width: 20px;
+	height: 2px;
+	background: currentColor;
+	margin: 3px 0;
+	transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+	transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+	transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Mobile adjustments */
+@media screen and (max-width: 736px) {
+	/* Terminal Title Bar - Mobile */
+	.terminal-title-bar {
+		flex-wrap: nowrap;
+		min-height: 50px;
+		padding: 0.5rem 1rem;
+		gap: 0.75rem;
+	}
+	
+	.terminal-window-controls {
+		display: none; /* Hide on very small screens */
+	}
+	
+	.terminal-title-text {
+		font-size: 0.6875rem;
+		margin-right: 0.5rem;
+		flex: 1;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	
+	.mobile-menu-toggle {
+		display: flex;
+		flex-direction: column;
+		margin-left: auto;
+	}
+	
+	/* Navigation Tabs - Hidden by default on mobile, shown via hamburger */
+	.terminal-nav-tabs {
+		position: fixed;
+		top: 50px;
+		left: 0;
+		right: 0;
+		background: #000000;
+		border-bottom: 1px solid #1a1a1a;
+		flex-direction: column;
+		align-items: stretch;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease, padding 0.3s ease;
+		z-index: 15000;
+		gap: 0;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+	}
+	
+	.terminal-nav-tabs.mobile-open {
+		max-height: 400px;
+		padding: 0.5rem 0;
+	}
+	
+	.terminal-tab {
+		font-size: 0.875rem;
+		padding: 1rem 1.5rem;
+		width: 100%;
+		text-align: left;
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		border-left: 3px solid transparent;
+		border-radius: 0;
+		margin: 0;
+	}
+	
+	.terminal-tab:hover,
+	.terminal-tab.active {
+		background: rgba(0, 255, 136, 0.1);
+		border-left-color: #00ff88;
+		padding-left: 1.5rem;
+	}
+	
+	/* Terminal Prompt - Mobile Optimized */
+	.terminal-prompt {
+		padding: 1rem;
+		font-size: 0.875rem;
+		min-height: 60px;
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+	}
+	
+	.prompt-text {
+		font-size: 0.875rem;
+		flex-shrink: 0;
+	}
+	
+	.prompt-input {
+		font-size: 0.875rem;
+		min-height: 44px; /* Better tap target */
+		padding: 0.5rem 0;
+	}
+	
+	.prompt-cursor {
+		height: 1.2em;
+		width: 10px;
+	}
+	
+	/* Terminal Output - Mobile */
+	.terminal-output {
+		bottom: 70px;
+		padding: 1rem;
+		font-size: 0.8125rem;
+		line-height: 1.5;
+	}
+	
+	.terminal-output-line {
+		margin-bottom: 0.75rem;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+	
+	/* Content adjustments */
+	.terminal-content {
+		padding: 1rem;
+	}
+	
+	/* Autocomplete - Mobile */
+	.autocomplete-suggestions {
+		font-size: 0.8125rem;
+		max-height: 250px;
+		bottom: 70px;
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+	}
+	
+	.autocomplete-suggestion {
+		padding: 0.75rem 1.5rem;
+		min-height: 44px;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+	
+	/* ASCII tables - scrollable on mobile */
+	.terminal-table {
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		display: block;
+		white-space: nowrap;
+	}
+	
+	/* Buttons and links - larger tap targets */
+	.terminal-command-button,
+	.terminal-cta {
+		min-height: 44px;
+		padding: 0.75rem 1.5rem;
+		font-size: 0.875rem;
+	}
+	
+	.terminal-link {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		padding: 0.5rem 0;
+	}
+	
+	/* Form inputs - mobile friendly */
+	.terminal-form-input {
+		font-size: 1rem; /* Prevent zoom on iOS */
+		min-height: 44px;
+		padding: 0.75rem;
+	}
+	
+	/* Vignette less pronounced on mobile */
+	.terminal-window::before {
+		background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
+	}
+	
+	/* Scanlines less visible on mobile */
+	.terminal-window.scanlines-enabled::after {
+		opacity: 0.2;
+	}
+}
+
+/* Very small screens (480px and below) */
+@media screen and (max-width: 480px) {
+	.terminal-title-text {
+		font-size: 0.625rem;
+		max-width: 120px;
+	}
+	
+	.terminal-output {
+		font-size: 0.75rem;
+		padding: 0.75rem;
+	}
+	
+	.terminal-prompt {
+		padding: 0.75rem;
+		font-size: 0.8125rem;
+	}
+}

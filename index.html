@@ -20,59 +20,46 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
-		<!-- Linear Mesh Gradient Background - Enhanced Visibility -->
-		<div class="flowing-background">
-			<div class="flowing-gradient gradient-1"></div>
-			<div class="flowing-gradient gradient-2"></div>
-			<div class="flowing-gradient gradient-3"></div>
-			<div class="flowing-gradient gradient-4"></div>
-			<div class="flowing-gradient gradient-5"></div>
-			<div class="flowing-gradient gradient-6"></div>
-			<div class="flowing-particles">
-				<div class="particle particle-1"></div>
-				<div class="particle particle-2"></div>
-				<div class="particle particle-3"></div>
-				<div class="particle particle-4"></div>
-				<div class="particle particle-5"></div>
-				<div class="particle particle-6"></div>
-				<div class="particle particle-7"></div>
-				<div class="particle particle-8"></div>
-				<div class="particle particle-9"></div>
-				<div class="particle particle-10"></div>
+		<!-- Terminal Loading Sequence -->
+		<div id="terminal-loader" class="terminal-loader">
+			<div class="loader-terminal-content">
+				<div class="loader-output" id="loader-output"></div>
+				<div class="loader-prompt-line">
+					<span class="loader-prompt">user@delphi:~$</span>
+					<span class="loader-command" id="loader-command"></span>
+					<span class="loader-cursor" id="loader-cursor"></span>
+				</div>
 			</div>
+			<div class="loader-skip-hint">Press any key or click to skip</div>
 		</div>
 
-		<!-- Left Vertical Rail -->
-			<aside id="vertical-rail" class="vertical-rail" aria-label="Application rail">
-				<div class="rail-brand">
-					<span aria-hidden="true">D</span>
+		<!-- Terminal Window Container -->
+		<div class="terminal-window">
+			<!-- Terminal Title Bar -->
+			<div class="terminal-title-bar">
+				<div class="terminal-window-controls">
+					<span class="window-control window-control-close" aria-label="Close window"></span>
+					<span class="window-control window-control-minimize" aria-label="Minimize window"></span>
+					<span class="window-control window-control-maximize" aria-label="Maximize window"></span>
 				</div>
-				<div class="rail-icons">
-					<span class="icon solid fa-chart-line" aria-hidden="true" title="Markets"></span>
-					<span class="icon solid fa-database" aria-hidden="true" title="Data"></span>
-					<span class="icon solid fa-code" aria-hidden="true" title="API"></span>
-				</div>
-			</aside>
-
-		<!-- Product Header - Thin Navigation -->
-			<header id="product-header" class="product-header terminal-nav">
-				<div class="header-inner">
-					<div class="header-brand">
-						<a href="#intro"><img src="images/DelphiWhiteLogo.png" alt="Delphi" /></a>
-					</div>
-					<nav class="header-nav">
-						<ul class="nav-menu">
-							<li><a href="#intro" class="nav-link"><span class="nav-dot"></span>Welcome</a></li>
-							<li><a href="#one" class="nav-link"><span class="nav-dot"></span>Who we are</a></li>
-							<li><a href="#two" class="nav-link"><span class="nav-dot"></span>What we do</a></li>
-							<li><a href="#how-it-works" class="nav-link"><span class="nav-dot"></span>How it works</a></li>
-							<li><a href="#product-preview" class="nav-link"><span class="nav-dot"></span>Product Preview</a></li>
-							<li><a href="#three" class="nav-link"><span class="nav-dot"></span>Get in touch</a></li>
-						</ul>
-						<a href="#three" class="contact-btn-pill">Contact</a>
-					</nav>
-				</div>
-			</header>
+				<div class="terminal-title-text" aria-label="Terminal title">DelphiTerminal-Mac-~%</div>
+				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+				<nav class="terminal-nav-tabs" id="terminal-nav-tabs" role="navigation" aria-label="Main navigation">
+					<a href="#intro" class="terminal-tab" aria-label="Navigate to Welcome section">Welcome</a>
+					<a href="#one" class="terminal-tab" aria-label="Navigate to Who we are section">Who we are</a>
+					<a href="#two" class="terminal-tab" aria-label="Navigate to What we do section">What we do</a>
+					<a href="#how-it-works" class="terminal-tab" aria-label="Navigate to How it works section">How it works</a>
+					<a href="#product-preview" class="terminal-tab" aria-label="Navigate to Product Preview section">Product Preview</a>
+					<a href="#three" class="terminal-tab" aria-label="Navigate to Get in touch section">Get in touch</a>
+				</nav>
+			</div>
+			
+			<!-- Terminal Content Area -->
+			<div class="terminal-content">
 
 		<!-- Sidebar -->
 			<section id="sidebar">
@@ -423,6 +410,53 @@
 					</section>
 
 			</div>
+			
+			<!-- Terminal Output Area -->
+			<div class="terminal-output" id="terminal-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
+			
+			<!-- Terminal Prompt -->
+			<div class="terminal-prompt">
+				<span class="prompt-text" aria-label="Terminal prompt">user@delphi:~$</span>
+				<input type="text" class="prompt-input" id="terminal-input" placeholder=" " autocomplete="off" spellcheck="false" aria-label="Terminal command input" role="textbox">
+				<span class="prompt-cursor" id="terminal-cursor" aria-hidden="true"></span>
+				<div class="autocomplete-suggestions" id="autocomplete-suggestions" role="listbox" aria-label="Command suggestions"></div>
+			</div>
+			
+			<!-- Settings Panel (Hidden by default) -->
+			<div class="terminal-settings" id="terminal-settings" role="dialog" aria-labelledby="settings-title" aria-hidden="true">
+				<div class="settings-content">
+					<h3 id="settings-title" class="settings-title">Terminal Settings</h3>
+					<div class="settings-group">
+						<label class="settings-label">
+							<input type="checkbox" id="scanlines-toggle" class="settings-checkbox">
+							<span>Enable CRT scanlines</span>
+						</label>
+						<label class="settings-label">
+							<input type="checkbox" id="sounds-toggle" class="settings-checkbox">
+							<span>Enable typing sounds</span>
+						</label>
+					</div>
+					<div class="settings-group">
+						<label class="settings-label">
+							<span>Font size:</span>
+							<input type="range" id="font-size-control" min="0.75" max="1.25" step="0.05" value="1" class="settings-range">
+							<span id="font-size-value">100%</span>
+						</label>
+					</div>
+					<div class="settings-group">
+						<label class="settings-label">
+							<span>Theme accent:</span>
+							<select id="theme-select" class="settings-select">
+								<option value="green">Terminal Green</option>
+								<option value="red">Glowing Red</option>
+							</select>
+						</label>
+					</div>
+					<button class="settings-close" id="settings-close" aria-label="Close settings">Close</button>
+				</div>
+			</div>
+		</div>
+		<!-- End Terminal Window Container -->
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -468,6 +502,470 @@
 					<p>&copy; 2024 Delphi Terminal. All rights reserved.</p>
 				</div>
 			</footer>
+
+		<!-- Terminal Loading Animation Script -->
+		<script>
+			(function() {
+				'use strict';
+				
+				// Check if loader should be shown (only once per session)
+				var loaderShown = sessionStorage.getItem('delphi-loader-shown');
+				var loader = document.getElementById('terminal-loader');
+				var terminalWindow = document.querySelector('.terminal-window');
+				var loaderOutput = document.getElementById('loader-output');
+				var loaderCommand = document.getElementById('loader-command');
+				var loaderCursor = document.getElementById('loader-cursor');
+				var skipHint = document.querySelector('.loader-skip-hint');
+				var skipRequested = false;
+				
+				// Skip functionality
+				function skipLoader() {
+					if (skipRequested) return;
+					skipRequested = true;
+					
+					// Clear any ongoing animations
+					if (loaderCursor) {
+						loaderCursor.classList.remove('typing');
+						loaderCursor.classList.remove('hidden');
+					}
+					if (loaderCommand) {
+						loaderCommand.classList.remove('typing');
+					}
+					
+					if (loader) {
+						loader.classList.add('hidden');
+					}
+					
+					setTimeout(function() {
+						if (terminalWindow) {
+							terminalWindow.classList.add('visible');
+							
+							// Ensure content is visible
+							setTimeout(function() {
+								var wrapper = document.getElementById('wrapper');
+								if (wrapper) {
+									wrapper.style.opacity = '1';
+								}
+							}, 100);
+						}
+						
+						// Mark as shown
+						sessionStorage.setItem('delphi-loader-shown', 'true');
+						
+						// Remove preload class to allow animations
+						document.body.classList.remove('is-preload');
+						
+						// Scroll terminal content to top
+						var terminalContent = document.querySelector('.terminal-content');
+						if (terminalContent) {
+							terminalContent.scrollTop = 0;
+						}
+					}, 100);
+				}
+				
+				// Skip on key press or click
+				document.addEventListener('keydown', function(e) {
+					if (loader && !loader.classList.contains('hidden')) {
+						skipLoader();
+					}
+				});
+				
+				if (loader) {
+					loader.addEventListener('click', function(e) {
+						if (e.target !== loaderCommand && !loaderCommand.contains(e.target)) {
+							skipLoader();
+						}
+					});
+				}
+				
+				// If already shown, skip it
+				if (loaderShown === 'true') {
+					skipLoader();
+					return;
+				}
+				
+				// Typing effect function
+				function typeText(element, text, options) {
+					options = options || {};
+					var minDelay = options.minDelay || 40;
+					var maxDelay = options.maxDelay || 100;
+					var typingColor = options.typingColor !== false;
+					var onComplete = options.onComplete || function() {};
+					var skipTypo = options.skipTypo || false;
+					
+					if (!element) {
+						onComplete();
+						return;
+					}
+					
+					element.textContent = '';
+					if (typingColor) {
+						element.classList.add('typing');
+					}
+					if (loaderCursor) {
+						loaderCursor.classList.add('typing');
+					}
+					
+					var index = 0;
+					var currentText = '';
+					var hasTypo = false;
+					var typoIndex = -1;
+					
+					// Random chance for typo (5% chance, but only for command line)
+					if (!skipTypo && Math.random() < 0.05 && text.length > 5 && element === loaderCommand) {
+						hasTypo = true;
+						typoIndex = Math.floor(text.length * 0.6);
+					}
+					
+					function typeChar() {
+						if (skipRequested) {
+							if (typingColor) {
+								element.classList.remove('typing');
+							}
+							if (loaderCursor) {
+								loaderCursor.classList.remove('typing');
+							}
+							element.textContent = text; // Complete the text immediately
+							onComplete();
+							return;
+						}
+						
+						if (index >= text.length) {
+							if (typingColor) {
+								element.classList.remove('typing');
+							}
+							if (loaderCursor) {
+								loaderCursor.classList.remove('typing');
+							}
+							onComplete();
+							return;
+						}
+						
+						// Handle typo
+						if (hasTypo && index === typoIndex) {
+							var wrongChars = ['x', 'z', 'q', 'w'];
+							var wrongChar = wrongChars[Math.floor(Math.random() * wrongChars.length)];
+							currentText += wrongChar;
+							element.textContent = currentText;
+							
+							setTimeout(function() {
+								if (skipRequested) {
+									element.textContent = text;
+									element.classList.remove('typing');
+									if (loaderCursor) loaderCursor.classList.remove('typing');
+									onComplete();
+									return;
+								}
+								
+								// Backspace
+								currentText = currentText.slice(0, -1);
+								element.textContent = currentText;
+								
+								setTimeout(function() {
+									if (skipRequested) {
+										element.textContent = text;
+										element.classList.remove('typing');
+										if (loaderCursor) loaderCursor.classList.remove('typing');
+										onComplete();
+										return;
+									}
+									
+									currentText += text[index];
+									element.textContent = currentText;
+									index++;
+									var delay = Math.random() * (maxDelay - minDelay) + minDelay;
+									setTimeout(typeChar, delay);
+								}, 100);
+							}, 200);
+							return;
+						}
+						
+						currentText += text[index];
+						element.textContent = currentText;
+						index++;
+						
+						var delay = Math.random() * (maxDelay - minDelay) + minDelay;
+						setTimeout(typeChar, delay);
+					}
+					
+					typeChar();
+				}
+				
+				// Add output line
+				function addOutputLine(text, className) {
+					if (!loaderOutput) return;
+					var line = document.createElement('div');
+					line.className = 'loader-output-line' + (className ? ' ' + className : '');
+					line.textContent = text;
+					loaderOutput.appendChild(line);
+					return line;
+				}
+				
+				// Progress bar
+				function updateProgress(percent) {
+					var progressBar = document.querySelector('.loader-progress-fill');
+					if (progressBar) {
+						progressBar.style.width = percent + '%';
+					}
+				}
+				
+				// Clear command line
+				function clearCommand() {
+					if (loaderCommand) {
+						loaderCommand.textContent = '';
+						loaderCommand.classList.remove('typing');
+					}
+					if (loaderCursor) {
+						loaderCursor.classList.remove('typing');
+					}
+				}
+				
+				// Main loading sequence
+				function startLoadingSequence() {
+					var sequence = Promise.resolve();
+					
+					// Step 1: Initial prompt and command
+					sequence = sequence.then(function() {
+						return new Promise(function(resolve) {
+							typeText(loaderCommand, 'start delphi-terminal', {
+								minDelay: 50,
+								maxDelay: 80,
+								onComplete: function() {
+									setTimeout(function() {
+										clearCommand();
+										setTimeout(resolve, 300);
+									}, 500);
+								}
+							});
+						});
+					});
+					
+					// Step 2: Initializing message
+					sequence = sequence.then(function() {
+						return new Promise(function(resolve) {
+							var line = addOutputLine('Initializing Delphi Terminal...', 'typing');
+							typeText(line, 'Initializing Delphi Terminal...', {
+								minDelay: 40,
+								maxDelay: 70,
+								onComplete: function() {
+									line.classList.remove('typing');
+									setTimeout(function() {
+										line.classList.add('fade-out');
+										setTimeout(resolve, 800);
+									}, 500);
+								}
+							});
+						});
+					});
+					
+					// Step 3: Progress bar
+					sequence = sequence.then(function() {
+						return new Promise(function(resolve) {
+							var progressContainer = document.createElement('div');
+							progressContainer.className = 'loader-progress';
+							progressContainer.innerHTML = '<div>Loading system components...</div><div class="loader-progress-bar"><div class="loader-progress-fill"></div></div>';
+							loaderOutput.appendChild(progressContainer);
+							
+							var progress = 0;
+							var progressInterval = setInterval(function() {
+								if (skipRequested) {
+									clearInterval(progressInterval);
+									resolve();
+									return;
+								}
+								progress += Math.random() * 15 + 5;
+								if (progress >= 100) {
+									progress = 100;
+									clearInterval(progressInterval);
+									setTimeout(function() {
+										progressContainer.style.opacity = '0';
+										progressContainer.style.transition = 'opacity 0.5s';
+										setTimeout(resolve, 600);
+									}, 500);
+								}
+								updateProgress(progress);
+							}, 150);
+						});
+					});
+					
+					// Step 4: Connecting commands
+					var commands = [
+						'connecting to prediction markets...',
+						'loading real-time data feeds...',
+						'initializing websocket connections...',
+						'validating market data integrity...',
+						'establishing secure connections...'
+					];
+					
+					commands.forEach(function(cmd, index) {
+						sequence = sequence.then(function() {
+							return new Promise(function(resolve) {
+								var line = addOutputLine('', 'typing');
+								typeText(line, cmd, {
+									minDelay: 35,
+									maxDelay: 65,
+									onComplete: function() {
+										line.classList.remove('typing');
+										setTimeout(function() {
+											line.classList.add('fade-out');
+											setTimeout(resolve, 600);
+										}, 800);
+									}
+								});
+							});
+						});
+					});
+					
+					// Step 5: Clear screen and transition to home
+					sequence = sequence.then(function() {
+						return new Promise(function(resolve) {
+							if (skipRequested) {
+								resolve();
+								return;
+							}
+							
+							// Add blank line
+							addOutputLine('');
+							
+							// Type delphi --home
+							typeText(loaderCommand, 'delphi --home', {
+								minDelay: 50,
+								maxDelay: 80,
+								onComplete: function() {
+									setTimeout(function() {
+										// Simulate Enter key press
+										clearCommand();
+										
+										// Add output after command
+										setTimeout(function() {
+											// Clear all previous lines with fade
+											var lines = loaderOutput.querySelectorAll('.loader-output-line');
+											lines.forEach(function(line) {
+												line.classList.add('fade-out');
+											});
+											
+											setTimeout(function() {
+												loaderOutput.innerHTML = '';
+												
+												// Show styled title
+												var titleLine = addOutputLine('');
+												titleLine.style.color = '#00ff88';
+												titleLine.style.fontSize = '1.5rem';
+												titleLine.style.fontWeight = '500';
+												titleLine.style.marginBottom = '1rem';
+												
+												typeText(titleLine, 'Delphi - Prediction Market Terminal', {
+													minDelay: 30,
+													maxDelay: 60,
+													typingColor: false,
+													skipTypo: true,
+													onComplete: function() {
+														setTimeout(function() {
+															var subtitleLine = addOutputLine('');
+															subtitleLine.style.color = 'rgba(255, 255, 255, 0.8)';
+															subtitleLine.style.fontSize = '0.9375rem';
+															subtitleLine.style.marginBottom = '2rem';
+															
+															typeText(subtitleLine, 'Power your decision-making with high-quality data and analytics for every major prediction market', {
+																minDelay: 20,
+																maxDelay: 45,
+																typingColor: false,
+																skipTypo: true,
+																onComplete: function() {
+																	setTimeout(function() {
+																		var ctaLine = addOutputLine('');
+																		ctaLine.style.color = '#ff2f52';
+																		ctaLine.style.marginTop = '2rem';
+																		
+																		typeText(ctaLine, '>>> Press any key to continue <<<', {
+																			minDelay: 25,
+																			maxDelay: 50,
+																			typingColor: false,
+																			skipTypo: true,
+																			onComplete: function() {
+																				setTimeout(resolve, 1500);
+																			}
+																		});
+																	}, 400);
+																}
+															});
+														}, 500);
+													}
+												});
+											}, 600);
+										}, 300);
+									}, 400);
+								}
+							});
+						});
+					});
+					
+					// Step 6: Fade out and show main terminal
+					sequence.then(function() {
+						if (skipRequested) return;
+						
+						// Wait a moment, then fade out loader and show terminal
+						setTimeout(function() {
+							if (skipRequested) return;
+							
+							// Hide skip hint if still visible
+							if (skipHint) {
+								skipHint.style.opacity = '0';
+							}
+							
+							// Fade out loader
+							if (loader) {
+								loader.classList.add('hidden');
+							}
+							
+							// Show terminal window
+							if (terminalWindow) {
+								terminalWindow.classList.add('visible');
+								
+								// Ensure content is visible
+								setTimeout(function() {
+									var wrapper = document.getElementById('wrapper');
+									if (wrapper) {
+										wrapper.style.opacity = '1';
+									}
+								}, 100);
+							}
+							
+							// Mark as shown
+							sessionStorage.setItem('delphi-loader-shown', 'true');
+							
+							// Remove preload class
+							document.body.classList.remove('is-preload');
+							
+							// Scroll terminal content to top
+							setTimeout(function() {
+								var terminalContent = document.querySelector('.terminal-content');
+								if (terminalContent) {
+									terminalContent.scrollTop = 0;
+								}
+							}, 300);
+						}, 2000);
+					});
+				}
+				
+				// Start sequence when DOM is ready
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', function() {
+						setTimeout(startLoadingSequence, 300);
+					});
+				} else {
+					setTimeout(startLoadingSequence, 300);
+				}
+				
+				// Hide skip hint after animation starts
+				setTimeout(function() {
+					if (skipHint) {
+						skipHint.style.opacity = '0';
+						skipHint.style.transition = 'opacity 0.5s';
+					}
+				}, 2000);
+			})();
+		</script>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
@@ -684,57 +1182,1143 @@
 				})();
 			</script>
 			<script>
-
-				// Active Navigation Dot Indicator
+				// Terminal Tab Active State Management
 				(function() {
-					function updateActiveNav() {
-						var navLinks = document.querySelectorAll('.terminal-nav .nav-link');
-						var sections = [];
+					var terminalTabs = document.querySelectorAll('.terminal-tab');
+					var isScrolling = false;
+					var scrollTimeout;
+					var scrollThrottle;
+					var scrollContainer = document.querySelector('.terminal-content');
+					
+					if (!scrollContainer) return;
+					
+					function updateActiveTab() {
+						if (isScrolling) return;
 						
-						navLinks.forEach(function(link) {
-							var href = link.getAttribute('href');
+						var scrollPosition = scrollContainer.scrollTop;
+						var containerHeight = scrollContainer.clientHeight;
+						var offset = containerHeight * 0.3;
+						
+						var sections = [];
+						terminalTabs.forEach(function(tab) {
+							var href = tab.getAttribute('href');
 							if (href && href.startsWith('#')) {
 								var section = document.querySelector(href);
 								if (section) {
 									sections.push({
-										link: link,
-										section: section,
-										id: href.substring(1)
+										tab: tab,
+										element: section,
+										id: href.substring(1),
+										top: section.offsetTop,
+										height: section.offsetHeight
 									});
 								}
 							}
 						});
-
-						function checkActive() {
-							var scrollPos = window.pageYOffset + window.innerHeight / 3;
-							
-							sections.forEach(function(item) {
-								var sectionTop = item.section.offsetTop;
-								var sectionBottom = sectionTop + item.section.offsetHeight;
-								
-								if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-									navLinks.forEach(function(l) { l.classList.remove('active'); });
-									item.link.classList.add('active');
-								}
-							});
-
-							// Check if we're at the top
-							if (window.pageYOffset < 100) {
-								navLinks.forEach(function(l) { l.classList.remove('active'); });
-								var introLink = document.querySelector('.terminal-nav .nav-link[href="#intro"]');
-								if (introLink) introLink.classList.add('active');
+						
+						var activeSection = null;
+						for (var i = sections.length - 1; i >= 0; i--) {
+							var section = sections[i];
+							if (scrollPosition + offset >= section.top && 
+							    scrollPosition + offset < section.top + section.height) {
+								activeSection = section;
+								break;
 							}
 						}
-
-						window.addEventListener('scroll', checkActive);
-						checkActive();
+						
+						if (!activeSection && scrollPosition < 100) {
+							activeSection = sections[0];
+						}
+						
+						if (!activeSection && scrollPosition + containerHeight >= scrollContainer.scrollHeight - 100) {
+							activeSection = sections[sections.length - 1];
+						}
+						
+						terminalTabs.forEach(function(tab) {
+							tab.classList.remove('active');
+						});
+						
+						if (activeSection) {
+							activeSection.tab.classList.add('active');
+						}
 					}
-
+					
+					// Handle tab clicks
+					terminalTabs.forEach(function(tab) {
+						tab.addEventListener('click', function(e) {
+							var href = this.getAttribute('href');
+							if (href && href !== '#') {
+								var targetSection = document.querySelector(href);
+								if (targetSection) {
+									e.preventDefault();
+									
+									isScrolling = true;
+									
+									terminalTabs.forEach(function(t) {
+										t.classList.remove('active');
+									});
+									this.classList.add('active');
+									
+									var targetPosition = targetSection.offsetTop;
+									var titleBar = document.querySelector('.terminal-title-bar');
+									var offset = titleBar ? titleBar.offsetHeight : 0;
+									
+									scrollContainer.scrollTo({
+										top: targetPosition - offset - 20,
+										behavior: 'smooth'
+									});
+									
+									clearTimeout(scrollTimeout);
+									scrollTimeout = setTimeout(function() {
+										isScrolling = false;
+										updateActiveTab();
+									}, 1000);
+								}
+							}
+						});
+					});
+					
+					// Update on scroll with throttling
+					scrollContainer.addEventListener('scroll', function() {
+						if (!scrollThrottle) {
+							window.requestAnimationFrame(function() {
+								updateActiveTab();
+								scrollThrottle = null;
+							});
+							scrollThrottle = true;
+						}
+					}, { passive: true });
+					
+					// Initial update
 					if (document.readyState === 'loading') {
-						document.addEventListener('DOMContentLoaded', updateActiveNav);
+						document.addEventListener('DOMContentLoaded', function() {
+							setTimeout(updateActiveTab, 100);
+						});
 					} else {
-						updateActiveNav();
+						setTimeout(updateActiveTab, 100);
 					}
+					
+					window.addEventListener('hashchange', function() {
+						setTimeout(updateActiveTab, 100);
+					});
+				})();
+				
+				// Handle hash navigation
+				document.addEventListener('DOMContentLoaded', function() {
+					var terminalContent = document.querySelector('.terminal-content');
+					if (terminalContent && window.location.hash) {
+						setTimeout(function() {
+							var target = document.querySelector(window.location.hash);
+							if (target) {
+								terminalContent.scrollTop = target.offsetTop - 60;
+							}
+						}, 300);
+					}
+				});
+				
+				// Mobile Menu Toggle
+				(function() {
+					var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+					var terminalNavTabs = document.getElementById('terminal-nav-tabs');
+					
+					if (mobileMenuToggle && terminalNavTabs) {
+						mobileMenuToggle.addEventListener('click', function() {
+							var isOpen = this.classList.contains('active');
+							this.classList.toggle('active');
+							terminalNavTabs.classList.toggle('mobile-open');
+							this.setAttribute('aria-expanded', !isOpen);
+							
+							// Close menu when clicking outside
+							if (!isOpen) {
+								setTimeout(function() {
+									document.addEventListener('click', function closeMenu(e) {
+										if (!mobileMenuToggle.contains(e.target) && !terminalNavTabs.contains(e.target)) {
+											mobileMenuToggle.classList.remove('active');
+											terminalNavTabs.classList.remove('mobile-open');
+											mobileMenuToggle.setAttribute('aria-expanded', 'false');
+											document.removeEventListener('click', closeMenu);
+										}
+									});
+								}, 100);
+							}
+						});
+						
+						// Close menu when nav link is clicked
+						var navLinks = terminalNavTabs.querySelectorAll('.terminal-tab');
+						navLinks.forEach(function(link) {
+							link.addEventListener('click', function() {
+								mobileMenuToggle.classList.remove('active');
+								terminalNavTabs.classList.remove('mobile-open');
+								mobileMenuToggle.setAttribute('aria-expanded', 'false');
+							});
+						});
+					}
+				})();
+				
+				// Performance Optimizations: Debounce Function
+				function debounce(func, wait) {
+					var timeout;
+					return function executedFunction() {
+						var context = this;
+						var args = arguments;
+						var later = function() {
+							timeout = null;
+							func.apply(context, args);
+						};
+						clearTimeout(timeout);
+						timeout = setTimeout(later, wait);
+					};
+				}
+				
+				// Interactive Terminal System
+				(function() {
+					'use strict';
+					
+					var terminalInput = document.getElementById('terminal-input');
+					var terminalCursor = document.getElementById('terminal-cursor');
+					var terminalOutput = document.getElementById('terminal-output');
+					var autocompleteSuggestions = document.getElementById('autocomplete-suggestions');
+					var terminalWindow = document.querySelector('.terminal-window');
+					
+					if (!terminalInput || !terminalOutput) return;
+					
+					// Command history
+					var commandHistory = [];
+					var historyIndex = -1;
+					var currentCommand = '';
+					
+					// Command mappings
+					var commands = {
+						'home': { section: 'intro', aliases: ['welcome', 'start'] },
+						'about': { section: 'one', aliases: ['who', 'mission'] },
+						'services': { section: 'two', aliases: ['what', 'features'] },
+						'process': { section: 'how-it-works', aliases: ['how', 'workflow'] },
+						'demo': { section: 'product-preview', aliases: ['preview', 'showcase'] },
+						'contact': { section: 'three', aliases: ['reach', 'touch'] }
+					};
+					
+					// Autocomplete suggestions
+					var allCommands = ['home', 'about', 'services', 'process', 'demo', 'contact', 'help', 'clear'];
+					
+					// Add output line to terminal
+					function addOutputLine(text, className) {
+						var line = document.createElement('div');
+						line.className = 'terminal-output-line' + (className ? ' ' + className : '');
+						line.textContent = text;
+						terminalOutput.appendChild(line);
+						
+						// Auto-scroll to bottom
+						terminalOutput.scrollTop = terminalOutput.scrollHeight;
+						
+						// Fade previous lines slightly
+						setTimeout(function() {
+							var lines = terminalOutput.querySelectorAll('.terminal-output-line:not(:last-child)');
+							lines.forEach(function(l) {
+								if (!l.classList.contains('faded')) {
+									l.classList.add('faded');
+								}
+							});
+						}, 100);
+						
+						return line;
+					}
+					
+					// Type command in terminal (for auto-population)
+					function typeCommand(command, execute) {
+						if (execute === undefined) execute = true;
+						
+						var currentValue = '';
+						var index = 0;
+						terminalInput.value = '';
+						terminalInput.focus();
+						
+						function typeChar() {
+							if (index >= command.length) {
+								if (execute) {
+									setTimeout(function() {
+										executeCommand(command);
+									}, 300);
+								}
+								return;
+							}
+							
+							currentValue += command[index];
+							terminalInput.value = currentValue;
+							index++;
+							
+							setTimeout(typeChar, 40 + Math.random() * 40);
+						}
+						
+						typeChar();
+					}
+					
+					// Helper function to wrap text
+					function wrapText(text, maxWidth) {
+						var words = text.split(' ');
+						var lines = [];
+						var currentLine = '';
+						
+						words.forEach(function(word) {
+							if ((currentLine + word).length <= maxWidth) {
+								currentLine += (currentLine ? ' ' : '') + word;
+							} else {
+								if (currentLine) lines.push(currentLine);
+								currentLine = word;
+							}
+						});
+						if (currentLine) lines.push(currentLine);
+						
+						return lines;
+					}
+					
+					// Format section content as terminal output
+					function formatSectionContent(sectionId) {
+						var section = document.querySelector('#' + sectionId);
+						if (!section) return '';
+						
+						var output = [];
+						
+						// HERO/HOME SECTION
+						if (sectionId === 'intro') {
+							// ASCII art title - stylized text
+							output.push('');
+							output.push('   ____      _       _     _     _');
+							output.push('  |  _ \\    | |     | |   (_)   (_)');
+							output.push('  | | | |___| |_ ___| |__  _ ___ _ ___');
+							output.push('  | | | / _ \\ __/ _ \\ |_ \\| / __| / __|');
+							output.push('  | |_| |  __/ ||  __/ | | | \\__ \\ \\__ \\');
+							output.push('  |____/ \\___|\\__\\___|_| |_|_|___/_|___/');
+							output.push('');
+							output.push('  ════════════════════════════════════════════════════');
+							var title = section.querySelector('.hero-title')?.textContent.trim() || 'Prediction Market Terminal';
+							output.push('     ' + title.toUpperCase());
+							output.push('  ════════════════════════════════════════════════════');
+							output.push('');
+							
+							var subtitle = section.querySelector('.hero-subtitle')?.textContent.trim() || '';
+							if (subtitle) {
+								output.push('  // ' + subtitle);
+								output.push('');
+							}
+							
+							var cta = section.querySelector('.hero-cta');
+							if (cta) {
+								var ctaText = cta.textContent.trim().replace(/\s+/g, ' ') || 'Request Access';
+								output.push('  [> ' + ctaText + ']');
+								output.push('');
+							}
+							
+							return output.join('\n');
+						}
+						
+						// WHO WE ARE SECTION
+						if (sectionId === 'one') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							output.push('  WHO WE ARE');
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var cells = section.querySelectorAll('.grid-cell');
+							cells.forEach(function(cell, index) {
+								var labelEl = cell.querySelector('.section-label');
+								var label = labelEl ? labelEl.textContent.trim() : '';
+								var commentEl = cell.querySelector('.section-super-title');
+								var comment = commentEl ? commentEl.textContent.trim() : '';
+								var title = cell.querySelector('.cell-title')?.textContent.trim() || '';
+								var text = cell.querySelector('.cell-text')?.textContent.trim() || '';
+								
+								if (comment) {
+									output.push('  // ' + comment);
+								}
+								if (label) {
+									output.push('  [' + label + ']');
+								}
+								if (title) {
+									output.push('');
+									output.push('  ┌─ ' + title);
+									output.push('  │');
+								}
+								if (text) {
+									var lines = wrapText(text, 65);
+									lines.forEach(function(line) {
+										output.push('  │  ' + line);
+									});
+								}
+								if (title) {
+									output.push('  └' + '─'.repeat(Math.min(60, title.length + 15)));
+								}
+								output.push('');
+							});
+							
+							return output.join('\n');
+						}
+						
+						// WHAT WE DO SECTION
+						if (sectionId === 'two') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('.section-title')?.textContent.trim() || 'WHAT WE DO';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							var features = section.querySelectorAll('.feature-cell');
+							features.forEach(function(feature, index) {
+								var titleEl = feature.querySelector('.feature-title');
+								var title = titleEl ? titleEl.textContent.trim() : '';
+								// Remove accent line from title
+								if (titleEl) {
+									var accent = titleEl.querySelector('.feature-accent-line');
+									if (accent) {
+										var temp = titleEl.cloneNode(true);
+										temp.removeChild(accent);
+										title = temp.textContent.trim();
+									}
+								}
+								
+								var text = feature.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								if (title) {
+									output.push('  > ' + (index + 1) + '. ' + title);
+								}
+								if (text) {
+									var textLines = wrapText(text, 68);
+									textLines.forEach(function(line) {
+										output.push('     ' + line);
+									});
+								}
+								output.push('');
+							});
+							
+							return output.join('\n');
+						}
+						
+						// HOW IT WORKS SECTION
+						if (sectionId === 'how-it-works') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('.section-title')?.textContent.trim() || 'HOW IT WORKS';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							var steps = section.querySelectorAll('.flow-step');
+							steps.forEach(function(step, index) {
+								var titleEl = step.querySelector('.feature-title');
+								var title = titleEl ? titleEl.textContent.trim() : '';
+								if (titleEl) {
+									var accent = titleEl.querySelector('.feature-accent-line');
+									if (accent) {
+										var temp = titleEl.cloneNode(true);
+										temp.removeChild(accent);
+										title = temp.textContent.trim();
+									}
+								}
+								
+								var text = step.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								output.push('  ┌─ STEP ' + (index + 1) + ': ' + title.toUpperCase());
+								output.push('  │');
+								if (text) {
+									var textLines = wrapText(text, 65);
+									textLines.forEach(function(line) {
+										output.push('  │  ' + line);
+									});
+								}
+								output.push('  └' + '─'.repeat(65));
+								
+								if (index < steps.length - 1) {
+									output.push('');
+									output.push('            ↓');
+									output.push('');
+								}
+							});
+							
+							return output.join('\n');
+						}
+						
+						// PRODUCT PREVIEW SECTION
+						if (sectionId === 'product-preview') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('h2')?.textContent.trim() || 'PRODUCT PREVIEW';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							var table = section.querySelector('.delphi-dashboard');
+							if (table) {
+								var headers = [];
+								table.querySelectorAll('thead th').forEach(function(th) {
+									headers.push(th.textContent.trim());
+								});
+								
+								if (headers.length > 0) {
+									var colWidths = headers.map(function() { return 18; });
+									var totalWidth = colWidths.reduce(function(a, b) { return a + b; }, 0) + headers.length - 1;
+									
+									// Top border
+									output.push('  ┌' + '─'.repeat(totalWidth) + '┐');
+									
+									// Header row
+									var headerRow = '  │';
+									headers.forEach(function(header, i) {
+										var padded = header.padEnd(colWidths[i]);
+										headerRow += padded + '│';
+									});
+									output.push(headerRow);
+									output.push('  ├' + '─'.repeat(totalWidth) + '┤');
+									
+									// Data rows
+									var rows = table.querySelectorAll('tbody tr');
+									rows.forEach(function(row, rowIndex) {
+										var cells = row.querySelectorAll('td');
+										if (cells.length > 0) {
+											var dataRow = '  │';
+											cells.forEach(function(cell, i) {
+												var text = cell.textContent.trim();
+												var padded = text.padEnd(colWidths[i]);
+												dataRow += padded + '│';
+											});
+											output.push(dataRow);
+											
+											if (rowIndex < rows.length - 1) {
+												output.push('  ├' + '─'.repeat(totalWidth) + '┤');
+											}
+										}
+									});
+									
+									output.push('  └' + '─'.repeat(totalWidth) + '┘');
+									output.push('');
+								}
+							}
+							
+							return output.join('\n');
+						}
+						
+						// CONTACT SECTION
+						if (sectionId === 'three') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('h2')?.textContent.trim() || 'GET IN TOUCH';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							output.push('  ┌─ Contact Form ──────────────────────────────────────────┐');
+							output.push('  │                                                         │');
+							output.push('  │  name:    [input field]                                │');
+							output.push('  │  email:   [input field]                                │');
+							output.push('  │  message: [textarea]                                   │');
+							output.push('  │                                                         │');
+							output.push('  │  [> send]                                              │');
+							output.push('  │                                                         │');
+							output.push('  └─────────────────────────────────────────────────────────┘');
+							output.push('');
+							output.push('  // Form submissions are processed securely');
+							output.push('');
+							
+							return output.join('\n');
+						}
+						
+						// DEFAULT FORMATTING for other sections
+						var titleEl = section.querySelector('h1, h2, .section-title');
+						var title = titleEl ? titleEl.textContent.trim() : '';
+						
+						if (title) {
+							output.push('');
+							var lineLength = Math.min(title.length + 4, 70);
+							output.push('═'.repeat(lineLength));
+							output.push('  ' + title.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+						}
+						
+						return output.join('\n');
+					}
+					
+					// Execute command
+					function executeCommand(command) {
+						command = command.trim().toLowerCase();
+						
+						if (!command) return;
+						
+						// Add to history
+						if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== command) {
+							commandHistory.push(command);
+						}
+						historyIndex = commandHistory.length;
+						
+						// Display command in output
+						addOutputLine('user@delphi:~$ ' + command, 'terminal-output-prompt');
+						
+						// Clear input
+						terminalInput.value = '';
+						
+						// Hide autocomplete
+						if (autocompleteSuggestions) {
+							autocompleteSuggestions.classList.remove('visible');
+						}
+						
+						// Update active tab
+						var targetSection = null;
+						var matchedCommand = null;
+						
+						// Execute command
+						if (command === 'help' || command === '?') {
+							addOutputLine('', 'info');
+							addOutputLine('Available Commands:', 'success');
+							addOutputLine('─'.repeat(40), 'info');
+							addOutputLine('  home, welcome, start     - Navigate to Welcome section', 'info');
+							addOutputLine('  about, who, mission      - Navigate to Who we are', 'info');
+							addOutputLine('  services, what, features - Navigate to What we do', 'info');
+							addOutputLine('  process, how, workflow   - Navigate to How it works', 'info');
+							addOutputLine('  demo, preview, showcase  - Navigate to Product Preview', 'info');
+							addOutputLine('  contact, reach, touch    - Navigate to Get in touch', 'info');
+							addOutputLine('  clear                     - Clear terminal output', 'info');
+							addOutputLine('  help, ?                   - Show this help message', 'info');
+							addOutputLine('', 'info');
+						} else if (command === 'clear') {
+							terminalOutput.innerHTML = '';
+							// Fade wrapper content if visible
+							var wrapper = document.getElementById('wrapper');
+							if (wrapper) {
+								wrapper.classList.remove('terminal-visible');
+							}
+						} else {
+							// Try to find command
+							// Check direct commands
+							if (commands[command]) {
+								matchedCommand = command;
+								targetSection = commands[command].section;
+							} else {
+								// Check aliases
+								for (var cmd in commands) {
+									if (commands[cmd].aliases.indexOf(command) !== -1) {
+										matchedCommand = cmd;
+										targetSection = commands[cmd].section;
+										break;
+									}
+								}
+							}
+							
+							if (targetSection) {
+								// Update active tab
+								var targetTab = document.querySelector('.terminal-tab[href="#' + targetSection + '"]');
+								if (targetTab) {
+									var allTabs = document.querySelectorAll('.terminal-tab');
+									allTabs.forEach(function(t) {
+										t.classList.remove('active');
+									});
+									targetTab.classList.add('active');
+								}
+								
+								// Display section content with typing animation
+								var content = formatSectionContent(targetSection);
+								if (content) {
+									var lines = content.split('\n');
+									var lineIndex = 0;
+									
+									function typeNextLine() {
+										if (lineIndex >= lines.length) {
+											// Add cursor at end
+											setTimeout(function() {
+												var cursorLine = document.createElement('div');
+												cursorLine.className = 'terminal-output-line typing';
+												cursorLine.textContent = '';
+												terminalOutput.appendChild(cursorLine);
+												
+												setTimeout(function() {
+													cursorLine.classList.remove('typing');
+												}, 1000);
+											}, 200);
+											return;
+										}
+										
+										var line = lines[lineIndex];
+										var className = 'info';
+										
+										// Determine line class
+										if (line.match(/^[\s]*[═─]+/)) {
+											className = 'success';
+										} else if (line.match(/^[\s]*[┌│└├┐┘┤]/)) {
+											className = 'info';
+										} else if (line.match(/^[\s]*\d+\./)) {
+											className = 'success';
+										} else if (line.match(/^[\s]*>/) || line.match(/^[\s]*[•]/)) {
+											className = 'success';
+										} else if (line.match(/^[\s]*\/\//)) {
+											className = 'comment';
+										} else if (line.match(/^[\s]*\[>/) || line.match(/^[\s]*\[/)) {
+											className = 'success';
+										} else if (line.trim().length > 0 && line.length > 50) {
+											className = 'header';
+										}
+										
+										var outputLine = addOutputLine(line, className);
+										
+										// Add typing cursor briefly
+										if (line.trim()) {
+											outputLine.classList.add('typing');
+											setTimeout(function() {
+												outputLine.classList.remove('typing');
+											}, 100);
+										}
+										
+										lineIndex++;
+										
+										// Faster typing for terminal output (15-30ms per line)
+										var delay = line.trim() ? (15 + Math.random() * 15) : 5;
+										setTimeout(typeNextLine, delay);
+									}
+									
+									typeNextLine();
+								} else {
+									addOutputLine('Section content loaded.', 'success');
+								}
+							} else {
+								// Invalid command
+								addOutputLine('Command not found: ' + command, 'error');
+								addOutputLine('Type "help" for available commands.', 'info');
+							}
+						}
+					}
+					
+					// Show autocomplete suggestions
+					function showAutocomplete(input) {
+						if (!autocompleteSuggestions || !input) {
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+							return;
+						}
+						
+						var matches = allCommands.filter(function(cmd) {
+							return cmd.toLowerCase().startsWith(input.toLowerCase());
+						});
+						
+						if (matches.length === 0 || input === '') {
+							autocompleteSuggestions.classList.remove('visible');
+							return;
+						}
+						
+						autocompleteSuggestions.innerHTML = '';
+						matches.slice(0, 5).forEach(function(cmd) {
+							var suggestion = document.createElement('div');
+							suggestion.className = 'autocomplete-suggestion';
+							
+							var commandSpan = document.createElement('span');
+							commandSpan.className = 'command';
+							commandSpan.textContent = cmd;
+							
+							var descSpan = document.createElement('span');
+							descSpan.className = 'description';
+							if (commands[cmd]) {
+								descSpan.textContent = 'Navigate to ' + commands[cmd].section;
+							} else if (cmd === 'help') {
+								descSpan.textContent = 'Show available commands';
+							} else if (cmd === 'clear') {
+								descSpan.textContent = 'Clear terminal output';
+							}
+							
+							suggestion.appendChild(commandSpan);
+							suggestion.appendChild(descSpan);
+							
+							suggestion.addEventListener('click', function() {
+								terminalInput.value = cmd;
+								autocompleteSuggestions.classList.remove('visible');
+								terminalInput.focus();
+							});
+							
+							autocompleteSuggestions.appendChild(suggestion);
+						});
+						
+						autocompleteSuggestions.classList.add('visible');
+					}
+					
+					// Debounced autocomplete
+					var debouncedAutocomplete = debounce(function(value) {
+						showAutocomplete(value);
+					}, 150);
+					
+					// Input event handlers
+					terminalInput.addEventListener('input', function() {
+						debouncedAutocomplete(this.value);
+					});
+					
+					terminalInput.addEventListener('keydown', function(e) {
+						if (e.key === 'Enter') {
+							e.preventDefault();
+							executeCommand(this.value);
+						} else if (e.key === 'ArrowUp') {
+							e.preventDefault();
+							if (commandHistory.length > 0) {
+								if (historyIndex > 0) {
+									historyIndex--;
+								}
+								this.value = commandHistory[historyIndex];
+							}
+						} else if (e.key === 'ArrowDown') {
+							e.preventDefault();
+							if (historyIndex < commandHistory.length - 1) {
+								historyIndex++;
+								this.value = commandHistory[historyIndex];
+							} else {
+								historyIndex = commandHistory.length;
+								this.value = currentCommand;
+							}
+						} else if (e.key === 'Tab') {
+							e.preventDefault();
+							var input = this.value.trim().toLowerCase();
+							var matches = allCommands.filter(function(cmd) {
+								return cmd.toLowerCase().startsWith(input);
+							});
+							if (matches.length > 0) {
+								this.value = matches[0];
+								showAutocomplete(this.value);
+							}
+						} else if (e.key === 'Escape') {
+							e.preventDefault();
+							this.blur();
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+						}
+					});
+					
+					terminalInput.addEventListener('focus', function() {
+						currentCommand = this.value;
+						if (terminalCursor) {
+							terminalCursor.style.animation = 'none';
+							setTimeout(function() {
+								if (terminalCursor) {
+									terminalCursor.style.animation = 'blink 1s infinite';
+								}
+							}, 10);
+						}
+					});
+					
+					terminalInput.addEventListener('blur', function() {
+						if (terminalCursor) {
+							terminalCursor.style.animation = 'blink 1s infinite';
+						}
+						setTimeout(function() {
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+						}, 200);
+					});
+					
+					// Auto-focus on any keypress (except in input fields)
+					document.addEventListener('keydown', function(e) {
+						// Don't intercept if typing in input, textarea, or contenteditable
+						if (e.target.tagName === 'INPUT' || 
+							e.target.tagName === 'TEXTAREA' || 
+							e.target.isContentEditable) {
+							return;
+						}
+						
+						// Allow certain keys to work normally
+						if (e.key === 'Tab' || e.key === 'Escape') {
+							return;
+						}
+						
+						// Focus terminal input for printable characters
+						if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+							terminalInput.focus();
+							// If input is empty, the character will be added automatically
+							if (terminalInput.value === '') {
+								e.preventDefault();
+								terminalInput.value = e.key;
+							}
+						}
+					});
+					
+					// ESC key to return focus to terminal
+					document.addEventListener('keydown', function(e) {
+						if (e.key === 'Escape') {
+							if (document.activeElement !== terminalInput) {
+								terminalInput.focus();
+							}
+						}
+					});
+					
+					// Connect nav tabs to terminal
+					var navTabs = document.querySelectorAll('.terminal-tab');
+					navTabs.forEach(function(tab) {
+						tab.addEventListener('click', function(e) {
+							e.preventDefault();
+							
+							var href = this.getAttribute('href');
+							if (!href || !href.startsWith('#')) return;
+							
+							var sectionId = href.substring(1);
+							
+							// Find command for this section
+							var command = null;
+							for (var cmd in commands) {
+								if (commands[cmd].section === sectionId) {
+									command = cmd;
+									break;
+								}
+							}
+							
+							if (command) {
+								// Type command in terminal and execute
+								typeCommand(command, true);
+							}
+						});
+					});
+					
+					// Easter Eggs
+					var easterEggs = {
+						'konami': function() {
+							addOutputLine('', 'info');
+							addOutputLine('↑ ↑ ↓ ↓ ← → ← → B A', 'success');
+							addOutputLine('KONAMI CODE ACTIVATED!', 'success');
+							addOutputLine('', 'info');
+						},
+						'matrix': function() {
+							addOutputLine('', 'info');
+							addOutputLine('Wake up, Neo...', 'success');
+							addOutputLine('The Matrix has you...', 'success');
+							addOutputLine('', 'info');
+						},
+						'sudo': function() {
+							addOutputLine('', 'info');
+							addOutputLine('Sorry, user is not in the sudoers file.', 'error');
+							addOutputLine('This incident will be reported.', 'error');
+							addOutputLine('', 'info');
+						},
+						'whoami': function() {
+							addOutputLine('', 'info');
+							addOutputLine('user@delphi', 'success');
+							addOutputLine('', 'info');
+						},
+						'date': function() {
+							addOutputLine('', 'info');
+							addOutputLine(new Date().toString(), 'success');
+							addOutputLine('', 'info');
+						},
+						'ls': function() {
+							addOutputLine('', 'info');
+							addOutputLine('README.md  LICENSE.txt  package.json', 'info');
+							addOutputLine('', 'info');
+						},
+						'pwd': function() {
+							addOutputLine('', 'info');
+							addOutputLine('/home/user/delphi', 'success');
+							addOutputLine('', 'info');
+						},
+						'cat': function() {
+							addOutputLine('', 'info');
+							addOutputLine('Meow! 🐱', 'success');
+							addOutputLine('', 'info');
+						}
+					};
+					
+					// Check for easter eggs in command
+					function checkEasterEggs(command) {
+						var egg = easterEggs[command.toLowerCase()];
+						if (egg) {
+							egg();
+							return true;
+						}
+						return false;
+					}
+					
+					// Update executeCommand to check for easter eggs
+					var originalExecuteCommand = executeCommand;
+					var executeCommandWithEasterEggs = function(command) {
+						var cmd = command.trim().toLowerCase();
+						
+						if (!cmd) return;
+						
+						// Check easter eggs first
+						if (checkEasterEggs(cmd)) {
+							// Add to history
+							if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== cmd) {
+								commandHistory.push(cmd);
+							}
+							historyIndex = commandHistory.length;
+							
+							// Display command in output
+							addOutputLine('user@delphi:~$ ' + cmd, 'terminal-output-prompt');
+							terminalInput.value = '';
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+							return;
+						}
+						
+						// Continue with normal command execution
+						originalExecuteCommand(cmd);
+					};
+					
+					// Replace executeCommand function
+					executeCommand = executeCommandWithEasterEggs;
+					
+					// Terminal Settings Panel
+					(function() {
+						var settingsPanel = document.getElementById('terminal-settings');
+						var scanlinesToggle = document.getElementById('scanlines-toggle');
+						var soundsToggle = document.getElementById('sounds-toggle');
+						var fontSizeControl = document.getElementById('font-size-control');
+						var fontSizeValue = document.getElementById('font-size-value');
+						var themeSelect = document.getElementById('theme-select');
+						var settingsClose = document.getElementById('settings-close');
+						
+						if (!settingsPanel) return;
+						
+						// Load saved settings
+						var savedScanlines = localStorage.getItem('delphi-scanlines') === 'true';
+						var savedSounds = localStorage.getItem('delphi-sounds') === 'true';
+						var savedFontSize = parseFloat(localStorage.getItem('delphi-font-size')) || 1;
+						var savedTheme = localStorage.getItem('delphi-theme') || 'green';
+						
+						if (scanlinesToggle) {
+							scanlinesToggle.checked = savedScanlines;
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.toggle('scanlines-enabled', savedScanlines);
+							}
+							scanlinesToggle.addEventListener('change', function() {
+								var terminalWindow = document.querySelector('.terminal-window');
+								if (terminalWindow) {
+									terminalWindow.classList.toggle('scanlines-enabled', this.checked);
+								}
+								localStorage.setItem('delphi-scanlines', this.checked);
+							});
+						}
+						
+						if (soundsToggle) {
+							soundsToggle.checked = savedSounds;
+							soundsToggle.addEventListener('change', function() {
+								localStorage.setItem('delphi-sounds', this.checked);
+							});
+						}
+						
+						if (fontSizeControl && fontSizeValue) {
+							fontSizeControl.value = savedFontSize;
+							fontSizeValue.textContent = Math.round(savedFontSize * 100) + '%';
+							
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.style.fontSize = savedFontSize + 'em';
+							}
+							
+							fontSizeControl.addEventListener('input', function() {
+								var size = parseFloat(this.value);
+								fontSizeValue.textContent = Math.round(size * 100) + '%';
+								var terminalWindow = document.querySelector('.terminal-window');
+								if (terminalWindow) {
+									terminalWindow.style.fontSize = size + 'em';
+								}
+								localStorage.setItem('delphi-font-size', size);
+							});
+						}
+						
+						if (themeSelect) {
+							themeSelect.value = savedTheme;
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.toggle('theme-red', savedTheme === 'red');
+							}
+							themeSelect.addEventListener('change', function() {
+								var terminalWindow = document.querySelector('.terminal-window');
+								if (terminalWindow) {
+									terminalWindow.classList.toggle('theme-red', this.value === 'red');
+								}
+								localStorage.setItem('delphi-theme', this.value);
+							});
+						}
+						
+						if (settingsClose) {
+							settingsClose.addEventListener('click', function() {
+								settingsPanel.setAttribute('aria-hidden', 'true');
+							});
+							
+							// Close on Escape
+							document.addEventListener('keydown', function(e) {
+								if (e.key === 'Escape' && settingsPanel.getAttribute('aria-hidden') === 'false') {
+									settingsPanel.setAttribute('aria-hidden', 'true');
+								}
+							});
+						}
+						
+						// Add settings command to executeCommand
+						if (typeof executeCommand === 'function') {
+							var originalExec = executeCommand;
+							executeCommand = function(command) {
+								var cmd = command.trim().toLowerCase();
+								if (cmd === 'settings' || cmd === 'config' || cmd === 'prefs') {
+									if (settingsPanel) {
+										settingsPanel.setAttribute('aria-hidden', 'false');
+										terminalInput.value = '';
+										
+										if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== cmd) {
+											commandHistory.push(cmd);
+										}
+										historyIndex = commandHistory.length;
+										addOutputLine('user@delphi:~$ ' + cmd, 'terminal-output-prompt');
+										addOutputLine('Opening settings...', 'info');
+									}
+									return;
+								}
+								return originalExec.call(this, command);
+							};
+						}
+					})();
+					
+					// Initial welcome message
+					setTimeout(function() {
+						addOutputLine('Delphi Terminal v1.0.0', 'success');
+						addOutputLine('Type "help" for available commands.', 'info');
+						addOutputLine('Type "settings" to customize terminal.', 'info');
+						addOutputLine('', 'info');
+					}, 500);
 				})();
 
 				// IntersectionObserver-based reveal animations
