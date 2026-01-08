@@ -6214,11 +6214,11 @@ section > *,
 }
 
 .hero-title {
-	font-family: 'Inter', sans-serif;
+	font-family: 'Space Grotesk', 'Inter', sans-serif; /* Modern geometric font for hero */
 	font-size: 5rem; /* Increased from 4.5rem */
-	font-weight: 300; /* Light - refined from 100 */
+	font-weight: 400; /* Medium weight for better presence */
 	line-height: 1.1;
-	letter-spacing: -0.04em;
+	letter-spacing: -0.02em; /* Slightly tighter for geometric font */
 	color: rgba(255, 255, 255, 1);
 	margin-bottom: 2rem;
 	margin-left: auto !important; /* Force center horizontally */
