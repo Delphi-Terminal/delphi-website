@@ -22,6 +22,42 @@
 	<body class="is-preload">
 		<!-- Terminal Loading Sequence -->
 		<div id="terminal-loader" class="terminal-loader">
+			<!-- Minimalist clustered linear patterns -->
+			<div class="pattern-cluster cluster-1">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+			</div>
+			<div class="pattern-cluster cluster-2">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+				<div class="pattern-line line-7"></div>
+			</div>
+			<div class="pattern-cluster cluster-3">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+				<div class="pattern-line line-7"></div>
+				<div class="pattern-line line-8"></div>
+			</div>
+			<div class="pattern-cluster cluster-4">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+			</div>
 			<div class="loader-terminal-content">
 				<div class="loader-output" id="loader-output"></div>
 				<div class="loader-prompt-line">
@@ -422,6 +458,40 @@
 				<div class="autocomplete-suggestions" id="autocomplete-suggestions" role="listbox" aria-label="Command suggestions"></div>
 			</div>
 			
+			<!-- Modern Content Overlay/Modal -->
+			<div class="content-overlay" id="content-overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title" aria-hidden="true">
+				<div class="overlay-backdrop" id="overlay-backdrop"></div>
+				<div class="overlay-modal" id="overlay-modal">
+					<div class="modal-header">
+						<div class="modal-breadcrumb" id="modal-breadcrumb"></div>
+						<button class="modal-close" id="modal-close" aria-label="Close overlay">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="18" y1="6" x2="6" y2="18"></line>
+								<line x1="6" y1="6" x2="18" y2="18"></line>
+							</svg>
+						</button>
+					</div>
+					<div class="modal-content" id="modal-content">
+						<!-- Content will be dynamically inserted here -->
+					</div>
+					<div class="modal-navigation" id="modal-navigation">
+						<button class="modal-nav-btn modal-nav-prev" id="modal-prev" aria-label="Previous section">
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 4L6 10L12 16"></path>
+							</svg>
+							<span>Previous</span>
+						</button>
+						<div class="modal-section-indicator" id="modal-section-indicator"></div>
+						<button class="modal-nav-btn modal-nav-next" id="modal-next" aria-label="Next section">
+							<span>Next</span>
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M8 4L14 10L8 16"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+			
 			<!-- Settings Panel (Hidden by default) -->
 			<div class="terminal-settings" id="terminal-settings" role="dialog" aria-labelledby="settings-title" aria-hidden="true">
 				<div class="settings-content">
@@ -720,231 +790,58 @@
 					}
 				}
 				
-				// Main loading sequence
+				// Main loading sequence - Simplified to just show initializing step
 				function startLoadingSequence() {
-					var sequence = Promise.resolve();
-					
-					// Step 1: Initial prompt and command
-					sequence = sequence.then(function() {
-						return new Promise(function(resolve) {
-							typeText(loaderCommand, 'start delphi-terminal', {
-								minDelay: 50,
-								maxDelay: 80,
-								onComplete: function() {
-									setTimeout(function() {
-										clearCommand();
-										setTimeout(resolve, 300);
-									}, 500);
-								}
-							});
-						});
-					});
-					
-					// Step 2: Initializing message
-					sequence = sequence.then(function() {
-						return new Promise(function(resolve) {
-							var line = addOutputLine('Initializing Delphi Terminal...', 'typing');
-							typeText(line, 'Initializing Delphi Terminal...', {
-								minDelay: 40,
-								maxDelay: 70,
-								onComplete: function() {
-									line.classList.remove('typing');
-									setTimeout(function() {
-										line.classList.add('fade-out');
-										setTimeout(resolve, 800);
-									}, 500);
-								}
-							});
-						});
-					});
-					
-					// Step 3: Progress bar
-					sequence = sequence.then(function() {
-						return new Promise(function(resolve) {
-							var progressContainer = document.createElement('div');
-							progressContainer.className = 'loader-progress';
-							progressContainer.innerHTML = '<div>Loading system components...</div><div class="loader-progress-bar"><div class="loader-progress-fill"></div></div>';
-							loaderOutput.appendChild(progressContainer);
+					// Show initializing message
+					var line = addOutputLine('Initializing Delphi Terminal...', 'typing');
+					typeText(line, 'Initializing Delphi Terminal...', {
+						minDelay: 40,
+						maxDelay: 70,
+						onComplete: function() {
+							line.classList.remove('typing');
 							
-							var progress = 0;
-							var progressInterval = setInterval(function() {
-								if (skipRequested) {
-									clearInterval(progressInterval);
-									resolve();
-									return;
-								}
-								progress += Math.random() * 15 + 5;
-								if (progress >= 100) {
-									progress = 100;
-									clearInterval(progressInterval);
-									setTimeout(function() {
-										progressContainer.style.opacity = '0';
-										progressContainer.style.transition = 'opacity 0.5s';
-										setTimeout(resolve, 600);
-									}, 500);
-								}
-								updateProgress(progress);
-							}, 150);
-						});
-					});
-					
-					// Step 4: Connecting commands
-					var commands = [
-						'connecting to prediction markets...',
-						'loading real-time data feeds...',
-						'initializing websocket connections...',
-						'validating market data integrity...',
-						'establishing secure connections...'
-					];
-					
-					commands.forEach(function(cmd, index) {
-						sequence = sequence.then(function() {
-							return new Promise(function(resolve) {
-								var line = addOutputLine('', 'typing');
-								typeText(line, cmd, {
-									minDelay: 35,
-									maxDelay: 65,
-									onComplete: function() {
-										line.classList.remove('typing');
-										setTimeout(function() {
-											line.classList.add('fade-out');
-											setTimeout(resolve, 600);
-										}, 800);
-									}
-								});
-							});
-						});
-					});
-					
-					// Step 5: Clear screen and transition to home
-					sequence = sequence.then(function() {
-						return new Promise(function(resolve) {
-							if (skipRequested) {
-								resolve();
-								return;
-							}
-							
-							// Add blank line
-							addOutputLine('');
-							
-							// Type delphi --home
-							typeText(loaderCommand, 'delphi --home', {
-								minDelay: 50,
-								maxDelay: 80,
-								onComplete: function() {
-									setTimeout(function() {
-										// Simulate Enter key press
-										clearCommand();
-										
-										// Add output after command
-										setTimeout(function() {
-											// Clear all previous lines with fade
-											var lines = loaderOutput.querySelectorAll('.loader-output-line');
-											lines.forEach(function(line) {
-												line.classList.add('fade-out');
-											});
-											
-											setTimeout(function() {
-												loaderOutput.innerHTML = '';
-												
-												// Show styled title
-												var titleLine = addOutputLine('');
-												titleLine.style.color = '#00ff88';
-												titleLine.style.fontSize = '1.5rem';
-												titleLine.style.fontWeight = '500';
-												titleLine.style.marginBottom = '1rem';
-												
-												typeText(titleLine, 'Delphi - Prediction Market Terminal', {
-													minDelay: 30,
-													maxDelay: 60,
-													typingColor: false,
-													skipTypo: true,
-													onComplete: function() {
-														setTimeout(function() {
-															var subtitleLine = addOutputLine('');
-															subtitleLine.style.color = 'rgba(255, 255, 255, 0.8)';
-															subtitleLine.style.fontSize = '0.9375rem';
-															subtitleLine.style.marginBottom = '2rem';
-															
-															typeText(subtitleLine, 'Power your decision-making with high-quality data and analytics for every major prediction market', {
-																minDelay: 20,
-																maxDelay: 45,
-																typingColor: false,
-																skipTypo: true,
-																onComplete: function() {
-																	setTimeout(function() {
-																		var ctaLine = addOutputLine('');
-																		ctaLine.style.color = '#ff2f52';
-																		ctaLine.style.marginTop = '2rem';
-																		
-																		typeText(ctaLine, '>>> Press any key to continue <<<', {
-																			minDelay: 25,
-																			maxDelay: 50,
-																			typingColor: false,
-																			skipTypo: true,
-																			onComplete: function() {
-																				setTimeout(resolve, 1500);
-																			}
-																		});
-																	}, 400);
-																}
-															});
-														}, 500);
-													}
-												});
-											}, 600);
-										}, 300);
-									}, 400);
-								}
-							});
-						});
-					});
-					
-					// Step 6: Fade out and show main terminal
-					sequence.then(function() {
-						if (skipRequested) return;
-						
-						// Wait a moment, then fade out loader and show terminal
-						setTimeout(function() {
-							if (skipRequested) return;
-							
-							// Hide skip hint if still visible
-							if (skipHint) {
-								skipHint.style.opacity = '0';
-							}
-							
-							// Fade out loader
-							if (loader) {
-								loader.classList.add('hidden');
-							}
-							
-							// Show terminal window
-							if (terminalWindow) {
-								terminalWindow.classList.add('visible');
-								
-								// Ensure content is visible
-								setTimeout(function() {
-									var wrapper = document.getElementById('wrapper');
-									if (wrapper) {
-										wrapper.style.opacity = '1';
-									}
-								}, 100);
-							}
-							
-							// Mark as shown
-							sessionStorage.setItem('delphi-loader-shown', 'true');
-							
-							// Remove preload class
-							document.body.classList.remove('is-preload');
-							
-							// Scroll terminal content to top
+							// Wait briefly, then transition to terminal
 							setTimeout(function() {
-								var terminalContent = document.querySelector('.terminal-content');
-								if (terminalContent) {
-									terminalContent.scrollTop = 0;
+								if (skipRequested) return;
+								
+								// Hide skip hint if still visible
+								if (skipHint) {
+									skipHint.style.opacity = '0';
 								}
-							}, 300);
-						}, 2000);
+								
+								// Fade out loader
+								if (loader) {
+									loader.classList.add('hidden');
+								}
+								
+								// Show terminal window
+								if (terminalWindow) {
+									terminalWindow.classList.add('visible');
+									
+									// Ensure content is visible
+									setTimeout(function() {
+										var wrapper = document.getElementById('wrapper');
+										if (wrapper) {
+											wrapper.style.opacity = '1';
+										}
+									}, 100);
+								}
+								
+								// Mark as shown
+								sessionStorage.setItem('delphi-loader-shown', 'true');
+								
+								// Remove preload class
+								document.body.classList.remove('is-preload');
+								
+								// Scroll terminal content to top
+								setTimeout(function() {
+									var terminalContent = document.querySelector('.terminal-content');
+									if (terminalContent) {
+										terminalContent.scrollTop = 0;
+									}
+								}, 300);
+							}, 800);
+						}
 					});
 				}
 				
@@ -1423,7 +1320,7 @@
 						return line;
 					}
 					
-					// Type command in terminal (for auto-population)
+					// Type command in terminal (for auto-population) - Updated for overlay
 					function typeCommand(command, execute) {
 						if (execute === undefined) execute = true;
 						
@@ -1432,12 +1329,15 @@
 						terminalInput.value = '';
 						terminalInput.focus();
 						
+						// Quick typing animation (200ms total)
+						var charDelay = Math.max(10, 200 / command.length);
+						
 						function typeChar() {
 							if (index >= command.length) {
 								if (execute) {
 									setTimeout(function() {
 										executeCommand(command);
-									}, 300);
+									}, 200);
 								}
 								return;
 							}
@@ -1446,7 +1346,7 @@
 							terminalInput.value = currentValue;
 							index++;
 							
-							setTimeout(typeChar, 40 + Math.random() * 40);
+							setTimeout(typeChar, charDelay);
 						}
 						
 						typeChar();
@@ -1779,7 +1679,437 @@
 						return output.join('\n');
 					}
 					
-					// Execute command
+					// Modern Overlay System
+					var contentOverlay = document.getElementById('content-overlay');
+					var overlayBackdrop = document.getElementById('overlay-backdrop');
+					var overlayModal = document.getElementById('overlay-modal');
+					var modalContent = document.getElementById('modal-content');
+					var modalBreadcrumb = document.getElementById('modal-breadcrumb');
+					var modalClose = document.getElementById('modal-close');
+					var modalPrev = document.getElementById('modal-prev');
+					var modalNext = document.getElementById('modal-next');
+					var modalSectionIndicator = document.getElementById('modal-section-indicator');
+					var currentSection = null;
+					var sectionOrder = ['intro', 'one', 'two', 'how-it-works', 'product-preview', 'three'];
+					
+					// Generate modern content for sections
+					function generateModernContent(sectionId) {
+						var section = document.querySelector('#' + sectionId);
+						if (!section) return '';
+						
+						var html = '';
+						
+						// ABOUT/WHO WE ARE SECTION
+						if (sectionId === 'one') {
+							var title = section.querySelector('.section-title')?.textContent.trim() || 'Who We Are';
+							var cells = section.querySelectorAll('.grid-cell');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							html += '<p class="section-subtitle">Prediction markets deserve Wall-Street-grade infrastructure. Delphi builds the fastest, most reliable data engine in the space.</p>';
+							
+							html += '<div class="two-column-grid">';
+							cells.forEach(function(cell) {
+								var cellTitle = cell.querySelector('.cell-title')?.textContent.trim() || '';
+								var cellText = cell.querySelector('.cell-text')?.textContent.trim() || '';
+								var label = cell.querySelector('.section-label')?.textContent.trim() || '';
+								
+								if (cellTitle || cellText) {
+									html += '<div class="modal-card">';
+									if (label) {
+										html += '<div style="font-size: 0.75rem; color: #ff2f52; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">' + label + '</div>';
+									}
+									if (cellTitle) {
+										html += '<h2 class="modal-card-title">' + cellTitle + '</h2>';
+									}
+									if (cellText) {
+										html += '<p class="modal-card-text">' + cellText + '</p>';
+									}
+									html += '</div>';
+								}
+							});
+							html += '</div>';
+						}
+						// WHAT WE DO SECTION
+						else if (sectionId === 'two') {
+							var title = section.querySelector('.section-title')?.textContent.trim() || 'What We Do';
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							var features = section.querySelectorAll('.feature-cell');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							html += '<div class="features-grid">';
+							features.forEach(function(feature) {
+								var featureTitleEl = feature.querySelector('.feature-title');
+								var featureTitle = '';
+								if (featureTitleEl) {
+									// Clone and remove accent line if present
+									var clone = featureTitleEl.cloneNode(true);
+									var accentLine = clone.querySelector('.feature-accent-line');
+									if (accentLine) {
+										accentLine.remove();
+									}
+									featureTitle = clone.textContent.trim();
+								}
+								var featureText = feature.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								html += '<div class="feature-card">';
+								html += '<div class="feature-icon">→</div>';
+								if (featureTitle) {
+									html += '<h3>' + featureTitle + '</h3>';
+								}
+								if (featureText) {
+									html += '<p>' + featureText + '</p>';
+								}
+								html += '</div>';
+							});
+							html += '</div>';
+						}
+						// HOW IT WORKS SECTION
+						else if (sectionId === 'how-it-works') {
+							var title = section.querySelector('.section-title')?.textContent.trim() || 'How It Works';
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							var steps = section.querySelectorAll('.flow-step');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							html += '<div class="timeline">';
+							steps.forEach(function(step, index) {
+								var stepTitleEl = step.querySelector('.feature-title');
+								var stepTitle = '';
+								if (stepTitleEl) {
+									stepTitle = stepTitleEl.textContent.trim();
+									// Clone and remove accent line if present
+									var accentLine = stepTitleEl.querySelector('.feature-accent-line');
+									if (accentLine) {
+										var clone = stepTitleEl.cloneNode(true);
+										var accent = clone.querySelector('.feature-accent-line');
+										if (accent) accent.remove();
+										stepTitle = clone.textContent.trim();
+									}
+								}
+								var stepText = step.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								html += '<div class="timeline-step">';
+								html += '<div class="timeline-badge">' + (index + 1) + '</div>';
+								html += '<div class="timeline-content">';
+								if (stepTitle) {
+									html += '<h4>' + stepTitle + '</h4>';
+								}
+								if (stepText) {
+									html += '<p>' + stepText + '</p>';
+								}
+								html += '</div>';
+								html += '</div>';
+							});
+							html += '</div>';
+						}
+						// PRODUCT PREVIEW SECTION
+						else if (sectionId === 'product-preview') {
+							var title = section.querySelector('h2')?.textContent.trim() || 'Product Preview';
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							var table = section.querySelector('.delphi-dashboard');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							if (table) {
+								html += '<table class="modal-table">';
+								html += '<thead><tr>';
+								table.querySelectorAll('thead th').forEach(function(th) {
+									html += '<th>' + th.textContent.trim() + '</th>';
+								});
+								html += '</tr></thead>';
+								html += '<tbody>';
+								table.querySelectorAll('tbody tr').forEach(function(row) {
+									html += '<tr>';
+									row.querySelectorAll('td').forEach(function(td) {
+										html += '<td>' + td.textContent.trim() + '</td>';
+									});
+									html += '</tr>';
+								});
+								html += '</tbody>';
+								html += '</table>';
+							}
+						}
+						// CONTACT SECTION
+						else if (sectionId === 'three') {
+							var title = section.querySelector('h2')?.textContent.trim() || 'Get in Touch';
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							var form = section.querySelector('form');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							if (form) {
+								var formAction = form.getAttribute('action') || '';
+								var subjectInput = form.querySelector('input[name="_subject"]');
+								var captchaInput = form.querySelector('input[name="_captcha"]');
+								var nextInput = form.querySelector('input[name="_next"]');
+								
+								html += '<form class="modal-form" method="POST" action="' + formAction + '" id="modal-contact-form">';
+								if (subjectInput) {
+									html += '<input type="hidden" name="_subject" value="' + (subjectInput.value || '') + '">';
+								}
+								if (captchaInput) {
+									html += '<input type="hidden" name="_captcha" value="false">';
+								}
+								if (nextInput) {
+									var currentUrl = window.location.origin + window.location.pathname + '?submitted=true';
+									html += '<input type="hidden" name="_next" value="' + currentUrl + '">';
+								}
+								
+								html += '<div class="form-field">';
+								html += '<label class="form-label" for="modal-name">Name</label>';
+								html += '<input type="text" class="form-input" id="modal-name" name="name" required>';
+								html += '</div>';
+								
+								html += '<div class="form-field">';
+								html += '<label class="form-label" for="modal-email">Email</label>';
+								html += '<input type="email" class="form-input" id="modal-email" name="email" required>';
+								html += '</div>';
+								
+								html += '<div class="form-field">';
+								html += '<label class="form-label" for="modal-message">Message</label>';
+								html += '<textarea class="form-textarea" id="modal-message" name="message" rows="5" required></textarea>';
+								html += '</div>';
+								
+								html += '<button type="submit" class="form-submit">Send Message</button>';
+								html += '</form>';
+							}
+						}
+						// HOME/INTRO SECTION
+						else if (sectionId === 'intro') {
+							var heroTitle = section.querySelector('.hero-title')?.textContent.trim() || 'Prediction Market Terminal';
+							var heroSubtitle = section.querySelector('.hero-subtitle')?.textContent.trim() || '';
+							
+							html += '<h1 style="text-align: center; margin-bottom: 2rem;">' + heroTitle + '</h1>';
+							html += '<div class="accent-line" style="margin: 0 auto 3rem;"></div>';
+							if (heroSubtitle) {
+								html += '<p class="section-subtitle" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">' + heroSubtitle + '</p>';
+							}
+							
+							html += '<div style="text-align: center;">';
+							html += '<button class="form-submit" onclick="var terminalInput = document.querySelector(\'#terminal-input\'); if (terminalInput && window.closeOverlay) { closeOverlay(); setTimeout(function() { terminalInput.value = \'contact\'; terminalInput.dispatchEvent(new KeyboardEvent(\'keydown\', {key: \'Enter\'})); }, 400); }" style="display: inline-block; text-decoration: none; border: none; cursor: pointer;">Request Access</button>';
+							html += '</div>';
+						}
+						
+						return html;
+					}
+					
+					// Show overlay with section content
+					function showOverlay(sectionId, command) {
+						if (!contentOverlay || !modalContent) return;
+						
+						currentSection = sectionId;
+						
+						// Generate content
+						var content = generateModernContent(sectionId);
+						if (!content) return;
+						
+						// Update breadcrumb
+						if (modalBreadcrumb) {
+							modalBreadcrumb.innerHTML = '<span class="prompt">user@delphi:~$</span> <span>' + command + '</span>';
+						}
+						
+						// Set content
+						modalContent.innerHTML = content;
+						
+						// Handle form submission in modal
+						var modalForm = modalContent.querySelector('.modal-form');
+						if (modalForm) {
+							// Remove any existing success messages
+							var existingSuccess = modalContent.querySelector('.form-success');
+							if (existingSuccess) {
+								existingSuccess.remove();
+							}
+							
+							modalForm.addEventListener('submit', function(e) {
+								// Form will submit normally to formsubmit.co
+								// Add success message after a brief delay
+								setTimeout(function() {
+									var successMsg = document.createElement('div');
+									successMsg.className = 'form-success';
+									successMsg.style.cssText = 'background: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; border-radius: 8px; padding: 1.5rem; margin-top: 2rem; color: #00ff88; text-align: center; animation: fadeInUp 0.5s ease;';
+									successMsg.innerHTML = '<strong>Message sent successfully!</strong><br>We\'ll get back to you soon.';
+									modalForm.parentNode.insertBefore(successMsg, modalForm.nextSibling);
+									modalForm.reset();
+								}, 500);
+							});
+						}
+						
+						// Update section indicator
+						var sectionIndex = sectionOrder.indexOf(sectionId);
+						if (modalSectionIndicator && sectionIndex >= 0) {
+							modalSectionIndicator.innerHTML = '';
+							sectionOrder.forEach(function(sec, idx) {
+								var dot = document.createElement('span');
+								if (idx === sectionIndex) {
+									dot.classList.add('active');
+								}
+								modalSectionIndicator.appendChild(dot);
+							});
+						}
+						
+						// Update navigation buttons
+						if (modalPrev) {
+							modalPrev.disabled = sectionIndex <= 0;
+						}
+						if (modalNext) {
+							modalNext.disabled = sectionIndex >= sectionOrder.length - 1;
+						}
+						
+						// Close mobile menu if open
+						var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+						var terminalNavTabs = document.getElementById('terminal-nav-tabs');
+						if (mobileMenuToggle && terminalNavTabs) {
+							if (mobileMenuToggle.classList.contains('active')) {
+								mobileMenuToggle.classList.remove('active');
+								terminalNavTabs.classList.remove('mobile-open');
+								mobileMenuToggle.setAttribute('aria-expanded', 'false');
+							}
+						}
+						
+						// Show overlay with animation
+						setTimeout(function() {
+							contentOverlay.setAttribute('aria-hidden', 'false');
+							contentOverlay.classList.add('active');
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.add('overlay-active');
+							}
+							
+							// Prevent body scroll
+							document.body.style.overflow = 'hidden';
+							
+							// Update URL
+							window.history.pushState({ section: sectionId }, '', '#' + sectionId);
+						}, 50);
+					}
+					
+					// Close overlay
+					function closeOverlay() {
+						if (!contentOverlay || !contentOverlay.classList.contains('active')) return;
+						
+						// Animate out
+						contentOverlay.classList.remove('active');
+						
+						setTimeout(function() {
+							contentOverlay.setAttribute('aria-hidden', 'true');
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.remove('overlay-active');
+							}
+							
+							// Allow body scroll
+							document.body.style.overflow = '';
+							
+							// Show completion message in terminal
+							if (currentSection) {
+								var sectionName = currentSection;
+								var command = '';
+								for (var cmd in commands) {
+									if (commands[cmd].section === sectionName) {
+										command = cmd;
+										break;
+									}
+								}
+								if (command) {
+									addOutputLine('user@delphi:~$ ' + command + ' [completed]', 'success');
+								}
+							}
+							
+							currentSection = null;
+							modalContent.innerHTML = '';
+						}, 300);
+					}
+					
+					// Make closeOverlay globally accessible
+					window.closeOverlay = closeOverlay;
+					
+					// Navigation between sections
+					function navigateToSection(direction) {
+						if (!currentSection) return;
+						
+						var currentIndex = sectionOrder.indexOf(currentSection);
+						if (currentIndex < 0) return;
+						
+						var newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+						if (newIndex < 0 || newIndex >= sectionOrder.length) return;
+						
+						var newSection = sectionOrder[newIndex];
+						var command = '';
+						for (var cmd in commands) {
+							if (commands[cmd].section === newSection) {
+								command = cmd;
+								break;
+							}
+						}
+						
+						if (command) {
+							// Update terminal
+							addOutputLine('user@delphi:~$ ' + command, 'terminal-output-prompt');
+							
+							// Update active tab
+							var targetTab = document.querySelector('.terminal-tab[href="#' + newSection + '"]');
+							if (targetTab) {
+								var allTabs = document.querySelectorAll('.terminal-tab');
+								allTabs.forEach(function(t) {
+									t.classList.remove('active');
+								});
+								targetTab.classList.add('active');
+							}
+							
+							// Show new section
+							setTimeout(function() {
+								showOverlay(newSection, command);
+							}, 100);
+						}
+					}
+					
+					// Event listeners
+					if (modalClose) {
+						modalClose.addEventListener('click', closeOverlay);
+					}
+					
+					if (overlayBackdrop) {
+						overlayBackdrop.addEventListener('click', closeOverlay);
+					}
+					
+					if (modalPrev) {
+						modalPrev.addEventListener('click', function() {
+							navigateToSection('prev');
+						});
+					}
+					
+					if (modalNext) {
+						modalNext.addEventListener('click', function() {
+							navigateToSection('next');
+						});
+					}
+					
+					// ESC key to close
+					document.addEventListener('keydown', function(e) {
+						if (e.key === 'Escape' && contentOverlay && contentOverlay.classList.contains('active')) {
+							closeOverlay();
+						}
+					});
+					
+					// Execute command - Updated to show overlay
 					function executeCommand(command) {
 						command = command.trim().toLowerCase();
 						
@@ -1802,10 +2132,6 @@
 							autocompleteSuggestions.classList.remove('visible');
 						}
 						
-						// Update active tab
-						var targetSection = null;
-						var matchedCommand = null;
-						
 						// Execute command
 						if (command === 'help' || command === '?') {
 							addOutputLine('', 'info');
@@ -1822,13 +2148,12 @@
 							addOutputLine('', 'info');
 						} else if (command === 'clear') {
 							terminalOutput.innerHTML = '';
-							// Fade wrapper content if visible
-							var wrapper = document.getElementById('wrapper');
-							if (wrapper) {
-								wrapper.classList.remove('terminal-visible');
-							}
+							closeOverlay();
 						} else {
 							// Try to find command
+							var targetSection = null;
+							var matchedCommand = null;
+							
 							// Check direct commands
 							if (commands[command]) {
 								matchedCommand = command;
@@ -1855,69 +2180,10 @@
 									targetTab.classList.add('active');
 								}
 								
-								// Display section content with typing animation
-								var content = formatSectionContent(targetSection);
-								if (content) {
-									var lines = content.split('\n');
-									var lineIndex = 0;
-									
-									function typeNextLine() {
-										if (lineIndex >= lines.length) {
-											// Add cursor at end
-											setTimeout(function() {
-												var cursorLine = document.createElement('div');
-												cursorLine.className = 'terminal-output-line typing';
-												cursorLine.textContent = '';
-												terminalOutput.appendChild(cursorLine);
-												
-												setTimeout(function() {
-													cursorLine.classList.remove('typing');
-												}, 1000);
-											}, 200);
-											return;
-										}
-										
-										var line = lines[lineIndex];
-										var className = 'info';
-										
-										// Determine line class
-										if (line.match(/^[\s]*[═─]+/)) {
-											className = 'success';
-										} else if (line.match(/^[\s]*[┌│└├┐┘┤]/)) {
-											className = 'info';
-										} else if (line.match(/^[\s]*\d+\./)) {
-											className = 'success';
-										} else if (line.match(/^[\s]*>/) || line.match(/^[\s]*[•]/)) {
-											className = 'success';
-										} else if (line.match(/^[\s]*\/\//)) {
-											className = 'comment';
-										} else if (line.match(/^[\s]*\[>/) || line.match(/^[\s]*\[/)) {
-											className = 'success';
-										} else if (line.trim().length > 0 && line.length > 50) {
-											className = 'header';
-										}
-										
-										var outputLine = addOutputLine(line, className);
-										
-										// Add typing cursor briefly
-										if (line.trim()) {
-											outputLine.classList.add('typing');
-											setTimeout(function() {
-												outputLine.classList.remove('typing');
-											}, 100);
-										}
-										
-										lineIndex++;
-										
-										// Faster typing for terminal output (15-30ms per line)
-										var delay = line.trim() ? (15 + Math.random() * 15) : 5;
-										setTimeout(typeNextLine, delay);
-									}
-									
-									typeNextLine();
-								} else {
-									addOutputLine('Section content loaded.', 'success');
-								}
+								// Show modern overlay instead of terminal output
+								setTimeout(function() {
+									showOverlay(targetSection, matchedCommand || command);
+								}, 300);
 							} else {
 								// Invalid command
 								addOutputLine('Command not found: ' + command, 'error');
