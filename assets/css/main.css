@@ -4238,7 +4238,33 @@ input, select, textarea {
 		@media screen and (max-width: 736px) {
 
 			#product-header {
-				padding: 0.75em 1.5em;
+				padding: 1.5rem 1.5rem; /* Increased padding for more substantial header */
+				min-height: 80px; /* Ensure header has minimum height for comfortable tapping */
+			}
+			
+			/* Ensure header-inner has adequate vertical spacing */
+			#product-header .header-inner {
+				min-height: 50px; /* Ensure inner container has adequate height */
+			}
+			
+			/* Increase logo size on mobile */
+			#product-header .header-brand img {
+				height: 3rem; /* Increased from 5rem for better mobile proportion */
+				width: auto;
+				display: block;
+			}
+			
+			/* Ensure contact button has adequate space */
+			#product-header .header-nav > .mobile-contact-btn,
+			#product-header .header-nav > .button.mobile-contact-btn {
+				padding: 0.75em 1.25em; /* Increased vertical padding for better tapping */
+				font-size: 0.7em;
+				height: auto;
+				line-height: 1.5;
+				border-radius: 2em;
+				white-space: nowrap; /* Prevent text wrapping */
+				overflow: visible; /* Ensure text isn't clipped */
+				min-width: fit-content; /* Ensure button has enough width */
 			}
 
 		}
@@ -5521,15 +5547,18 @@ input, select, textarea {
 		#product-header .header-nav > .mobile-contact-btn,
 		#product-header .header-nav > .button.mobile-contact-btn {
 			margin: 0;
-			font-size: 0.75em;
+			font-size: 0.7em;
 			font-weight: bold;
 			letter-spacing: 0.1em;
-			padding: 0.4em 1em;
+			padding: 0.75em 1.25em; /* Increased vertical padding for better tapping */
 			height: auto;
 			line-height: 1.5;
 			border-radius: 2em;
 			color: #ffffff !important;
 			text-transform: uppercase;
+			white-space: nowrap; /* Prevent text wrapping */
+			overflow: visible; /* Ensure text isn't clipped */
+			min-width: fit-content; /* Ensure button has enough width */
 		}
 
 		/* Stack multi-column sections into single column */
@@ -6265,6 +6294,60 @@ section > *,
 
 .hero-cta:hover svg {
 	transform: translateX(6px);
+}
+
+/* Mobile Hero Styles - Fix Text Overflow */
+@media screen and (max-width: 736px) {
+	.terminal-hero {
+		width: 100%;
+		overflow: visible; /* Allow content to be visible */
+	}
+	
+	.hero-inner {
+		max-width: 100%;
+		width: 100%; /* Ensure full width */
+		margin: 0 auto; /* Center the container */
+		padding: 0 2rem; /* Proper left/right padding */
+		box-sizing: border-box;
+		overflow: visible; /* Remove overflow hidden to prevent text cutoff */
+		transform: none !important; /* Remove any translateX transforms that could shift content */
+		position: relative; /* Reset positioning */
+		left: auto !important; /* Reset any positioning */
+		right: auto !important; /* Reset any positioning */
+		text-align: center; /* Ensure text alignment is centered */
+	}
+	
+	.hero-title {
+		font-size: 2.2rem; /* Slightly reduced from 2rem to prevent single character wrap */
+		line-height: 1.2; /* Better vertical spacing between lines */
+		letter-spacing: -0.01em; /* Slightly tighter letter-spacing to fit "Prediction" on one line */
+		width: 100%; /* Full width to fill container */
+		max-width: 100%; /* Don't restrict max-width too much, let it use available space */
+		margin: 0 auto; /* Center the title */
+		text-align: center; /* Ensure proper alignment */
+		white-space: normal; /* Allow normal wrapping */
+		word-break: keep-all; /* Prevent mid-word breaks, keep words together */
+		word-wrap: normal; /* Use normal word wrapping */
+		overflow-wrap: normal; /* Use normal overflow wrapping */
+		hyphens: none; /* Prevent hyphenation */
+		overflow: visible; /* Ensure text is not clipped */
+		text-overflow: clip; /* Don't use ellipsis */
+		padding: 0;
+		box-sizing: border-box;
+	}
+	
+	.hero-subtitle {
+		font-size: 1.125rem; /* Reduced from 1.375rem for mobile */
+		line-height: 1.5;
+		width: 100%; /* Full width */
+		max-width: 100%; /* Use available space */
+		margin: 0 auto; /* Center the subtitle */
+		text-align: center; /* Ensure proper alignment */
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		padding: 0;
+		box-sizing: border-box;
+	}
 }
 
 /* Grid System - Terminal Style */
