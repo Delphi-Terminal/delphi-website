@@ -7239,8 +7239,8 @@ section > *,
 }
 
 .loader-terminal-content {
-	width: 95%;
-	max-width: 1400px;
+	width: 90%;
+	max-width: 900px;
 	color: #ff2f52;
 	font-size: 0.9375rem;
 	line-height: 1.6;
@@ -7251,6 +7251,33 @@ section > *,
 	flex-direction: column;
 	height: 100%;
 	max-height: 90vh;
+}
+
+/* Fintech content displays can be wider than the container */
+.fintech-content-display,
+.fintech-list-display,
+.fintech-team-display,
+.fintech-workflow-display,
+.fintech-preview-display,
+.fintech-contact-display {
+	width: calc(100% + 150px);
+	max-width: 1050px;
+	margin-left: -75px;
+	margin-right: -75px;
+}
+
+@media (max-width: 1100px) {
+	.fintech-content-display,
+	.fintech-list-display,
+	.fintech-team-display,
+	.fintech-workflow-display,
+	.fintech-preview-display,
+	.fintech-contact-display {
+		width: 100%;
+		margin-left: 0;
+		margin-right: 0;
+		max-width: 100%;
+	}
 }
 
 .loader-logo-container {
