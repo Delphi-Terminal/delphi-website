@@ -59,14 +59,15 @@
 				<div class="pattern-line line-6"></div>
 			</div>
 			<div class="loader-terminal-content">
-				<div class="loader-output" id="loader-output"></div>
-				<div class="loader-prompt-line">
-					<span class="loader-prompt">user@delphi:~$</span>
-					<span class="loader-command" id="loader-command"></span>
-					<span class="loader-cursor" id="loader-cursor"></span>
+				<div class="loader-logo-container" id="loader-logo-container"></div>
+				<div class="loader-output" id="loader-output">
+					<div class="loader-prompt-line">
+						<span class="loader-prompt">user@delphi:~$</span>
+						<input type="text" class="loader-command-input" id="loader-command-input" autocomplete="off" spellcheck="false" style="display: none;">
+						<span class="loader-cursor" id="loader-cursor"></span>
+					</div>
 				</div>
 			</div>
-			<div class="loader-skip-hint">Press any key or click to skip</div>
 		</div>
 
 		<!-- Terminal Window Container -->
@@ -585,7 +586,6 @@
 				var loaderOutput = document.getElementById('loader-output');
 				var loaderCommand = document.getElementById('loader-command');
 				var loaderCursor = document.getElementById('loader-cursor');
-				var skipHint = document.querySelector('.loader-skip-hint');
 				var skipRequested = false;
 				
 				// Skip functionality
@@ -606,6 +606,7 @@
 						loader.classList.add('hidden');
 					}
 					
+					// Show terminal window
 					setTimeout(function() {
 						if (terminalWindow) {
 							terminalWindow.classList.add('visible');
@@ -633,24 +634,73 @@
 					}, 100);
 				}
 				
-				// Skip on key press or click
+				// Function to transition to terminal (hide loader and show main content)
+				function transitionToTerminal() {
+					if (skipRequested) return;
+					skipRequested = true;
+					
+					// Hide loader
+					if (loader) {
+						loader.classList.add('hidden');
+					}
+					
+					// Show terminal window
+					if (terminalWindow) {
+						terminalWindow.classList.add('visible');
+						
+						// Ensure content is visible
+						setTimeout(function() {
+							var wrapper = document.getElementById('wrapper');
+							if (wrapper) {
+								wrapper.style.opacity = '1';
+							}
+						}, 100);
+					}
+					
+					// Mark as shown
+					sessionStorage.setItem('delphi-loader-shown', 'true');
+					
+					// Remove preload class
+					document.body.classList.remove('is-preload');
+				}
+				
+				// Don't auto-skip anymore - let user type commands
+				// Only skip during initial loading if they want
 				document.addEventListener('keydown', function(e) {
+					// If user is typing in the loader input, don't skip
+					var loaderCommandInput = document.getElementById('loader-command-input');
+					if (loaderCommandInput && document.activeElement === loaderCommandInput) {
+						return;
+					}
+					
 					if (loader && !loader.classList.contains('hidden')) {
-						skipLoader();
+						// Check if hint text is visible (meaning logo sequence is complete)
+						var hintText = document.querySelector('.loader-command-hint');
+						if (hintText && parseFloat(window.getComputedStyle(hintText).opacity) > 0.5) {
+							// Focus the input instead of transitioning
+							if (loaderCommandInput) {
+								loaderCommandInput.focus();
+							}
+						} else {
+							// Otherwise, just skip the loading sequence
+							skipLoader();
+						}
 					}
 				});
 				
-				if (loader) {
-					loader.addEventListener('click', function(e) {
-						if (e.target !== loaderCommand && !loaderCommand.contains(e.target)) {
-							skipLoader();
-						}
-					});
-				}
-				
-				// If already shown, skip it
+				// If already shown, skip loader and show terminal
 				if (loaderShown === 'true') {
-					skipLoader();
+					if (loader) loader.classList.add('hidden');
+					if (terminalWindow) {
+						terminalWindow.classList.add('visible');
+						setTimeout(function() {
+							var wrapper = document.getElementById('wrapper');
+							if (wrapper) {
+								wrapper.style.opacity = '1';
+							}
+						}, 100);
+					}
+					document.body.classList.remove('is-preload');
 					return;
 				}
 				
@@ -761,13 +811,21 @@
 					typeChar();
 				}
 				
-				// Add output line
+				// Add output line (inserts before prompt line)
 				function addOutputLine(text, className) {
 					if (!loaderOutput) return;
+					var promptLine = loaderOutput.querySelector('.loader-prompt-line');
 					var line = document.createElement('div');
 					line.className = 'loader-output-line' + (className ? ' ' + className : '');
 					line.textContent = text;
-					loaderOutput.appendChild(line);
+					// Insert before prompt line if it exists, otherwise append
+					if (promptLine) {
+						loaderOutput.insertBefore(line, promptLine);
+					} else {
+						loaderOutput.appendChild(line);
+					}
+					// Auto-scroll to bottom when new content is added
+					loaderOutput.scrollTop = loaderOutput.scrollHeight;
 					return line;
 				}
 				
@@ -800,46 +858,530 @@
 						onComplete: function() {
 							line.classList.remove('typing');
 							
-							// Wait briefly, then transition to terminal
-							setTimeout(function() {
-								if (skipRequested) return;
-								
-								// Hide skip hint if still visible
-								if (skipHint) {
-									skipHint.style.opacity = '0';
-								}
-								
-								// Fade out loader
-								if (loader) {
-									loader.classList.add('hidden');
-								}
-								
-								// Show terminal window
-								if (terminalWindow) {
-									terminalWindow.classList.add('visible');
-									
-									// Ensure content is visible
-									setTimeout(function() {
-										var wrapper = document.getElementById('wrapper');
-										if (wrapper) {
-											wrapper.style.opacity = '1';
-										}
-									}, 100);
-								}
-								
-								// Mark as shown
-								sessionStorage.setItem('delphi-loader-shown', 'true');
-								
-								// Remove preload class
-								document.body.classList.remove('is-preload');
-								
-								// Scroll terminal content to top
+								// Wait briefly, then replace text with logo
 								setTimeout(function() {
-									var terminalContent = document.querySelector('.terminal-content');
-									if (terminalContent) {
-										terminalContent.scrollTop = 0;
+									if (skipRequested) return;
+								
+								// Move logo to separate container (outside scrollable area)
+								var logoContainer = document.getElementById('loader-logo-container');
+								var logoImg = null;
+								if (logoContainer) {
+									logoImg = document.createElement('img');
+									logoImg.src = 'images/DelphiLogo.png';
+									logoImg.alt = 'Delphi Logo';
+									logoImg.className = 'loader-logo';
+									logoImg.style.opacity = '0';
+									logoContainer.appendChild(logoImg);
+									logoContainer.style.display = 'block';
+								}
+								
+								// Remove the initializing line from output (it's now empty)
+								line.innerHTML = '';
+								
+								// Fade in logo
+								setTimeout(function() {
+									if (skipRequested) return;
+									
+									if (logoImg) {
+										logoImg.style.transition = 'opacity 0.8s ease';
+										logoImg.style.opacity = '1';
 									}
-								}, 300);
+									
+									// Setup command handler function
+									function setupCommandHandler(inputElement) {
+										if (!inputElement) return;
+										
+										// Remove existing listeners by cloning and replacing
+										var newInput = inputElement.cloneNode(true);
+										inputElement.parentNode.replaceChild(newInput, inputElement);
+										
+										// Handle Enter key
+										newInput.addEventListener('keydown', function(e) {
+												if (e.key === 'Enter') {
+													var command = this.value.trim().toLowerCase();
+													
+													// Add command to output
+													addOutputLine('user@delphi:~$ ' + command, 'terminal-output-prompt');
+													
+													// Handle commands
+													if (command === 'list') {
+														// Create sleek fintech-style command list display
+														var listContainer = document.createElement('div');
+														listContainer.className = 'fintech-list-display';
+														
+														listContainer.innerHTML = `
+															<div class="fintech-list-header">
+																<span class="fintech-label">AVAILABLE COMMANDS</span>
+																<h3 class="fintech-list-title">Command Reference</h3>
+															</div>
+															<div class="fintech-commands-grid">
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">What</span>
+																	<p class="fintech-command-desc">View our services and features</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">Who</span>
+																	<p class="fintech-command-desc">Learn about our mission and approach</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">How</span>
+																	<p class="fintech-command-desc">See how our data pipeline works</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">Product Preview</span>
+																	<p class="fintech-command-desc">View product dashboard example</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">Contact</span>
+																	<p class="fintech-command-desc">Get in touch with our team</p>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(listContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(listContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'who') {
+														// Create sleek fintech-style team display
+														var teamContainer = document.createElement('div');
+														teamContainer.className = 'fintech-team-display';
+														
+														teamContainer.innerHTML = `
+															<div class="fintech-team-header">
+																<span class="fintech-label">OUR TEAM</span>
+																<h3 class="fintech-list-title">Leadership</h3>
+															</div>
+															<div class="fintech-team-grid">
+																<div class="fintech-team-member">
+																	<div class="fintech-team-image">
+																		<img src="images/ShayPatel.png" alt="Shay Patel" />
+																	</div>
+																	<div class="fintech-team-info">
+																		<h4 class="fintech-team-name">Shay Patel</h4>
+																		<p class="fintech-team-education">AI + ECE</p>
+																		<div class="fintech-team-experience">
+																			<p>Quant Trading at DRW</p>
+																			<p>Portfolio Risk at 13B+ Hedge Fund</p>
+																			<p>AI SWE at IEX Stock Exchange</p>
+																			<p>Traders@CMU, President</p>
+																		</div>
+																		<div class="fintech-team-role">CEO</div>
+																	</div>
+																</div>
+																
+																<div class="fintech-team-member">
+																	<div class="fintech-team-image">
+																		<img src="images/MasonB.png" alt="Mason Brownrigg" />
+																	</div>
+																	<div class="fintech-team-info">
+																		<h4 class="fintech-team-name">Mason Brownrigg</h4>
+																		<p class="fintech-team-education">IS + HCI</p>
+																		<div class="fintech-team-experience">
+																			<p>Platform / Infra Engineering</p>
+																			<p>System Administration at DoD</p>
+																			<p>Product Management at Capital One</p>
+																			<p>Traders@CMU, Head of Data</p>
+																		</div>
+																		<div class="fintech-team-role">CTO</div>
+																	</div>
+																</div>
+																
+																<div class="fintech-team-member">
+																	<div class="fintech-team-image">
+																		<img src="images/ArmonS.png" alt="Armon Singh" />
+																	</div>
+																	<div class="fintech-team-info">
+																		<h4 class="fintech-team-name">Armon Singh</h4>
+																		<p class="fintech-team-education">Statistics + ML</p>
+																		<div class="fintech-team-experience">
+																			<p>Investment Banking at Wells Fargo</p>
+																			<p>1st Place at Hudson River Trading Hackathon</p>
+																			<p>Traders@CMU, Head of Equities Trading</p>
+																		</div>
+																		<div class="fintech-team-role">COO</div>
+																	</div>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(teamContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(teamContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'how') {
+														// Create sleek fintech-style workflow display
+														var workflowContainer = document.createElement('div');
+														workflowContainer.className = 'fintech-workflow-display';
+														
+														workflowContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">DATA PIPELINE</span>
+																	<h2 class="fintech-title">How It Works</h2>
+																</div>
+																<p class="fintech-text">Raw feeds to clean, structured, actionable data.</p>
+															</div>
+															
+															<div class="fintech-workflow-steps">
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">01</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Ingest</h3>
+																		<p class="fintech-workflow-step-text">Orderbooks, trades, and metadata from leading venues via websockets and APIs.</p>
+																	</div>
+																	<div class="fintech-workflow-arrow">→</div>
+																</div>
+																
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">02</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Normalize</h3>
+																		<p class="fintech-workflow-step-text">Symbols, contracts, and structures unified. Every venue standardized.</p>
+																	</div>
+																	<div class="fintech-workflow-arrow">→</div>
+																</div>
+																
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">03</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Analyze</h3>
+																		<p class="fintech-workflow-step-text">Analytics and signals surface the most important information.</p>
+																	</div>
+																	<div class="fintech-workflow-arrow">→</div>
+																</div>
+																
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">04</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Distribute</h3>
+																		<p class="fintech-workflow-step-text">Data delivered through dashboards, feeds, and APIs.</p>
+																	</div>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(workflowContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(workflowContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'product preview' || command === 'preview') {
+														// Create sleek fintech-style product preview table
+														var previewContainer = document.createElement('div');
+														previewContainer.className = 'fintech-preview-display';
+														
+														previewContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">PRODUCT PREVIEW</span>
+																	<h2 class="fintech-title">See Delphi in Action</h2>
+																</div>
+																<p class="fintech-text">Get a quick look at how Delphi tracks and analyzes prediction markets.</p>
+															</div>
+															
+															<div class="fintech-table-container">
+																<table class="fintech-table">
+																	<thead>
+																		<tr>
+																			<th>Market Name</th>
+																			<th>Probability</th>
+																			<th>Volume</th>
+																			<th>Timestamp</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>US Election 2026</td>
+																			<td class="fintech-probability">52.3%</td>
+																			<td>$2.4M</td>
+																			<td>2024-01-15 14:32:18</td>
+																		</tr>
+																		<tr>
+																			<td>Fed Rate Cut by Q2 2026</td>
+																			<td class="fintech-probability">68.7%</td>
+																			<td>$1.8M</td>
+																			<td>2024-01-15 14:31:45</td>
+																		</tr>
+																		<tr>
+																			<td>Bitcoin > $50K by EOY</td>
+																			<td class="fintech-probability">41.2%</td>
+																			<td>$3.1M</td>
+																			<td>2024-01-15 14:31:12</td>
+																		</tr>
+																		<tr>
+																			<td>AI Regulation Passes in 2026</td>
+																			<td class="fintech-probability">29.5%</td>
+																			<td>$950K</td>
+																			<td>2024-01-15 14:30:58</td>
+																		</tr>
+																		<tr>
+																			<td>SP500 Closes Above 5000</td>
+																			<td class="fintech-probability">76.4%</td>
+																			<td>$4.2M</td>
+																			<td>2024-01-15 14:30:33</td>
+																		</tr>
+																		<tr>
+																			<td>Climate Summit Agreement Reached</td>
+																			<td class="fintech-probability">33.8%</td>
+																			<td>$1.2M</td>
+																			<td>2024-01-15 14:30:07</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(previewContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(previewContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'contact') {
+														// Create sleek fintech-style contact form
+														var contactContainer = document.createElement('div');
+														contactContainer.className = 'fintech-contact-display';
+														
+														contactContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">CONTACT</span>
+																	<h2 class="fintech-title">Get in touch</h2>
+																</div>
+																<p class="fintech-text">Reach out to learn more about Delphi.</p>
+															</div>
+															
+															<div class="fintech-contact-form-container">
+																<form class="fintech-contact-form" id="loader-contact-form">
+																	<div class="fintech-form-field">
+																		<label class="fintech-form-label">Name</label>
+																		<input type="text" class="fintech-form-input" name="name" required>
+																	</div>
+																	
+																	<div class="fintech-form-field">
+																		<label class="fintech-form-label">Email</label>
+																		<input type="email" class="fintech-form-input" name="email" required>
+																	</div>
+																	
+																	<div class="fintech-form-field">
+																		<label class="fintech-form-label">Message</label>
+																		<textarea class="fintech-form-textarea" name="message" rows="5" required></textarea>
+																	</div>
+																	
+																	<button type="submit" class="fintech-form-button">
+																		<span>Send Message</span>
+																		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+																		</svg>
+																	</button>
+																</form>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(contactContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(contactContainer);
+														}
+														
+														// Handle form submission
+														var contactForm = contactContainer.querySelector('#loader-contact-form');
+														if (contactForm) {
+															contactForm.addEventListener('submit', function(e) {
+																e.preventDefault();
+																
+																// Get form data
+																var formData = new FormData(contactForm);
+																var name = formData.get('name');
+																var email = formData.get('email');
+																var message = formData.get('message');
+																
+																// Create success message
+																var successMsg = document.createElement('div');
+																successMsg.className = 'fintech-form-success';
+																successMsg.innerHTML = `
+																	<div class="fintech-form-success-icon">✓</div>
+																	<div class="fintech-form-success-text">
+																		<strong>Message sent successfully!</strong><br>
+																		We'll get back to you soon.
+																	</div>
+																`;
+																
+																// Replace form with success message
+																var formContainer = contactContainer.querySelector('.fintech-contact-form-container');
+																if (formContainer) {
+																	formContainer.innerHTML = '';
+																	formContainer.appendChild(successMsg);
+																}
+																
+																// In a real implementation, you would send the form data to a server here
+																// For now, we'll just show the success message
+															});
+														}
+														
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'clear') {
+														if (loaderOutput) {
+															// Keep the prompt line, clear everything else
+															var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+															var promptLineClone = promptLine ? promptLine.cloneNode(true) : null;
+															loaderOutput.innerHTML = '';
+															if (promptLineClone) {
+																loaderOutput.appendChild(promptLineClone);
+																// Re-attach event listeners to the new prompt input
+																var newInput = promptLineClone.querySelector('.loader-command-input');
+																if (newInput) {
+																	newInput.style.display = 'inline-block';
+																	setupCommandHandler(newInput);
+																}
+															}
+															loaderOutput.scrollTop = 0;
+														}
+													} else if (command === 'what') {
+														// Create sleek fintech-style display
+														var contentContainer = document.createElement('div');
+														contentContainer.className = 'fintech-content-display';
+														
+														contentContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">MISSION</span>
+																	<h2 class="fintech-title">Wall-Street-Grade Infrastructure</h2>
+																</div>
+																<p class="fintech-text">Prediction markets deserve Wall-Street-grade infrastructure. Delphi builds the fastest, most reliable data engine in the space.</p>
+															</div>
+															
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">OUR APPROACH</span>
+																	<h3 class="fintech-subtitle">Production-First Trading Infrastructure</h3>
+																</div>
+																<p class="fintech-text">Real-time pipelines, normalized markets, and analytics built for speed and precision. Designed by traders to unify venues and surface cross-market signals; nothing added unless a serious trader would rely on it.</p>
+															</div>
+															
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">WHAT WE DO</span>
+																	<h3 class="fintech-subtitle">Unified Platform</h3>
+																</div>
+																<p class="fintech-text">Unified platform for fragmented prediction markets. No custom infrastructure needed. Saves 40+ hours of setup and 8+ hours of weekly maintenance.</p>
+															</div>
+															
+															<div class="fintech-features-grid">
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Real-Time Data Aggregation</h4>
+																	<p class="fintech-feature-text">Live data from multiple prediction markets. Websocket streams and exchange APIs processed in real time.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Normalized Data Structure</h4>
+																	<p class="fintech-feature-text">Fragmented exchange data unified into one structure. Every venue standardized, markets linked, signals surfaced.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Query Language & Analytics</h4>
+																	<p class="fintech-feature-text">Query price and orderbook data across thousands of markets. Built for institutional trading.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Custom Functions & Tools</h4>
+																	<p class="fintech-feature-text">Volatility surfaces, scenario analyses, and market-specific functions. Built-in, not custom-built.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Seamless Integrations</h4>
+																	<p class="fintech-feature-text">API and Excel plug-in integrate with existing trading systems.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Institutional-Grade Infrastructure</h4>
+																	<p class="fintech-feature-text">Built for reliability and scale. Professional-grade uptime, data quality, and performance.</p>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(contentContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(contentContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'help' || command === '?') {
+														addOutputLine('', 'info');
+														addOutputLine('Available Commands:', 'success');
+														addOutputLine('─'.repeat(40), 'info');
+														addOutputLine('  list                      - Show all commands', 'info');
+														addOutputLine('  clear                     - Clear terminal output', 'info');
+														addOutputLine('  help, ?                   - Show this help message', 'info');
+														addOutputLine('', 'info');
+													} else if (command) {
+														addOutputLine('Command not found: ' + command, 'error');
+														addOutputLine('Type "list" for available commands.', 'info');
+													}
+													
+													// Clear input
+													this.value = '';
+													e.preventDefault();
+												}
+										});
+										
+										newInput.focus();
+										return newInput;
+									}
+									
+									// After logo fades in, show command hint text and make prompt functional
+									setTimeout(function() {
+										if (skipRequested) return;
+										
+										// Keep prompt line visible and make it functional
+										var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+										var loaderCommandInput = document.getElementById('loader-command-input');
+										
+										if (loaderCommandInput && promptLine) {
+											loaderCommandInput.style.display = 'inline-block';
+											setupCommandHandler(loaderCommandInput);
+										}
+										
+										// Create and add glowing/blinking hint text
+										var hintText = document.createElement('div');
+										hintText.className = 'loader-command-hint';
+										hintText.textContent = 'Type "list" for all commands';
+										if (promptLine) {
+											loaderOutput.insertBefore(hintText, promptLine);
+										} else {
+											loaderOutput.appendChild(hintText);
+										}
+										
+										// Fade in hint text
+										setTimeout(function() {
+											hintText.style.opacity = '1';
+										}, 100);
+									}, 500);
+								}, 50);
 							}, 800);
 						}
 					});
