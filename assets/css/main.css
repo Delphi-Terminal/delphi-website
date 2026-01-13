@@ -7239,8 +7239,8 @@ section > *,
 }
 
 .loader-terminal-content {
-	width: 90%;
-	max-width: 900px;
+	width: 95%;
+	max-width: 1400px;
 	color: #ff2f52;
 	font-size: 0.9375rem;
 	line-height: 1.6;
@@ -7534,8 +7534,8 @@ section > *,
 
 .fintech-features-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-	gap: 1.5rem;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 2rem;
 	margin-top: 2rem;
 }
 
@@ -7607,8 +7607,8 @@ section > *,
 
 .fintech-commands-grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	gap: 1rem;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 1.5rem;
 	margin-top: 1rem;
 }
 
@@ -7665,7 +7665,7 @@ section > *,
 .fintech-team-grid {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	gap: 1.5rem;
+	gap: 2rem;
 	margin-top: 1rem;
 }
 
