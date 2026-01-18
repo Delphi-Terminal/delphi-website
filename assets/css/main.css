@@ -10563,10 +10563,27 @@ html {
 		display: none; /* Hide sidebar lines on mobile */
 	}
 	
+	.terminal-loader {
+		padding-bottom: 2rem; /* Extra padding at bottom for mobile browser UI */
+	}
+	
 	.loader-terminal-content {
 		width: 100%;
 		padding: 0 1rem;
-		max-height: 100vh;
+		padding-bottom: 2rem;
+		max-height: calc(100vh - 2rem);
+	}
+	
+	.loader-output {
+		padding-bottom: 1rem;
+	}
+	
+	.loader-prompt-line {
+		padding: 0.75rem 0;
+		margin-bottom: 1rem;
+		background: rgba(13, 20, 33, 0.95);
+		position: sticky;
+		bottom: 0;
 	}
 	
 	.loader-logo {
@@ -10576,6 +10593,8 @@ html {
 	
 	.loader-command-input {
 		font-size: 0.875rem;
+		min-height: 44px; /* Better tap target */
+		padding: 0.5rem 0;
 	}
 	
 	.loader-command-input::placeholder,
@@ -10620,11 +10639,12 @@ html {
 @media screen and (max-width: 480px) {
 	.terminal-loader {
 		padding-top: 0.5rem;
+		padding-bottom: 3rem; /* Extra padding for mobile browser UI */
 	}
 	
 	.loader-logo {
-		max-width: 220px;
-		max-height: 100px;
+		max-width: 200px;
+		max-height: 80px;
 	}
 	
 	.loader-logo-container {
@@ -10635,16 +10655,29 @@ html {
 		font-size: 0.8rem;
 		line-height: 1.4;
 		padding: 0 0.75rem;
+		padding-bottom: 3rem;
+		max-height: calc(100vh - 3rem);
+	}
+	
+	.loader-output {
+		padding-bottom: 1.5rem;
+	}
+	
+	.loader-prompt-line {
+		padding: 1rem 0;
+		margin-bottom: 1.5rem;
 	}
 	
 	.loader-command-input {
-		font-size: 0.8rem;
-		min-width: 120px;
+		font-size: 0.875rem;
+		min-width: 100px;
+		min-height: 44px;
+		padding: 0.5rem 0;
 	}
 	
 	.loader-command-input::placeholder,
 	.loader-command-input::-webkit-input-placeholder {
-		font-size: 0.65rem;
+		font-size: 0.7rem;
 	}
 	
 	.fintech-title {
