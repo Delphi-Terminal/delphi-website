@@ -20,59 +20,78 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
-		<!-- Linear Mesh Gradient Background - Enhanced Visibility -->
-		<div class="flowing-background">
-			<div class="flowing-gradient gradient-1"></div>
-			<div class="flowing-gradient gradient-2"></div>
-			<div class="flowing-gradient gradient-3"></div>
-			<div class="flowing-gradient gradient-4"></div>
-			<div class="flowing-gradient gradient-5"></div>
-			<div class="flowing-gradient gradient-6"></div>
-			<div class="flowing-particles">
-				<div class="particle particle-1"></div>
-				<div class="particle particle-2"></div>
-				<div class="particle particle-3"></div>
-				<div class="particle particle-4"></div>
-				<div class="particle particle-5"></div>
-				<div class="particle particle-6"></div>
-				<div class="particle particle-7"></div>
-				<div class="particle particle-8"></div>
-				<div class="particle particle-9"></div>
-				<div class="particle particle-10"></div>
+		<!-- Terminal Loading Sequence -->
+		<div id="terminal-loader" class="terminal-loader">
+			<!-- Minimalist clustered linear patterns -->
+			<div class="pattern-cluster cluster-1">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+			</div>
+			<div class="pattern-cluster cluster-2">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+				<div class="pattern-line line-7"></div>
+			</div>
+			<div class="pattern-cluster cluster-3">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+				<div class="pattern-line line-7"></div>
+				<div class="pattern-line line-8"></div>
+			</div>
+			<div class="pattern-cluster cluster-4">
+				<div class="pattern-line line-1"></div>
+				<div class="pattern-line line-2"></div>
+				<div class="pattern-line line-3"></div>
+				<div class="pattern-line line-4"></div>
+				<div class="pattern-line line-5"></div>
+				<div class="pattern-line line-6"></div>
+			</div>
+			<div class="loader-terminal-content">
+				<div class="loader-logo-container" id="loader-logo-container"></div>
+				<div class="loader-output" id="loader-output">
+				</div>
 			</div>
 		</div>
 
-		<!-- Left Vertical Rail -->
-			<aside id="vertical-rail" class="vertical-rail" aria-label="Application rail">
-				<div class="rail-brand">
-					<span aria-hidden="true">D</span>
+		<!-- Terminal Window Container -->
+		<div class="terminal-window">
+			<!-- Terminal Title Bar -->
+			<div class="terminal-title-bar">
+				<div class="terminal-window-controls">
+					<span class="window-control window-control-close" aria-label="Close window"></span>
+					<span class="window-control window-control-minimize" aria-label="Minimize window"></span>
+					<span class="window-control window-control-maximize" aria-label="Maximize window"></span>
 				</div>
-				<div class="rail-icons">
-					<span class="icon solid fa-chart-line" aria-hidden="true" title="Markets"></span>
-					<span class="icon solid fa-database" aria-hidden="true" title="Data"></span>
-					<span class="icon solid fa-code" aria-hidden="true" title="API"></span>
-				</div>
-			</aside>
-
-		<!-- Product Header - Thin Navigation -->
-			<header id="product-header" class="product-header terminal-nav">
-				<div class="header-inner">
-					<div class="header-brand">
-						<a href="#intro"><img src="images/DelphiWhiteLogo.png" alt="Delphi" /></a>
-					</div>
-					<nav class="header-nav">
-						<ul class="nav-menu">
-							<li><a href="#intro" class="nav-link"><span class="nav-dot"></span>Welcome</a></li>
-							<li><a href="#one" class="nav-link"><span class="nav-dot"></span>Who we are</a></li>
-							<li><a href="#two" class="nav-link"><span class="nav-dot"></span>What we do</a></li>
-							<li><a href="#how-it-works" class="nav-link"><span class="nav-dot"></span>How it works</a></li>
-							<li><a href="#product-preview" class="nav-link"><span class="nav-dot"></span>Product Preview</a></li>
-							<li><a href="#three" class="nav-link"><span class="nav-dot"></span>Get in touch</a></li>
-						</ul>
-						<a href="#three" class="contact-btn-pill">Contact</a>
-					</nav>
-				</div>
-			</header>
+				<div class="terminal-title-text" aria-label="Terminal title">DelphiTerminal-Mac-~%</div>
+				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+				<nav class="terminal-nav-tabs" id="terminal-nav-tabs" role="navigation" aria-label="Main navigation">
+					<a href="#intro" class="terminal-tab" aria-label="Navigate to Welcome section">Welcome</a>
+					<a href="#one" class="terminal-tab" aria-label="Navigate to Who we are section">Who we are</a>
+					<a href="#two" class="terminal-tab" aria-label="Navigate to What we do section">What we do</a>
+					<a href="#how-it-works" class="terminal-tab" aria-label="Navigate to How it works section">How it works</a>
+					<a href="#product-preview" class="terminal-tab" aria-label="Navigate to Product Preview section">Product Preview</a>
+					<a href="#three" class="terminal-tab" aria-label="Navigate to Get in touch section">Get in touch</a>
+				</nav>
+			</div>
+			
+			<!-- Terminal Content Area -->
+			<div class="terminal-content">
 
 		<!-- Sidebar -->
 			<section id="sidebar">
@@ -423,6 +442,78 @@
 					</section>
 
 			</div>
+			
+			<!-- Terminal Output Area -->
+			<div class="terminal-output" id="terminal-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
+			<!-- Modern Content Overlay/Modal -->
+			<div class="content-overlay" id="content-overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title" aria-hidden="true">
+				<div class="overlay-backdrop" id="overlay-backdrop"></div>
+				<div class="overlay-modal" id="overlay-modal">
+					<div class="modal-header">
+						<div class="modal-breadcrumb" id="modal-breadcrumb"></div>
+						<button class="modal-close" id="modal-close" aria-label="Close overlay">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="18" y1="6" x2="6" y2="18"></line>
+								<line x1="6" y1="6" x2="18" y2="18"></line>
+							</svg>
+						</button>
+					</div>
+					<div class="modal-content" id="modal-content">
+						<!-- Content will be dynamically inserted here -->
+					</div>
+					<div class="modal-navigation" id="modal-navigation">
+						<button class="modal-nav-btn modal-nav-prev" id="modal-prev" aria-label="Previous section">
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 4L6 10L12 16"></path>
+							</svg>
+							<span>Previous</span>
+						</button>
+						<div class="modal-section-indicator" id="modal-section-indicator"></div>
+						<button class="modal-nav-btn modal-nav-next" id="modal-next" aria-label="Next section">
+							<span>Next</span>
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M8 4L14 10L8 16"></path>
+							</svg>
+						</button>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Settings Panel (Hidden by default) -->
+			<div class="terminal-settings" id="terminal-settings" role="dialog" aria-labelledby="settings-title" aria-hidden="true">
+				<div class="settings-content">
+					<h3 id="settings-title" class="settings-title">Terminal Settings</h3>
+					<div class="settings-group">
+						<label class="settings-label">
+							<input type="checkbox" id="scanlines-toggle" class="settings-checkbox">
+							<span>Enable CRT scanlines</span>
+						</label>
+						<label class="settings-label">
+							<input type="checkbox" id="sounds-toggle" class="settings-checkbox">
+							<span>Enable typing sounds</span>
+						</label>
+					</div>
+					<div class="settings-group">
+						<label class="settings-label">
+							<span>Font size:</span>
+							<input type="range" id="font-size-control" min="0.75" max="1.25" step="0.05" value="1" class="settings-range">
+							<span id="font-size-value">100%</span>
+						</label>
+					</div>
+					<div class="settings-group">
+						<label class="settings-label">
+							<span>Theme accent:</span>
+							<select id="theme-select" class="settings-select">
+								<option value="green">Terminal Green</option>
+								<option value="red">Glowing Red</option>
+							</select>
+						</label>
+					</div>
+					<button class="settings-close" id="settings-close" aria-label="Close settings">Close</button>
+				</div>
+			</div>
+		</div>
+		<!-- End Terminal Window Container -->
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -468,6 +559,822 @@
 					<p>&copy; 2024 Delphi Terminal. All rights reserved.</p>
 				</div>
 			</footer>
+
+		<!-- Terminal Loading Animation Script -->
+		<script>
+			(function() {
+				'use strict';
+				
+				// Check if loader should be shown (only once per session)
+				var loaderShown = sessionStorage.getItem('delphi-loader-shown');
+				var loader = document.getElementById('terminal-loader');
+				var terminalWindow = document.querySelector('.terminal-window');
+				var loaderOutput = document.getElementById('loader-output');
+				var loaderCommand = document.getElementById('loader-command');
+				var loaderCursor = document.getElementById('loader-cursor');
+				var skipRequested = false;
+				
+				// Skip functionality
+				function skipLoader() {
+					if (skipRequested) return;
+					skipRequested = true;
+					
+					// Clear any ongoing animations
+					if (loaderCursor) {
+						loaderCursor.classList.remove('typing');
+						loaderCursor.classList.remove('hidden');
+					}
+					if (loaderCommand) {
+						loaderCommand.classList.remove('typing');
+					}
+					
+					if (loader) {
+						loader.classList.add('hidden');
+					}
+					
+					// Show terminal window
+					setTimeout(function() {
+						if (terminalWindow) {
+							terminalWindow.classList.add('visible');
+							
+							// Ensure content is visible
+							setTimeout(function() {
+								var wrapper = document.getElementById('wrapper');
+								if (wrapper) {
+									wrapper.style.opacity = '1';
+								}
+							}, 100);
+						}
+						
+						// Mark as shown
+						sessionStorage.setItem('delphi-loader-shown', 'true');
+						
+						// Remove preload class to allow animations
+						document.body.classList.remove('is-preload');
+						
+						// Scroll terminal content to top
+						var terminalContent = document.querySelector('.terminal-content');
+						if (terminalContent) {
+							terminalContent.scrollTop = 0;
+						}
+					}, 100);
+				}
+				
+				// Function to transition to terminal (hide loader and show main content)
+				function transitionToTerminal() {
+					if (skipRequested) return;
+					skipRequested = true;
+					
+					// Hide loader
+					if (loader) {
+						loader.classList.add('hidden');
+					}
+					
+					// Show terminal window
+					if (terminalWindow) {
+						terminalWindow.classList.add('visible');
+						
+						// Ensure content is visible
+						setTimeout(function() {
+							var wrapper = document.getElementById('wrapper');
+							if (wrapper) {
+								wrapper.style.opacity = '1';
+							}
+						}, 100);
+					}
+					
+					// Mark as shown
+					sessionStorage.setItem('delphi-loader-shown', 'true');
+					
+					// Remove preload class
+					document.body.classList.remove('is-preload');
+				}
+				
+				// Don't auto-skip anymore - let user type commands
+				// Only skip during initial loading if they want
+				document.addEventListener('keydown', function(e) {
+					// If user is typing in the loader input, don't skip
+					var loaderCommandInput = document.getElementById('loader-command-input');
+					if (loaderCommandInput && document.activeElement === loaderCommandInput) {
+						return;
+					}
+					
+					if (loader && !loader.classList.contains('hidden')) {
+						// Check if input field exists (meaning logo sequence is complete)
+						if (loaderCommandInput) {
+							// Focus the input instead of transitioning
+							loaderCommandInput.focus();
+						} else {
+							// Otherwise, just skip the loading sequence
+							skipLoader();
+						}
+					}
+				});
+				
+				// If already shown, skip loader and show terminal
+				if (loaderShown === 'true') {
+					if (loader) loader.classList.add('hidden');
+					if (terminalWindow) {
+						terminalWindow.classList.add('visible');
+						setTimeout(function() {
+							var wrapper = document.getElementById('wrapper');
+							if (wrapper) {
+								wrapper.style.opacity = '1';
+							}
+						}, 100);
+					}
+					document.body.classList.remove('is-preload');
+					return;
+				}
+				
+				// Typing effect function
+				function typeText(element, text, options) {
+					options = options || {};
+					var minDelay = options.minDelay || 40;
+					var maxDelay = options.maxDelay || 100;
+					var typingColor = options.typingColor !== false;
+					var onComplete = options.onComplete || function() {};
+					var skipTypo = options.skipTypo || false;
+					
+					if (!element) {
+						onComplete();
+						return;
+					}
+					
+					element.textContent = '';
+					if (typingColor) {
+						element.classList.add('typing');
+					}
+					if (loaderCursor) {
+						loaderCursor.classList.add('typing');
+					}
+					
+					var index = 0;
+					var currentText = '';
+					var hasTypo = false;
+					var typoIndex = -1;
+					
+					// Random chance for typo (5% chance, but only for command line)
+					if (!skipTypo && Math.random() < 0.05 && text.length > 5 && element === loaderCommand) {
+						hasTypo = true;
+						typoIndex = Math.floor(text.length * 0.6);
+					}
+					
+					function typeChar() {
+						if (skipRequested) {
+							if (typingColor) {
+								element.classList.remove('typing');
+							}
+							if (loaderCursor) {
+								loaderCursor.classList.remove('typing');
+							}
+							element.textContent = text; // Complete the text immediately
+							onComplete();
+							return;
+						}
+						
+						if (index >= text.length) {
+							if (typingColor) {
+								element.classList.remove('typing');
+							}
+							if (loaderCursor) {
+								loaderCursor.classList.remove('typing');
+							}
+							onComplete();
+							return;
+						}
+						
+						// Handle typo
+						if (hasTypo && index === typoIndex) {
+							var wrongChars = ['x', 'z', 'q', 'w'];
+							var wrongChar = wrongChars[Math.floor(Math.random() * wrongChars.length)];
+							currentText += wrongChar;
+							element.textContent = currentText;
+							
+							setTimeout(function() {
+								if (skipRequested) {
+									element.textContent = text;
+									element.classList.remove('typing');
+									if (loaderCursor) loaderCursor.classList.remove('typing');
+									onComplete();
+									return;
+								}
+								
+								// Backspace
+								currentText = currentText.slice(0, -1);
+								element.textContent = currentText;
+								
+								setTimeout(function() {
+									if (skipRequested) {
+										element.textContent = text;
+										element.classList.remove('typing');
+										if (loaderCursor) loaderCursor.classList.remove('typing');
+										onComplete();
+										return;
+									}
+									
+									currentText += text[index];
+									element.textContent = currentText;
+									index++;
+									var delay = Math.random() * (maxDelay - minDelay) + minDelay;
+									setTimeout(typeChar, delay);
+								}, 100);
+							}, 200);
+							return;
+						}
+						
+						currentText += text[index];
+						element.textContent = currentText;
+						index++;
+						
+						var delay = Math.random() * (maxDelay - minDelay) + minDelay;
+						setTimeout(typeChar, delay);
+					}
+					
+					typeChar();
+				}
+				
+				// Add output line (inserts before prompt line)
+				function addOutputLine(text, className) {
+					if (!loaderOutput) return;
+					var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+					var line = document.createElement('div');
+					line.className = 'loader-output-line' + (className ? ' ' + className : '');
+					line.textContent = text;
+					// Insert before prompt line if it exists, otherwise append
+					if (promptLine) {
+						loaderOutput.insertBefore(line, promptLine);
+					} else {
+						loaderOutput.appendChild(line);
+					}
+					// Auto-scroll to bottom when new content is added
+					loaderOutput.scrollTop = loaderOutput.scrollHeight;
+					return line;
+				}
+				
+				// Progress bar
+				function updateProgress(percent) {
+					var progressBar = document.querySelector('.loader-progress-fill');
+					if (progressBar) {
+						progressBar.style.width = percent + '%';
+					}
+				}
+				
+				// Clear command line
+				function clearCommand() {
+					if (loaderCommand) {
+						loaderCommand.textContent = '';
+						loaderCommand.classList.remove('typing');
+					}
+					if (loaderCursor) {
+						loaderCursor.classList.remove('typing');
+					}
+				}
+				
+				// Main loading sequence - Simplified to just show initializing step
+				function startLoadingSequence() {
+					// Show initializing message
+					var line = addOutputLine('Initializing Delphi Terminal...', 'typing');
+					typeText(line, 'Initializing Delphi Terminal...', {
+						minDelay: 40,
+						maxDelay: 70,
+						onComplete: function() {
+							line.classList.remove('typing');
+							
+								// Wait briefly, then replace text with logo
+								setTimeout(function() {
+									if (skipRequested) return;
+								
+								// Move logo to separate container (outside scrollable area)
+								var logoContainer = document.getElementById('loader-logo-container');
+								var logoImg = null;
+								if (logoContainer) {
+									logoImg = document.createElement('img');
+									logoImg.src = 'images/DelphiLogo.png';
+									logoImg.alt = 'Delphi Logo';
+									logoImg.className = 'loader-logo';
+									logoImg.style.opacity = '0';
+									logoContainer.appendChild(logoImg);
+									logoContainer.style.display = 'block';
+								}
+								
+								// Remove the initializing line from output (it's now empty)
+								line.innerHTML = '';
+								
+								// Fade in logo
+								setTimeout(function() {
+									if (skipRequested) return;
+									
+									if (logoImg) {
+										logoImg.style.transition = 'opacity 0.8s ease';
+										logoImg.style.opacity = '1';
+									}
+									
+									// Setup command handler function
+									function setupCommandHandler(inputElement) {
+										if (!inputElement) return;
+										
+										// Remove existing listeners by cloning and replacing
+										var newInput = inputElement.cloneNode(true);
+										inputElement.parentNode.replaceChild(newInput, inputElement);
+										
+										// Handle Enter key
+										newInput.addEventListener('keydown', function(e) {
+												if (e.key === 'Enter') {
+													var command = this.value.trim().toLowerCase();
+													
+													// Add command to output
+													addOutputLine('user@delphi:~$ ' + command, 'terminal-output-prompt');
+													
+													// Handle commands
+													if (command === 'list') {
+														// Create sleek fintech-style command list display
+														var listContainer = document.createElement('div');
+														listContainer.className = 'fintech-list-display';
+														
+														listContainer.innerHTML = `
+															<div class="fintech-commands-grid">
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">What</span>
+																	<p class="fintech-command-desc">View our services and features</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">Who</span>
+																	<p class="fintech-command-desc">Learn about our mission and approach</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">How</span>
+																	<p class="fintech-command-desc">See how our data pipeline works</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">Preview</span>
+																	<p class="fintech-command-desc">View product dashboard example</p>
+																</div>
+																<div class="fintech-command-item">
+																	<span class="fintech-command-name">Contact</span>
+																	<p class="fintech-command-desc">Get in touch with our team</p>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(listContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(listContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'who') {
+														// Create sleek fintech-style team display
+														var teamContainer = document.createElement('div');
+														teamContainer.className = 'fintech-team-display';
+														
+														teamContainer.innerHTML = `
+															<div class="fintech-team-header">
+																<span class="fintech-label">OUR TEAM</span>
+																<h3 class="fintech-list-title">Leadership</h3>
+															</div>
+															<div class="fintech-team-grid">
+																<div class="fintech-team-member">
+																	<div class="fintech-team-image">
+																		<img src="images/ShayPatel.png" alt="Shay Patel" />
+																	</div>
+																	<div class="fintech-team-info">
+																		<h4 class="fintech-team-name">Shay Patel</h4>
+																		<p class="fintech-team-education">AI + ECE</p>
+																		<div class="fintech-team-experience">
+																			<p>Quant Trading at DRW</p>
+																			<p> NJ HS State Chess Champion</p>
+																			<p>Traders@CMU, President</p>
+																		</div>
+																		<div class="fintech-team-role">CEO</div>
+																	</div>
+																</div>
+																
+																<div class="fintech-team-member">
+																	<div class="fintech-team-image">
+																		<img src="images/MasonB.png" alt="Mason Brownrigg" />
+																	</div>
+																	<div class="fintech-team-info">
+																		<h4 class="fintech-team-name">Mason Brownrigg</h4>
+																		<p class="fintech-team-education">IS + HCI</p>
+																		<div class="fintech-team-experience">
+																			<p>Platform Engineering at CIA / NSA</p>
+																			<p>Traders@CMU, Head of Data</p>
+																		</div>
+																		<div class="fintech-team-role">CTO</div>
+																	</div>
+																</div>
+																
+																<div class="fintech-team-member">
+																	<div class="fintech-team-image">
+																		<img src="images/ArmonS.png" alt="Armon Singh" />
+																	</div>
+																	<div class="fintech-team-info">
+																		<h4 class="fintech-team-name">Armon Singh</h4>
+																		<p class="fintech-team-education">Statistics + ML</p>
+																		<div class="fintech-team-experience">
+																			<p>Investment Banking at Wells Fargo</p>
+																			<p>Traders@CMU, Head of Equities Trading</p>
+																		</div>
+																		<div class="fintech-team-role">COO</div>
+																	</div>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(teamContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(teamContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'how') {
+														// Create sleek fintech-style workflow display
+														var workflowContainer = document.createElement('div');
+														workflowContainer.className = 'fintech-workflow-display';
+														
+														workflowContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">DATA PIPELINE</span>
+																	<h2 class="fintech-title">How It Works</h2>
+																</div>
+																<p class="fintech-text">Raw feeds to clean, structured, actionable data.</p>
+															</div>
+															
+															<div class="fintech-workflow-steps">
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">01</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Ingest</h3>
+																		<p class="fintech-workflow-step-text">Orderbooks, trades, and metadata from leading venues via websockets and APIs.</p>
+																	</div>
+																	<div class="fintech-workflow-arrow">→</div>
+																</div>
+																
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">02</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Normalize</h3>
+																		<p class="fintech-workflow-step-text">Symbols, contracts, and structures unified. Every venue standardized.</p>
+																	</div>
+																	<div class="fintech-workflow-arrow">→</div>
+																</div>
+																
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">03</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Analyze</h3>
+																		<p class="fintech-workflow-step-text">Analytics and signals surface the most important information.</p>
+																	</div>
+																	<div class="fintech-workflow-arrow">→</div>
+																</div>
+																
+																<div class="fintech-workflow-step">
+																	<div class="fintech-workflow-step-number">04</div>
+																	<div class="fintech-workflow-step-content">
+																		<h3 class="fintech-workflow-step-title">Distribute</h3>
+																		<p class="fintech-workflow-step-text">Data delivered through dashboards, feeds, and APIs.</p>
+																	</div>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(workflowContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(workflowContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'product preview' || command === 'preview') {
+														// Create sleek fintech-style product preview table
+														var previewContainer = document.createElement('div');
+														previewContainer.className = 'fintech-preview-display';
+														
+														previewContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">PRODUCT PREVIEW</span>
+																	<h2 class="fintech-title">See Delphi in Action</h2>
+																</div>
+																<p class="fintech-text">Get a quick look at how Delphi tracks and analyzes prediction markets.</p>
+															</div>
+															
+															<div class="fintech-table-container">
+																<table class="fintech-table">
+																	<thead>
+																		<tr>
+																			<th>Market Name</th>
+																			<th>Probability</th>
+																			<th>Volume</th>
+																			<th>Timestamp</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>US Election 2026</td>
+																			<td class="fintech-probability">52.3%</td>
+																			<td>$2.4M</td>
+																			<td>2024-01-15 14:32:18</td>
+																		</tr>
+																		<tr>
+																			<td>Fed Rate Cut by Q2 2026</td>
+																			<td class="fintech-probability">68.7%</td>
+																			<td>$1.8M</td>
+																			<td>2024-01-15 14:31:45</td>
+																		</tr>
+																		<tr>
+																			<td>Bitcoin > $50K by EOY</td>
+																			<td class="fintech-probability">41.2%</td>
+																			<td>$3.1M</td>
+																			<td>2024-01-15 14:31:12</td>
+																		</tr>
+																		<tr>
+																			<td>AI Regulation Passes in 2026</td>
+																			<td class="fintech-probability">29.5%</td>
+																			<td>$950K</td>
+																			<td>2024-01-15 14:30:58</td>
+																		</tr>
+																		<tr>
+																			<td>SP500 Closes Above 5000</td>
+																			<td class="fintech-probability">76.4%</td>
+																			<td>$4.2M</td>
+																			<td>2024-01-15 14:30:33</td>
+																		</tr>
+																		<tr>
+																			<td>Climate Summit Agreement Reached</td>
+																			<td class="fintech-probability">33.8%</td>
+																			<td>$1.2M</td>
+																			<td>2024-01-15 14:30:07</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(previewContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(previewContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'contact') {
+														// Create sleek fintech-style contact form
+														var contactContainer = document.createElement('div');
+														contactContainer.className = 'fintech-contact-display';
+														
+														contactContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">CONTACT</span>
+																	<h2 class="fintech-title">Get in touch</h2>
+																</div>
+																<p class="fintech-text">Reach out to learn more about Delphi.</p>
+															</div>
+															
+															<div class="fintech-contact-form-container">
+																<form class="fintech-contact-form" id="loader-contact-form">
+																	<div class="fintech-form-field">
+																		<label class="fintech-form-label">Name</label>
+																		<input type="text" class="fintech-form-input" name="name" required>
+																	</div>
+																	
+																	<div class="fintech-form-field">
+																		<label class="fintech-form-label">Email</label>
+																		<input type="email" class="fintech-form-input" name="email" required>
+																	</div>
+																	
+																	<div class="fintech-form-field">
+																		<label class="fintech-form-label">Message</label>
+																		<textarea class="fintech-form-textarea" name="message" rows="5" required></textarea>
+																	</div>
+																	
+																	<button type="submit" class="fintech-form-button">
+																		<span>Send Message</span>
+																		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+																		</svg>
+																	</button>
+																</form>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(contactContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(contactContainer);
+														}
+														
+														// Handle form submission
+														var contactForm = contactContainer.querySelector('#loader-contact-form');
+														if (contactForm) {
+															contactForm.addEventListener('submit', function(e) {
+																e.preventDefault();
+																
+																// Get form data
+																var formData = new FormData(contactForm);
+																var name = formData.get('name');
+																var email = formData.get('email');
+																var message = formData.get('message');
+																
+																// Create success message
+																var successMsg = document.createElement('div');
+																successMsg.className = 'fintech-form-success';
+																successMsg.innerHTML = `
+																	<div class="fintech-form-success-icon">✓</div>
+																	<div class="fintech-form-success-text">
+																		<strong>Message sent successfully!</strong><br>
+																		We'll get back to you soon.
+																	</div>
+																`;
+																
+																// Replace form with success message
+																var formContainer = contactContainer.querySelector('.fintech-contact-form-container');
+																if (formContainer) {
+																	formContainer.innerHTML = '';
+																	formContainer.appendChild(successMsg);
+																}
+																
+																// In a real implementation, you would send the form data to a server here
+																// For now, we'll just show the success message
+															});
+														}
+														
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'clear') {
+														if (loaderOutput) {
+															// Keep the prompt line, clear everything else
+															var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+															var promptLineClone = promptLine ? promptLine.cloneNode(true) : null;
+															loaderOutput.innerHTML = '';
+															if (promptLineClone) {
+																loaderOutput.appendChild(promptLineClone);
+																// Re-attach event listeners to the new prompt input
+																var newInput = promptLineClone.querySelector('.loader-command-input');
+																if (newInput) {
+																	newInput.style.display = 'inline-block';
+																	setupCommandHandler(newInput);
+																}
+															}
+															loaderOutput.scrollTop = 0;
+														}
+													} else if (command === 'what') {
+														// Create sleek fintech-style display
+														var contentContainer = document.createElement('div');
+														contentContainer.className = 'fintech-content-display';
+														
+														contentContainer.innerHTML = `
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">MISSION</span>
+																	<h2 class="fintech-title">Wall-Street-Grade Infrastructure</h2>
+																</div>
+																<p class="fintech-text">Prediction markets deserve Wall-Street-grade infrastructure. Delphi builds the fastest, most reliable data engine in the space.</p>
+															</div>
+															
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">OUR APPROACH</span>
+																	<h3 class="fintech-subtitle">Production-First Trading Infrastructure</h3>
+																</div>
+																<p class="fintech-text">Real-time pipelines, normalized markets, and analytics built for speed and precision. Designed by traders to unify venues and surface cross-market signals; nothing added unless a serious trader would rely on it.</p>
+															</div>
+															
+															<div class="fintech-section">
+																<div class="fintech-section-header">
+																	<span class="fintech-label">WHAT WE DO</span>
+																	<h3 class="fintech-subtitle">Unified Platform</h3>
+																</div>
+																<p class="fintech-text">Unified platform for fragmented prediction markets. No custom infrastructure needed. Saves ~40 hours of setup and ~15 hours of weekly maintenance.</p>
+															</div>
+															
+															<div class="fintech-features-grid">
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Real-Time Data Aggregation</h4>
+																	<p class="fintech-feature-text">Live data from multiple prediction markets. Websocket streams and exchange APIs processed in real time.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Normalized Data Structure</h4>
+																	<p class="fintech-feature-text">Fragmented exchange data unified into one structure. Every venue standardized, markets linked, signals surfaced.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Query Language & Analytics</h4>
+																	<p class="fintech-feature-text">Query price and orderbook data across thousands of markets. Built for institutional trading.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Custom Functions & Tools</h4>
+																	<p class="fintech-feature-text">Volatility surfaces, scenario analyses, and market-specific functions. Built-in, not custom-built.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Seamless Integrations</h4>
+																	<p class="fintech-feature-text">API and Excel plug-in integrate with existing trading systems.</p>
+																</div>
+																
+																<div class="fintech-feature">
+																	<div class="fintech-feature-icon">→</div>
+																	<h4 class="fintech-feature-title">Institutional-Grade Infrastructure</h4>
+																	<p class="fintech-feature-text">Built for reliability and scale. Professional-grade uptime, data quality, and performance.</p>
+																</div>
+															</div>
+														`;
+														
+														var promptLine = loaderOutput.querySelector('.loader-prompt-line');
+														if (promptLine) {
+															loaderOutput.insertBefore(contentContainer, promptLine);
+														} else {
+															loaderOutput.appendChild(contentContainer);
+														}
+														loaderOutput.scrollTop = loaderOutput.scrollHeight;
+														
+													} else if (command === 'help' || command === '?') {
+														addOutputLine('', 'info');
+														addOutputLine('Available Commands:', 'success');
+														addOutputLine('─'.repeat(40), 'info');
+														addOutputLine('  list                      - Show all commands', 'info');
+														addOutputLine('  clear                     - Clear terminal output', 'info');
+														addOutputLine('  help, ?                   - Show this help message', 'info');
+														addOutputLine('', 'info');
+													} else if (command) {
+														addOutputLine('Command not found: ' + command, 'error');
+														addOutputLine('Type "list" for available commands.', 'info');
+													}
+													
+													// Clear input
+													this.value = '';
+													e.preventDefault();
+												}
+										});
+										
+										newInput.focus();
+										return newInput;
+									}
+									
+									// After logo fades in, show terminal prompt and make it functional
+									setTimeout(function() {
+										if (skipRequested) return;
+										
+										// Create the terminal prompt line with "user@delphi ~ %"
+										var promptLine = document.createElement('div');
+										promptLine.className = 'loader-prompt-line';
+										
+										// Create prompt text element
+										var promptText = document.createElement('span');
+										promptText.className = 'prompt-text';
+										promptText.textContent = 'user@delphi ~ % ';
+										
+										// Create invisible input field for typing
+										var inputField = document.createElement('input');
+										inputField.type = 'text';
+										inputField.className = 'loader-command-input';
+										inputField.id = 'loader-command-input';
+										inputField.autocomplete = 'off';
+										inputField.spellcheck = false;
+										inputField.placeholder = ' type list for all commands';
+										
+										// Assemble the prompt line
+										promptLine.appendChild(promptText);
+										promptLine.appendChild(inputField);
+										loaderOutput.appendChild(promptLine);
+										
+										// Setup command handler and focus input
+										setupCommandHandler(inputField);
+									}, 500);
+								}, 50);
+							}, 800);
+						}
+					});
+				}
+				
+				// Start sequence when DOM is ready
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', function() {
+						setTimeout(startLoadingSequence, 300);
+					});
+				} else {
+					setTimeout(startLoadingSequence, 300);
+				}
+				
+			})();
+		</script>
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
@@ -684,57 +1591,1531 @@
 				})();
 			</script>
 			<script>
-
-				// Active Navigation Dot Indicator
+				// Terminal Tab Active State Management
 				(function() {
-					function updateActiveNav() {
-						var navLinks = document.querySelectorAll('.terminal-nav .nav-link');
-						var sections = [];
+					var terminalTabs = document.querySelectorAll('.terminal-tab');
+					var isScrolling = false;
+					var scrollTimeout;
+					var scrollThrottle;
+					var scrollContainer = document.querySelector('.terminal-content');
+					
+					if (!scrollContainer) return;
+					
+					function updateActiveTab() {
+						if (isScrolling) return;
 						
-						navLinks.forEach(function(link) {
-							var href = link.getAttribute('href');
+						var scrollPosition = scrollContainer.scrollTop;
+						var containerHeight = scrollContainer.clientHeight;
+						var offset = containerHeight * 0.3;
+						
+						var sections = [];
+						terminalTabs.forEach(function(tab) {
+							var href = tab.getAttribute('href');
 							if (href && href.startsWith('#')) {
 								var section = document.querySelector(href);
 								if (section) {
 									sections.push({
-										link: link,
-										section: section,
-										id: href.substring(1)
+										tab: tab,
+										element: section,
+										id: href.substring(1),
+										top: section.offsetTop,
+										height: section.offsetHeight
 									});
 								}
 							}
 						});
-
-						function checkActive() {
-							var scrollPos = window.pageYOffset + window.innerHeight / 3;
-							
-							sections.forEach(function(item) {
-								var sectionTop = item.section.offsetTop;
-								var sectionBottom = sectionTop + item.section.offsetHeight;
-								
-								if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-									navLinks.forEach(function(l) { l.classList.remove('active'); });
-									item.link.classList.add('active');
-								}
-							});
-
-							// Check if we're at the top
-							if (window.pageYOffset < 100) {
-								navLinks.forEach(function(l) { l.classList.remove('active'); });
-								var introLink = document.querySelector('.terminal-nav .nav-link[href="#intro"]');
-								if (introLink) introLink.classList.add('active');
+						
+						var activeSection = null;
+						for (var i = sections.length - 1; i >= 0; i--) {
+							var section = sections[i];
+							if (scrollPosition + offset >= section.top && 
+							    scrollPosition + offset < section.top + section.height) {
+								activeSection = section;
+								break;
 							}
 						}
-
-						window.addEventListener('scroll', checkActive);
-						checkActive();
+						
+						if (!activeSection && scrollPosition < 100) {
+							activeSection = sections[0];
+						}
+						
+						if (!activeSection && scrollPosition + containerHeight >= scrollContainer.scrollHeight - 100) {
+							activeSection = sections[sections.length - 1];
+						}
+						
+						terminalTabs.forEach(function(tab) {
+							tab.classList.remove('active');
+						});
+						
+						if (activeSection) {
+							activeSection.tab.classList.add('active');
+						}
 					}
-
+					
+					// Handle tab clicks
+					terminalTabs.forEach(function(tab) {
+						tab.addEventListener('click', function(e) {
+							var href = this.getAttribute('href');
+							if (href && href !== '#') {
+								var targetSection = document.querySelector(href);
+								if (targetSection) {
+									e.preventDefault();
+									
+									isScrolling = true;
+									
+									terminalTabs.forEach(function(t) {
+										t.classList.remove('active');
+									});
+									this.classList.add('active');
+									
+									var targetPosition = targetSection.offsetTop;
+									var titleBar = document.querySelector('.terminal-title-bar');
+									var offset = titleBar ? titleBar.offsetHeight : 0;
+									
+									scrollContainer.scrollTo({
+										top: targetPosition - offset - 20,
+										behavior: 'smooth'
+									});
+									
+									clearTimeout(scrollTimeout);
+									scrollTimeout = setTimeout(function() {
+										isScrolling = false;
+										updateActiveTab();
+									}, 1000);
+								}
+							}
+						});
+					});
+					
+					// Update on scroll with throttling
+					scrollContainer.addEventListener('scroll', function() {
+						if (!scrollThrottle) {
+							window.requestAnimationFrame(function() {
+								updateActiveTab();
+								scrollThrottle = null;
+							});
+							scrollThrottle = true;
+						}
+					}, { passive: true });
+					
+					// Initial update
 					if (document.readyState === 'loading') {
-						document.addEventListener('DOMContentLoaded', updateActiveNav);
+						document.addEventListener('DOMContentLoaded', function() {
+							setTimeout(updateActiveTab, 100);
+						});
 					} else {
-						updateActiveNav();
+						setTimeout(updateActiveTab, 100);
 					}
+					
+					window.addEventListener('hashchange', function() {
+						setTimeout(updateActiveTab, 100);
+					});
+				})();
+				
+				// Handle hash navigation
+				document.addEventListener('DOMContentLoaded', function() {
+					var terminalContent = document.querySelector('.terminal-content');
+					if (terminalContent && window.location.hash) {
+						setTimeout(function() {
+							var target = document.querySelector(window.location.hash);
+							if (target) {
+								terminalContent.scrollTop = target.offsetTop - 60;
+							}
+						}, 300);
+					}
+				});
+				
+				// Mobile Menu Toggle
+				(function() {
+					var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+					var terminalNavTabs = document.getElementById('terminal-nav-tabs');
+					
+					if (mobileMenuToggle && terminalNavTabs) {
+						mobileMenuToggle.addEventListener('click', function() {
+							var isOpen = this.classList.contains('active');
+							this.classList.toggle('active');
+							terminalNavTabs.classList.toggle('mobile-open');
+							this.setAttribute('aria-expanded', !isOpen);
+							
+							// Close menu when clicking outside
+							if (!isOpen) {
+								setTimeout(function() {
+									document.addEventListener('click', function closeMenu(e) {
+										if (!mobileMenuToggle.contains(e.target) && !terminalNavTabs.contains(e.target)) {
+											mobileMenuToggle.classList.remove('active');
+											terminalNavTabs.classList.remove('mobile-open');
+											mobileMenuToggle.setAttribute('aria-expanded', 'false');
+											document.removeEventListener('click', closeMenu);
+										}
+									});
+								}, 100);
+							}
+						});
+						
+						// Close menu when nav link is clicked
+						var navLinks = terminalNavTabs.querySelectorAll('.terminal-tab');
+						navLinks.forEach(function(link) {
+							link.addEventListener('click', function() {
+								mobileMenuToggle.classList.remove('active');
+								terminalNavTabs.classList.remove('mobile-open');
+								mobileMenuToggle.setAttribute('aria-expanded', 'false');
+							});
+						});
+					}
+				})();
+				
+				// Performance Optimizations: Debounce Function
+				function debounce(func, wait) {
+					var timeout;
+					return function executedFunction() {
+						var context = this;
+						var args = arguments;
+						var later = function() {
+							timeout = null;
+							func.apply(context, args);
+						};
+						clearTimeout(timeout);
+						timeout = setTimeout(later, wait);
+					};
+				}
+				
+				// Interactive Terminal System
+				(function() {
+					'use strict';
+					
+					var terminalInput = document.getElementById('terminal-input');
+					var terminalDisplay = document.getElementById('terminal-display');
+					var terminalCursor = document.getElementById('terminal-cursor');
+					var terminalOutput = document.getElementById('terminal-output');
+					var autocompleteSuggestions = document.getElementById('autocomplete-suggestions');
+					var terminalWindow = document.querySelector('.terminal-window');
+					
+					// Function to update visible display with input value
+					function updateTerminalDisplay() {
+						if (terminalDisplay && terminalInput) {
+							terminalDisplay.textContent = terminalInput.value;
+						}
+					}
+					
+					if (!terminalInput || !terminalOutput) return;
+					
+					// Command history
+					var commandHistory = [];
+					var historyIndex = -1;
+					var currentCommand = '';
+					
+					// Command mappings
+					var commands = {
+						'home': { section: 'intro', aliases: ['welcome', 'start'] },
+						'about': { section: 'one', aliases: ['who', 'mission'] },
+						'services': { section: 'two', aliases: ['what', 'features'] },
+						'process': { section: 'how-it-works', aliases: ['how', 'workflow'] },
+						'demo': { section: 'product-preview', aliases: ['preview', 'showcase'] },
+						'contact': { section: 'three', aliases: ['reach', 'touch'] }
+					};
+					
+					// Autocomplete suggestions
+					var allCommands = ['home', 'about', 'services', 'process', 'demo', 'contact', 'help', 'clear'];
+					
+					// Add output line to terminal
+					function addOutputLine(text, className) {
+						var line = document.createElement('div');
+						line.className = 'terminal-output-line' + (className ? ' ' + className : '');
+						line.textContent = text;
+						terminalOutput.appendChild(line);
+						
+						// Auto-scroll to bottom
+						terminalOutput.scrollTop = terminalOutput.scrollHeight;
+						
+						// Fade previous lines slightly
+						setTimeout(function() {
+							var lines = terminalOutput.querySelectorAll('.terminal-output-line:not(:last-child)');
+							lines.forEach(function(l) {
+								if (!l.classList.contains('faded')) {
+									l.classList.add('faded');
+								}
+							});
+						}, 100);
+						
+						return line;
+					}
+					
+					// Type command in terminal (for auto-population) - Updated for overlay
+					function typeCommand(command, execute) {
+						if (execute === undefined) execute = true;
+						
+						var currentValue = '';
+						var index = 0;
+						terminalInput.value = '';
+						updateTerminalDisplay();
+						terminalInput.focus();
+						
+						// Quick typing animation (200ms total)
+						var charDelay = Math.max(10, 200 / command.length);
+						
+						function typeChar() {
+							if (index >= command.length) {
+								if (execute) {
+									setTimeout(function() {
+										executeCommand(command);
+									}, 200);
+								}
+								return;
+							}
+							
+							currentValue += command[index];
+							terminalInput.value = currentValue;
+							updateTerminalDisplay();
+							index++;
+							
+							setTimeout(typeChar, charDelay);
+						}
+						
+						typeChar();
+					}
+					
+					// Helper function to wrap text
+					function wrapText(text, maxWidth) {
+						var words = text.split(' ');
+						var lines = [];
+						var currentLine = '';
+						
+						words.forEach(function(word) {
+							if ((currentLine + word).length <= maxWidth) {
+								currentLine += (currentLine ? ' ' : '') + word;
+							} else {
+								if (currentLine) lines.push(currentLine);
+								currentLine = word;
+							}
+						});
+						if (currentLine) lines.push(currentLine);
+						
+						return lines;
+					}
+					
+					// Format section content as terminal output
+					function formatSectionContent(sectionId) {
+						var section = document.querySelector('#' + sectionId);
+						if (!section) return '';
+						
+						var output = [];
+						
+						// HERO/HOME SECTION
+						if (sectionId === 'intro') {
+							// ASCII art title - stylized text
+							output.push('');
+							output.push('   ____      _       _     _     _');
+							output.push('  |  _ \\    | |     | |   (_)   (_)');
+							output.push('  | | | |___| |_ ___| |__  _ ___ _ ___');
+							output.push('  | | | / _ \\ __/ _ \\ |_ \\| / __| / __|');
+							output.push('  | |_| |  __/ ||  __/ | | | \\__ \\ \\__ \\');
+							output.push('  |____/ \\___|\\__\\___|_| |_|_|___/_|___/');
+							output.push('');
+							output.push('  ════════════════════════════════════════════════════');
+							var title = section.querySelector('.hero-title')?.textContent.trim() || 'Prediction Market Terminal';
+							output.push('     ' + title.toUpperCase());
+							output.push('  ════════════════════════════════════════════════════');
+							output.push('');
+							
+							var subtitle = section.querySelector('.hero-subtitle')?.textContent.trim() || '';
+							if (subtitle) {
+								output.push('  // ' + subtitle);
+								output.push('');
+							}
+							
+							var cta = section.querySelector('.hero-cta');
+							if (cta) {
+								var ctaText = cta.textContent.trim().replace(/\s+/g, ' ') || 'Request Access';
+								output.push('  [> ' + ctaText + ']');
+								output.push('');
+							}
+							
+							return output.join('\n');
+						}
+						
+						// WHO WE ARE SECTION
+						if (sectionId === 'one') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							output.push('  WHO WE ARE');
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var cells = section.querySelectorAll('.grid-cell');
+							cells.forEach(function(cell, index) {
+								var labelEl = cell.querySelector('.section-label');
+								var label = labelEl ? labelEl.textContent.trim() : '';
+								var commentEl = cell.querySelector('.section-super-title');
+								var comment = commentEl ? commentEl.textContent.trim() : '';
+								var title = cell.querySelector('.cell-title')?.textContent.trim() || '';
+								var text = cell.querySelector('.cell-text')?.textContent.trim() || '';
+								
+								if (comment) {
+									output.push('  // ' + comment);
+								}
+								if (label) {
+									output.push('  [' + label + ']');
+								}
+								if (title) {
+									output.push('');
+									output.push('  ┌─ ' + title);
+									output.push('  │');
+								}
+								if (text) {
+									var lines = wrapText(text, 65);
+									lines.forEach(function(line) {
+										output.push('  │  ' + line);
+									});
+								}
+								if (title) {
+									output.push('  └' + '─'.repeat(Math.min(60, title.length + 15)));
+								}
+								output.push('');
+							});
+							
+							return output.join('\n');
+						}
+						
+						// WHAT WE DO SECTION
+						if (sectionId === 'two') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('.section-title')?.textContent.trim() || 'WHAT WE DO';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							var features = section.querySelectorAll('.feature-cell');
+							features.forEach(function(feature, index) {
+								var titleEl = feature.querySelector('.feature-title');
+								var title = titleEl ? titleEl.textContent.trim() : '';
+								// Remove accent line from title
+								if (titleEl) {
+									var accent = titleEl.querySelector('.feature-accent-line');
+									if (accent) {
+										var temp = titleEl.cloneNode(true);
+										temp.removeChild(accent);
+										title = temp.textContent.trim();
+									}
+								}
+								
+								var text = feature.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								if (title) {
+									output.push('  > ' + (index + 1) + '. ' + title);
+								}
+								if (text) {
+									var textLines = wrapText(text, 68);
+									textLines.forEach(function(line) {
+										output.push('     ' + line);
+									});
+								}
+								output.push('');
+							});
+							
+							return output.join('\n');
+						}
+						
+						// HOW IT WORKS SECTION
+						if (sectionId === 'how-it-works') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('.section-title')?.textContent.trim() || 'HOW IT WORKS';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							var steps = section.querySelectorAll('.flow-step');
+							steps.forEach(function(step, index) {
+								var titleEl = step.querySelector('.feature-title');
+								var title = titleEl ? titleEl.textContent.trim() : '';
+								if (titleEl) {
+									var accent = titleEl.querySelector('.feature-accent-line');
+									if (accent) {
+										var temp = titleEl.cloneNode(true);
+										temp.removeChild(accent);
+										title = temp.textContent.trim();
+									}
+								}
+								
+								var text = step.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								output.push('  ┌─ STEP ' + (index + 1) + ': ' + title.toUpperCase());
+								output.push('  │');
+								if (text) {
+									var textLines = wrapText(text, 65);
+									textLines.forEach(function(line) {
+										output.push('  │  ' + line);
+									});
+								}
+								output.push('  └' + '─'.repeat(65));
+								
+								if (index < steps.length - 1) {
+									output.push('');
+									output.push('            ↓');
+									output.push('');
+								}
+							});
+							
+							return output.join('\n');
+						}
+						
+						// PRODUCT PREVIEW SECTION
+						if (sectionId === 'product-preview') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('h2')?.textContent.trim() || 'PRODUCT PREVIEW';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							var table = section.querySelector('.delphi-dashboard');
+							if (table) {
+								var headers = [];
+								table.querySelectorAll('thead th').forEach(function(th) {
+									headers.push(th.textContent.trim());
+								});
+								
+								if (headers.length > 0) {
+									var colWidths = headers.map(function() { return 18; });
+									var totalWidth = colWidths.reduce(function(a, b) { return a + b; }, 0) + headers.length - 1;
+									
+									// Top border
+									output.push('  ┌' + '─'.repeat(totalWidth) + '┐');
+									
+									// Header row
+									var headerRow = '  │';
+									headers.forEach(function(header, i) {
+										var padded = header.padEnd(colWidths[i]);
+										headerRow += padded + '│';
+									});
+									output.push(headerRow);
+									output.push('  ├' + '─'.repeat(totalWidth) + '┤');
+									
+									// Data rows
+									var rows = table.querySelectorAll('tbody tr');
+									rows.forEach(function(row, rowIndex) {
+										var cells = row.querySelectorAll('td');
+										if (cells.length > 0) {
+											var dataRow = '  │';
+											cells.forEach(function(cell, i) {
+												var text = cell.textContent.trim();
+												var padded = text.padEnd(colWidths[i]);
+												dataRow += padded + '│';
+											});
+											output.push(dataRow);
+											
+											if (rowIndex < rows.length - 1) {
+												output.push('  ├' + '─'.repeat(totalWidth) + '┤');
+											}
+										}
+									});
+									
+									output.push('  └' + '─'.repeat(totalWidth) + '┘');
+									output.push('');
+								}
+							}
+							
+							return output.join('\n');
+						}
+						
+						// CONTACT SECTION
+						if (sectionId === 'three') {
+							output.push('');
+							var lineLength = 70;
+							output.push('═'.repeat(lineLength));
+							var sectionTitle = section.querySelector('h2')?.textContent.trim() || 'GET IN TOUCH';
+							output.push('  ' + sectionTitle.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+							
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							if (description) {
+								var descLines = wrapText(description, 70);
+								descLines.forEach(function(line) {
+									output.push('  ' + line);
+								});
+								output.push('');
+							}
+							
+							output.push('  ┌─ Contact Form ──────────────────────────────────────────┐');
+							output.push('  │                                                         │');
+							output.push('  │  name:    [input field]                                │');
+							output.push('  │  email:   [input field]                                │');
+							output.push('  │  message: [textarea]                                   │');
+							output.push('  │                                                         │');
+							output.push('  │  [> send]                                              │');
+							output.push('  │                                                         │');
+							output.push('  └─────────────────────────────────────────────────────────┘');
+							output.push('');
+							output.push('  // Form submissions are processed securely');
+							output.push('');
+							
+							return output.join('\n');
+						}
+						
+						// DEFAULT FORMATTING for other sections
+						var titleEl = section.querySelector('h1, h2, .section-title');
+						var title = titleEl ? titleEl.textContent.trim() : '';
+						
+						if (title) {
+							output.push('');
+							var lineLength = Math.min(title.length + 4, 70);
+							output.push('═'.repeat(lineLength));
+							output.push('  ' + title.toUpperCase());
+							output.push('═'.repeat(lineLength));
+							output.push('');
+						}
+						
+						return output.join('\n');
+					}
+					
+					// Modern Overlay System
+					var contentOverlay = document.getElementById('content-overlay');
+					var overlayBackdrop = document.getElementById('overlay-backdrop');
+					var overlayModal = document.getElementById('overlay-modal');
+					var modalContent = document.getElementById('modal-content');
+					var modalBreadcrumb = document.getElementById('modal-breadcrumb');
+					var modalClose = document.getElementById('modal-close');
+					var modalPrev = document.getElementById('modal-prev');
+					var modalNext = document.getElementById('modal-next');
+					var modalSectionIndicator = document.getElementById('modal-section-indicator');
+					var currentSection = null;
+					var sectionOrder = ['intro', 'one', 'two', 'how-it-works', 'product-preview', 'three'];
+					
+					// Generate modern content for sections
+					function generateModernContent(sectionId) {
+						var section = document.querySelector('#' + sectionId);
+						if (!section) return '';
+						
+						var html = '';
+						
+						// ABOUT/WHO WE ARE SECTION
+						if (sectionId === 'one') {
+							var title = section.querySelector('.section-title')?.textContent.trim() || 'Who We Are';
+							var cells = section.querySelectorAll('.grid-cell');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							html += '<p class="section-subtitle">Prediction markets deserve Wall-Street-grade infrastructure. Delphi builds the fastest, most reliable data engine in the space.</p>';
+							
+							html += '<div class="two-column-grid">';
+							cells.forEach(function(cell) {
+								var cellTitle = cell.querySelector('.cell-title')?.textContent.trim() || '';
+								var cellText = cell.querySelector('.cell-text')?.textContent.trim() || '';
+								var label = cell.querySelector('.section-label')?.textContent.trim() || '';
+								
+								if (cellTitle || cellText) {
+									html += '<div class="modal-card">';
+									if (label) {
+										html += '<div style="font-size: 0.75rem; color: #ff2f52; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem;">' + label + '</div>';
+									}
+									if (cellTitle) {
+										html += '<h2 class="modal-card-title">' + cellTitle + '</h2>';
+									}
+									if (cellText) {
+										html += '<p class="modal-card-text">' + cellText + '</p>';
+									}
+									html += '</div>';
+								}
+							});
+							html += '</div>';
+						}
+						// WHAT WE DO SECTION
+						else if (sectionId === 'two') {
+							var title = section.querySelector('.section-title')?.textContent.trim() || 'What We Do';
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							var features = section.querySelectorAll('.feature-cell');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							html += '<div class="features-grid">';
+							features.forEach(function(feature) {
+								var featureTitleEl = feature.querySelector('.feature-title');
+								var featureTitle = '';
+								if (featureTitleEl) {
+									// Clone and remove accent line if present
+									var clone = featureTitleEl.cloneNode(true);
+									var accentLine = clone.querySelector('.feature-accent-line');
+									if (accentLine) {
+										accentLine.remove();
+									}
+									featureTitle = clone.textContent.trim();
+								}
+								var featureText = feature.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								html += '<div class="feature-card">';
+								html += '<div class="feature-icon">→</div>';
+								if (featureTitle) {
+									html += '<h3>' + featureTitle + '</h3>';
+								}
+								if (featureText) {
+									html += '<p>' + featureText + '</p>';
+								}
+								html += '</div>';
+							});
+							html += '</div>';
+						}
+						// HOW IT WORKS SECTION
+						else if (sectionId === 'how-it-works') {
+							var title = section.querySelector('.section-title')?.textContent.trim() || 'How It Works';
+							var description = section.querySelector('.section-description')?.textContent.trim() || '';
+							var steps = section.querySelectorAll('.flow-step');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							html += '<div class="timeline">';
+							steps.forEach(function(step, index) {
+								var stepTitleEl = step.querySelector('.feature-title');
+								var stepTitle = '';
+								if (stepTitleEl) {
+									stepTitle = stepTitleEl.textContent.trim();
+									// Clone and remove accent line if present
+									var accentLine = stepTitleEl.querySelector('.feature-accent-line');
+									if (accentLine) {
+										var clone = stepTitleEl.cloneNode(true);
+										var accent = clone.querySelector('.feature-accent-line');
+										if (accent) accent.remove();
+										stepTitle = clone.textContent.trim();
+									}
+								}
+								var stepText = step.querySelector('.feature-text')?.textContent.trim() || '';
+								
+								html += '<div class="timeline-step">';
+								html += '<div class="timeline-badge">' + (index + 1) + '</div>';
+								html += '<div class="timeline-content">';
+								if (stepTitle) {
+									html += '<h4>' + stepTitle + '</h4>';
+								}
+								if (stepText) {
+									html += '<p>' + stepText + '</p>';
+								}
+								html += '</div>';
+								html += '</div>';
+							});
+							html += '</div>';
+						}
+						// PRODUCT PREVIEW SECTION
+						else if (sectionId === 'product-preview') {
+							var title = section.querySelector('h2')?.textContent.trim() || 'Product Preview';
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							var table = section.querySelector('.delphi-dashboard');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							if (table) {
+								html += '<table class="modal-table">';
+								html += '<thead><tr>';
+								table.querySelectorAll('thead th').forEach(function(th) {
+									html += '<th>' + th.textContent.trim() + '</th>';
+								});
+								html += '</tr></thead>';
+								html += '<tbody>';
+								table.querySelectorAll('tbody tr').forEach(function(row) {
+									html += '<tr>';
+									row.querySelectorAll('td').forEach(function(td) {
+										html += '<td>' + td.textContent.trim() + '</td>';
+									});
+									html += '</tr>';
+								});
+								html += '</tbody>';
+								html += '</table>';
+							}
+						}
+						// CONTACT SECTION
+						else if (sectionId === 'three') {
+							var title = section.querySelector('h2')?.textContent.trim() || 'Get in Touch';
+							var description = section.querySelector('p')?.textContent.trim() || '';
+							var form = section.querySelector('form');
+							
+							html += '<h1>' + title + '</h1>';
+							html += '<div class="accent-line"></div>';
+							if (description) {
+								html += '<p class="section-subtitle">' + description + '</p>';
+							}
+							
+							if (form) {
+								var formAction = form.getAttribute('action') || '';
+								var subjectInput = form.querySelector('input[name="_subject"]');
+								var captchaInput = form.querySelector('input[name="_captcha"]');
+								var nextInput = form.querySelector('input[name="_next"]');
+								
+								html += '<form class="modal-form" method="POST" action="' + formAction + '" id="modal-contact-form">';
+								if (subjectInput) {
+									html += '<input type="hidden" name="_subject" value="' + (subjectInput.value || '') + '">';
+								}
+								if (captchaInput) {
+									html += '<input type="hidden" name="_captcha" value="false">';
+								}
+								if (nextInput) {
+									var currentUrl = window.location.origin + window.location.pathname + '?submitted=true';
+									html += '<input type="hidden" name="_next" value="' + currentUrl + '">';
+								}
+								
+								html += '<div class="form-field">';
+								html += '<label class="form-label" for="modal-name">Name</label>';
+								html += '<input type="text" class="form-input" id="modal-name" name="name" required>';
+								html += '</div>';
+								
+								html += '<div class="form-field">';
+								html += '<label class="form-label" for="modal-email">Email</label>';
+								html += '<input type="email" class="form-input" id="modal-email" name="email" required>';
+								html += '</div>';
+								
+								html += '<div class="form-field">';
+								html += '<label class="form-label" for="modal-message">Message</label>';
+								html += '<textarea class="form-textarea" id="modal-message" name="message" rows="5" required></textarea>';
+								html += '</div>';
+								
+								html += '<button type="submit" class="form-submit">Send Message</button>';
+								html += '</form>';
+							}
+						}
+						// HOME/INTRO SECTION
+						else if (sectionId === 'intro') {
+							var heroTitle = section.querySelector('.hero-title')?.textContent.trim() || 'Prediction Market Terminal';
+							var heroSubtitle = section.querySelector('.hero-subtitle')?.textContent.trim() || '';
+							
+							html += '<h1 style="text-align: center; margin-bottom: 2rem;">' + heroTitle + '</h1>';
+							html += '<div class="accent-line" style="margin: 0 auto 3rem;"></div>';
+							if (heroSubtitle) {
+								html += '<p class="section-subtitle" style="text-align: center; max-width: 800px; margin: 0 auto 3rem;">' + heroSubtitle + '</p>';
+							}
+							
+							html += '<div style="text-align: center;">';
+							html += '<button class="form-submit" onclick="var terminalInput = document.querySelector(\'#terminal-input\'); if (terminalInput && window.closeOverlay) { closeOverlay(); setTimeout(function() { terminalInput.value = \'contact\'; terminalInput.dispatchEvent(new KeyboardEvent(\'keydown\', {key: \'Enter\'})); }, 400); }" style="display: inline-block; text-decoration: none; border: none; cursor: pointer;">Request Access</button>';
+							html += '</div>';
+						}
+						
+						return html;
+					}
+					
+					// Show overlay with section content
+					function showOverlay(sectionId, command) {
+						if (!contentOverlay || !modalContent) return;
+						
+						currentSection = sectionId;
+						
+						// Generate content
+						var content = generateModernContent(sectionId);
+						if (!content) return;
+						
+						// Update breadcrumb
+						if (modalBreadcrumb) {
+							modalBreadcrumb.innerHTML = '<span class="prompt">user@delphi:~$</span> <span>' + command + '</span>';
+						}
+						
+						// Set content
+						modalContent.innerHTML = content;
+						
+						// Handle form submission in modal
+						var modalForm = modalContent.querySelector('.modal-form');
+						if (modalForm) {
+							// Remove any existing success messages
+							var existingSuccess = modalContent.querySelector('.form-success');
+							if (existingSuccess) {
+								existingSuccess.remove();
+							}
+							
+							modalForm.addEventListener('submit', function(e) {
+								// Form will submit normally to formsubmit.co
+								// Add success message after a brief delay
+								setTimeout(function() {
+									var successMsg = document.createElement('div');
+									successMsg.className = 'form-success';
+									successMsg.style.cssText = 'background: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; border-radius: 8px; padding: 1.5rem; margin-top: 2rem; color: #00ff88; text-align: center; animation: fadeInUp 0.5s ease;';
+									successMsg.innerHTML = '<strong>Message sent successfully!</strong><br>We\'ll get back to you soon.';
+									modalForm.parentNode.insertBefore(successMsg, modalForm.nextSibling);
+									modalForm.reset();
+								}, 500);
+							});
+						}
+						
+						// Update section indicator
+						var sectionIndex = sectionOrder.indexOf(sectionId);
+						if (modalSectionIndicator && sectionIndex >= 0) {
+							modalSectionIndicator.innerHTML = '';
+							sectionOrder.forEach(function(sec, idx) {
+								var dot = document.createElement('span');
+								if (idx === sectionIndex) {
+									dot.classList.add('active');
+								}
+								modalSectionIndicator.appendChild(dot);
+							});
+						}
+						
+						// Update navigation buttons
+						if (modalPrev) {
+							modalPrev.disabled = sectionIndex <= 0;
+						}
+						if (modalNext) {
+							modalNext.disabled = sectionIndex >= sectionOrder.length - 1;
+						}
+						
+						// Close mobile menu if open
+						var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+						var terminalNavTabs = document.getElementById('terminal-nav-tabs');
+						if (mobileMenuToggle && terminalNavTabs) {
+							if (mobileMenuToggle.classList.contains('active')) {
+								mobileMenuToggle.classList.remove('active');
+								terminalNavTabs.classList.remove('mobile-open');
+								mobileMenuToggle.setAttribute('aria-expanded', 'false');
+							}
+						}
+						
+						// Show overlay with animation
+						setTimeout(function() {
+							contentOverlay.setAttribute('aria-hidden', 'false');
+							contentOverlay.classList.add('active');
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.add('overlay-active');
+							}
+							
+							// Prevent body scroll
+							document.body.style.overflow = 'hidden';
+							
+							// Update URL
+							window.history.pushState({ section: sectionId }, '', '#' + sectionId);
+						}, 50);
+					}
+					
+					// Close overlay
+					function closeOverlay() {
+						if (!contentOverlay || !contentOverlay.classList.contains('active')) return;
+						
+						// Animate out
+						contentOverlay.classList.remove('active');
+						
+						setTimeout(function() {
+							contentOverlay.setAttribute('aria-hidden', 'true');
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.remove('overlay-active');
+							}
+							
+							// Allow body scroll
+							document.body.style.overflow = '';
+							
+							// Show completion message in terminal
+							if (currentSection) {
+								var sectionName = currentSection;
+								var command = '';
+								for (var cmd in commands) {
+									if (commands[cmd].section === sectionName) {
+										command = cmd;
+										break;
+									}
+								}
+								if (command) {
+									addOutputLine('user@delphi:~$ ' + command + ' [completed]', 'success');
+								}
+							}
+							
+							currentSection = null;
+							modalContent.innerHTML = '';
+						}, 300);
+					}
+					
+					// Make closeOverlay globally accessible
+					window.closeOverlay = closeOverlay;
+					
+					// Navigation between sections
+					function navigateToSection(direction) {
+						if (!currentSection) return;
+						
+						var currentIndex = sectionOrder.indexOf(currentSection);
+						if (currentIndex < 0) return;
+						
+						var newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+						if (newIndex < 0 || newIndex >= sectionOrder.length) return;
+						
+						var newSection = sectionOrder[newIndex];
+						var command = '';
+						for (var cmd in commands) {
+							if (commands[cmd].section === newSection) {
+								command = cmd;
+								break;
+							}
+						}
+						
+						if (command) {
+							// Update terminal
+							addOutputLine('user@delphi:~$ ' + command, 'terminal-output-prompt');
+							
+							// Update active tab
+							var targetTab = document.querySelector('.terminal-tab[href="#' + newSection + '"]');
+							if (targetTab) {
+								var allTabs = document.querySelectorAll('.terminal-tab');
+								allTabs.forEach(function(t) {
+									t.classList.remove('active');
+								});
+								targetTab.classList.add('active');
+							}
+							
+							// Show new section
+							setTimeout(function() {
+								showOverlay(newSection, command);
+							}, 100);
+						}
+					}
+					
+					// Event listeners
+					if (modalClose) {
+						modalClose.addEventListener('click', closeOverlay);
+					}
+					
+					if (overlayBackdrop) {
+						overlayBackdrop.addEventListener('click', closeOverlay);
+					}
+					
+					if (modalPrev) {
+						modalPrev.addEventListener('click', function() {
+							navigateToSection('prev');
+						});
+					}
+					
+					if (modalNext) {
+						modalNext.addEventListener('click', function() {
+							navigateToSection('next');
+						});
+					}
+					
+					// ESC key to close
+					document.addEventListener('keydown', function(e) {
+						if (e.key === 'Escape' && contentOverlay && contentOverlay.classList.contains('active')) {
+							closeOverlay();
+						}
+					});
+					
+					// Execute command - Updated to show overlay
+					function executeCommand(command) {
+						command = command.trim().toLowerCase();
+						
+						if (!command) return;
+						
+						// Add to history
+						if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== command) {
+							commandHistory.push(command);
+						}
+						historyIndex = commandHistory.length;
+						
+						// Display command in output
+						addOutputLine('user@delphi:~$ ' + command, 'terminal-output-prompt');
+						
+						// Clear input
+						terminalInput.value = '';
+						updateTerminalDisplay();
+						
+						// Hide autocomplete
+						if (autocompleteSuggestions) {
+							autocompleteSuggestions.classList.remove('visible');
+						}
+						
+						// Execute command
+						if (command === 'help' || command === '?') {
+							addOutputLine('', 'info');
+							addOutputLine('Available Commands:', 'success');
+							addOutputLine('─'.repeat(40), 'info');
+							addOutputLine('  home, welcome, start     - Navigate to Welcome section', 'info');
+							addOutputLine('  about, who, mission      - Navigate to Who we are', 'info');
+							addOutputLine('  services, what, features - Navigate to What we do', 'info');
+							addOutputLine('  process, how, workflow   - Navigate to How it works', 'info');
+							addOutputLine('  demo, preview, showcase  - Navigate to Product Preview', 'info');
+							addOutputLine('  contact, reach, touch    - Navigate to Get in touch', 'info');
+							addOutputLine('  clear                     - Clear terminal output', 'info');
+							addOutputLine('  help, ?                   - Show this help message', 'info');
+							addOutputLine('', 'info');
+						} else if (command === 'clear') {
+							terminalOutput.innerHTML = '';
+							closeOverlay();
+						} else {
+							// Try to find command
+							var targetSection = null;
+							var matchedCommand = null;
+							
+							// Check direct commands
+							if (commands[command]) {
+								matchedCommand = command;
+								targetSection = commands[command].section;
+							} else {
+								// Check aliases
+								for (var cmd in commands) {
+									if (commands[cmd].aliases.indexOf(command) !== -1) {
+										matchedCommand = cmd;
+										targetSection = commands[cmd].section;
+										break;
+									}
+								}
+							}
+							
+							if (targetSection) {
+								// Update active tab
+								var targetTab = document.querySelector('.terminal-tab[href="#' + targetSection + '"]');
+								if (targetTab) {
+									var allTabs = document.querySelectorAll('.terminal-tab');
+									allTabs.forEach(function(t) {
+										t.classList.remove('active');
+									});
+									targetTab.classList.add('active');
+								}
+								
+								// Show modern overlay instead of terminal output
+								setTimeout(function() {
+									showOverlay(targetSection, matchedCommand || command);
+								}, 300);
+							} else {
+								// Invalid command
+								addOutputLine('Command not found: ' + command, 'error');
+								addOutputLine('Type "help" for available commands.', 'info');
+							}
+						}
+					}
+					
+					// Show autocomplete suggestions
+					function showAutocomplete(input) {
+						if (!autocompleteSuggestions || !input) {
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+							return;
+						}
+						
+						var matches = allCommands.filter(function(cmd) {
+							return cmd.toLowerCase().startsWith(input.toLowerCase());
+						});
+						
+						if (matches.length === 0 || input === '') {
+							autocompleteSuggestions.classList.remove('visible');
+							return;
+						}
+						
+						autocompleteSuggestions.innerHTML = '';
+						matches.slice(0, 5).forEach(function(cmd) {
+							var suggestion = document.createElement('div');
+							suggestion.className = 'autocomplete-suggestion';
+							
+							var commandSpan = document.createElement('span');
+							commandSpan.className = 'command';
+							commandSpan.textContent = cmd;
+							
+							var descSpan = document.createElement('span');
+							descSpan.className = 'description';
+							if (commands[cmd]) {
+								descSpan.textContent = 'Navigate to ' + commands[cmd].section;
+							} else if (cmd === 'help') {
+								descSpan.textContent = 'Show available commands';
+							} else if (cmd === 'clear') {
+								descSpan.textContent = 'Clear terminal output';
+							}
+							
+							suggestion.appendChild(commandSpan);
+							suggestion.appendChild(descSpan);
+							
+							suggestion.addEventListener('click', function() {
+								terminalInput.value = cmd;
+								autocompleteSuggestions.classList.remove('visible');
+								terminalInput.focus();
+							});
+							
+							autocompleteSuggestions.appendChild(suggestion);
+						});
+						
+						autocompleteSuggestions.classList.add('visible');
+					}
+					
+					// Debounced autocomplete
+					var debouncedAutocomplete = debounce(function(value) {
+						showAutocomplete(value);
+					}, 150);
+					
+					// Input event handlers
+					terminalInput.addEventListener('input', function() {
+						updateTerminalDisplay();
+						debouncedAutocomplete(this.value);
+					});
+					
+					terminalInput.addEventListener('keydown', function(e) {
+						if (e.key === 'Enter') {
+							e.preventDefault();
+							executeCommand(this.value);
+						} else if (e.key === 'ArrowUp') {
+							e.preventDefault();
+							if (commandHistory.length > 0) {
+								if (historyIndex > 0) {
+									historyIndex--;
+								}
+								this.value = commandHistory[historyIndex];
+								updateTerminalDisplay();
+							}
+						} else if (e.key === 'ArrowDown') {
+							e.preventDefault();
+							if (historyIndex < commandHistory.length - 1) {
+								historyIndex++;
+								this.value = commandHistory[historyIndex];
+								updateTerminalDisplay();
+							} else {
+								historyIndex = commandHistory.length;
+								this.value = currentCommand;
+								updateTerminalDisplay();
+							}
+						} else if (e.key === 'Tab') {
+							e.preventDefault();
+							var input = this.value.trim().toLowerCase();
+							var matches = allCommands.filter(function(cmd) {
+								return cmd.toLowerCase().startsWith(input);
+							});
+							if (matches.length > 0) {
+								this.value = matches[0];
+								updateTerminalDisplay();
+								showAutocomplete(this.value);
+							}
+						} else if (e.key === 'Escape') {
+							e.preventDefault();
+							this.blur();
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+						} else {
+							// Update display for any other key after a short delay to allow the input value to update
+							setTimeout(updateTerminalDisplay, 0);
+						}
+					});
+					
+					terminalInput.addEventListener('focus', function() {
+						currentCommand = this.value;
+						if (terminalCursor) {
+							terminalCursor.style.animation = 'none';
+							setTimeout(function() {
+								if (terminalCursor) {
+									terminalCursor.style.animation = 'blink 1s infinite';
+								}
+							}, 10);
+						}
+					});
+					
+					terminalInput.addEventListener('blur', function() {
+						if (terminalCursor) {
+							terminalCursor.style.animation = 'blink 1s infinite';
+						}
+						setTimeout(function() {
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+						}, 200);
+					});
+					
+					// Auto-focus on any keypress (except in input fields)
+					document.addEventListener('keydown', function(e) {
+						// Don't intercept if typing in input, textarea, or contenteditable
+						if (e.target.tagName === 'INPUT' || 
+							e.target.tagName === 'TEXTAREA' || 
+							e.target.isContentEditable) {
+							return;
+						}
+						
+						// Allow certain keys to work normally
+						if (e.key === 'Tab' || e.key === 'Escape') {
+							return;
+						}
+						
+						// Focus terminal input for printable characters
+						if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
+							terminalInput.focus();
+							// If input is empty, the character will be added automatically
+							if (terminalInput.value === '') {
+								e.preventDefault();
+								terminalInput.value = e.key;
+							}
+						}
+					});
+					
+					// ESC key to return focus to terminal
+					document.addEventListener('keydown', function(e) {
+						if (e.key === 'Escape') {
+							if (document.activeElement !== terminalInput) {
+								terminalInput.focus();
+							}
+						}
+					});
+					
+					// Connect nav tabs to terminal
+					var navTabs = document.querySelectorAll('.terminal-tab');
+					navTabs.forEach(function(tab) {
+						tab.addEventListener('click', function(e) {
+							e.preventDefault();
+							
+							var href = this.getAttribute('href');
+							if (!href || !href.startsWith('#')) return;
+							
+							var sectionId = href.substring(1);
+							
+							// Find command for this section
+							var command = null;
+							for (var cmd in commands) {
+								if (commands[cmd].section === sectionId) {
+									command = cmd;
+									break;
+								}
+							}
+							
+							if (command) {
+								// Type command in terminal and execute
+								typeCommand(command, true);
+							}
+						});
+					});
+					
+					// Easter Eggs
+					var easterEggs = {
+						'konami': function() {
+							addOutputLine('', 'info');
+							addOutputLine('↑ ↑ ↓ ↓ ← → ← → B A', 'success');
+							addOutputLine('KONAMI CODE ACTIVATED!', 'success');
+							addOutputLine('', 'info');
+						},
+						'matrix': function() {
+							addOutputLine('', 'info');
+							addOutputLine('Wake up, Neo...', 'success');
+							addOutputLine('The Matrix has you...', 'success');
+							addOutputLine('', 'info');
+						},
+						'sudo': function() {
+							addOutputLine('', 'info');
+							addOutputLine('Sorry, user is not in the sudoers file.', 'error');
+							addOutputLine('This incident will be reported.', 'error');
+							addOutputLine('', 'info');
+						},
+						'whoami': function() {
+							addOutputLine('', 'info');
+							addOutputLine('user@delphi', 'success');
+							addOutputLine('', 'info');
+						},
+						'date': function() {
+							addOutputLine('', 'info');
+							addOutputLine(new Date().toString(), 'success');
+							addOutputLine('', 'info');
+						},
+						'ls': function() {
+							addOutputLine('', 'info');
+							addOutputLine('README.md  LICENSE.txt  package.json', 'info');
+							addOutputLine('', 'info');
+						},
+						'pwd': function() {
+							addOutputLine('', 'info');
+							addOutputLine('/home/user/delphi', 'success');
+							addOutputLine('', 'info');
+						},
+						'cat': function() {
+							addOutputLine('', 'info');
+							addOutputLine('Meow! 🐱', 'success');
+							addOutputLine('', 'info');
+						}
+					};
+					
+					// Check for easter eggs in command
+					function checkEasterEggs(command) {
+						var egg = easterEggs[command.toLowerCase()];
+						if (egg) {
+							egg();
+							return true;
+						}
+						return false;
+					}
+					
+					// Update executeCommand to check for easter eggs
+					var originalExecuteCommand = executeCommand;
+					var executeCommandWithEasterEggs = function(command) {
+						var cmd = command.trim().toLowerCase();
+						
+						if (!cmd) return;
+						
+						// Check easter eggs first
+						if (checkEasterEggs(cmd)) {
+							// Add to history
+							if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== cmd) {
+								commandHistory.push(cmd);
+							}
+							historyIndex = commandHistory.length;
+							
+							// Display command in output
+							addOutputLine('user@delphi:~$ ' + cmd, 'terminal-output-prompt');
+							terminalInput.value = '';
+							if (autocompleteSuggestions) {
+								autocompleteSuggestions.classList.remove('visible');
+							}
+							return;
+						}
+						
+						// Continue with normal command execution
+						originalExecuteCommand(cmd);
+					};
+					
+					// Replace executeCommand function
+					executeCommand = executeCommandWithEasterEggs;
+					
+					// Terminal Settings Panel
+					(function() {
+						var settingsPanel = document.getElementById('terminal-settings');
+						var scanlinesToggle = document.getElementById('scanlines-toggle');
+						var soundsToggle = document.getElementById('sounds-toggle');
+						var fontSizeControl = document.getElementById('font-size-control');
+						var fontSizeValue = document.getElementById('font-size-value');
+						var themeSelect = document.getElementById('theme-select');
+						var settingsClose = document.getElementById('settings-close');
+						
+						if (!settingsPanel) return;
+						
+						// Load saved settings
+						var savedScanlines = localStorage.getItem('delphi-scanlines') === 'true';
+						var savedSounds = localStorage.getItem('delphi-sounds') === 'true';
+						var savedFontSize = parseFloat(localStorage.getItem('delphi-font-size')) || 1;
+						var savedTheme = localStorage.getItem('delphi-theme') || 'green';
+						
+						if (scanlinesToggle) {
+							scanlinesToggle.checked = savedScanlines;
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.toggle('scanlines-enabled', savedScanlines);
+							}
+							scanlinesToggle.addEventListener('change', function() {
+								var terminalWindow = document.querySelector('.terminal-window');
+								if (terminalWindow) {
+									terminalWindow.classList.toggle('scanlines-enabled', this.checked);
+								}
+								localStorage.setItem('delphi-scanlines', this.checked);
+							});
+						}
+						
+						if (soundsToggle) {
+							soundsToggle.checked = savedSounds;
+							soundsToggle.addEventListener('change', function() {
+								localStorage.setItem('delphi-sounds', this.checked);
+							});
+						}
+						
+						if (fontSizeControl && fontSizeValue) {
+							fontSizeControl.value = savedFontSize;
+							fontSizeValue.textContent = Math.round(savedFontSize * 100) + '%';
+							
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.style.fontSize = savedFontSize + 'em';
+							}
+							
+							fontSizeControl.addEventListener('input', function() {
+								var size = parseFloat(this.value);
+								fontSizeValue.textContent = Math.round(size * 100) + '%';
+								var terminalWindow = document.querySelector('.terminal-window');
+								if (terminalWindow) {
+									terminalWindow.style.fontSize = size + 'em';
+								}
+								localStorage.setItem('delphi-font-size', size);
+							});
+						}
+						
+						if (themeSelect) {
+							themeSelect.value = savedTheme;
+							var terminalWindow = document.querySelector('.terminal-window');
+							if (terminalWindow) {
+								terminalWindow.classList.toggle('theme-red', savedTheme === 'red');
+							}
+							themeSelect.addEventListener('change', function() {
+								var terminalWindow = document.querySelector('.terminal-window');
+								if (terminalWindow) {
+									terminalWindow.classList.toggle('theme-red', this.value === 'red');
+								}
+								localStorage.setItem('delphi-theme', this.value);
+							});
+						}
+						
+						if (settingsClose) {
+							settingsClose.addEventListener('click', function() {
+								settingsPanel.setAttribute('aria-hidden', 'true');
+							});
+							
+							// Close on Escape
+							document.addEventListener('keydown', function(e) {
+								if (e.key === 'Escape' && settingsPanel.getAttribute('aria-hidden') === 'false') {
+									settingsPanel.setAttribute('aria-hidden', 'true');
+								}
+							});
+						}
+						
+						// Add settings command to executeCommand
+						if (typeof executeCommand === 'function') {
+							var originalExec = executeCommand;
+							executeCommand = function(command) {
+								var cmd = command.trim().toLowerCase();
+								if (cmd === 'settings' || cmd === 'config' || cmd === 'prefs') {
+									if (settingsPanel) {
+										settingsPanel.setAttribute('aria-hidden', 'false');
+										terminalInput.value = '';
+										
+										if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== cmd) {
+											commandHistory.push(cmd);
+										}
+										historyIndex = commandHistory.length;
+										addOutputLine('user@delphi:~$ ' + cmd, 'terminal-output-prompt');
+										addOutputLine('Opening settings...', 'info');
+									}
+									return;
+								}
+								return originalExec.call(this, command);
+							};
+						}
+					})();
+					
+					// Initial welcome message
+					setTimeout(function() {
+						addOutputLine('Delphi Terminal v1.0.0', 'success');
+						addOutputLine('Type "help" for available commands.', 'info');
+						addOutputLine('Type "settings" to customize terminal.', 'info');
+						addOutputLine('', 'info');
+					}, 500);
 				})();
 
 				// IntersectionObserver-based reveal animations
