@@ -61,11 +61,6 @@
 			<div class="loader-terminal-content">
 				<div class="loader-logo-container" id="loader-logo-container"></div>
 				<div class="loader-output" id="loader-output">
-					<div class="loader-prompt-line">
-						<span class="loader-prompt">user@delphi:~$</span>
-						<input type="text" class="loader-command-input" id="loader-command-input" autocomplete="off" spellcheck="false" style="display: none;">
-						<span class="loader-cursor" id="loader-cursor"></span>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -450,15 +445,6 @@
 			
 			<!-- Terminal Output Area -->
 			<div class="terminal-output" id="terminal-output" role="log" aria-live="polite" aria-label="Terminal output"></div>
-			
-			<!-- Terminal Prompt -->
-			<div class="terminal-prompt">
-				<span class="prompt-text" aria-label="Terminal prompt">user@delphi:~$</span>
-				<input type="text" class="prompt-input" id="terminal-input" placeholder=" " autocomplete="off" spellcheck="false" aria-label="Terminal command input" role="textbox">
-				<span class="prompt-cursor" id="terminal-cursor" aria-hidden="true"></span>
-				<div class="autocomplete-suggestions" id="autocomplete-suggestions" role="listbox" aria-label="Command suggestions"></div>
-			</div>
-			
 			<!-- Modern Content Overlay/Modal -->
 			<div class="content-overlay" id="content-overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title" aria-hidden="true">
 				<div class="overlay-backdrop" id="overlay-backdrop"></div>
@@ -674,13 +660,10 @@
 					}
 					
 					if (loader && !loader.classList.contains('hidden')) {
-						// Check if hint text is visible (meaning logo sequence is complete)
-						var hintText = document.querySelector('.loader-command-hint');
-						if (hintText && parseFloat(window.getComputedStyle(hintText).opacity) > 0.5) {
+						// Check if input field exists (meaning logo sequence is complete)
+						if (loaderCommandInput) {
 							// Focus the input instead of transitioning
-							if (loaderCommandInput) {
-								loaderCommandInput.focus();
-							}
+							loaderCommandInput.focus();
 						} else {
 							// Otherwise, just skip the loading sequence
 							skipLoader();
@@ -910,10 +893,6 @@
 														listContainer.className = 'fintech-list-display';
 														
 														listContainer.innerHTML = `
-															<div class="fintech-list-header">
-																<span class="fintech-label">AVAILABLE COMMANDS</span>
-																<h3 class="fintech-list-title">Command Reference</h3>
-															</div>
 															<div class="fintech-commands-grid">
 																<div class="fintech-command-item">
 																	<span class="fintech-command-name">What</span>
@@ -928,7 +907,7 @@
 																	<p class="fintech-command-desc">See how our data pipeline works</p>
 																</div>
 																<div class="fintech-command-item">
-																	<span class="fintech-command-name">Product Preview</span>
+																	<span class="fintech-command-name">Preview</span>
 																	<p class="fintech-command-desc">View product dashboard example</p>
 																</div>
 																<div class="fintech-command-item">
@@ -966,8 +945,7 @@
 																		<p class="fintech-team-education">AI + ECE</p>
 																		<div class="fintech-team-experience">
 																			<p>Quant Trading at DRW</p>
-																			<p>Portfolio Risk at 13B+ Hedge Fund</p>
-																			<p>AI SWE at IEX Stock Exchange</p>
+																			<p> NJ HS State Chess Champion</p>
 																			<p>Traders@CMU, President</p>
 																		</div>
 																		<div class="fintech-team-role">CEO</div>
@@ -982,9 +960,7 @@
 																		<h4 class="fintech-team-name">Mason Brownrigg</h4>
 																		<p class="fintech-team-education">IS + HCI</p>
 																		<div class="fintech-team-experience">
-																			<p>Platform / Infra Engineering</p>
-																			<p>System Administration at DoD</p>
-																			<p>Product Management at Capital One</p>
+																			<p>Platform Engineering at CIA / NSA</p>
 																			<p>Traders@CMU, Head of Data</p>
 																		</div>
 																		<div class="fintech-team-role">CTO</div>
@@ -1000,7 +976,6 @@
 																		<p class="fintech-team-education">Statistics + ML</p>
 																		<div class="fintech-team-experience">
 																			<p>Investment Banking at Wells Fargo</p>
-																			<p>1st Place at Hudson River Trading Hackathon</p>
 																			<p>Traders@CMU, Head of Equities Trading</p>
 																		</div>
 																		<div class="fintech-team-role">COO</div>
@@ -1280,7 +1255,7 @@
 																	<span class="fintech-label">WHAT WE DO</span>
 																	<h3 class="fintech-subtitle">Unified Platform</h3>
 																</div>
-																<p class="fintech-text">Unified platform for fragmented prediction markets. No custom infrastructure needed. Saves 40+ hours of setup and 8+ hours of weekly maintenance.</p>
+																<p class="fintech-text">Unified platform for fragmented prediction markets. No custom infrastructure needed. Saves ~40 hours of setup and ~15 hours of weekly maintenance.</p>
 															</div>
 															
 															<div class="fintech-features-grid">
@@ -1353,33 +1328,35 @@
 										return newInput;
 									}
 									
-									// After logo fades in, show command hint text and make prompt functional
+									// After logo fades in, show terminal prompt and make it functional
 									setTimeout(function() {
 										if (skipRequested) return;
 										
-										// Keep prompt line visible and make it functional
-										var promptLine = loaderOutput.querySelector('.loader-prompt-line');
-										var loaderCommandInput = document.getElementById('loader-command-input');
+										// Create the terminal prompt line with "user@delphi ~ %"
+										var promptLine = document.createElement('div');
+										promptLine.className = 'loader-prompt-line';
 										
-										if (loaderCommandInput && promptLine) {
-											loaderCommandInput.style.display = 'inline-block';
-											setupCommandHandler(loaderCommandInput);
-										}
+										// Create prompt text element
+										var promptText = document.createElement('span');
+										promptText.className = 'prompt-text';
+										promptText.textContent = 'user@delphi ~ % ';
 										
-										// Create and add glowing/blinking hint text
-										var hintText = document.createElement('div');
-										hintText.className = 'loader-command-hint';
-										hintText.textContent = 'Type "list" for all commands';
-										if (promptLine) {
-											loaderOutput.insertBefore(hintText, promptLine);
-										} else {
-											loaderOutput.appendChild(hintText);
-										}
+										// Create invisible input field for typing
+										var inputField = document.createElement('input');
+										inputField.type = 'text';
+										inputField.className = 'loader-command-input';
+										inputField.id = 'loader-command-input';
+										inputField.autocomplete = 'off';
+										inputField.spellcheck = false;
+										inputField.placeholder = ' type list for all commands';
 										
-										// Fade in hint text
-										setTimeout(function() {
-											hintText.style.opacity = '1';
-										}, 100);
+										// Assemble the prompt line
+										promptLine.appendChild(promptText);
+										promptLine.appendChild(inputField);
+										loaderOutput.appendChild(promptLine);
+										
+										// Setup command handler and focus input
+										setupCommandHandler(inputField);
 									}, 500);
 								}, 50);
 							}, 800);
@@ -1396,13 +1373,6 @@
 					setTimeout(startLoadingSequence, 300);
 				}
 				
-				// Hide skip hint after animation starts
-				setTimeout(function() {
-					if (skipHint) {
-						skipHint.style.opacity = '0';
-						skipHint.style.transition = 'opacity 0.5s';
-					}
-				}, 2000);
 			})();
 		</script>
 
@@ -1814,10 +1784,18 @@
 					'use strict';
 					
 					var terminalInput = document.getElementById('terminal-input');
+					var terminalDisplay = document.getElementById('terminal-display');
 					var terminalCursor = document.getElementById('terminal-cursor');
 					var terminalOutput = document.getElementById('terminal-output');
 					var autocompleteSuggestions = document.getElementById('autocomplete-suggestions');
 					var terminalWindow = document.querySelector('.terminal-window');
+					
+					// Function to update visible display with input value
+					function updateTerminalDisplay() {
+						if (terminalDisplay && terminalInput) {
+							terminalDisplay.textContent = terminalInput.value;
+						}
+					}
 					
 					if (!terminalInput || !terminalOutput) return;
 					
@@ -1869,6 +1847,7 @@
 						var currentValue = '';
 						var index = 0;
 						terminalInput.value = '';
+						updateTerminalDisplay();
 						terminalInput.focus();
 						
 						// Quick typing animation (200ms total)
@@ -1886,6 +1865,7 @@
 							
 							currentValue += command[index];
 							terminalInput.value = currentValue;
+							updateTerminalDisplay();
 							index++;
 							
 							setTimeout(typeChar, charDelay);
@@ -2668,6 +2648,7 @@
 						
 						// Clear input
 						terminalInput.value = '';
+						updateTerminalDisplay();
 						
 						// Hide autocomplete
 						if (autocompleteSuggestions) {
@@ -2793,6 +2774,7 @@
 					
 					// Input event handlers
 					terminalInput.addEventListener('input', function() {
+						updateTerminalDisplay();
 						debouncedAutocomplete(this.value);
 					});
 					
@@ -2807,15 +2789,18 @@
 									historyIndex--;
 								}
 								this.value = commandHistory[historyIndex];
+								updateTerminalDisplay();
 							}
 						} else if (e.key === 'ArrowDown') {
 							e.preventDefault();
 							if (historyIndex < commandHistory.length - 1) {
 								historyIndex++;
 								this.value = commandHistory[historyIndex];
+								updateTerminalDisplay();
 							} else {
 								historyIndex = commandHistory.length;
 								this.value = currentCommand;
+								updateTerminalDisplay();
 							}
 						} else if (e.key === 'Tab') {
 							e.preventDefault();
@@ -2825,6 +2810,7 @@
 							});
 							if (matches.length > 0) {
 								this.value = matches[0];
+								updateTerminalDisplay();
 								showAutocomplete(this.value);
 							}
 						} else if (e.key === 'Escape') {
@@ -2833,6 +2819,9 @@
 							if (autocompleteSuggestions) {
 								autocompleteSuggestions.classList.remove('visible');
 							}
+						} else {
+							// Update display for any other key after a short delay to allow the input value to update
+							setTimeout(updateTerminalDisplay, 0);
 						}
 					});
 					
