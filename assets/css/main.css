@@ -10552,3 +10552,138 @@ html {
 		font-size: 0.8125rem;
 	}
 }
+
+/* ============================================
+   TERMINAL LOADER - MOBILE RESPONSIVE
+   ============================================ */
+
+/* Tablet and below (768px) */
+@media screen and (max-width: 768px) {
+	.pattern-cluster {
+		display: none; /* Hide sidebar lines on mobile */
+	}
+	
+	.loader-terminal-content {
+		width: 100%;
+		padding: 0 1rem;
+		max-height: 100vh;
+	}
+	
+	.loader-logo {
+		max-width: 280px;
+		max-height: 120px;
+	}
+	
+	.loader-command-input {
+		font-size: 0.875rem;
+	}
+	
+	.loader-command-input::placeholder,
+	.loader-command-input::-webkit-input-placeholder {
+		font-size: 0.75rem;
+	}
+	
+	.fintech-features-grid {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+	
+	.fintech-feature {
+		padding: 0.6rem;
+	}
+	
+	.fintech-title {
+		font-size: 1.1rem;
+	}
+	
+	.fintech-text {
+		font-size: 0.8rem;
+		line-height: 1.4;
+	}
+	
+	.fintech-section {
+		margin-bottom: 0.75rem;
+		padding-bottom: 0.5rem;
+	}
+	
+	.fintech-label {
+		font-size: 0.6rem;
+		margin-bottom: 0.5rem;
+	}
+	
+	.prompt-text {
+		font-size: 0.8rem;
+	}
+}
+
+/* Mobile phones (480px and below) */
+@media screen and (max-width: 480px) {
+	.terminal-loader {
+		padding-top: 0.5rem;
+	}
+	
+	.loader-logo {
+		max-width: 220px;
+		max-height: 100px;
+	}
+	
+	.loader-logo-container {
+		margin-bottom: 0.25rem;
+	}
+	
+	.loader-terminal-content {
+		font-size: 0.8rem;
+		line-height: 1.4;
+		padding: 0 0.75rem;
+	}
+	
+	.loader-command-input {
+		font-size: 0.8rem;
+		min-width: 120px;
+	}
+	
+	.loader-command-input::placeholder,
+	.loader-command-input::-webkit-input-placeholder {
+		font-size: 0.65rem;
+	}
+	
+	.fintech-title {
+		font-size: 1rem;
+	}
+	
+	.fintech-subtitle {
+		font-size: 0.9rem;
+	}
+	
+	.fintech-text {
+		font-size: 0.75rem;
+	}
+	
+	.fintech-feature-title {
+		font-size: 0.8rem;
+	}
+	
+	.fintech-feature-text {
+		font-size: 0.7rem;
+		line-height: 1.3;
+	}
+	
+	.fintech-feature-icon {
+		font-size: 0.875rem;
+		margin-bottom: 0.25rem;
+	}
+	
+	.loader-prompt-line {
+		flex-wrap: wrap;
+	}
+	
+	.prompt-text {
+		font-size: 0.75rem;
+	}
+	
+	/* Grid pattern less visible on mobile */
+	.terminal-loader::before {
+		background-size: 50px 50px;
+		opacity: 0.5;
+	}
+}
