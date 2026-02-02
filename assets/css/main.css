@@ -6210,13 +6210,17 @@ section > *,
 	color: #000000 !important;
 }
 
-/* Hero Section - Left-Aligned with Vertical Line Pattern */
+/* Hero Section - Full Viewport with Vertical Line Pattern */
 .terminal-hero {
 	background: #000000;
-	padding: 8rem 0 12rem;
+	min-height: 100vh;
+	padding: 120px 0 80px; /* Top padding accounts for fixed header */
 	border-bottom: 1px solid #1a1a1a;
 	position: relative;
-	overflow: hidden;
+	overflow: visible;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .hero-pattern {
@@ -6243,7 +6247,6 @@ section > *,
 	justify-content: center;
 	width: 100%;
 	box-sizing: border-box;
-	transform: translateX(-50%); /* Shift content left by 10% */
 }
 
 /* Hero Logo - Above Title */
@@ -10719,4 +10722,384 @@ html {
 		background-size: 50px 50px;
 		opacity: 0.5;
 	}
+}
+
+/* ===== CRITICAL SCROLL FIX - Override all terminal styling ===== */
+
+/* Force html and body to allow scrolling */
+html {
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+	height: auto !important;
+	position: static !important;
+}
+
+body {
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+	height: auto !important;
+	min-height: 100vh !important;
+	position: static !important;
+	padding-top: 0 !important;
+}
+
+/* Override terminal window styles - content should display normally */
+.terminal-window {
+	position: static !important;
+	width: 100% !important;
+	height: auto !important;
+	max-height: none !important;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-radius: 0 !important;
+	overflow: visible !important;
+	display: block !important;
+}
+
+.terminal-window.visible {
+	opacity: 1 !important;
+	transform: none !important;
+}
+
+.terminal-title-bar {
+	display: none !important;
+}
+
+.terminal-content {
+	position: static !important;
+	height: auto !important;
+	overflow: visible !important;
+	padding: 0 !important;
+}
+
+.terminal-output,
+.content-overlay,
+.terminal-settings,
+.terminal-loader {
+	display: none !important;
+}
+
+/* Hide sidebar - using header nav instead */
+#sidebar {
+	display: none !important;
+}
+
+/* Main content must be scrollable */
+#main-content {
+	position: relative !important;
+	overflow: visible !important;
+	height: auto !important;
+}
+
+/* Ensure wrapper allows scroll */
+#wrapper {
+	position: static !important;
+	height: auto !important;
+	overflow: visible !important;
+}
+
+/* ===== NEW SITE HEADER STYLES ===== */
+
+/* Sticky Site Header */
+.site-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1000;
+	background: rgba(0, 0, 0, 0.85);
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	transition: all 0.3s ease;
+}
+
+.site-header .header-inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: 0.75rem 2rem;
+	position: relative;
+}
+
+.site-header .header-logo {
+	display: flex;
+	align-items: center;
+	border: none;
+	position: absolute;
+	left: 2rem;
+}
+
+.site-header .header-logo img {
+	height: 2.5rem;
+	width: auto;
+}
+
+.site-header .header-nav {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.site-header .nav-link {
+	padding: 0.5rem 1rem;
+	color: rgba(255, 255, 255, 0.7);
+	text-decoration: none;
+	font-size: 0.875rem;
+	font-weight: 400;
+	border-radius: 6px;
+	border: none;
+	transition: all 0.2s ease;
+	letter-spacing: 0.01em;
+}
+
+.site-header .nav-link:hover {
+	color: #ffffff;
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.site-header .nav-link.active {
+	color: #5ac8fa;
+	background: rgba(90, 200, 250, 0.1);
+}
+
+/* Mobile Menu Toggle */
+.site-header .mobile-menu-toggle {
+	display: none;
+	flex-direction: column;
+	justify-content: space-around;
+	width: 24px;
+	height: 20px;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	position: absolute;
+	right: 2rem;
+}
+
+.site-header .mobile-menu-toggle span {
+	display: block;
+	width: 100%;
+	height: 2px;
+	background: #ffffff;
+	border-radius: 2px;
+	transition: all 0.3s ease;
+}
+
+.site-header .mobile-menu-toggle.active span:nth-child(1) {
+	transform: translateY(9px) rotate(45deg);
+}
+
+.site-header .mobile-menu-toggle.active span:nth-child(2) {
+	opacity: 0;
+}
+
+.site-header .mobile-menu-toggle.active span:nth-child(3) {
+	transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Scroll Reveal Animations */
+.reveal {
+	opacity: 0;
+	transform: translateY(40px);
+	transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+	            transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.reveal-delay-1 {
+	transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+	transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+	transition-delay: 0.3s;
+}
+
+/* Fade up animation */
+.reveal-fade-up {
+	opacity: 0;
+	transform: translateY(60px);
+	transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-fade-up.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Slide from left */
+.reveal-slide-left {
+	opacity: 0;
+	transform: translateX(-60px);
+	transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-slide-left.visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Slide from right */
+.reveal-slide-right {
+	opacity: 0;
+	transform: translateX(60px);
+	transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-slide-right.visible {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Scale up animation */
+.reveal-scale {
+	opacity: 0;
+	transform: scale(0.9);
+	transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-scale.visible {
+	opacity: 1;
+	transform: scale(1);
+}
+
+/* Main content adjustments */
+#main-content {
+	padding-top: 80px; /* Account for fixed header */
+}
+
+/* Ensure sections have proper spacing */
+#main-content section {
+	position: relative;
+}
+
+/* Hero section full viewport */
+#intro.terminal-hero {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+}
+
+/* Mobile Responsive Header */
+@media screen and (max-width: 980px) {
+	.site-header .mobile-menu-toggle {
+		display: flex;
+	}
+	
+	.site-header .header-nav {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		flex-direction: column;
+		background: rgba(0, 0, 0, 0.95);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(20px);
+		padding: 1rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		transform: translateY(-10px);
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s ease;
+	}
+	
+	.site-header .header-nav.mobile-open {
+		transform: translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
+	
+	.site-header .nav-link {
+		width: 100%;
+		text-align: center;
+		padding: 0.75rem 1rem;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.site-header .header-inner {
+		padding: 0.5rem 1rem;
+	}
+	
+	.site-header .header-logo img {
+		height: 2rem;
+	}
+}
+
+/* ===== FINAL CRITICAL OVERRIDES - Must be at end of file ===== */
+/* These override ALL previous terminal styling to ensure scrolling works */
+
+html, body {
+	height: auto !important;
+	min-height: 100% !important;
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+	scroll-behavior: smooth !important;
+	position: static !important;
+}
+
+/* Kill all fixed terminal overlays */
+.terminal-loader,
+.terminal-window,
+.terminal-window::after,
+.terminal-window::before,
+.terminal-output,
+.terminal-settings,
+.content-overlay,
+.loader-terminal-content,
+.pattern-cluster {
+	display: none !important;
+	visibility: hidden !important;
+	opacity: 0 !important;
+	pointer-events: none !important;
+	position: absolute !important;
+	z-index: -9999 !important;
+}
+
+/* Ensure main content is visible and scrollable */
+#main-content,
+main {
+	display: block !important;
+	position: relative !important;
+	overflow: visible !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+/* Sections must be visible */
+section {
+	display: block !important;
+	overflow: visible !important;
+}
+
+/* Grid sections need proper display */
+.terminal-grid-section {
+	display: block !important;
+	overflow: visible !important;
+	padding: 4rem 0 !important;
+}
+
+/* Ensure grid cells are visible */
+.grid-container {
+	display: grid !important;
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+.grid-cell {
+	display: block !important;
+	visibility: visible !important;
+	opacity: 1 !important;
 }
