@@ -122,9 +122,8 @@ input, select, textarea {
 			height: 100vh;
 			background-image: url('../../vintage-trading-floor-stockcake.webp');
 			background-size: cover;
-			background-position: center;
+			background-position: center center;
 			background-repeat: no-repeat;
-			background-attachment: fixed;
 			opacity: 0.4;
 			z-index: -1;
 			pointer-events: none;
@@ -11683,10 +11682,13 @@ section {
 
 /* Extra small screens */
 @media screen and (max-width: 480px) {
-	/* Clearer background on small mobile */
+	/* Background image - fit entire image on mobile */
 	body::before {
-		opacity: 0.45 !important;
-		background-position: 30% center !important;
+		opacity: 0.4 !important;
+		background-size: contain !important;
+		background-position: center top !important;
+		background-repeat: no-repeat !important;
+		height: 100vh !important;
 	}
 	
 	/* Ensure header doesn't get cut off */
@@ -11700,5 +11702,14 @@ section {
 	
 	#intro.terminal-hero {
 		padding-top: 80px !important;
+	}
+}
+
+/* Medium mobile screens */
+@media screen and (max-width: 736px) {
+	body::before {
+		background-size: cover !important;
+		background-position: center center !important;
+		opacity: 0.35 !important;
 	}
 }
