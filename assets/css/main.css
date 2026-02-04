@@ -11045,6 +11045,16 @@ body {
 		text-align: center;
 		padding: 0.75rem 1rem;
 	}
+	
+	/* Fix header not being cut off on mobile */
+	.site-header {
+		padding: 0.5rem 0 !important;
+	}
+	
+	.site-header .header-inner {
+		padding: 0.5rem 1rem !important;
+		min-height: 50px;
+	}
 }
 
 @media screen and (max-width: 480px) {
@@ -11054,6 +11064,20 @@ body {
 	
 	.site-header .header-logo img {
 		height: 2rem;
+	}
+	
+	/* Better background image on mobile */
+	body::before {
+		background-position: center top !important;
+		background-size: cover !important;
+		opacity: 0.5 !important;
+	}
+	
+	/* Make hero subtitle wrap on mobile */
+	.hero-subtitle {
+		white-space: normal !important;
+		font-size: 1rem !important;
+		padding: 0 1rem !important;
 	}
 }
 
@@ -11504,19 +11528,24 @@ section {
 }
 
 /* Send Message Button Styling */
+.submit-button,
 .contact-section .button,
 #three .button {
 	padding: 1.25rem 3rem !important;
 	font-size: 1.2rem !important;
 	font-weight: 600 !important;
-	margin-top: -1rem !important;
+	margin-top: 0.5rem !important;
 	background: rgba(90, 200, 250, 0.15) !important;
 	border: 2px solid #5ac8fa !important;
 	color: #ffffff !important;
 	border-radius: 8px !important;
 	transition: all 0.25s ease !important;
+	width: 100% !important;
+	box-sizing: border-box !important;
+	cursor: pointer !important;
 }
 
+.submit-button:hover,
 .contact-section .button:hover,
 #three .button:hover {
 	background: rgba(90, 200, 250, 0.35) !important;
@@ -11620,5 +11649,56 @@ section {
 	
 	.product-preview-title {
 		font-size: 1.75rem !important;
+	}
+	
+	/* Mobile CTA group spacing */
+	.hero-cta-group {
+		margin-top: 2rem !important;
+	}
+	
+	/* Exchange logos on mobile */
+	.exchange-logos {
+		gap: 1.5rem !important;
+	}
+	
+	.exchange-logo {
+		width: 50px !important;
+		height: 50px !important;
+	}
+	
+	/* What we do section on mobile */
+	.what-we-do-headline {
+		font-size: 1.25rem !important;
+	}
+	
+	.what-we-do-description {
+		font-size: 1rem !important;
+	}
+	
+	/* Contact title on mobile */
+	.contact-title {
+		font-size: 2rem !important;
+	}
+}
+
+/* Extra small screens */
+@media screen and (max-width: 480px) {
+	/* Clearer background on small mobile */
+	body::before {
+		opacity: 0.45 !important;
+		background-position: 30% center !important;
+	}
+	
+	/* Ensure header doesn't get cut off */
+	.site-header {
+		position: fixed !important;
+		top: 0 !important;
+		left: 0 !important;
+		right: 0 !important;
+		z-index: 9999 !important;
+	}
+	
+	#intro.terminal-hero {
+		padding-top: 80px !important;
 	}
 }
