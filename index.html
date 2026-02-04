@@ -20,12 +20,12 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body>
+		<!-- Mouse Highlight Effect -->
+		<div class="mouse-highlight" id="mouse-highlight"></div>
+		
 		<!-- Sticky Navigation Header -->
 		<header class="site-header" id="site-header">
 			<div class="header-inner">
-				<a href="#intro" class="header-logo">
-					<img src="images/DelphiWhiteLogo.png" alt="Delphi" />
-				</a>
 				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
 					<span></span>
 					<span></span>
@@ -33,11 +33,10 @@
 				</button>
 				<nav class="header-nav" id="header-nav" role="navigation" aria-label="Main navigation">
 					<a href="#intro" class="nav-link active">Welcome</a>
-					<a href="#one" class="nav-link">Who we are</a>
-					<a href="#two" class="nav-link">What we do</a>
-					<a href="#how-it-works" class="nav-link">How it works</a>
 					<a href="#product-preview" class="nav-link">Product Preview</a>
-					<a href="#three" class="nav-link">Get in touch</a>
+					<a href="#one" class="nav-link">Who We Are</a>
+					<a href="#two" class="nav-link">What We Do</a>
+					<a href="#three" class="nav-link">Contact Us</a>
 				</nav>
 			</div>
 		</header>
@@ -56,297 +55,133 @@
 							<rect width="100%" height="100%" fill="url(#verticalLines)"/>
 						</svg>
 						<div class="hero-inner">
-							<img src="images/DelphiWhite.png" alt="Delphi" class="hero-logo" />
+							<div class="hero-logo-wrapper">
+								<img src="images/DelphiWhite.png" alt="Delphi" class="hero-logo" id="hero-logo" />
+								<span class="typing-cursor"></span>
+							</div>
 							<h1 class="hero-title">Prediction Market Terminal</h1>
-							<p class="hero-subtitle">Power your decision-making with high-quality data and analytics for every major prediction market, all with one integrated product.</p>
-							<a href="#three" class="hero-cta">
-								<span>Request Access</span>
-								<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<path d="M6 12L10 8L6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-								</svg>
-							</a>
-						</div>
-					</section>
-
-				<!-- One - Grid Layout -->
-					<section id="one" class="terminal-grid-section">
-						<div class="grid-container">
-							<div class="grid-cell">
-								<div class="pattern-bg pattern-lines"></div>
-								<div class="cell-content">
-									<span class="section-super-title">// MISSION_STATEMENT</span>
-									<span class="section-label">MISSION</span>
-									<h2 class="cell-title">Wall-Street-Grade Infrastructure</h2>
-									<p class="cell-text">Prediction markets deserve Wall-Street-grade infrastructure. Delphi builds the fastest, most reliable data engine in the space.</p>
-								</div>
-							</div>
-							<div class="grid-cell">
-								<div class="pattern-bg pattern-lines"></div>
-								<div class="cell-content">
-									<span class="section-super-title">// CORE_INFRASTRUCTURE</span>
-									<span class="section-label">APPROACH</span>
-									<h2 class="cell-title">Production-First Trading Infrastructure</h2>
-									<p class="cell-text">Real-time pipelines, normalized markets, and analytics built for speed and precision. Designed by traders to unify venues and surface cross-market signals; nothing added unless a serious trader would rely on it.</p>
-								</div>
-							</div>
-						</div>
-					</section>
-
-				<!-- Two - Grid Layout -->
-					<section id="two" class="terminal-grid-section">
-						<div class="section-header">
-							<span class="section-super-title">// UNIFIED_PLATFORM</span>
-							<span class="section-label">WHAT WE DO</span>
-							<h2 class="section-title">Unified Platform</h2>
-							<p class="section-description">Unified platform for fragmented prediction markets. No custom infrastructure needed. Saves 40+ hours of setup and 8+ hours of weekly maintenance.</p>
-						</div>
-						<div class="grid-container grid-features">
-								<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Real-Time Data Aggregation
-								</h3>
-								<p class="feature-text">Live data from multiple prediction markets. Websocket streams and exchange APIs processed in real time.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Normalized Data Structure
-								</h3>
-								<p class="feature-text">Fragmented exchange data unified into one structure. Every venue standardized, markets linked, signals surfaced.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Query Language & Analytics
-								</h3>
-								<p class="feature-text">Query price and orderbook data across thousands of markets. Built for institutional trading.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Custom Functions & Tools
-								</h3>
-								<p class="feature-text">Volatility surfaces, scenario analyses, and market-specific functions. Built-in, not custom-built.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Seamless Integrations
-								</h3>
-								<p class="feature-text">API and Excel plug-in integrate with existing trading systems.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Institutional-Grade Infrastructure
-								</h3>
-								<p class="feature-text">Built for reliability and scale. Professional-grade uptime, data quality, and performance.</p>
-							</div>
-						</div>
-					</section>
-
-				<!-- How It Works - Horizontal Flow Layout -->
-					<section id="how-it-works" class="terminal-grid-section">
-						<div class="section-header">
-							<span class="section-super-title">// DATA_PIPELINE</span>
-							<span class="section-label">HOW IT WORKS</span>
-							<h2 class="section-title">Raw Feeds to Clean Data</h2>
-							<p class="section-description">Raw feeds to clean, structured, actionable data.</p>
-						</div>
-						<div class="flow-container">
-							<div class="grid-container grid-flow">
-								<div class="grid-cell feature-cell flow-step">
-									<h3 class="feature-title">
-										<span class="feature-accent-line"></span>
-										Ingest
-									</h3>
-									<p class="feature-text">Orderbooks, trades, and metadata from leading venues via websockets and APIs.</p>
-								</div>
-								<div class="flow-arrow flow-arrow-horizontal">
-									<svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M0 12L55 12M55 12L45 6M55 12L45 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</div>
-								<div class="flow-arrow flow-arrow-vertical">
-									<svg width="24" height="60" viewBox="0 0 24 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M12 0L12 55M12 55L6 45M12 55L18 45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</div>
-								<div class="grid-cell feature-cell flow-step">
-									<h3 class="feature-title">
-										<span class="feature-accent-line"></span>
-										Normalize
-									</h3>
-									<p class="feature-text">Symbols, contracts, and structures unified. Every venue standardized.</p>
-								</div>
-								<div class="flow-arrow flow-arrow-horizontal">
-									<svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M0 12L55 12M55 12L45 6M55 12L45 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</div>
-								<div class="flow-arrow flow-arrow-vertical">
-									<svg width="24" height="60" viewBox="0 0 24 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M12 0L12 55M12 55L6 45M12 55L18 45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</div>
-								<div class="grid-cell feature-cell flow-step">
-									<h3 class="feature-title">
-										<span class="feature-accent-line"></span>
-										Analyze
-									</h3>
-									<p class="feature-text">Analytics and signals surface the most important information.</p>
-								</div>
-								<div class="flow-arrow flow-arrow-horizontal">
-									<svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M0 12L55 12M55 12L45 6M55 12L45 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</div>
-								<div class="flow-arrow flow-arrow-vertical">
-									<svg width="24" height="60" viewBox="0 0 24 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<path d="M12 0L12 55M12 55L6 45M12 55L18 45" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-									</svg>
-								</div>
-								<div class="grid-cell feature-cell flow-step">
-									<h3 class="feature-title">
-										<span class="feature-accent-line"></span>
-										Distribute
-									</h3>
-									<p class="feature-text">Data delivered through dashboards, feeds, and APIs.</p>
-								</div>
-							</div>
-						</div>
-					</section>
-
-				<!-- Use Cases -->
-					<section id="use-cases" class="terminal-grid-section">
-						<div class="section-header">
-							<span class="section-super-title">// USE_CASES</span>
-							<span class="section-label">WHO USES DELPHI</span>
-							<h2 class="section-title">Built for Trading Professionals</h2>
-							<p class="section-description">Trusted by traders, researchers, and firms for reliable prediction market infrastructure.</p>
-						</div>
-						<div class="grid-container grid-features">
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Traders
-								</h3>
-								<p class="feature-text">Systematic research and trading across every major venue.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Researchers
-								</h3>
-								<p class="feature-text">Track crowd probabilities on macro, policy, and tech questions.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Firms
-								</h3>
-								<p class="feature-text">Backtest and deploy models without managing data plumbing.</p>
-							</div>
-						</div>
-					</section>
-
-				<!-- Developer Ready -->
-					<section id="developer-ready" class="terminal-grid-section">
-						<div class="section-header">
-							<span class="section-super-title">// DEVELOPER_API</span>
-							<span class="section-label">DEVELOPER READY</span>
-							<h2 class="section-title">Technical Infrastructure</h2>
-							<p class="section-description">Technical infrastructure with APIs at the core.</p>
-						</div>
-						<div class="grid-container grid-features">
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Unified API
-								</h3>
-								<p class="feature-text">Single endpoint architecture across all venues and markets.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Normalized Schemas
-								</h3>
-								<p class="feature-text">Consistent data structures regardless of source exchange.</p>
-							</div>
-							<div class="grid-cell feature-cell">
-								<h3 class="feature-title">
-									<span class="feature-accent-line"></span>
-									Real-time & Historical
-								</h3>
-								<p class="feature-text">Live websocket streams and queryable historical archives.</p>
+							<p class="hero-subtitle">7+ Exchanges | Market Aggregator | L1-L2-L3 Data</p>
+							<div class="hero-cta-group">
+								<a href="#three" class="hero-cta" id="request-access-btn">
+									<span>Request Access</span>
+								</a>
+								<input type="text" class="referral-input" id="referral-code-input" placeholder="Referral Code" />
 							</div>
 						</div>
 					</section>
 
 				<!-- Product Preview -->
-					<section id="product-preview" class="wrapper style2 fade-up">
-						<div class="inner">
-							<h2>See Delphi in Action</h2>
-							<p>Get a quick look at how Delphi tracks and analyzes prediction markets.</p>
-							<div class="table-wrapper">
-								<table class="delphi-dashboard">
-									<thead>
-										<tr>
-											<th>Market Name</th>
-											<th>Probability</th>
-											<th>Volume</th>
-											<th>Timestamp</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>US Election 2026 </td>
-											<td>52.3%</td>
-											<td>$2.4M</td>
-											<td>2024-01-15 14:32:18</td>
-										</tr>
-										<tr>
-											<td>Fed Rate Cut by Q2 2026</td>
-											<td>68.7%</td>
-											<td>$1.8M</td>
-											<td>2024-01-15 14:31:45</td>
-										</tr>
-										<tr>
-											<td>Bitcoin > $50K by EOY</td>
-											<td>41.2%</td>
-											<td>$3.1M</td>
-											<td>2024-01-15 14:31:12</td>
-										</tr>
-										<tr>
-											<td>AI Regulation Passes in 2026</td>
-											<td>29.5%</td>
-											<td>$950K</td>
-											<td>2024-01-15 14:30:58</td>
-										</tr>
-										<tr>
-											<td>SP500 Closes Above 5000</td>
-											<td>76.4%</td>
-											<td>$4.2M</td>
-											<td>2024-01-15 14:30:33</td>
-										</tr>
-										<tr>
-											<td>Climate Summit Agreement Reached</td>
-											<td>33.8%</td>
-											<td>$1.2M</td>
-											<td>2024-01-15 14:30:07</td>
-										</tr>
-									</tbody>
-								</table>
+					<section id="product-preview" class="terminal-grid-section">
+						<div class="section-header">
+							<h2 class="section-title product-preview-title">Product Preview</h2>
+						</div>
+						<div class="table-wrapper">
+							<table class="delphi-dashboard">
+								<thead>
+									<tr>
+										<th>Market Name</th>
+										<th>Probability</th>
+										<th>Volume</th>
+										<th>Timestamp</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>US Election 2026 </td>
+										<td>52.3%</td>
+										<td>$2.4M</td>
+										<td>2024-01-15 14:32:18</td>
+									</tr>
+									<tr>
+										<td>Fed Rate Cut by Q2 2026</td>
+										<td>68.7%</td>
+										<td>$1.8M</td>
+										<td>2024-01-15 14:31:45</td>
+									</tr>
+									<tr>
+										<td>Bitcoin > $50K by EOY</td>
+										<td>41.2%</td>
+										<td>$3.1M</td>
+										<td>2024-01-15 14:31:12</td>
+									</tr>
+									<tr>
+										<td>AI Regulation Passes in 2026</td>
+										<td>29.5%</td>
+										<td>$950K</td>
+										<td>2024-01-15 14:30:58</td>
+									</tr>
+									<tr>
+										<td>SP500 Closes Above 5000</td>
+										<td>76.4%</td>
+										<td>$4.2M</td>
+										<td>2024-01-15 14:30:33</td>
+									</tr>
+									<tr>
+										<td>Climate Summit Agreement Reached</td>
+										<td>33.8%</td>
+										<td>$1.2M</td>
+										<td>2024-01-15 14:30:07</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</section>
+
+				<!-- One - Team Section -->
+					<section id="one" class="terminal-grid-section team-section">
+						<div class="section-header">
+							<h2 class="section-title team-section-title">Who We Are</h2>
+						</div>
+						<div class="team-grid">
+							<div class="team-member">
+								<div class="team-photo-wrapper">
+									<img src="images/ArmonS.png" alt="Armon Singh" class="team-photo" />
+								</div>
+								<h3 class="team-name">Armon Singh</h3>
+								<span class="team-role">CRO</span>
+							</div>
+							<div class="team-member">
+								<div class="team-photo-wrapper">
+									<img src="images/ShayPatel.png" alt="Shay Patel" class="team-photo" />
+								</div>
+								<h3 class="team-name">Shay Patel</h3>
+								<span class="team-role">CEO</span>
+							</div>
+							<div class="team-member">
+								<div class="team-photo-wrapper">
+									<img src="images/MasonB.png" alt="Mason Brownrigg" class="team-photo" />
+								</div>
+								<h3 class="team-name">Mason Brownrigg</h3>
+								<span class="team-role">CTO</span>
 							</div>
 						</div>
 					</section>
 
+				<!-- Two - What We Do -->
+					<section id="two" class="terminal-grid-section what-we-do-section">
+						<div class="section-header">
+							<h2 class="section-title what-we-do-title">What We Do</h2>
+							<h3 class="what-we-do-headline">The Largest Aggregated Prediction Market Platform</h3>
+							<p class="what-we-do-description">We currently own and operate the world's largest Level 1, Level 2, and Level 3 dataset across multiple exchanges.</p>
+						</div>
+						<div class="exchange-logos">
+							<img src="images/kalshi-logo.png" alt="Kalshi" class="exchange-logo" />
+							<img src="images/polymarket-logo.png" alt="Polymarket" class="exchange-logo" />
+							<img src="images/predictit-logo.png" alt="PredictIt" class="exchange-logo" />
+							<img src="images/insight-logo.png" alt="Insight" class="exchange-logo" />
+							<img src="images/metaculus-logo.png" alt="Metaculus" class="exchange-logo" />
+							<img src="images/polymarket-p-logo.png" alt="Polymarket" class="exchange-logo" />
+							<img src="images/manifold-logo.png" alt="Manifold" class="exchange-logo" />
+						</div>
+					</section>
+
 				<!-- Three -->
-					<section id="three" class="wrapper style1 fade-up">
-						<div class="inner">
-							<h2>Get in touch</h2>
-							<p>Reach out to learn more about Delphi.</p>							<div id="form-success" style="display: none; padding: 1em; background-color: rgba(255, 47, 82, 0.1); border: 1px solid #ff2f52; border-radius: 0.25em; margin-bottom: 2em;">
+					<section id="three" class="terminal-grid-section contact-section">
+						<div class="section-header">
+							<h2 class="section-title contact-title">Get In Touch</h2>
+							<p class="section-description">Reach out to learn more about Delphi.</p>
+						</div>
+						<div class="contact-form-wrapper">							<div id="form-success" style="display: none; padding: 1em; background-color: rgba(255, 47, 82, 0.1); border: 1px solid #ff2f52; border-radius: 0.25em; margin-bottom: 2em;">
 								<p style="color: #ff2f52; margin: 0;"><strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.</p>
 							</div>
 							<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="contact-form">
@@ -363,6 +198,10 @@
 										<input type="email" name="email" id="email" required />
 									</div>
 									<div class="field">
+										<label for="referral">Referral Code (Optional)</label>
+										<input type="text" name="referral" id="referral" placeholder="Enter referral code if you have one" />
+									</div>
+									<div class="field">
 										<label for="message">Message</label>
 										<textarea name="message" id="message" rows="5" required></textarea>
 									</div>
@@ -372,52 +211,15 @@
 								</ul>
 							</form>
 						</div>
+						</div>
 					</section>
 
 		</main>
 
 		<!-- Footer -->
 			<footer id="footer">
-				<div class="footer-inner">
-					<div class="footer-column">
-						<h4>Product</h4>
-						<ul>
-							<li><a href="#intro">Terminal</a></li>
-							<li><a href="#two">Features</a></li>
-							<li><a href="#how-it-works">How It Works</a></li>
-							<li><a href="#developer-ready">Developer API</a></li>
-						</ul>
-					</div>
-					<div class="footer-column">
-						<h4>Company</h4>
-						<ul>
-							<li><a href="#one">About</a></li>
-							<li><a href="#use-cases">Use Cases</a></li>
-							<li><a href="#product-preview">Demo</a></li>
-							<li><a href="#three">Contact</a></li>
-						</ul>
-					</div>
-					<div class="footer-column">
-						<h4>Resources</h4>
-						<ul>
-							<li><a href="#">Documentation</a></li>
-							<li><a href="#">API Reference</a></li>
-							<li><a href="#">Support</a></li>
-							<li><a href="#">Status</a></li>
-						</ul>
-					</div>
-					<div class="footer-column">
-						<h4>Legal</h4>
-						<ul>
-							<li><a href="#">Privacy</a></li>
-							<li><a href="#">Terms</a></li>
-							<li><a href="#">Security</a></li>
-							<li><a href="#">Compliance</a></li>
-						</ul>
-					</div>
-				</div>
 				<div class="footer-bottom">
-					<p>&copy; 2024 Delphi Terminal. All rights reserved.</p>
+					<p>Copyright © 2026 Delphi Markets, Inc.</p>
 				</div>
 			</footer>
 
@@ -734,6 +536,64 @@
 					revealElements.forEach(function(el) {
 						observer.observe(el);
 					});
+				})();
+			</script>
+			<script>
+				// Hide typing cursor after animation completes
+				(function() {
+					'use strict';
+					var cursor = document.querySelector('.typing-cursor');
+					if (cursor) {
+						// Hide cursor after 1.2s (matching animation duration)
+						setTimeout(function() {
+							cursor.classList.add('hidden');
+						}, 1200);
+					}
+				})();
+			</script>
+			<script>
+				// Mouse highlight effect on text hover
+				(function() {
+					'use strict';
+					
+					var highlight = document.getElementById('mouse-highlight');
+					if (!highlight) return;
+					
+					document.addEventListener('mousemove', function(e) {
+						highlight.style.left = e.clientX + 'px';
+						highlight.style.top = e.clientY + 'px';
+					});
+					
+					// Show highlight when hovering over text elements
+					var textElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, a, li, td, th, label');
+					textElements.forEach(function(el) {
+						el.addEventListener('mouseenter', function() {
+							highlight.classList.add('active');
+						});
+						el.addEventListener('mouseleave', function() {
+							highlight.classList.remove('active');
+						});
+					});
+				})();
+			</script>
+			<script>
+				// Referral code auto-fill in contact form
+				(function() {
+					'use strict';
+					
+					var requestAccessBtn = document.getElementById('request-access-btn');
+					var referralInput = document.getElementById('referral-code-input');
+					var referralField = document.getElementById('referral');
+					
+					if (requestAccessBtn && referralInput && referralField) {
+						requestAccessBtn.addEventListener('click', function() {
+							var referralCode = referralInput.value.trim();
+							if (referralCode) {
+								// Auto-fill the referral code field
+								referralField.value = referralCode;
+							}
+						});
+					}
 				})();
 			</script>
 
