@@ -11202,6 +11202,26 @@ section {
 	padding: 0 !important;
 }
 
+/* Documentation link */
+.docs-link {
+	display: inline-block;
+	color: #5ac8fa;
+	font-size: 1.1rem;
+	font-weight: 500;
+	text-decoration: none;
+	margin-top: 1.5rem;
+	padding: 0.5rem 1.5rem;
+	border: 1px solid rgba(90, 200, 250, 0.3);
+	border-radius: 6px;
+	transition: all 0.25s ease;
+}
+
+.docs-link:hover {
+	background: rgba(90, 200, 250, 0.1);
+	border-color: #5ac8fa;
+	color: #ffffff;
+}
+
 /* Ensure hero inner is centered */
 .hero-inner {
 	display: flex !important;

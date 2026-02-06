@@ -1,0 +1,2127 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Delphi Terminal API",
+    "description": "# Welcome to Delphi Terminal API\n\nThe Delphi Terminal API provides unified access to prediction market data from **Kalshi (KLSI)** and **Polymarket (POLY)** exchanges.\n\n## Quick Start\n\n1. **Get a test API key** - Click on `POST /api/v1/test-key` below and hit 'Try it'\n2. **Copy your key** - Save the `api_key` from the response\n3. **Authorize** - Click 'Authorize' in the sidebar and paste your key\n4. **Start exploring** - Try any endpoint!\n\n## What You Can Build\n\n- **Trading Bots**: Access real-time orderbook data and trade history\n- **Market Analytics**: Analyze market movements, spreads, and liquidity\n- **Research Tools**: Search and filter across thousands of prediction markets\n- **Price Feeds**: Get live pricing data for any market\n\n---\n\n## Authentication\n\nAll API requests require an API key passed in the `X-API-Key` header:\n\n```bash\ncurl -X GET 'https://api.delphiterminal.co/api/v1/klsi/markets' \\\n  -H 'X-API-Key: dphi_live_your_key_here'\n```\n\n### Getting an API Key\n\n| Type | Duration | Rate Limit | How to Get |\n|------|----------|------------|------------|\n| Test Key | 10 minutes | 60 req/min | `POST /api/v1/test-key` |\n| Production Key | Permanent | 300 req/min | Contact us |\n\n---\n\n## Rate Limits\n\nRequests are rate-limited per API key:\n\n- **Test keys**: 60 requests per minute\n- **Production keys**: 300 requests per minute\n\nWhen you exceed the limit, you'll receive a `429 Too Many Requests` response. Wait and retry.\n\n---\n\n## Error Codes\n\n| Code | Meaning |\n|------|---------------|\n| 400 | Bad Request - Invalid parameters |\n| 401 | Unauthorized - Missing or invalid API key |\n| 404 | Not Found - Resource doesn't exist |\n| 429 | Too Many Requests - Rate limit exceeded |\n| 500 | Server Error - Something went wrong |\n\nAll errors return JSON with an `error` field:\n\n```json\n{\"error\": \"invalid api key format\"}\n```\n\n---\n\n## Support\n\nFor production API keys or support, visit [delphiterminal.co](https://delphiterminal.co).",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Delphi Terminal",
+      "url": "https://delphiterminal.co"
+    },
+    "x-logo": {
+      "url": "https://delphiterminal.co/logo.png"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.delphiterminal.co",
+      "description": "Delphi Terminal API"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "tags": [
+    {"name": "Getting Started", "description": "Start here to get a test API key and begin experimenting with the API. Test keys are valid for 10 minutes."},
+    {"name": "Health", "description": "Health check endpoint to verify the API is operational."},
+    {"name": "KLSI", "description": "Access Kalshi (KLSI) prediction market data including market details, orderbooks, trade history, and analytics. Kalshi is a US-regulated prediction market exchange."},
+    {"name": "Polymarket", "description": "Access Polymarket (POLY) prediction market data including market details, orderbooks, and trade history. Polymarket is a decentralized prediction market platform."},
+    {"name": "Limitless", "description": "Access Limitless exchange prediction market data including orderbooks. Limitless is a prediction market platform."},
+    {"name": "Pfun", "description": "Access Pfun exchange prediction market data including price history."},
+    {"name": "Events", "description": "Events group related markets together. Use these endpoints to browse events by category or find all markets within an event."},
+    {"name": "Search", "description": "Search across all markets and events. Includes autocomplete suggestions for building search interfaces."},
+    {"name": "Advanced Analytics", "description": "Advanced orderbook analytics and price data. These endpoints provide deeper market insights including historical spreads, liquidity metrics, and best quote time series."},
+    {"name": "Auth", "description": "User authentication endpoints for creating accounts and managing sessions. Note: These are separate from API key authentication."},
+    {"name": "Kalshi WebSocket", "description": "Real-time WebSocket streaming for Kalshi market data. Subscribe to ticker and orderbook updates using klsi_id."}
+  ],
+  "paths": {
+    "/api/v1/test-key": {
+      "post": {
+        "tags": ["Getting Started"],
+        "summary": "Get a Test API Key",
+        "description": "**Start here!** Create a temporary API key valid for 10 minutes. Use this to test the API endpoints.\n\n1. Click 'Try it out' then 'Execute'\n2. Copy the `api_key` from the response\n3. Click the 'Authorize' button at the top of the page\n4. Paste your key in the 'Value' field for ApiKeyAuth\n5. Click 'Authorize' then 'Close'\n\nYou can now test all the protected endpoints!",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Test API key created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "api_key": {"type": "string", "description": "Your temporary API key - copy this!", "example": "dphi_live_a1b2c3d4..."},
+                    "expires_at": {"type": "string", "format": "date-time"},
+                    "expires_in": {"type": "string", "example": "10 minutes"},
+                    "message": {"type": "string", "example": "Copy this API key and use it in the Authorize button above."}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": ["Health"],
+        "summary": "Health Check",
+        "description": "Verify that the API is running and responsive. This endpoint does not require authentication and can be used for monitoring and uptime checks.\n\n**Use cases:**\n- Monitor API availability\n- Load balancer health checks\n- Verify connectivity before making authenticated requests",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "API is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {"type": "string", "example": "healthy"},
+                    "service": {"type": "string", "example": "delphi-terminal-api"},
+                    "time": {"type": "string", "format": "date-time"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Sign up",
+        "description": "Create a new user account",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/AuthRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {"type": "string", "example": "user created"},
+                    "user_id": {"type": "string", "format": "uuid"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login",
+        "description": "Authenticate and receive a session token",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/AuthRequest"}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {"type": "string"}
+                  }
+                }
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Unauthorized"}
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user",
+        "description": "Get authenticated user info",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "User info",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/UserInfo"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logout",
+        "description": "Invalidate the current session",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Logged out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {"type": "string", "example": "logged out successfully"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/market": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Market Details",
+        "description": "Retrieve comprehensive details about a specific Kalshi market by its unique identifier.\n\n**What you get:**\n- Market title and description\n- Trading rules and resolution criteria\n- Current status (open/closed)\n- Close time and settlement information\n- Category and event association\n\n**Use cases:**\n- Display market information in trading interfaces\n- Validate market exists before placing orders\n- Get resolution rules for analysis\n\n**Note:** The `klsi_id` follows Kalshi's ticker format (e.g., `KXBTC-26FEB01` for Bitcoin price markets).",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Market details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/KLSIMarket"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/rules": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Market Rules",
+        "description": "Retrieve the resolution rules for a specific Kalshi market. Rules define exactly how and when a market will settle.\n\n**What you get:**\n- Complete resolution criteria\n- Data sources used for settlement\n- Edge case handling\n\n**Use cases:**\n- Understand how outcomes are determined\n- Build automated settlement tracking\n- Display rules in market detail pages",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Market rules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "klsi_id": {"type": "string"},
+                    "rules": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/orderbook": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI orderbook",
+        "description": "Retrieve orderbook snapshots for a Kalshi market. The orderbook shows all open buy and sell orders at different price levels.\n\n## Understanding the Response\n\n- **bid_side**: Array of 99 values representing buy order quantities at prices 1-99\n- **ask_side**: Array of 99 values representing sell order quantities at prices 1-99\n- **snapshot_time**: When this orderbook snapshot was captured\n\n## Use Cases\n\n- Calculate best bid/ask prices and spreads\n- Analyze market depth and liquidity\n- Build real-time trading visualizations\n\n## Example\n\n```bash\ncurl -X GET \"https://api.delphiterminal.co/api/v1/klsi/KXBTC-26FEB01/orderbook?limit=100\" \\\n  -H \"X-API-Key: YOUR_API_KEY\"\n```",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"},
+          {"$ref": "#/components/parameters/limit"},
+          {"$ref": "#/components/parameters/cursor"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Orderbook snapshots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/OrderbookSnapshot"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/tradehistory": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Trade History",
+        "description": "Retrieve historical trade executions for a Kalshi market. Each trade includes price, quantity, and whether it was a buy or sell.\n\n**What you get:**\n- Trade timestamp and unique ID\n- Execution price (yes_price and no_price)\n- Trade count (number of contracts)\n- Taker side (buy/sell)\n\n**Use cases:**\n- Analyze trading patterns and volume\n- Calculate VWAP (Volume Weighted Average Price)\n- Build price charts and candlesticks\n- Detect unusual trading activity\n\n**Note:** Trade history is ordered by time, newest first.",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSITrade"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/orderbook_analytics": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Orderbook Analytics",
+        "description": "Retrieve pre-computed analytics derived from orderbook snapshots. This provides processed metrics that save you from computing them yourself.\n\n**What you get:**\n- Time-series orderbook metrics\n- Aggregated depth and liquidity data\n- Spread and imbalance indicators\n\n**Use cases:**\n- Track liquidity changes over time\n- Identify optimal entry/exit points\n- Build market quality dashboards",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"},
+          {"$ref": "#/components/parameters/limit"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Orderbook analytics",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"type": "object"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/orderbook_analytics/best_quotes": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Best Bid/Ask Series",
+        "description": "Retrieve a time-series of best bid and best ask prices for a market. This is the most efficient way to get price history without processing full orderbooks.\n\n**What you get:**\n- Best bid price over time\n- Best ask price over time\n- Mid-price calculations\n- Spread history\n\n**Use cases:**\n- Build price charts\n- Calculate historical spreads\n- Analyze price movements\n- Backtest trading strategies",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"},
+          {"$ref": "#/components/parameters/limit"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Best quotes series",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"type": "object"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/event/{event_id}": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Event",
+        "description": "Retrieve event details for a Kalshi event. Events group related markets together (e.g., all Bitcoin price markets for a specific date).\n\n**What you get:**\n- Event title and category\n- Associated market identifiers\n- Strike date information\n- Cross-exchange mapping (if available on Polymarket)\n\n**Use cases:**\n- Navigate between related markets\n- Build event-based views\n- Compare across exchanges",
+        "parameters": [
+          {"$ref": "#/components/parameters/event_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Event details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Event"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/event/{event_id}/markets": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get All Markets in KLSI Event",
+        "description": "Retrieve all individual markets within a Kalshi event. For example, a Bitcoin price event may contain multiple strike price markets.\n\n**What you get:**\n- Array of all markets in the event\n- Full market details for each\n- Status and pricing info\n\n**Use cases:**\n- Display all strike prices for an event\n- Build multi-market trading views\n- Analyze the full market structure",
+        "parameters": [
+          {"$ref": "#/components/parameters/event_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of markets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIMarket"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/ohlcv_1s": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI 1-Second OHLCV Candles",
+        "description": "Retrieve 1-second OHLCV (Open, High, Low, Close, Volume) candle data for a Kalshi market.\n\n**What you get:**\n- OHLCV price data aggregated into 1-second buckets\n- Volume metrics (bucket volume, cumulative volume)\n- Best bid/ask at close of each bucket\n- Open interest at close of each bucket\n- Tick count per bucket\n\n**Use cases:**\n- High-frequency analysis\n- Tick-level trading strategies\n- Microstructure research\n\n**Note:** Data is ordered by bucket_time ascending. Use `limit` parameter (up to 100,000) to control the number of candles returned.",
+        "parameters": [
+          {
+            "name": "klsi_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Kalshi market identifier",
+            "example": "APPLEPORT-25DEC31"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 1000, "maximum": 100000},
+            "description": "Maximum number of candles to return (default: 1000, max: 100,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "1-second OHLCV candle data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIOHLCV"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/ohlcv_1m": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI 1-Minute OHLCV Candles",
+        "description": "Retrieve 1-minute OHLCV (Open, High, Low, Close, Volume) candle data for a Kalshi market.\n\n**What you get:**\n- OHLCV price data aggregated into 1-minute buckets\n- Volume metrics (bucket volume, cumulative volume)\n- Best bid/ask at close of each bucket\n- Open interest at close of each bucket\n- Tick count per bucket\n\n**Use cases:**\n- Intraday trading analysis\n- Short-term price movements\n- Scalping strategies\n\n**Note:** Data is ordered by bucket_time ascending. Use `limit` parameter (up to 100,000) to control the number of candles returned.",
+        "parameters": [
+          {
+            "name": "klsi_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Kalshi market identifier",
+            "example": "APPLEPORT-25DEC31"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 1000, "maximum": 100000},
+            "description": "Maximum number of candles to return (default: 1000, max: 100,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "1-minute OHLCV candle data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIOHLCV"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/ohlcv_5m": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI 5-Minute OHLCV Candles",
+        "description": "Retrieve 5-minute OHLCV (Open, High, Low, Close, Volume) candle data for a Kalshi market.\n\n**What you get:**\n- OHLCV price data aggregated into 5-minute buckets\n- Volume metrics (bucket volume, cumulative volume)\n- Best bid/ask at close of each bucket\n- Open interest at close of each bucket\n- Tick count per bucket\n\n**Use cases:**\n- Short-term trading analysis\n- Intraday patterns\n- Technical indicators\n\n**Note:** Data is ordered by bucket_time ascending. Use `limit` parameter (up to 100,000) to control the number of candles returned.",
+        "parameters": [
+          {
+            "name": "klsi_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Kalshi market identifier",
+            "example": "BEYONCEGENRE-30-TCA"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 1000, "maximum": 100000},
+            "description": "Maximum number of candles to return (default: 1000, max: 100,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "5-minute OHLCV candle data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIOHLCV"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/ohlcv_10m": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI 10-Minute OHLCV Candles",
+        "description": "Retrieve 10-minute OHLCV (Open, High, Low, Close, Volume) candle data for a Kalshi market.\n\n**What you get:**\n- OHLCV price data aggregated into 10-minute buckets\n- Volume metrics (bucket volume, cumulative volume)\n- Best bid/ask at close of each bucket\n- Open interest at close of each bucket\n- Tick count per bucket\n\n**Use cases:**\n- Medium-term trading analysis\n- Pattern recognition\n- Volume analysis\n\n**Note:** Data is ordered by bucket_time ascending. Use `limit` parameter (up to 100,000) to control the number of candles returned.",
+        "parameters": [
+          {
+            "name": "klsi_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Kalshi market identifier",
+            "example": "BEYONCEGENRE-30-TCA"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 1000, "maximum": 100000},
+            "description": "Maximum number of candles to return (default: 1000, max: 100,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "10-minute OHLCV candle data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIOHLCV"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/ohlcv_1h": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI 1-Hour OHLCV Candles",
+        "description": "Retrieve 1-hour OHLCV (Open, High, Low, Close, Volume) candle data for a Kalshi market.\n\n**What you get:**\n- OHLCV price data aggregated into 1-hour buckets\n- Volume metrics (bucket volume, cumulative volume)\n- Best bid/ask at close of each bucket\n- Open interest at close of each bucket\n- Tick count per bucket\n\n**Use cases:**\n- Swing trading analysis\n- Daily pattern recognition\n- Longer-term technical analysis\n\n**Note:** Data is ordered by bucket_time ascending. Use `limit` parameter (up to 100,000) to control the number of candles returned.",
+        "parameters": [
+          {
+            "name": "klsi_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Kalshi market identifier",
+            "example": "APPLEPORT-25DEC31"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 1000, "maximum": 100000},
+            "description": "Maximum number of candles to return (default: 1000, max: 100,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "1-hour OHLCV candle data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIOHLCV"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/ohlcv_1d": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI 1-Day OHLCV Candles",
+        "description": "Retrieve 1-day OHLCV (Open, High, Low, Close, Volume) candle data for a Kalshi market.\n\n**What you get:**\n- OHLCV price data aggregated into daily buckets\n- Volume metrics (bucket volume, cumulative volume)\n- Best bid/ask at close of each day\n- Open interest at close of each day\n- Tick count per day\n\n**Use cases:**\n- Long-term trend analysis\n- Historical price research\n- Position trading strategies\n\n**Note:** Data is ordered by bucket_time ascending. Use `limit` parameter (up to 100,000) to control the number of candles returned.",
+        "parameters": [
+          {
+            "name": "klsi_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Kalshi market identifier",
+            "example": "APPLEPORT-25DEC31"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 1000, "maximum": 100000},
+            "description": "Maximum number of candles to return (default: 1000, max: 100,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "1-day OHLCV candle data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/KLSIOHLCV"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/klsi/markets": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "List all KLSI markets",
+        "description": "Retrieve a paginated list of all Kalshi markets, ordered by close time (newest first).\n\n## Pagination\n\nUse `limit` and `offset` to paginate through results:\n\n```python\n# Fetch all markets\nall_markets = []\noffset = 0\nwhile True:\n    resp = requests.get(f\"{BASE_URL}/api/v1/klsi/markets\",\n                        params={\"limit\": 100, \"offset\": offset},\n                        headers={\"X-API-Key\": API_KEY})\n    data = resp.json()\n    if not data[\"markets\"]:\n        break\n    all_markets.extend(data[\"markets\"])\n    offset += 100\n```\n\n## Response Fields\n\nEach market includes:\n- **klsi_id**: Unique Kalshi market identifier\n- **title**: Human-readable market title\n- **close_time**: When the market closes for trading\n- **closed**: Whether the market has already closed\n- **rules**: Resolution criteria",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of KLSI markets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/KLSIMarket"}
+                    },
+                    "count": {"type": "integer", "description": "Number of markets returned"},
+                    "limit": {"type": "integer"},
+                    "offset": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/markets/category/{category}": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Markets by Category",
+        "description": "Retrieve all Kalshi markets for a specific category.\n\n**Available categories:**\n- Crypto, Economics, Elections, Politics\n- Sports, Entertainment, Companies\n- Climate and Weather, Science and Technology\n- And more\n\n**Use cases:**\n- Build category-filtered market views\n- Display markets by topic\n- Power category navigation",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Category name",
+            "example": "Crypto"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of KLSI markets in the category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/KLSIMarket"}
+                    },
+                    "count": {"type": "integer"},
+                    "limit": {"type": "integer"},
+                    "offset": {"type": "integer"},
+                    "category": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/markets/categories": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Markets by Multiple Categories",
+        "description": "Retrieve all Kalshi markets for multiple categories at once.\n\n**Example:**\n```bash\ncurl \"https://api.delphiterminal.co/api/v1/klsi/markets/categories?categories=Crypto,Sports\" \\\n  -H \"X-API-Key: YOUR_API_KEY\"\n```\n\n**Use cases:**\n- Build multi-category market views\n- Cross-category analysis\n- Custom category groupings",
+        "parameters": [
+          {
+            "name": "categories",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Comma-separated list of categories",
+            "example": "Crypto,Sports,Politics"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of KLSI markets in the specified categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/KLSIMarket"}
+                    },
+                    "count": {"type": "integer"},
+                    "limit": {"type": "integer"},
+                    "offset": {"type": "integer"},
+                    "categories": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/{poly_id}/market": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Market Details",
+        "description": "Retrieve comprehensive details about a specific Polymarket market.\n\n**What you get:**\n- Market title and description\n- Resolution rules\n- Current status (active/resolved)\n- End date and settlement info\n- Condition ID (needed for orderbook/trades)\n- Category and event association\n\n**Use cases:**\n- Display market information\n- Get condition_id for orderbook queries\n- Check resolution criteria\n\n**Note:** Polymarket uses `poly_id` for market lookup, but orderbook/trade endpoints require the `condition_id` (hex string starting with `0x`).",
+        "parameters": [
+          {"$ref": "#/components/parameters/poly_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Market details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PolyMarket"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/poly/{poly_id}/rules": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Resolution Rules",
+        "description": "Retrieve the resolution rules for a Polymarket market. Rules define how the market will be settled.\n\n**What you get:**\n- Full resolution criteria text\n- Data sources and settlement conditions\n\n**Use cases:**\n- Understand how outcomes are determined\n- Display rules in market interfaces\n- Assess market risk",
+        "parameters": [
+          {"$ref": "#/components/parameters/poly_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Market rules",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "poly_id": {"type": "string"},
+                    "rules": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/{poly_id}/orderbook": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Orderbook",
+        "description": "Retrieve historical orderbook snapshots for a Polymarket market. Each snapshot shows the full order depth at a point in time.\n\n**What you get:**\n- Bid and ask arrays (price levels 1-99)\n- Snapshot timestamps\n- Market identifier\n\n**Important:** This endpoint requires the `condition_id` (hex string starting with `0x`), NOT the standard `poly_id`. Get the condition_id from the market details endpoint first.\n\n**Use cases:**\n- Analyze historical liquidity\n- Build depth charts\n- Calculate spreads over time\n- Backtest trading strategies",
+        "parameters": [
+          {"$ref": "#/components/parameters/condition_id"},
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10},
+            "description": "Maximum number of snapshots to return (default: 10 in docs, no max limit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orderbook snapshots",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PolyOrderbookSnapshot"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/{poly_id}/tradehistory": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Trade History",
+        "description": "Retrieve historical trades for a Polymarket market. Each trade includes execution details.\n\n**What you get:**\n- Trade price and size\n- Token ID (identifies YES/NO outcome)\n- Side (buy/sell)\n- Timestamp\n\n**Important:** This endpoint requires the `condition_id` (hex string starting with `0x`), NOT the standard `poly_id`.\n\n**Use cases:**\n- Analyze trading volume\n- Track price movements\n- Calculate VWAP\n- Build candlestick charts",
+        "parameters": [
+          {"$ref": "#/components/parameters/condition_id"},
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10},
+            "description": "Maximum number of trades to return (default: 10 in docs, no max limit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PolyTrade"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/{poly_id}/prices": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Price History",
+        "description": "Retrieve price history for a Polymarket market. Each record shows the price at a point in time derived from trades.\n\n**What you get:**\n- Exchange identifier\n- Condition ID (market identifier)\n- Price (as decimal, e.g., 0.992 = 99.2%)\n- Timestamp\n\n**Important:** This endpoint requires the `condition_id` (hex string starting with `0x`), NOT the standard `poly_id`.\n\n**Use cases:**\n- Build price charts\n- Analyze price movements over time\n- Track market sentiment\n- Backtest trading strategies",
+        "parameters": [
+          {"$ref": "#/components/parameters/condition_id"},
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10},
+            "description": "Maximum number of price points to return (default: 10 in docs, no max limit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Price history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PolyPricePoint"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/poly/{poly_id}/event": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Event",
+        "description": "Retrieve event details for a Polymarket event. Events group related markets together.\n\n**What you get:**\n- Event title and category\n- Associated market identifiers\n- Cross-exchange mapping (Kalshi ID if available)\n\n**Use cases:**\n- Navigate related markets\n- Compare prices across exchanges\n- Build event-centric views",
+        "parameters": [
+          {"$ref": "#/components/parameters/poly_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Event details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Event"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/poly/event/{event_id}/markets": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get All Markets in Polymarket Event",
+        "description": "Retrieve all individual markets within a Polymarket event.\n\n**What you get:**\n- Array of all markets in the event\n- Full market details including condition_id\n- Status and end dates\n\n**Use cases:**\n- Display all outcomes for an event\n- Build multi-market views\n- Get condition_ids for orderbook queries",
+        "parameters": [
+          {"$ref": "#/components/parameters/event_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of markets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PolyMarket"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/markets": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "List All Polymarket Markets",
+        "description": "Retrieve a paginated list of all Polymarket markets, ordered by end date (newest first).\n\n**What you get:**\n- Market details including condition_id\n- Title, rules, and status\n- Pagination metadata\n\n**Use cases:**\n- Browse all available markets\n- Build market discovery features\n- Sync market data to your database\n\n**Pagination:** Use `limit` and `offset` parameters to page through results.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Polymarket markets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/PolyMarket"}
+                    },
+                    "count": {"type": "integer", "description": "Number of markets returned"},
+                    "limit": {"type": "integer"},
+                    "offset": {"type": "integer"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/markets/category/{category}": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Markets by Category",
+        "description": "Retrieve all Polymarket markets for a specific category.\n\n**Available categories:**\n- Crypto, Economics, Elections, Politics\n- Sports, Entertainment, Companies\n- Climate and Weather, Science and Technology\n- And more\n\n**Use cases:**\n- Build category-filtered market views\n- Display markets by topic\n- Power category navigation",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Category name",
+            "example": "Crypto"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Polymarket markets in the category",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/PolyMarket"}
+                    },
+                    "count": {"type": "integer"},
+                    "limit": {"type": "integer"},
+                    "offset": {"type": "integer"},
+                    "category": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/poly/markets/categories": {
+      "get": {
+        "tags": ["Polymarket"],
+        "summary": "Get Polymarket Markets by Multiple Categories",
+        "description": "Retrieve all Polymarket markets for multiple categories at once.\n\n**Example:**\n```bash\ncurl \"https://api.delphiterminal.co/api/v1/poly/markets/categories?categories=Crypto,Sports\" \\\n  -H \"X-API-Key: YOUR_API_KEY\"\n```\n\n**Use cases:**\n- Build multi-category market views\n- Cross-category analysis\n- Custom category groupings",
+        "parameters": [
+          {
+            "name": "categories",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Comma-separated list of categories",
+            "example": "Crypto,Sports,Politics"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Polymarket markets in the specified categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/PolyMarket"}
+                    },
+                    "count": {"type": "integer"},
+                    "limit": {"type": "integer"},
+                    "offset": {"type": "integer"},
+                    "categories": {"type": "array", "items": {"type": "string"}}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/limitless/{market_id}/orderbook": {
+      "get": {
+        "tags": ["Limitless"],
+        "summary": "Get Limitless Orderbook",
+        "description": "Retrieve orderbook data for a Limitless market. Each row shows bid and ask arrays at a point in time.\n\n**What you get:**\n- Bid and ask price level arrays\n- Token ID and market ID\n- Last update timestamp\n\n**Use cases:**\n- Analyze current and historical liquidity\n- Build depth charts\n- Calculate spreads\n\n**Note:** The playground returns 10 results for demo. Use `limit` parameter (up to 10,000) in production.",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Limitless market identifier",
+            "example": "dollarbtc-above-dollar7294324-on-feb-5-0300-utc-1770256941356"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10, "maximum": 10000},
+            "description": "Maximum number of rows to return (default: 10, max: 10,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orderbook data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/LimitlessOrderbookRow"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/limitless/{market_id}/exchange_prices": {
+      "get": {
+        "tags": ["Limitless"],
+        "summary": "Get Limitless Exchange Prices",
+        "description": "Retrieve price history data for a Limitless market. Each row shows price, bid/ask, volume, and open interest at a point in time.\n\n**What you get:**\n- Current price\n- Yes bid and ask prices\n- Trading volume\n- Open interest\n- Timestamps\n\n**Use cases:**\n- Build price charts\n- Track volume trends\n- Monitor open interest changes\n- Calculate price volatility\n\n**Note:** The playground returns 10 results for demo. Use `limit` parameter (up to 10,000) in production.",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Limitless market identifier",
+            "example": "dollarbtc-above-dollar7294324-on-feb-5-0300-utc-1770256941356"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10, "maximum": 10000},
+            "description": "Maximum number of rows to return (default: 10, max: 10,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ticker/price history data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/LimitlessTicker"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/limitless/{market_id}/tradehistory": {
+      "get": {
+        "tags": ["Limitless"],
+        "summary": "Get Limitless Trade History",
+        "description": "Retrieve historical trades for a Limitless market. Each trade includes execution details.\n\n**What you get:**\n- Yes and No prices\n- Trade count\n- Taker side (buy/sell)\n- Timestamp\n\n**Use cases:**\n- Analyze trading volume\n- Track price movements\n- Calculate VWAP\n- Build candlestick charts",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Limitless market identifier",
+            "example": "dollarbtc-above-dollar7294324-on-feb-5-0300-utc-1770256941356"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10},
+            "description": "Maximum number of trades to return (default: 10 in docs, no max limit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/LimitlessTrade"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/limitless/{market_id}/market": {
+      "get": {
+        "tags": ["Limitless"],
+        "summary": "Get Limitless Market Details",
+        "description": "Retrieve detailed market information for a Limitless market.\n\n**What you get:**\n- Market title\n- Rules (resolution criteria)\n- Category\n- Closed status and timestamp\n\n**Use cases:**\n- Display market information to users\n- Check if a market is closed\n- Understand resolution rules",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Limitless market identifier",
+            "example": "dollarbtc-above-dollar7294324-on-feb-5-0300-utc-1770256941356"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/LimitlessMarketDetails"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/limitless/markets": {
+      "get": {
+        "tags": ["Limitless"],
+        "summary": "List All Limitless Markets",
+        "description": "Retrieve a paginated list of all Limitless markets.\n\n## Pagination\n\nUse `limit` and `offset` to paginate through results:\n\n```python\n# Fetch all markets\nall_markets = []\noffset = 0\nwhile True:\n    resp = requests.get(f\"{BASE_URL}/api/v1/limitless/markets\",\n                        params={\"limit\": 100, \"offset\": offset},\n                        headers={\"X-API-Key\": API_KEY})\n    data = resp.json()\n    if not data[\"markets\"]:\n        break\n    all_markets.extend(data[\"markets\"])\n    offset += 100\n```\n\n## Response Fields\n\nEach market includes:\n- **limitless_id**: Unique Limitless market identifier\n- **title**: Human-readable market title\n- **rules**: Resolution criteria\n- **closed**: Whether the market has closed\n- **category**: Market category",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of Limitless markets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/LimitlessMarketDetails"}
+                    },
+                    "count": {"type": "integer", "description": "Number of markets returned"},
+                    "limit": {"type": "integer", "description": "Limit used"},
+                    "offset": {"type": "integer", "description": "Offset used"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pfun/{market_id}/exchange_prices": {
+      "get": {
+        "tags": ["Pfun"],
+        "summary": "Get Pfun Exchange Prices",
+        "description": "Retrieve price history data for a Pfun market. Each row shows price and bid/ask at a point in time.\n\n**What you get:**\n- Current price\n- Yes bid and ask prices\n- Timestamps\n\n**Use cases:**\n- Build price charts\n- Track price movements\n- Calculate spreads over time\n\n**Note:** The playground returns 10 results for demo. Use `limit` parameter (up to 10,000) in production.",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Pfun market identifier",
+            "example": "6933"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10, "maximum": 10000},
+            "description": "Maximum number of rows to return (default: 10, max: 10,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ticker/price history data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PfunTicker"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/pfun/{market_id}/market": {
+      "get": {
+        "tags": ["Pfun"],
+        "summary": "Get Pfun Market Details",
+        "description": "Retrieve detailed information about a specific Pfun market.\n\n**What you get:**\n- Market title, question, and rules\n- Event and category info\n- Strike price and expiration\n- Contract IDs (yes/no)\n- Payout details\n\n**Use cases:**\n- Display market information\n- Get contract IDs for trading\n- Understand market rules",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Pfun market identifier",
+            "example": "6933"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Market details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/PfunMarketDetails"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/pfun/markets": {
+      "get": {
+        "tags": ["Pfun"],
+        "summary": "List All Pfun Markets",
+        "description": "Retrieve a paginated list of all Pfun markets.\n\n## Pagination\n\nUse `limit` and `offset` to paginate through results:\n\n```python\n# Fetch all markets\nall_markets = []\noffset = 0\nwhile True:\n    resp = requests.get(f\"{BASE_URL}/api/v1/pfun/markets\",\n                        params={\"limit\": 100, \"offset\": offset},\n                        headers={\"X-API-Key\": API_KEY})\n    data = resp.json()\n    if not data[\"markets\"]:\n        break\n    all_markets.extend(data[\"markets\"])\n    offset += 100\n```\n\n## Response Fields\n\nEach market includes:\n- **market_id**: Unique Pfun market identifier\n- **market_title**: Human-readable market title\n- **question**: Market question\n- **category**: Market category\n- **rules**: Resolution criteria\n- **strike/expiration**: Strike price and expiration info\n- **conid_yes/conid_no**: Contract IDs",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 100, "maximum": 1000},
+            "description": "Maximum number of markets to return (default: 100, max: 1000)"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 0},
+            "description": "Number of markets to skip for pagination"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of Pfun markets",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "markets": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/PfunMarketDetails"}
+                    },
+                    "count": {"type": "integer", "description": "Number of markets returned"},
+                    "limit": {"type": "integer", "description": "Limit used"},
+                    "offset": {"type": "integer", "description": "Offset used"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pfun/{market_id}/tradehistory": {
+      "get": {
+        "tags": ["Pfun"],
+        "summary": "Get Pfun Trade History",
+        "description": "Retrieve trade history data for a Pfun market. Each row shows trade execution details.\n\n**What you get:**\n- Yes and No prices\n- Trade count\n- Taker side (buy/sell)\n- Timestamps\n\n**Use cases:**\n- Analyze trading activity\n- Build trade feeds\n- Calculate VWAP\n- Track market sentiment\n\n**Note:** The playground returns 10 results for demo. Use `limit` parameter (up to 10,000) in production.",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Pfun market identifier",
+            "example": "6933"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10, "maximum": 10000},
+            "description": "Maximum number of rows to return (default: 10, max: 10,000)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade history data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PfunTrade"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/pfun/{market_id}/orderbook": {
+      "get": {
+        "tags": ["Pfun"],
+        "summary": "Get Pfun Orderbook",
+        "description": "Retrieve orderbook data for a Pfun market. Each row shows the full orderbook state at a point in time.\n\n**What you get:**\n- Best yes/no prices and sizes\n- Full yes_side and no_side arrays (price levels)\n- Venue market ID\n- Server timestamp\n\n**Use cases:**\n- Analyze liquidity\n- Build depth charts\n- Calculate spreads\n- Track orderbook changes over time",
+        "parameters": [
+          {
+            "name": "market_id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Pfun market identifier",
+            "example": "6933"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10},
+            "description": "Maximum number of snapshots to return (default: 10 in docs, no max limit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Orderbook data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PfunOrderbook"}
+                }
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/events/{event_id}": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get Event by ID",
+        "description": "Retrieve details for a specific event by its unique identifier.\n\n**What you get:**\n- Event title and category/subcategory\n- Exchange-specific IDs (klsi_id, poly_id)\n- Strike date and timing info\n- Cross-exchange availability\n\n**Use cases:**\n- Look up event metadata\n- Get exchange-specific IDs for market queries\n- Check if event is available on both exchanges",
+        "parameters": [
+          {"$ref": "#/components/parameters/event_id"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Event details",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Event"}
+              }
+            }
+          },
+          "404": {"$ref": "#/components/responses/NotFound"}
+        }
+      }
+    },
+    "/api/v1/events/category/{category}": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get Events by Category",
+        "description": "Retrieve all events in a specific category across all exchanges.\n\n**Available categories:**\n- Crypto, Economics, Elections, Politics\n- Sports, Entertainment, Companies\n- Climate and Weather, Science and Technology\n- And more (see parameter enum)\n\n**Use cases:**\n- Build category-based navigation\n- Display markets by topic\n- Power category pages",
+        "parameters": [
+          {"$ref": "#/components/parameters/category"}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Event"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/category/{category}/klsi": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get Kalshi Events by Category",
+        "description": "Retrieve events available on Kalshi for a specific category. Only returns events that have a `klsi_id` (are tradeable on Kalshi).\n\n**Use cases:**\n- Show Kalshi-specific markets\n- Filter for US-regulated markets only\n- Build Kalshi-focused interfaces",
+        "parameters": [
+          {"$ref": "#/components/parameters/category"}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of KLSI events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Event"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/category/{category}/poly": {
+      "get": {
+        "tags": ["Events"],
+        "summary": "Get Polymarket Events by Category",
+        "description": "Retrieve events available on Polymarket for a specific category. Only returns events that have a `poly_id` (are tradeable on Polymarket).\n\n**Use cases:**\n- Show Polymarket-specific markets\n- Filter for crypto-native markets\n- Build Polymarket-focused interfaces",
+        "parameters": [
+          {"$ref": "#/components/parameters/category"}
+        ],
+        "responses": {
+          "200": {
+            "description": "List of Polymarket events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Event"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/search": {
+      "get": {
+        "tags": ["Search"],
+        "summary": "Search events",
+        "description": "Search across all events by title. Results are ranked by relevance.\n\n## Example Queries\n\n- `bitcoin` - Find Bitcoin-related markets\n- `election 2024` - Find 2024 election markets\n- `fed rate` - Find Federal Reserve interest rate markets\n\n## Filtering\n\nCombine search with category filter:\n\n```bash\ncurl \"https://api.delphiterminal.co/api/v1/events/search?q=bitcoin&category=Crypto\" \\\n  -H \"X-API-Key: YOUR_API_KEY\"\n```\n\n## Available Categories\n\nClimate and Weather, Companies, Crypto, Economics, Elections, Entertainment, Financials, Politics, Science and Technology, Sports, and more.",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string", "minLength": 2},
+            "description": "Search query (min 2 characters)",
+            "example": "bitcoin"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string"},
+            "description": "Filter by category (e.g., Crypto, Politics, Sports)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/Event"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/search/suggest": {
+      "get": {
+        "tags": ["Search"],
+        "summary": "Autocomplete Suggestions",
+        "description": "Get autocomplete suggestions for a partial search query. Use this to build search-as-you-type interfaces.\n\n**What you get:**\n- Array of suggested search terms\n- Ranked by relevance and popularity\n\n**Use cases:**\n- Power search box autocomplete\n- Help users discover markets\n- Reduce typing errors",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Partial search query (what the user has typed so far)",
+            "example": "bit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Suggestions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/klsi/{klsi_id}/prices": {
+      "get": {
+        "tags": ["KLSI"],
+        "summary": "Get KLSI Price History",
+        "description": "Retrieve historical price data for a Kalshi market.\n\n**What you get:**\n- Price time series with timestamps\n- Yes/No bid and ask prices\n- Trading volume\n- Open interest\n\n**Use cases:**\n- Build price charts\n- Analyze historical trends\n- Track market sentiment over time",
+        "parameters": [
+          {"$ref": "#/components/parameters/klsi_id"},
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 10},
+            "description": "Maximum number of price points to return (default: 10 in docs, no max limit)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Price history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {"$ref": "#/components/schemas/PricePoint"}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/markets/{market_id}/orderbook_analytics": {
+      "get": {
+        "tags": ["Advanced Analytics"],
+        "summary": "Get Orderbook Analytics",
+        "description": "Retrieve pre-computed orderbook analytics for any market. These metrics are derived from orderbook snapshots.\n\n**What you get:**\n- Time-series orderbook metrics\n- Aggregated depth and liquidity data\n- Spread and imbalance indicators\n\n**Use cases:**\n- Track liquidity changes over time\n- Identify optimal entry/exit points\n- Build market quality dashboards",
+        "parameters": [
+          {"$ref": "#/components/parameters/market_id"},
+          {"$ref": "#/components/parameters/limit"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Analytics data",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"type": "object"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/markets/{market_id}/orderbook_analytics/best_quotes": {
+      "get": {
+        "tags": ["Advanced Analytics"],
+        "summary": "Get Best Bid/Ask Time Series",
+        "description": "Retrieve a time-series of best bid and best ask prices for a market. This is the most efficient way to get price history.\n\n**What you get:**\n- Best bid price over time\n- Best ask price over time\n- Timestamps for each data point\n\n**Use cases:**\n- Build price charts\n- Calculate historical spreads\n- Analyze price movements\n- Backtest trading strategies",
+        "parameters": [
+          {"$ref": "#/components/parameters/market_id"},
+          {"$ref": "#/components/parameters/limit"}
+        ],
+        "responses": {
+          "200": {
+            "description": "Best quotes data",
+            "content": {
+              "application/json": {
+                "schema": {"type": "array", "items": {"type": "object"}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/ws/kalshi": {
+      "get": {
+        "tags": ["Kalshi WebSocket"],
+        "summary": "Kalshi Real-Time WebSocket",
+        "description": "Connect to the Kalshi WebSocket for real-time ticker and orderbook updates.\n\n---\n\n## Connection\n\nConnect to the WebSocket endpoint:\n\n```javascript\nconst ws = new WebSocket('wss://api.delphiterminal.co/ws/kalshi');\n```\n\n---\n\n## Subscribing to Markets\n\nOnce connected, send a JSON message to subscribe to Kalshi markets using their `klsi_id`:\n\n```json\n{\n  \"action\": \"subscribe\",\n  \"klsi_ids\": [\"KXBTCD-25FEB14-B55000\", \"KXETHD-25FEB14-B3100\"],\n  \"message_types\": [\"ticker\", \"orderbook\"]\n}\n```\n\n### Subscription Fields\n\n| Field | Type | Required | Description |\n|-------|------|----------|-------------|\n| action | string | Yes | `subscribe` or `unsubscribe` |\n| klsi_ids | array | Yes | Array of Kalshi market identifiers |\n| message_types | array | No | `[\"ticker\"]`, `[\"orderbook\"]`, or `[\"ticker\", \"orderbook\"]`. Defaults to both if omitted |\n\n---\n\n## Unsubscribing\n\n```json\n{\n  \"action\": \"unsubscribe\",\n  \"klsi_ids\": [\"KXBTCD-25FEB14-B55000\"]\n}\n```\n\n---\n\n## Message Types\n\n### Ticker Messages\n\nReal-time price updates for subscribed markets:\n\n```json\n{\n  \"klsi_id\": \"KXBTCD-25FEB14-B55000\",\n  \"price\": 0.65,\n  \"yes_bid\": 0.64,\n  \"yes_ask\": 0.66,\n  \"volume\": 15000,\n  \"open_interest\": 8500,\n  \"last_update\": \"2026-02-03T14:30:00Z\"\n}\n```\n\n### Orderbook Messages\n\nReal-time orderbook snapshots for subscribed markets:\n\n```json\n{\n  \"klsi_id\": \"KXBTCD-25FEB14-B55000\",\n  \"bid_side\": [0, 0, 0, ..., 150, 200, 100],\n  \"ask_side\": [100, 150, 200, ..., 0, 0, 0],\n  \"last_update\": \"2026-02-03T14:30:00Z\"\n}\n```\n\n---\n\n## Full JavaScript Example\n\n```javascript\nconst ws = new WebSocket('wss://api.delphiterminal.co/ws/kalshi');\n\nws.onopen = () => {\n  console.log('Connected to Kalshi WebSocket');\n  \n  // Subscribe to markets\n  ws.send(JSON.stringify({\n    action: 'subscribe',\n    klsi_ids: ['KXBTCD-25FEB14-B55000'],\n    message_types: ['ticker', 'orderbook']\n  }));\n};\n\nws.onmessage = (event) => {\n  const data = JSON.parse(event.data);\n  console.log('Received:', data);\n};\n\nws.onclose = () => {\n  console.log('Disconnected from WebSocket');\n};\n\nws.onerror = (error) => {\n  console.error('WebSocket error:', error);\n};\n```\n\n---\n\n## Connection Details\n\n| Property | Value |\n|----------|-------|\n| Protocol | WebSocket (wss://) |\n| Keepalive | Ping every 54 seconds |\n| Timeout | 60 seconds without pong |\n| Max Message Size | 512 KB |\n\n---\n\n## Notes\n\n- **No authentication required** for WebSocket connection\n- You must use `klsi_id` (Kalshi market identifier) to subscribe\n- Messages are only sent for markets you have explicitly subscribed to\n- Multiple markets can be subscribed in a single message\n- Subscribe to just `ticker` or just `orderbook` to reduce message volume",
+        "security": [],
+        "responses": {
+          "101": {
+            "description": "WebSocket connection upgraded successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key",
+        "description": "Your API key (get one from the test-key endpoint above)"
+      }
+    },
+    "parameters": {
+      "klsi_id": {
+        "name": "klsi_id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Kalshi market ID",
+        "example": "KXNCAAFTOTAL-25NOV29NDSTAN-41"
+      },
+      "poly_id": {
+        "name": "poly_id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Polymarket market ID",
+        "example": "1275563"
+      },
+      "condition_id": {
+        "name": "poly_id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Polymarket condition ID (hex string). This is different from the standard poly_id - it's the long identifier starting with '0x' that uniquely identifies a market condition.",
+        "example": "0x00000977017fa72fb6b1908ae694000d3b51f442c2552656b10bdbbfd16ff707"
+      },
+      "event_id": {
+        "name": "event_id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Event ID",
+        "example": "KXBTC-25NOV2717"
+      },
+      "market_id": {
+        "name": "market_id",
+        "in": "path",
+        "required": true,
+        "schema": {"type": "string"},
+        "description": "Market ID"
+      },
+      "category": {
+        "name": "category",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["Climate and Weather", "Companies", "Crypto", "Economics", "Elections", "Entertainment", "Financials", "Mentions", "Politics", "Science and Technology", "Social", "Sports", "Education", "Health", "World", "Transportation"]
+        },
+        "description": "Event category"
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "integer", "default": 10},
+        "description": "Maximum number of rows to return (default: 10 in docs, max: 10000). Use a higher limit in your code."
+      },
+      "cursor": {
+        "name": "cursor",
+        "in": "query",
+        "required": false,
+        "schema": {"type": "string"},
+        "description": "Pagination cursor for next page"
+      }
+    },
+    "schemas": {
+      "CreateAPIKeyRequest": {
+        "type": "object",
+        "required": ["customer_id", "days_valid"],
+        "properties": {
+          "name": {"type": "string", "description": "Human-readable key name"},
+          "customer_id": {"type": "string", "description": "Customer identifier"},
+          "days_valid": {"type": "integer", "minimum": 1, "maximum": 3650, "description": "Days until expiry"}
+        }
+      },
+      "CreateAPIKeyResponse": {
+        "type": "object",
+        "properties": {
+          "api_key": {"type": "string", "description": "The full API key (shown only once)"},
+          "expires_at": {"type": "string", "format": "date-time"},
+          "customer_id": {"type": "string"},
+          "key_prefix": {"type": "string", "description": "Key prefix for identification"}
+        }
+      },
+      "APIKeyInfo": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "customer_id": {"type": "string"},
+          "key_prefix": {"type": "string"},
+          "expires_at": {"type": "string", "format": "date-time"},
+          "revoked_at": {"type": "string", "format": "date-time", "nullable": true},
+          "created_at": {"type": "string", "format": "date-time"}
+        }
+      },
+      "RevokeAPIKeyRequest": {
+        "type": "object",
+        "required": ["key_prefix"],
+        "properties": {
+          "key_prefix": {"type": "string"}
+        }
+      },
+      "ExtendAPIKeyRequest": {
+        "type": "object",
+        "required": ["key_prefix", "expires_at"],
+        "properties": {
+          "key_prefix": {"type": "string"},
+          "expires_at": {"type": "string", "format": "date-time"}
+        }
+      },
+      "AuthRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {"type": "string", "format": "email"},
+          "password": {"type": "string", "minLength": 8}
+        }
+      },
+      "UserInfo": {
+        "type": "object",
+        "properties": {
+          "user_id": {"type": "string", "format": "uuid"},
+          "email": {"type": "string", "format": "email"}
+        }
+      },
+      "KLSIMarket": {
+        "type": "object",
+        "properties": {
+          "klsi_id": {"type": "string"},
+          "title": {"type": "string"},
+          "rules": {"type": "array", "items": {"type": "string"}},
+          "x": {"type": "array", "items": {"type": "string", "nullable": true}},
+          "y": {"type": "array", "items": {"type": "string", "nullable": true}},
+          "action": {"type": "array", "items": {"type": "string", "nullable": true}},
+          "closed": {"type": "boolean"},
+          "closed_time": {"type": "integer", "nullable": true},
+          "delphi_id": {"type": "string", "nullable": true},
+          "close_time": {"type": "string", "format": "date-time", "nullable": true},
+          "event_id": {"type": "string"},
+          "category": {"type": "string"}
+        }
+      },
+      "KLSIOHLCV": {
+        "type": "object",
+        "description": "OHLCV candle data for KLSI markets. Available in multiple time intervals (1s, 1m, 5m, 10m, 1h, 1d).",
+        "properties": {
+          "bucket_time": {"type": "string", "format": "date-time", "description": "Start time of the bucket"},
+          "exchange": {"type": "string", "description": "Exchange identifier (KLSI)"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "open": {"type": "number", "description": "Opening price of the bucket"},
+          "high": {"type": "number", "description": "Highest price in the bucket"},
+          "low": {"type": "number", "description": "Lowest price in the bucket"},
+          "close": {"type": "number", "description": "Closing price of the bucket"},
+          "open_cum_volume": {"type": "integer", "description": "Cumulative volume at bucket open"},
+          "close_cum_volume": {"type": "integer", "description": "Cumulative volume at bucket close"},
+          "bucket_volume": {"type": "integer", "description": "Volume traded during this bucket"},
+          "close_yes_bid": {"type": "number", "description": "Best YES bid at bucket close"},
+          "close_yes_ask": {"type": "number", "description": "Best YES ask at bucket close"},
+          "close_open_interest": {"type": "integer", "description": "Open interest at bucket close"},
+          "last_update_max": {"type": "string", "format": "date-time", "description": "Latest update time within the bucket"},
+          "ticks_count": {"type": "integer", "description": "Number of ticks (price updates) in the bucket"}
+        }
+      },
+      "PolyMarket": {
+        "type": "object",
+        "properties": {
+          "condition_id": {"type": "string"},
+          "id": {"type": "string"},
+          "title": {"type": "string"},
+          "rules": {"type": "string"},
+          "closed": {"type": "boolean"},
+          "closed_time": {"type": "integer", "nullable": true},
+          "x": {"type": "array", "items": {"type": "string", "nullable": true}},
+          "y": {"type": "array", "items": {"type": "string", "nullable": true}},
+          "action": {"type": "array", "items": {"type": "string", "nullable": true}},
+          "delphi_id": {"type": "string", "nullable": true},
+          "end_date": {"type": "string", "format": "date-time", "nullable": true},
+          "category": {"type": "string", "nullable": true},
+          "event_id": {"type": "string"}
+        }
+      },
+      "Event": {
+        "type": "object",
+        "properties": {
+          "event_id": {"type": "string"},
+          "category": {"type": "string", "nullable": true},
+          "subcategory": {"type": "string", "nullable": true},
+          "title": {"type": "string"},
+          "klsi_id": {"type": "string", "nullable": true},
+          "klsi_series_ticker": {"type": "string", "nullable": true},
+          "poly_id": {"type": "string", "nullable": true},
+          "poly_series_ticker": {"type": "string", "nullable": true},
+          "strike_date": {"type": "integer"},
+          "exchange": {"type": "string"},
+          "delphi_id": {"type": "string", "nullable": true}
+        }
+      },
+      "OrderbookSnapshot": {
+        "type": "object",
+        "properties": {
+          "snapshot_time": {"type": "string", "format": "date-time"},
+          "exchange": {"type": "string"},
+          "market_id": {"type": "string"},
+          "bid_side": {"type": "array", "items": {"type": "number"}},
+          "ask_side": {"type": "array", "items": {"type": "number"}},
+          "original_last_update": {"type": "string", "format": "date-time"}
+        }
+      },
+      "PolyOrderbookSnapshot": {
+        "type": "object",
+        "properties": {
+          "snapshot_time": {"type": "string", "format": "date-time"},
+          "exchange": {"type": "string"},
+          "market_id": {"type": "string"},
+          "bid_side": {"type": "array", "items": {"type": "number"}},
+          "ask_side": {"type": "array", "items": {"type": "number"}},
+          "original_last_update": {"type": "string", "format": "date-time"}
+        }
+      },
+      "LimitlessOrderbookRow": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier (LMT)"},
+          "token_id": {"type": "string", "description": "Token identifier"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "bid_side": {"type": "array", "items": {"type": "number"}, "description": "Array of bid prices"},
+          "ask_side": {"type": "array", "items": {"type": "number"}, "description": "Array of ask prices"},
+          "last_update": {"type": "string", "format": "date-time", "description": "Last update timestamp from exchange"}
+        }
+      },
+      "LimitlessTicker": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier (LMT)"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "price": {"type": "number", "description": "Current price"},
+          "yes_bid": {"type": "number", "description": "Best bid price for YES outcome"},
+          "yes_ask": {"type": "number", "description": "Best ask price for YES outcome"},
+          "volume": {"type": "integer", "description": "Trading volume"},
+          "open_interest": {"type": "integer", "description": "Open interest"},
+          "last_update": {"type": "string", "format": "date-time", "description": "Timestamp of this ticker update"}
+        }
+      },
+      "LimitlessTrade": {
+        "type": "object",
+        "description": "Trade record from Limitless exchange",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier (LMT)"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "yes_price": {"type": "number", "description": "YES outcome price"},
+          "no_price": {"type": "number", "description": "NO outcome price"},
+          "count": {"type": "integer", "description": "Number of contracts traded"},
+          "taker_side": {"type": "string", "description": "Side of the taker (buy/sell)"},
+          "last_update": {"type": "string", "format": "date-time", "description": "Timestamp of the trade"}
+        }
+      },
+      "LimitlessMarketDetails": {
+        "type": "object",
+        "properties": {
+          "limitless_id": {"type": "string", "description": "Limitless market identifier"},
+          "title": {"type": "string", "description": "Market title"},
+          "rules": {"type": "array", "items": {"type": "string"}, "description": "Resolution rules/criteria"},
+          "closed": {"type": "boolean", "description": "Whether the market is closed"},
+          "closed_time": {"type": "integer", "nullable": true, "description": "Unix timestamp when market closed (null if still open)"},
+          "category": {"type": "string", "description": "Market category"}
+        }
+      },
+      "PfunTicker": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "price": {"type": "number", "description": "Current price"},
+          "yes_bid": {"type": "number", "description": "Best bid price for YES outcome"},
+          "yes_ask": {"type": "number", "description": "Best ask price for YES outcome"},
+          "last_update": {"type": "string", "format": "date-time", "description": "Timestamp of this ticker update"}
+        }
+      },
+      "PfunTrade": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "yes_price": {"type": "number", "description": "YES outcome price"},
+          "no_price": {"type": "number", "description": "NO outcome price"},
+          "count": {"type": "integer", "description": "Number of contracts traded"},
+          "taker_side": {"type": "string", "description": "Taker side (buy/sell)"},
+          "last_update": {"type": "string", "format": "date-time", "description": "Timestamp of this trade"}
+        }
+      },
+      "PfunOrderbook": {
+        "type": "object",
+        "description": "Orderbook snapshot from Pfun exchange",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "venue_market_id": {"type": "string", "description": "Venue-specific market identifier"},
+          "best_yes_price": {"type": "integer", "description": "Best YES price"},
+          "best_yes_size": {"type": "integer", "description": "Size at best YES price"},
+          "best_no_price": {"type": "integer", "description": "Best NO price"},
+          "best_no_size": {"type": "integer", "description": "Size at best NO price"},
+          "yes_side": {"type": "array", "items": {"type": "integer", "nullable": true}, "description": "YES side price levels"},
+          "no_side": {"type": "array", "items": {"type": "integer", "nullable": true}, "description": "NO side price levels"},
+          "server_time": {"type": "string", "format": "date-time", "description": "Server timestamp"}
+        }
+      },
+      "PfunMarketDetails": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier"},
+          "market_id": {"type": "string", "description": "Market identifier"},
+          "venue_market_id": {"type": "string", "description": "Venue-specific market ID"},
+          "event_id": {"type": "string", "description": "Event identifier"},
+          "event_ticker": {"type": "string", "description": "Event ticker symbol"},
+          "market_title": {"type": "string", "description": "Market title"},
+          "market_subtitle": {"type": "string", "description": "Market subtitle"},
+          "question": {"type": "string", "description": "Market question"},
+          "category": {"type": "string", "description": "Market category"},
+          "symbol": {"type": "string", "description": "Market symbol"},
+          "side": {"type": "string", "description": "Side"},
+          "strike_label": {"type": "string", "description": "Strike label"},
+          "strike": {"type": "number", "description": "Strike price"},
+          "expiration": {"type": "string", "description": "Expiration date/time"},
+          "payout": {"type": "number", "description": "Payout amount"},
+          "conid_yes": {"type": "integer", "description": "Contract ID for YES outcome"},
+          "conid_no": {"type": "integer", "description": "Contract ID for NO outcome"},
+          "underlying_conid": {"type": "integer", "description": "Underlying contract ID"},
+          "paired_conid": {"type": "integer", "description": "Paired contract ID"},
+          "rules": {"type": "string", "description": "Market rules"},
+          "market_name": {"type": "string", "description": "Market name"},
+          "retrieved_at": {"type": "string", "format": "date-time", "description": "When this data was retrieved"}
+        }
+      },
+      "KLSITrade": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "exchange": {"type": "string"},
+          "market_id": {"type": "string"},
+          "yes_price": {"type": "number"},
+          "no_price": {"type": "number"},
+          "count": {"type": "integer"},
+          "taker_side": {"type": "string"},
+          "last_update": {"type": "string", "format": "date-time"}
+        }
+      },
+      "PolyTrade": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string"},
+          "token_id": {"type": "string"},
+          "market_id": {"type": "string"},
+          "price": {"type": "number"},
+          "size": {"type": "number"},
+          "side": {"type": "string"},
+          "last_update": {"type": "string", "format": "date-time"}
+        }
+      },
+      "PolyPricePoint": {
+        "type": "object",
+        "description": "Price point from Polymarket trade history",
+        "properties": {
+          "exchange": {"type": "string", "description": "Exchange identifier (PLY)"},
+          "condition_id": {"type": "string", "description": "Polymarket condition ID (market identifier)"},
+          "price": {"type": "number", "description": "Price as decimal (e.g., 0.992 = 99.2%)"},
+          "last_update": {"type": "string", "format": "date-time", "description": "Timestamp of the price point"}
+        }
+      },
+      "PricePoint": {
+        "type": "object",
+        "properties": {
+          "exchange": {"type": "string"},
+          "market_id": {"type": "string"},
+          "price": {"type": "number"},
+          "yes_bid": {"type": "number"},
+          "yes_ask": {"type": "number"},
+          "volume": {"type": "integer"},
+          "open_interest": {"type": "integer"},
+          "last_update": {"type": "string", "format": "date-time"}
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {"type": "string"}
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Error"}
+          }
+        }
+      }
+    }
+  }
+}
