@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Checkout — Delphi Prediction Market Terminal</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="icon" type="image/png" href="images/DelphiWhite.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="assets/css/main.css" />
+	<style>
+		.checkout-root {
+			display: flex;
+			min-height: 100vh;
+			background: #000;
+		}
+		.checkout-left {
+			flex: 0 0 50%;
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			text-align: center;
+			padding: 2rem 4rem 3rem;
+			border-right: 1px solid #1a1a1a;
+			box-sizing: border-box;
+			min-height: 100vh;
+		}
+		.checkout-right {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			min-height: 100vh;
+			background: #0a0a0a;
+			position: relative;
+		}
+		.checkout-open-new {
+			position: absolute;
+			bottom: 1rem;
+			right: 1.5rem;
+			margin: 0;
+			font-size: 0.85rem;
+		}
+		.checkout-open-new a {
+			color: rgba(255, 255, 255, 0.5);
+			border-bottom-color: rgba(255, 255, 255, 0.3);
+		}
+		.checkout-open-new a:hover {
+			color: #5ac8fa;
+		}
+		.checkout-right iframe {
+			flex: 1;
+			width: 100%;
+			min-height: 100%;
+			border: none;
+		}
+		.checkout-right-fallback {
+			display: none;
+			flex: 1;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 2rem;
+			text-align: center;
+		}
+		.checkout-right-fallback.visible {
+			display: flex;
+		}
+		.checkout-right-fallback .checkout-fallback-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			margin-top: 1.5rem;
+			padding: 1rem 2rem;
+			background: rgba(90, 200, 250, 0.2);
+			border: 1px solid #5ac8fa;
+			color: #fff;
+			font-family: inherit;
+			font-size: 1rem;
+			border-radius: 4px;
+			text-decoration: none;
+			cursor: pointer;
+			transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+		}
+		.checkout-right-fallback .checkout-fallback-btn:hover {
+			background: rgba(90, 200, 250, 0.35);
+			box-shadow: 0 0 20px rgba(90, 200, 250, 0.3);
+			transform: translateY(-2px);
+		}
+		.checkout-product-logo {
+			width: 320px;
+			height: auto;
+			margin-bottom: 2rem;
+			margin-top: 0;
+			opacity: 0.95;
+		}
+		.checkout-product-title {
+			font-family: 'Space Grotesk', 'Inter', sans-serif;
+			font-size: 1.5rem;
+			font-weight: 600;
+			color: #5ac8fa;
+			letter-spacing: -0.03em;
+			margin: 0 0 2rem 0;
+			line-height: 1.4;
+			max-width: 420px;
+		}
+		.checkout-features-block {
+			width: 100%;
+			max-width: 420px;
+			text-align: left;
+			align-self: center;
+			margin-top: 3.5rem;
+		}
+		.checkout-features-title {
+			font-family: 'Space Grotesk', 'Inter', sans-serif;
+			font-size: 1.35rem;
+			font-weight: 600;
+			color: #5ac8fa;
+			margin: 0 0 1.25rem 0;
+			text-align: left;
+		}
+		.checkout-features {
+			list-style: none;
+			padding: 0;
+			margin: 0 0 2rem 0;
+			text-align: left;
+			width: 100%;
+		}
+		.checkout-features li {
+			position: relative;
+			padding-left: 1.75rem;
+			margin-bottom: 0.9rem;
+			color: rgba(255, 255, 255, 0.9);
+			font-size: 1.15rem;
+		}
+		.checkout-features li::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0.5em;
+			width: 8px;
+			height: 8px;
+			background: #5ac8fa;
+			border-radius: 50%;
+		}
+		.checkout-back {
+			display: inline-block;
+			margin-top: auto;
+			padding-top: 2rem;
+			color: rgba(255, 255, 255, 0.6);
+			font-size: 1rem;
+			text-decoration: none;
+			border-bottom: 1px dotted rgba(255, 255, 255, 0.4);
+			transition: color 0.2s;
+		}
+		.checkout-back:hover {
+			color: #5ac8fa;
+			border-bottom-color: #5ac8fa;
+		}
+		@media screen and (max-width: 900px) {
+			.checkout-root {
+				flex-direction: column;
+			}
+			.checkout-left {
+				flex: none;
+				padding: 2rem 1.5rem;
+				border-right: none;
+				border-bottom: 1px solid #1a1a1a;
+			}
+			.checkout-right {
+				min-height: 80vh;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="checkout-root">
+		<div class="checkout-left">
+			<img src="images/DelphiWhite.png" alt="Delphi" class="checkout-product-logo" />
+			<h1 class="checkout-product-title">Congratulations! You've secured a Founders Discount to our Unified Prediction Market API.</h1>
+			<div class="checkout-features-block">
+				<h2 class="checkout-features-title">Features:</h2>
+				<ul class="checkout-features">
+					<li>Matched markets across 4+ leading exchanges</li>
+					<li>Historical order book: trade and price history data</li>
+					<li>Live data feeds across all markets</li>
+					<li>Custom order book analytics</li>
+				</ul>
+			</div>
+			<a href="index.html" class="checkout-back">← Back to Delphi</a>
+		</div>
+		<div class="checkout-right">
+			<iframe
+				id="stripe-checkout-frame"
+				title="Stripe Checkout"
+				src="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801"
+			></iframe>
+			<div class="checkout-right-fallback" id="checkout-fallback">
+				<p style="color: rgba(255,255,255,0.9); margin: 0;">Complete your payment securely on Stripe.</p>
+				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" class="checkout-fallback-btn" id="checkout-fallback-btn">Continue to payment →</a>
+			</div>
+			<p class="checkout-open-new">
+				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" target="_blank" rel="noopener">Open payment page in new tab</a>
+			</p>
+		</div>
+	</div>
+	<script>
+		// If Stripe blocks iframe embedding, show fallback so user can continue to payment
+		var frame = document.getElementById('stripe-checkout-frame');
+		var fallback = document.getElementById('checkout-fallback');
+		if (frame && fallback) {
+			frame.addEventListener('error', function() {
+				fallback.classList.add('visible');
+				frame.style.display = 'none';
+			});
+			// After a short delay, if iframe is still empty/small height, Stripe may have blocked embed
+			setTimeout(function() {
+				try {
+					var doc = frame.contentDocument || frame.contentWindow.document;
+					if (!doc || doc.body.innerText === '') {
+						fallback.classList.add('visible');
+						frame.style.display = 'none';
+					}
+				} catch (e) {
+					// Cross-origin: we can't read iframe content; leave iframe visible
+				}
+			}, 1500);
+		}
+	</script>
+</body>
+</html>
