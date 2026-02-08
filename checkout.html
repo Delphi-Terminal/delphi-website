@@ -49,41 +49,37 @@
 		.checkout-open-new a:hover {
 			color: #5ac8fa;
 		}
-		.checkout-right iframe {
+		.checkout-right-cta {
 			flex: 1;
-			width: 100%;
-			min-height: 100%;
-			border: none;
-		}
-		.checkout-right-fallback {
-			display: none;
-			flex: 1;
+			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			padding: 2rem;
 			text-align: center;
 		}
-		.checkout-right-fallback.visible {
-			display: flex;
+		.checkout-right-cta .checkout-cta-title {
+			font-size: 1.1rem;
+			color: rgba(255, 255, 255, 0.85);
+			margin: 0 0 1.5rem 0;
 		}
-		.checkout-right-fallback .checkout-fallback-btn {
+		.checkout-right-cta .checkout-cta-btn {
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
-			margin-top: 1.5rem;
-			padding: 1rem 2rem;
+			padding: 1rem 2.5rem;
 			background: rgba(90, 200, 250, 0.2);
 			border: 1px solid #5ac8fa;
 			color: #fff;
 			font-family: inherit;
-			font-size: 1rem;
+			font-size: 1.1rem;
+			font-weight: 500;
 			border-radius: 4px;
 			text-decoration: none;
 			cursor: pointer;
 			transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 		}
-		.checkout-right-fallback .checkout-fallback-btn:hover {
+		.checkout-right-cta .checkout-cta-btn:hover {
 			background: rgba(90, 200, 250, 0.35);
 			box-shadow: 0 0 20px rgba(90, 200, 250, 0.3);
 			transform: translateY(-2px);
@@ -191,42 +187,14 @@
 			<a href="index.html" class="checkout-back">← Back to Delphi</a>
 		</div>
 		<div class="checkout-right">
-			<iframe
-				id="stripe-checkout-frame"
-				title="Stripe Checkout"
-				src="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801"
-			></iframe>
-			<div class="checkout-right-fallback" id="checkout-fallback">
-				<p style="color: rgba(255,255,255,0.9); margin: 0;">Complete your payment securely on Stripe.</p>
-				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" class="checkout-fallback-btn" id="checkout-fallback-btn">Continue to payment →</a>
+			<div class="checkout-right-cta">
+				<p class="checkout-cta-title">Complete your payment securely on Stripe.</p>
+				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" class="checkout-cta-btn">Continue to payment →</a>
+				<p style="margin-top: 2rem; margin-bottom: 0; font-size: 0.9rem;">
+					<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.5); border-bottom: 1px dotted rgba(255,255,255,0.3);">Open payment page in new tab</a>
+				</p>
 			</div>
-			<p class="checkout-open-new">
-				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" target="_blank" rel="noopener">Open payment page in new tab</a>
-			</p>
 		</div>
 	</div>
-	<script>
-		// If Stripe blocks iframe embedding, show fallback so user can continue to payment
-		var frame = document.getElementById('stripe-checkout-frame');
-		var fallback = document.getElementById('checkout-fallback');
-		if (frame && fallback) {
-			frame.addEventListener('error', function() {
-				fallback.classList.add('visible');
-				frame.style.display = 'none';
-			});
-			// After a short delay, if iframe is still empty/small height, Stripe may have blocked embed
-			setTimeout(function() {
-				try {
-					var doc = frame.contentDocument || frame.contentWindow.document;
-					if (!doc || doc.body.innerText === '') {
-						fallback.classList.add('visible');
-						frame.style.display = 'none';
-					}
-				} catch (e) {
-					// Cross-origin: we can't read iframe content; leave iframe visible
-				}
-			}, 1500);
-		}
-	</script>
 </body>
 </html>
