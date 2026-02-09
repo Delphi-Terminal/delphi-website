@@ -1,0 +1,224 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<title>Sign Up — Delphi Prediction Market Terminal</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="icon" type="image/png" href="../images/DelphiWhite.png" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="../assets/css/main.css" />
+	<style>
+		.toronto-page {
+			min-height: 100vh;
+			height: 100vh;
+			background: #000;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			padding: 2rem 3rem;
+			box-sizing: border-box;
+			overflow: auto;
+		}
+		.toronto-inner {
+			width: 100%;
+			max-width: 900px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			flex-shrink: 0;
+			margin-top: -8vh;
+		}
+		.toronto-logo-link {
+			display: inline-block;
+			line-height: 0;
+			text-decoration: none;
+			border: none;
+		}
+		.toronto-logo-link:hover {
+			opacity: 1;
+		}
+		.toronto-logo {
+			width: 420px;
+			height: auto;
+			margin-bottom: 1rem;
+			opacity: 0.95;
+			transition: opacity 0.2s;
+		}
+		.toronto-logo-link:hover .toronto-logo {
+			opacity: 1;
+		}
+		.toronto-title {
+			font-family: 'Space Grotesk', 'Inter', sans-serif;
+			font-size: 2.75rem;
+			font-weight: 600;
+			color: #5ac8fa;
+			letter-spacing: -0.03em;
+			margin: 0 0 0.5rem 0;
+			line-height: 1.2;
+		}
+		.toronto-subtitle {
+			font-size: 1.85rem;
+			color: #5ac8fa;
+			line-height: 1.4;
+			margin: 0 0 0.35rem 0;
+			max-width: 880px;
+		}
+		.toronto-promo {
+			font-size: 1.15rem;
+			color: rgba(255, 255, 255, 0.9);
+			margin: 0 0 0.5rem 0;
+			font-weight: 500;
+		}
+		.toronto-social {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+			margin-top: 0.5rem;
+			margin-bottom: 0.5rem;
+		}
+		.toronto-social-link {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0.6rem 1.25rem;
+			background: rgba(90, 200, 250, 0.15);
+			border: 1px solid #5ac8fa;
+			color: #fff;
+			font-size: 1rem;
+			font-weight: 500;
+			border-radius: 6px;
+			text-decoration: none;
+			transition: background 0.2s, box-shadow 0.2s;
+		}
+		.toronto-social-link:hover {
+			background: rgba(90, 200, 250, 0.3);
+			box-shadow: 0 0 16px rgba(90, 200, 250, 0.25);
+		}
+		.toronto-features-block {
+			width: 100%;
+			text-align: center;
+			margin-top: 2rem;
+			margin-bottom: 0.5rem;
+		}
+		.toronto-features-title {
+			font-family: 'Space Grotesk', 'Inter', sans-serif;
+			font-size: 1.65rem;
+			font-weight: 600;
+			color: #5ac8fa;
+			margin: 0 0 0.75rem 0;
+			text-align: center;
+		}
+		.toronto-features {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			text-align: left;
+			display: inline-block;
+		}
+		.toronto-features li {
+			position: relative;
+			padding-left: 1.75rem;
+			margin-bottom: 0.6rem;
+			color: rgba(255, 255, 255, 0.9);
+			font-size: 1.35rem;
+		}
+		.toronto-features li::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0.5em;
+			width: 8px;
+			height: 8px;
+			background: #5ac8fa;
+			border-radius: 50%;
+		}
+		.toronto-cta {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			padding-top: 1.25rem;
+			margin-top: 1.25rem;
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			width: 100%;
+			max-width: 900px;
+			flex-shrink: 0;
+		}
+		.toronto-cta .toronto-cta-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem 2.5rem;
+			background: rgba(90, 200, 250, 0.2);
+			border: 1px solid #5ac8fa;
+			color: #fff;
+			font-family: inherit;
+			font-size: 1.5rem;
+			font-weight: 500;
+			border-radius: 4px;
+			text-decoration: none;
+			cursor: pointer;
+			transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+		}
+		.toronto-cta .toronto-cta-btn:hover {
+			background: rgba(90, 200, 250, 0.35);
+			box-shadow: 0 0 20px rgba(90, 200, 250, 0.3);
+			transform: translateY(-2px);
+		}
+		.toronto-cta .toronto-cta-link {
+			margin-top: 0.75rem;
+			font-size: 0.9rem;
+		}
+		.toronto-cta .toronto-cta-link a {
+			color: rgba(255, 255, 255, 0.5);
+			border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+			text-decoration: none;
+		}
+		.toronto-cta .toronto-cta-link a:hover {
+			color: #5ac8fa;
+		}
+		@media screen and (max-width: 600px) {
+			.toronto-logo {
+				width: min(420px, 85vw);
+			}
+			.toronto-title {
+				font-size: 2rem;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="toronto-page">
+		<div class="toronto-inner">
+			<a href="https://delphiterminal.co" class="toronto-logo-link"><img src="../images/DelphiWhite.png" alt="Delphi" class="toronto-logo" /></a>
+			<h1 class="toronto-title">Welcome Prediction ARC Toronto members!</h1>
+			<p class="toronto-subtitle">You've secured a founding discount and a 1-month free trial of Delphi Terminal. Excited to trade with you!</p>
+			<p class="toronto-promo">Please use promo code TORONTO.</p>
+			<div class="toronto-social">
+				<a href="https://x.com/Delphi_Terminal" class="toronto-social-link" target="_blank" rel="noopener noreferrer">X</a>
+				<a href="https://discord.gg/cyRBpEqV7g" class="toronto-social-link" target="_blank" rel="noopener noreferrer">Discord</a>
+			</div>
+			<div class="toronto-features-block">
+				<h2 class="toronto-features-title">Features:</h2>
+				<ul class="toronto-features">
+					<li>Matched markets across 4+ leading exchanges</li>
+					<li>Historical order book: trade and price history data</li>
+					<li>Live data feeds across all markets</li>
+					<li>Custom order book analytics</li>
+				</ul>
+			</div>
+		</div>
+		<div class="toronto-cta">
+			<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" class="toronto-cta-btn">Continue to sign up →</a>
+			<p class="toronto-cta-link">
+				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" target="_blank" rel="noopener">Open sign up page in new tab</a>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
