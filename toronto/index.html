@@ -12,25 +12,21 @@
 	<style>
 		.toronto-page {
 			min-height: 100vh;
-			height: 100vh;
 			background: #000;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			text-align: center;
-			padding: 2rem 3rem;
+			padding: 3rem 2rem;
 			box-sizing: border-box;
-			overflow: auto;
 		}
 		.toronto-inner {
 			width: 100%;
-			max-width: 900px;
+			max-width: 700px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			flex-shrink: 0;
-			margin-top: -8vh;
 		}
 		.toronto-logo-link {
 			display: inline-block;
@@ -42,9 +38,9 @@
 			opacity: 1;
 		}
 		.toronto-logo {
-			width: 420px;
+			width: 320px;
 			height: auto;
-			margin-bottom: 1rem;
+			margin-bottom: 1.5rem;
 			opacity: 0.95;
 			transition: opacity 0.2s;
 		}
@@ -53,25 +49,32 @@
 		}
 		.toronto-title {
 			font-family: 'Space Grotesk', 'Inter', sans-serif;
-			font-size: 2.75rem;
+			font-size: 2.25rem;
 			font-weight: 600;
-			color: #5ac8fa;
+			color: #ffffff;
 			letter-spacing: -0.03em;
-			margin: 0 0 0.5rem 0;
-			line-height: 1.2;
+			margin: 0 0 0.75rem 0;
+			line-height: 1.25;
 		}
 		.toronto-subtitle {
-			font-size: 1.85rem;
-			color: #5ac8fa;
-			line-height: 1.4;
-			margin: 0 0 0.35rem 0;
-			max-width: 880px;
+			font-size: 1.125rem;
+			color: rgba(255, 255, 255, 0.6);
+			line-height: 1.6;
+			margin: 0 0 1rem 0;
+			max-width: 600px;
+			font-weight: 300;
 		}
 		.toronto-promo {
-			font-size: 1.15rem;
-			color: rgba(255, 255, 255, 0.9);
-			margin: 0 0 0.5rem 0;
+			font-family: 'JetBrains Mono', monospace;
+			font-size: 0.9rem;
+			color: #5ac8fa;
+			margin: 0 0 1rem 0;
 			font-weight: 500;
+			background: rgba(90, 200, 250, 0.08);
+			border: 1px solid rgba(90, 200, 250, 0.2);
+			border-radius: 6px;
+			padding: 0.6rem 1.25rem;
+			letter-spacing: 0.05em;
 		}
 		.toronto-social {
 			display: flex;
@@ -101,39 +104,47 @@
 		}
 		.toronto-features-block {
 			width: 100%;
-			text-align: center;
-			margin-top: 2rem;
+			text-align: left;
+			margin-top: 1.5rem;
 			margin-bottom: 0.5rem;
+			background: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.08);
+			border-radius: 12px;
+			padding: 1.5rem 2rem;
 		}
 		.toronto-features-title {
-			font-family: 'Space Grotesk', 'Inter', sans-serif;
-			font-size: 1.65rem;
-			font-weight: 600;
+			font-family: 'JetBrains Mono', monospace;
+			font-size: 0.75rem;
+			font-weight: 500;
 			color: #5ac8fa;
-			margin: 0 0 0.75rem 0;
-			text-align: center;
+			margin: 0 0 1rem 0;
+			text-transform: uppercase;
+			letter-spacing: 0.15em;
 		}
 		.toronto-features {
 			list-style: none;
 			padding: 0;
 			margin: 0;
 			text-align: left;
-			display: inline-block;
 		}
 		.toronto-features li {
 			position: relative;
-			padding-left: 1.75rem;
-			margin-bottom: 0.6rem;
-			color: rgba(255, 255, 255, 0.9);
-			font-size: 1.35rem;
+			padding-left: 1.5rem;
+			margin-bottom: 0.65rem;
+			color: rgba(255, 255, 255, 0.8);
+			font-size: 0.9375rem;
+			line-height: 1.5;
+		}
+		.toronto-features li:last-child {
+			margin-bottom: 0;
 		}
 		.toronto-features li::before {
 			content: '';
 			position: absolute;
 			left: 0;
-			top: 0.5em;
-			width: 8px;
-			height: 8px;
+			top: 0.55em;
+			width: 6px;
+			height: 6px;
 			background: #5ac8fa;
 			border-radius: 50%;
 		}
@@ -142,63 +153,63 @@
 			flex-direction: column;
 			align-items: center;
 			text-align: center;
-			padding-top: 1.25rem;
-			margin-top: 1.25rem;
-			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			margin-top: 2rem;
 			width: 100%;
-			max-width: 900px;
-			flex-shrink: 0;
+			max-width: 700px;
 		}
 		.toronto-cta .toronto-cta-btn {
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
-			padding: 1rem 2.5rem;
-			background: rgba(90, 200, 250, 0.2);
-			border: 1px solid #5ac8fa;
+			width: 100%;
+			padding: 1rem 2rem;
+			background: rgba(255, 255, 255, 0.05);
+			border: 2px solid rgba(255, 255, 255, 0.3);
 			color: #fff;
 			font-family: inherit;
-			font-size: 1.5rem;
-			font-weight: 500;
-			border-radius: 4px;
+			font-size: 1.125rem;
+			font-weight: 600;
+			border-radius: 8px;
 			text-decoration: none;
 			cursor: pointer;
-			transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 		}
 		.toronto-cta .toronto-cta-btn:hover {
-			background: rgba(90, 200, 250, 0.35);
-			box-shadow: 0 0 20px rgba(90, 200, 250, 0.3);
+			background: rgba(90, 200, 250, 0.2);
+			border-color: #5ac8fa;
+			box-shadow: 0 0 30px rgba(90, 200, 250, 0.4), 0 4px 30px rgba(90, 200, 250, 0.2);
 			transform: translateY(-2px);
 		}
 		.toronto-cta .toronto-cta-link {
 			margin-top: 0.75rem;
-			font-size: 0.9rem;
+			font-size: 0.8125rem;
 		}
 		.toronto-cta .toronto-cta-link a {
-			color: rgba(255, 255, 255, 0.5);
-			border-bottom: 1px dotted rgba(255, 255, 255, 0.3);
+			color: rgba(255, 255, 255, 0.4);
+			border-bottom: 1px dotted rgba(255, 255, 255, 0.2);
 			text-decoration: none;
 		}
 		.toronto-cta .toronto-cta-link a:hover {
 			color: #5ac8fa;
+			border-bottom-color: #5ac8fa;
 		}
 		@media screen and (max-width: 600px) {
 			.toronto-page {
-				padding-top: 2.5rem;
-				padding-left: 1.25rem;
-				padding-right: 1.25rem;
-				justify-content: flex-start;
-				min-height: 100vh;
-				height: auto;
-			}
-			.toronto-inner {
-				margin-top: 0;
+				padding: 2.5rem 1.25rem;
+				justify-content: center;
 			}
 			.toronto-logo {
-				width: min(420px, 85vw);
+				width: min(260px, 70vw);
 			}
 			.toronto-title {
-				font-size: 2rem;
+				font-size: 1.6rem;
+			}
+			.toronto-subtitle {
+				font-size: 1rem;
+			}
+			.toronto-features-block {
+				padding: 1.25rem 1.5rem;
 			}
 		}
 	</style>

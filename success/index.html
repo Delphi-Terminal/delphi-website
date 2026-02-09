@@ -1,0 +1,375 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Payment Confirmed - Delphi Terminal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="icon" type="image/png" href="../images/DelphiWhite.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<style>
+			/* Success page specific styles */
+			body {
+				background: #000000;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
+
+			body::before {
+				display: none;
+			}
+
+			.success-page {
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 4rem 2rem 4rem;
+				min-height: calc(100vh - 60px);
+			}
+
+			.success-container {
+				max-width: 640px;
+				width: 100%;
+				text-align: center;
+				margin: auto;
+			}
+
+			.success-logo {
+				width: 64px;
+				height: auto;
+				margin-bottom: 2rem;
+				opacity: 0.9;
+			}
+
+			/* Animated checkmark */
+			.success-icon {
+				width: 80px;
+				height: 80px;
+				border-radius: 50%;
+				border: 2px solid #00cc88;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 0 auto 2rem;
+				animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+				box-shadow: 0 0 40px rgba(0, 204, 136, 0.15);
+			}
+
+			.success-icon svg {
+				width: 36px;
+				height: 36px;
+				stroke: #00cc88;
+				stroke-width: 3;
+				fill: none;
+				stroke-linecap: round;
+				stroke-linejoin: round;
+				stroke-dasharray: 50;
+				stroke-dashoffset: 50;
+				animation: drawCheck 0.6s 0.3s ease forwards;
+			}
+
+			@keyframes scaleIn {
+				0% { transform: scale(0); opacity: 0; }
+				100% { transform: scale(1); opacity: 1; }
+			}
+
+			@keyframes drawCheck {
+				to { stroke-dashoffset: 0; }
+			}
+
+			.success-title {
+				font-family: 'Space Grotesk', 'Inter', sans-serif;
+				font-size: 2.5rem;
+				font-weight: 600;
+				color: #ffffff;
+				margin-bottom: 0.75rem;
+				letter-spacing: -0.03em;
+			}
+
+			.success-subtitle {
+				font-size: 1.125rem;
+				color: rgba(255, 255, 255, 0.6);
+				margin-bottom: 2.5rem;
+				line-height: 1.6;
+				font-weight: 300;
+			}
+
+			/* Info card */
+			.success-card {
+				background: rgba(255, 255, 255, 0.03);
+				border: 1px solid rgba(255, 255, 255, 0.08);
+				border-radius: 12px;
+				padding: 2rem;
+				margin-bottom: 2rem;
+				text-align: left;
+			}
+
+			.success-card-title {
+				font-family: 'JetBrains Mono', monospace;
+				font-size: 0.75rem;
+				text-transform: uppercase;
+				letter-spacing: 0.15em;
+				color: #5ac8fa;
+				margin-bottom: 1.25rem;
+			}
+
+			.success-steps {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			.success-steps li {
+				display: flex;
+				align-items: flex-start;
+				gap: 1rem;
+				padding: 0.75rem 0;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+				color: rgba(255, 255, 255, 0.8);
+				font-size: 0.9375rem;
+				line-height: 1.5;
+			}
+
+			.success-steps li:last-child {
+				border-bottom: none;
+				padding-bottom: 0;
+			}
+
+			.step-icon {
+				flex-shrink: 0;
+				width: 28px;
+				height: 28px;
+				border-radius: 6px;
+				background: rgba(90, 200, 250, 0.1);
+				border: 1px solid rgba(90, 200, 250, 0.2);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-family: 'JetBrains Mono', monospace;
+				font-size: 0.75rem;
+				font-weight: 500;
+				color: #5ac8fa;
+				margin-top: 1px;
+			}
+
+			.step-content strong {
+				color: #ffffff;
+				font-weight: 500;
+			}
+
+			/* Key delivery highlight */
+			.key-highlight {
+				background: rgba(0, 204, 136, 0.08);
+				border: 1px solid rgba(0, 204, 136, 0.2);
+				border-radius: 8px;
+				padding: 1rem 1.25rem;
+				margin-bottom: 2rem;
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+			}
+
+			.key-highlight-icon {
+				font-size: 1.5rem;
+				flex-shrink: 0;
+			}
+
+			.key-highlight-text {
+				font-size: 0.9375rem;
+				color: rgba(255, 255, 255, 0.85);
+				line-height: 1.5;
+			}
+
+			.key-highlight-text strong {
+				color: #00cc88;
+				font-weight: 600;
+			}
+
+			/* Action buttons */
+			.success-actions {
+				display: flex;
+				gap: 1rem;
+				justify-content: center;
+				flex-wrap: wrap;
+				margin-top: 2rem;
+			}
+
+			.success-btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0.875rem 1.75rem;
+				border-radius: 8px;
+				font-size: 0.9375rem;
+				font-weight: 500;
+				text-decoration: none;
+				transition: all 0.2s ease;
+				border: none;
+			}
+
+			.success-btn-primary {
+				background: rgba(90, 200, 250, 0.15);
+				border: 1px solid rgba(90, 200, 250, 0.3);
+				color: #5ac8fa;
+			}
+
+			.success-btn-primary:hover {
+				background: rgba(90, 200, 250, 0.25);
+				border-color: #5ac8fa;
+				box-shadow: 0 0 20px rgba(90, 200, 250, 0.2);
+				transform: translateY(-1px);
+				color: #5ac8fa;
+			}
+
+			.success-btn-secondary {
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				color: rgba(255, 255, 255, 0.7);
+			}
+
+			.success-btn-secondary:hover {
+				background: rgba(255, 255, 255, 0.08);
+				border-color: rgba(255, 255, 255, 0.3);
+				color: #ffffff;
+				transform: translateY(-1px);
+			}
+
+			/* Footer override for success page */
+			#footer {
+				margin-top: auto;
+			}
+
+			/* Subtle animated gradient line */
+			.success-divider {
+				width: 60px;
+				height: 2px;
+				background: linear-gradient(90deg, #5ac8fa, #00cc88);
+				margin: 0 auto 2rem;
+				border-radius: 2px;
+			}
+
+			/* Responsive */
+			@media screen and (max-width: 736px) {
+				.success-page {
+					padding: 5rem 1.5rem 3rem;
+				}
+
+				.success-title {
+					font-size: 1.75rem;
+				}
+
+				.success-subtitle {
+					font-size: 1rem;
+				}
+
+				.success-card {
+					padding: 1.5rem;
+				}
+
+				.success-actions {
+					flex-direction: column;
+					align-items: stretch;
+				}
+
+				.success-btn {
+					justify-content: center;
+				}
+			}
+		</style>
+	</head>
+	<body>
+
+		<!-- Sticky Navigation Header -->
+		<header class="site-header" id="site-header">
+			<div class="header-inner">
+				<nav class="header-nav" id="header-nav" role="navigation" aria-label="Main navigation">
+					<a href="/" class="nav-link">Home</a>
+				</nav>
+				<div class="header-social">
+					<a href="https://x.com/Delphi_Terminal" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
+					<a href="https://discord.gg/cyRBpEqV7g" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a>
+				</div>
+			</div>
+		</header>
+
+		<!-- Success Content -->
+		<section class="success-page">
+			<div class="success-container">
+
+				<img src="../images/DelphiWhite.png" alt="Delphi" class="success-logo" />
+
+				<!-- Animated Checkmark -->
+				<div class="success-icon">
+					<svg viewBox="0 0 24 24">
+						<polyline points="4 12 10 18 20 6" />
+					</svg>
+				</div>
+
+				<h1 class="success-title">Payment Confirmed</h1>
+				<div class="success-divider"></div>
+				<p class="success-subtitle">
+					Your Delphi Terminal subscription is now active.<br />
+					Your API key is being generated and delivered to your inbox.
+				</p>
+
+				<!-- Email delivery highlight -->
+				<div class="key-highlight">
+					<span class="key-highlight-icon">&#9993;</span>
+					<span class="key-highlight-text">
+						<strong>Check your email</strong> &mdash; your API key will arrive within the next few minutes. Save it somewhere safe; the full key is shown only once.
+					</span>
+				</div>
+
+				<!-- What happens next -->
+				<div class="success-card">
+					<div class="success-card-title">What happens next</div>
+					<ul class="success-steps">
+						<li>
+							<span class="step-icon">1</span>
+							<span class="step-content">
+								<strong>Check your inbox</strong> for an email from Delphi Terminal with your API key and quick-start instructions.
+							</span>
+						</li>
+						<li>
+							<span class="step-icon">2</span>
+							<span class="step-content">
+								Add the <code style="background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">X-API-Key</code> header to your requests against <code style="background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85em;">api.delphiterminal.co/api/v1</code>
+							</span>
+						</li>
+						<li>
+							<span class="step-icon">3</span>
+							<span class="step-content">
+								<strong>Explore the docs</strong> to see all available endpoints &mdash; markets, orderbooks, trades, and more across 7+ exchanges.
+							</span>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Action buttons -->
+				<div class="success-actions">
+					<a href="https://api.delphiterminal.co/docs" class="success-btn success-btn-primary">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+						View Documentation
+					</a>
+					<a href="/" class="success-btn success-btn-secondary">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+						Back to Home
+					</a>
+				</div>
+
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="footer-bottom">
+				<p>Copyright &copy; 2026 Delphi Markets, Inc.</p>
+			</div>
+		</footer>
+
+	</body>
+</html>
