@@ -124,7 +124,8 @@ input, select, textarea {
 			background-size: cover;
 			background-position: center center;
 			background-repeat: no-repeat;
-			opacity: 0.4;
+			opacity: 0.22;
+			filter: saturate(0.5) brightness(0.95);
 			z-index: -1;
 			pointer-events: none;
 			-webkit-mask-image: linear-gradient(to bottom, white 0%, white 70%, transparent 95%);
@@ -6331,7 +6332,7 @@ section > *,
 	justify-content: center;
 	gap: 0.5rem;
 	color: #ffffff !important; /* Pure white for better contrast */
-	font-size: 1.125rem;
+	font-size: 1.75rem;
 	font-weight: 600; /* Increased from 500 for better visibility */
 	text-decoration: none;
 	padding: 1rem 2rem;
@@ -11069,7 +11070,8 @@ body {
 	body::before {
 		background-position: center top !important;
 		background-size: cover !important;
-		opacity: 0.5 !important;
+		opacity: 0.22 !important;
+		filter: saturate(0.5) brightness(0.95) !important;
 	}
 	
 	/* Make hero subtitle wrap on mobile */
@@ -11253,7 +11255,7 @@ section {
 	border: 2px solid #5ac8fa !important;
 	border-radius: 8px !important;
 	color: #ffffff !important;
-	font-size: 1.125rem !important;
+	font-size: 1.75rem !important;
 	font-weight: 600 !important;
 	text-decoration: none !important;
 	transition: all 0.25s ease !important;
@@ -11704,7 +11706,8 @@ section {
 @media screen and (max-width: 480px) {
 	/* Background image - fit entire image on mobile */
 	body::before {
-		opacity: 0.4 !important;
+		opacity: 0.22 !important;
+		filter: saturate(0.5) brightness(0.95) !important;
 		background-size: contain !important;
 		background-position: center top !important;
 		background-repeat: no-repeat !important;
@@ -11730,6 +11733,7 @@ section {
 	body::before {
 		background-size: cover !important;
 		background-position: center center !important;
-		opacity: 0.35 !important;
+		opacity: 0.2 !important;
+		filter: saturate(0.5) brightness(0.95) !important;
 	}
 }
