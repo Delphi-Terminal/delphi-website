@@ -4,12 +4,124 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html>
+<html lang="en">
 	<head>
-		<title>Delphi - Prediction Market Terminal</title>
+		<title>Delphi Terminal — Aggregated Prediction Market Data Terminal</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="Delphi Terminal — the aggregated prediction market data terminal. Institutional-grade L1, L2, and L3 data across Kalshi, Polymarket, and 4+ exchanges. Real-time and historical data via API and terminal." />
+		<meta name="robots" content="index, follow" />
+		<link rel="canonical" href="https://delphiterminal.co/" />
+		<!-- Open Graph -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://delphiterminal.co/" />
+		<meta property="og:title" content="Delphi Terminal — Aggregated Prediction Market Data Terminal" />
+		<meta property="og:description" content="Institutional-grade L1, L2, and L3 prediction market data across Kalshi, Polymarket, and 4+ exchanges. Real-time and historical data via API and terminal." />
+		<meta property="og:image" content="https://delphiterminal.co/images/DelphiWhite.png" />
+		<meta property="og:site_name" content="Delphi Terminal" />
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content="@Delphi_Terminal" />
+		<meta name="twitter:title" content="Delphi Terminal — Aggregated Prediction Market Data Terminal" />
+		<meta name="twitter:description" content="Institutional-grade L1, L2, and L3 prediction market data across Kalshi, Polymarket, and 4+ exchanges." />
+		<meta name="twitter:image" content="https://delphiterminal.co/images/DelphiWhite.png" />
 		<link rel="icon" type="image/png" href="images/DelphiWhite.png" />
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@graph": [
+				{
+					"@type": "Organization",
+					"name": "Delphi Markets, Inc.",
+					"url": "https://delphiterminal.co",
+					"logo": "https://delphiterminal.co/images/DelphiWhite.png",
+					"sameAs": [
+						"https://x.com/Delphi_Terminal",
+						"https://discord.gg/cyRBpEqV7g"
+					],
+					"contactPoint": {
+						"@type": "ContactPoint",
+						"email": "armon@delphiterminal.co",
+						"contactType": "sales"
+					}
+				},
+				{
+					"@type": "WebSite",
+					"name": "Delphi Terminal",
+					"url": "https://delphiterminal.co"
+				},
+				{
+					"@type": "SoftwareApplication",
+					"name": "Delphi Terminal",
+					"applicationCategory": "FinanceApplication",
+					"operatingSystem": "Web",
+					"url": "https://delphiterminal.co",
+					"description": "Aggregated prediction market data terminal providing institutional-grade L1, L2, and L3 market data across Kalshi, Polymarket, Limitless, and Opinion Labs.",
+					"offers": {
+						"@type": "Offer",
+						"url": "https://delphiterminal.co/checkout"
+					}
+				}
+			]
+		}
+		</script>
+		<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "What is Delphi Terminal?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Delphi Terminal is an aggregated prediction market data terminal that provides institutional-grade L1, L2, and L3 market data across multiple exchanges including Kalshi, Polymarket, Limitless, and Opinion Labs. It offers both a web-based terminal interface and a comprehensive API for accessing real-time and historical prediction market data."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What prediction market exchanges does Delphi support?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Delphi aggregates data from 7+ prediction market exchanges including Kalshi, Polymarket, PredictIt, Limitless, Opinion Labs, Metaculus, and Manifold."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What is L1, L2, and L3 market data?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "L1 (Level 1) data includes top-of-book prices and basic market information. L2 (Level 2) data provides full order book depth. L3 (Level 3) data is full order-by-order data showing every individual order placed, modified, or cancelled."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Does Delphi offer an API?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Yes. Delphi provides a comprehensive REST and WebSocket API for accessing real-time and historical prediction market data across all supported exchanges."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Who is Delphi built for?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Delphi is built for traders, quantitative researchers, market makers, hedge funds, academic researchers, and anyone who needs comprehensive prediction market data."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "How does Delphi's market matching work?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Delphi's proprietary market matching engine identifies and links equivalent or related prediction markets across different exchanges, enabling cross-exchange comparison and analysis in a single unified view."
+					}
+				}
+			]
+		}
+		</script>
 		<!-- Google Fonts: Inter (Thin/Extra Light), Space Grotesk (Hero Title), and JetBrains Mono -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,9 +149,10 @@
 				<nav class="header-nav" id="header-nav" role="navigation" aria-label="Main navigation">
 					<a href="#intro" class="nav-link active">Welcome</a>
 					<a href="#product-preview" class="nav-link">Product Preview</a>
-					<a href="https://api.delphiterminal.co/docs" class="nav-link" target="_blank" rel="noopener noreferrer">Docs</a>
+					<a href="https://docs.delphiterminal.co" class="nav-link" target="_blank" rel="noopener noreferrer">Docs</a>
 					<a href="#one" class="nav-link">Who We Are</a>
 					<a href="#two" class="nav-link">What We Do</a>
+					<a href="#faq" class="nav-link">FAQ</a>
 					<a href="#three" class="nav-link">Contact Us</a>
 				</nav>
 				<div class="header-social">
@@ -67,14 +180,14 @@
 								<img src="images/DelphiWhite.png" alt="Delphi" class="hero-logo" id="hero-logo" />
 								<span class="typing-cursor"></span>
 							</div>
-							<h1 class="hero-title">Prediction Market Terminal</h1>
+							<h1 class="hero-title" id="hero-title" data-text="Unified Prediction Market Data"></h1>
 							<p class="hero-subtitle">7+ Exchanges | Market Aggregator | L1-L2-L3 Data</p>
 							<div class="hero-cta-group">
 								<a href="/checkout" class="hero-cta" id="request-access-btn">
 									<span>Sign Up</span>
 								</a>
 							</div>
-							<a href="https://api.delphiterminal.co/docs" class="docs-link" target="_blank" rel="noopener noreferrer">Documentation</a>
+							<a href="https://docs.delphiterminal.co" class="docs-link" target="_blank" rel="noopener noreferrer">Documentation</a>
 						</div>
 					</section>
 
@@ -200,8 +313,41 @@
 						</div>
 					</section>
 
-				<!-- Three -->
-					<section id="three" class="terminal-grid-section contact-section">
+			<!-- FAQ -->
+				<section id="faq" class="terminal-grid-section faq-section">
+					<div class="section-header">
+						<h2 class="section-title faq-title">Frequently Asked Questions</h2>
+					</div>
+					<div class="faq-list">
+						<div class="faq-item">
+							<h3 class="faq-question">What is Delphi Terminal?</h3>
+							<p class="faq-answer">Delphi Terminal is an aggregated prediction market data terminal that provides institutional-grade L1, L2, and L3 market data across multiple exchanges including Kalshi, Polymarket, Limitless, and Opinion Labs. It offers both a web-based terminal interface and a comprehensive API for accessing real-time and historical prediction market data.</p>
+						</div>
+						<div class="faq-item">
+							<h3 class="faq-question">What prediction market exchanges does Delphi support?</h3>
+							<p class="faq-answer">Delphi aggregates data from 7+ prediction market exchanges including Kalshi, Polymarket, PredictIt, Limitless, Opinion Labs, Metaculus, and Manifold. We continuously add new exchanges to provide the most comprehensive market coverage available.</p>
+						</div>
+						<div class="faq-item">
+							<h3 class="faq-question">What is L1, L2, and L3 market data?</h3>
+							<p class="faq-answer">L1 (Level 1) data includes top-of-book prices and basic market information. L2 (Level 2) data provides full order book depth, showing all bids and asks at every price level. L3 (Level 3) data is the most granular — full order-by-order data showing every individual order placed, modified, or cancelled in the market.</p>
+						</div>
+						<div class="faq-item">
+							<h3 class="faq-question">Does Delphi offer an API?</h3>
+							<p class="faq-answer">Yes. Delphi provides a comprehensive REST and WebSocket API for accessing real-time and historical prediction market data. The API supports L1, L2, and L3 data feeds across all supported exchanges. Full documentation is available at <a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer">docs.delphiterminal.co</a>.</p>
+						</div>
+						<div class="faq-item">
+							<h3 class="faq-question">Who is Delphi built for?</h3>
+							<p class="faq-answer">Delphi is built for traders, quantitative researchers, market makers, hedge funds, academic researchers, and anyone who needs comprehensive prediction market data. Whether you're building trading algorithms, conducting research, or analyzing market sentiment, Delphi provides the data infrastructure you need.</p>
+						</div>
+						<div class="faq-item faq-item-last">
+							<h3 class="faq-question">How does Delphi's market matching work?</h3>
+							<p class="faq-answer">Delphi's proprietary market matching engine identifies and links equivalent or related prediction markets across different exchanges, enabling cross-exchange comparison and analysis. This allows users to see how the same event is priced across Kalshi, Polymarket, and other platforms in a single unified view.</p>
+						</div>
+					</div>
+				</section>
+
+			<!-- Three -->
+				<section id="three" class="terminal-grid-section contact-section">
 						<div class="section-header">
 							<h2 class="section-title contact-title">Get In Touch</h2>
 							<p class="section-description">Reach out to learn more about Delphi.</p>
@@ -564,16 +710,58 @@
 				})();
 			</script>
 			<script>
-				// Hide typing cursor after animation completes
 				(function() {
 					'use strict';
-					var cursor = document.querySelector('.typing-cursor');
-					if (cursor) {
-						// Hide cursor after 1.2s (matching animation duration)
-						setTimeout(function() {
-							cursor.classList.add('hidden');
-						}, 1200);
+					var logoCursor = document.querySelector('.typing-cursor');
+					var heroTitle = document.getElementById('hero-title');
+					var text = heroTitle ? heroTitle.getAttribute('data-text') : '';
+
+					var chars = [];
+					if (heroTitle && text) {
+						var words = text.split(' ');
+						for (var w = 0; w < words.length; w++) {
+							if (w > 0) {
+								var spaceSpan = document.createElement('span');
+								spaceSpan.className = 'title-char space';
+								spaceSpan.innerHTML = '&nbsp;';
+								heroTitle.appendChild(spaceSpan);
+								chars.push(spaceSpan);
+							}
+							var wordWrap = document.createElement('span');
+							wordWrap.className = 'title-word';
+							for (var c = 0; c < words[w].length; c++) {
+								var span = document.createElement('span');
+								span.className = 'title-char';
+								span.textContent = words[w][c];
+								wordWrap.appendChild(span);
+								chars.push(span);
+							}
+							heroTitle.appendChild(wordWrap);
+						}
+						var titleCursor = document.createElement('span');
+						titleCursor.className = 'hero-title-cursor';
+						heroTitle.appendChild(titleCursor);
+						titleCursor.style.display = 'none';
 					}
+
+					setTimeout(function() {
+						if (logoCursor) logoCursor.classList.add('hidden');
+						if (!chars || !chars.length) return;
+
+						titleCursor.style.display = '';
+						var idx = 0;
+						var interval = setInterval(function() {
+							if (idx < chars.length) {
+								chars[idx].classList.add('visible');
+								idx++;
+							} else {
+								clearInterval(interval);
+								setTimeout(function() {
+									titleCursor.classList.add('hidden');
+								}, 800);
+							}
+						}, 45);
+					}, 1300);
 				})();
 			</script>
 			<script>

@@ -1,200 +1,323 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
-	<title>Sign Up — Delphi Prediction Market Terminal</title>
+	<title>Pricing — Delphi Prediction Market Terminal</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<meta name="robots" content="noindex, nofollow" />
+	<link rel="canonical" href="https://delphiterminal.co/checkout/" />
 	<link rel="icon" type="image/png" href="../images/DelphiWhite.png" />
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="../assets/css/main.css" />
 	<style>
-		.checkout-root {
-			display: flex;
-			min-height: 100vh;
+		*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+		body {
 			background: #000;
-		}
-		.checkout-left {
-			flex: 0 0 50%;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-			align-items: center;
-			text-align: center;
-			padding: 2rem 4rem 3rem;
-			border-right: 1px solid #1a1a1a;
-			box-sizing: border-box;
-			min-height: 100vh;
-		}
-		.checkout-right {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			min-height: 100vh;
-			background: #0a0a0a;
-			position: relative;
-		}
-		.checkout-open-new {
-			position: absolute;
-			bottom: 1rem;
-			right: 1.5rem;
-			margin: 0;
-			font-size: 0.85rem;
-		}
-		.checkout-open-new a {
-			color: rgba(255, 255, 255, 0.5);
-			border-bottom-color: rgba(255, 255, 255, 0.3);
-		}
-		.checkout-open-new a:hover {
-			color: #5ac8fa;
-		}
-		.checkout-right-cta {
-			flex: 1;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			padding: 2rem;
-			text-align: center;
-		}
-		.checkout-right-cta .checkout-cta-title {
-			font-size: 1.1rem;
-			color: rgba(255, 255, 255, 0.85);
-			margin: 0 0 1.5rem 0;
-		}
-		.checkout-right-cta .checkout-cta-btn {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			padding: 1rem 2.5rem;
-			background: rgba(90, 200, 250, 0.2);
-			border: 1px solid #5ac8fa;
 			color: #fff;
-			font-family: inherit;
-			font-size: 1.1rem;
-			font-weight: 500;
-			border-radius: 4px;
-			text-decoration: none;
-			cursor: pointer;
-			transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+			font-family: 'Inter', sans-serif;
+			min-height: 100vh;
+			-webkit-font-smoothing: antialiased;
 		}
-		.checkout-right-cta .checkout-cta-btn:hover {
-			background: rgba(90, 200, 250, 0.35);
-			box-shadow: 0 0 20px rgba(90, 200, 250, 0.3);
-			transform: translateY(-2px);
+
+		.pricing-page {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			min-height: 100vh;
+			padding: 3rem 2rem 4rem;
 		}
-		.checkout-product-logo {
-			width: 320px;
+
+		.pricing-logo {
+			width: 200px;
 			height: auto;
-			margin-bottom: 2rem;
-			margin-top: 0;
+			margin-bottom: 1.5rem;
 			opacity: 0.95;
 		}
-		.checkout-product-title {
+
+		.pricing-heading {
 			font-family: 'Space Grotesk', 'Inter', sans-serif;
-			font-size: 2rem;
-			font-weight: 600;
-			color: #5ac8fa;
+			font-size: 2.5rem;
+			font-weight: 700;
 			letter-spacing: -0.03em;
-			margin: 0 0 2rem 0;
-			line-height: 1.35;
-			max-width: 480px;
+			color: #ffffff;
+			margin-bottom: 0.5rem;
+			text-align: center;
 		}
-		.checkout-features-block {
+
+		.pricing-subheading {
+			font-size: 1.1rem;
+			font-weight: 300;
+			color: rgba(255, 255, 255, 0.6);
+			margin-bottom: 3.5rem;
+			text-align: center;
+		}
+
+		.pricing-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			gap: 1.5rem;
+			max-width: 1100px;
 			width: 100%;
-			max-width: 420px;
-			text-align: left;
-			align-self: center;
-			margin-top: 3.5rem;
+			align-items: stretch;
 		}
-		.checkout-features-title {
-			font-family: 'Space Grotesk', 'Inter', sans-serif;
-			font-size: 1.35rem;
-			font-weight: 600;
-			color: #5ac8fa;
-			margin: 0 0 1.25rem 0;
-			text-align: left;
-		}
-		.checkout-features {
-			list-style: none;
-			padding: 0;
-			margin: 0 0 2rem 0;
-			text-align: left;
-			width: 100%;
-		}
-		.checkout-features li {
+
+		.pricing-card {
+			background: #0a0a0a;
+			border: 1px solid #1a1a1a;
+			border-radius: 12px;
+			padding: 2.5rem 2rem;
+			display: flex;
+			flex-direction: column;
 			position: relative;
-			padding-left: 1.75rem;
-			margin-bottom: 0.9rem;
-			color: rgba(255, 255, 255, 0.9);
-			font-size: 1.15rem;
+			transition: border-color 0.3s ease;
 		}
-		.checkout-features li::before {
-			content: '';
+
+		.pricing-card:hover {
+			border-color: rgba(90, 200, 250, 0.3);
+		}
+
+		.pricing-card.featured {
+			border-color: #5ac8fa;
+			background: linear-gradient(180deg, rgba(90, 200, 250, 0.06) 0%, #0a0a0a 40%);
+		}
+
+		.pricing-badge {
+			position: absolute;
+			top: -12px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: #5ac8fa;
+			color: #000;
+			font-size: 0.75rem;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+			padding: 4px 16px;
+			border-radius: 20px;
+			white-space: nowrap;
+		}
+
+		.card-tier {
+			font-family: 'Space Grotesk', 'Inter', sans-serif;
+			font-size: 1.1rem;
+			font-weight: 600;
+			color: rgba(255, 255, 255, 0.5);
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			margin-bottom: 0.75rem;
+		}
+
+		.card-price {
+			font-family: 'Space Grotesk', 'Inter', sans-serif;
+			font-size: 3rem;
+			font-weight: 700;
+			color: #ffffff;
+			line-height: 1;
+			margin-bottom: 0.25rem;
+		}
+
+		.card-price .price-period {
+			font-size: 1rem;
+			font-weight: 400;
+			color: rgba(255, 255, 255, 0.4);
+		}
+
+		.card-description {
+			font-size: 0.95rem;
+			font-weight: 300;
+			color: rgba(255, 255, 255, 0.5);
+			margin-bottom: 2rem;
+			line-height: 1.5;
+		}
+
+		.card-features {
+			list-style: none;
+			flex: 1;
+			margin-bottom: 2rem;
+		}
+
+		.card-features li {
+			position: relative;
+			padding-left: 1.5rem;
+			margin-bottom: 0.8rem;
+			color: rgba(255, 255, 255, 0.85);
+			font-size: 0.95rem;
+			line-height: 1.4;
+		}
+
+		.card-features li::before {
+			content: '✓';
 			position: absolute;
 			left: 0;
-			top: 0.5em;
-			width: 8px;
-			height: 8px;
-			background: #5ac8fa;
-			border-radius: 50%;
+			color: #5ac8fa;
+			font-weight: 600;
 		}
-		.checkout-back {
-			display: inline-block;
-			margin-top: auto;
-			padding-top: 2rem;
-			color: rgba(255, 255, 255, 0.6);
+
+		.card-features li.disabled {
+			color: rgba(255, 255, 255, 0.25);
+		}
+
+		.card-features li.disabled::before {
+			content: '—';
+			color: rgba(255, 255, 255, 0.15);
+		}
+
+		.card-cta {
+			display: block;
+			width: 100%;
+			padding: 0.9rem 1.5rem;
+			text-align: center;
+			font-family: 'Inter', sans-serif;
 			font-size: 1rem;
+			font-weight: 500;
+			border-radius: 8px;
 			text-decoration: none;
-			border-bottom: 1px dotted rgba(255, 255, 255, 0.4);
+			cursor: pointer;
+			transition: all 0.25s ease;
+			border: none;
+		}
+
+		.card-cta.cta-outline {
+			background: transparent;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			color: #fff;
+		}
+
+		.card-cta.cta-outline:hover {
+			border-color: #5ac8fa;
+			color: #5ac8fa;
+		}
+
+		.card-cta.cta-primary {
+			background: #5ac8fa;
+			color: #000;
+			font-weight: 600;
+		}
+
+		.card-cta.cta-primary:hover {
+			background: #7dd3fc;
+			box-shadow: 0 0 25px rgba(90, 200, 250, 0.4);
+			transform: translateY(-1px);
+		}
+
+		.card-cta.cta-secondary {
+			background: rgba(90, 200, 250, 0.12);
+			border: 1px solid rgba(90, 200, 250, 0.4);
+			color: #fff;
+		}
+
+		.card-cta.cta-secondary:hover {
+			background: rgba(90, 200, 250, 0.25);
+			border-color: #5ac8fa;
+			box-shadow: 0 0 20px rgba(90, 200, 250, 0.25);
+			transform: translateY(-1px);
+		}
+
+		.pricing-back {
+			display: inline-block;
+			margin-top: 3rem;
+			color: rgba(255, 255, 255, 0.4);
+			font-size: 0.95rem;
+			text-decoration: none;
 			transition: color 0.2s;
 		}
-		.checkout-back:hover {
+
+		.pricing-back:hover {
 			color: #5ac8fa;
-			border-bottom-color: #5ac8fa;
 		}
+
 		@media screen and (max-width: 900px) {
-			.checkout-root {
-				flex-direction: column;
+			.pricing-grid {
+				grid-template-columns: 1fr;
+				max-width: 420px;
 			}
-			.checkout-left {
-				flex: none;
+
+			.pricing-card.featured {
+				order: -1;
+			}
+
+			.pricing-heading {
+				font-size: 2rem;
+			}
+		}
+
+		@media screen and (min-width: 901px) and (max-width: 1100px) {
+			.pricing-grid {
+				gap: 1rem;
+			}
+
+			.pricing-card {
 				padding: 2rem 1.5rem;
-				border-right: none;
-				border-bottom: 1px solid #1a1a1a;
-			}
-			.checkout-right {
-				min-height: 80vh;
 			}
 		}
 	</style>
 </head>
 <body>
-	<div class="checkout-root">
-		<div class="checkout-left">
-			<img src="../images/DelphiWhite.png" alt="Delphi" class="checkout-product-logo" />
-			<h1 class="checkout-product-title">Congratulations! You've secured a Founders Discount to our Unified Prediction Market API.</h1>
-			<div class="checkout-features-block">
-				<h2 class="checkout-features-title">Features:</h2>
-				<ul class="checkout-features">
-					<li>Matched markets across 4+ leading exchanges</li>
-					<li>Historical order book: trade and price history data</li>
-					<li>Live data feeds across all markets</li>
-					<li>Custom order book analytics</li>
+	<div class="pricing-page">
+		<a href="/"><img src="../images/DelphiWhite.png" alt="Delphi" class="pricing-logo" /></a>
+		<h1 class="pricing-heading">Choose Your Plan</h1>
+		<p class="pricing-subheading">Unified prediction market data across 7+ exchanges</p>
+
+		<div class="pricing-grid">
+			<!-- Free -->
+			<div class="pricing-card">
+				<div class="card-tier">Free</div>
+				<div class="card-price">$0 <span class="price-period">/ mo</span></div>
+				<p class="card-description">Get started with prediction market data.</p>
+				<ul class="card-features">
+					<li>L1 market data</li>
+					<li>2 exchanges</li>
+					<li>6 months historical data</li>
+					<li>1,000 API calls / day</li>
+					<li>Community support</li>
+					<li class="disabled">L2 order book depth</li>
+					<li class="disabled">L3 order-by-order data</li>
+					<li class="disabled">Custom analytics</li>
 				</ul>
+				<a href="https://buy.stripe.com/9B6cN75Ix4tAaJDgYMew803" class="card-cta cta-outline">Get Started</a>
 			</div>
-			<a href="/" class="checkout-back">← Back to Delphi</a>
-		</div>
-		<div class="checkout-right">
-			<div class="checkout-right-cta">
-				<p class="checkout-cta-title">Complete your sign up securely on Stripe.</p>
-				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" class="checkout-cta-btn">Continue to sign up →</a>
-				<p style="margin-top: 2rem; margin-bottom: 0; font-size: 0.9rem;">
-					<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" target="_blank" rel="noopener" style="color: rgba(255,255,255,0.5); border-bottom: 1px dotted rgba(255,255,255,0.3);">Open sign up page in new tab</a>
-				</p>
+
+			<!-- Pro -->
+			<div class="pricing-card featured">
+				<span class="pricing-badge">Most Popular</span>
+				<div class="card-tier">Pro</div>
+				<div class="card-price">$20 <span class="price-period">/ mo</span></div>
+				<p class="card-description">Full market depth for serious traders and researchers.</p>
+				<ul class="card-features">
+					<li>L1 + L2 market data</li>
+					<li>All exchanges</li>
+					<li>Full historical data</li>
+					<li>50,000 API calls / day</li>
+					<li>Email support</li>
+					<li>Market matching across exchanges</li>
+					<li>WebSocket live feeds</li>
+					<li class="disabled">L3 order-by-order data</li>
+				</ul>
+				<a href="https://buy.stripe.com/9B6cN75Ix4tAaJDgYMew803" class="card-cta cta-primary">Subscribe</a>
+			</div>
+
+			<!-- Max -->
+			<div class="pricing-card">
+				<div class="card-tier">Max</div>
+				<div class="card-price">$300 <span class="price-period">/ mo</span></div>
+				<p class="card-description">Institutional-grade data for quant teams and funds.</p>
+				<ul class="card-features">
+					<li>L1 + L2 + L3 market data</li>
+					<li>All exchanges</li>
+					<li>Full historical data</li>
+					<li>Unlimited API calls</li>
+					<li>Priority support</li>
+					<li>Market matching across exchanges</li>
+					<li>WebSocket live feeds</li>
+					<li>Full order book analytics</li>
+				</ul>
+				<a href="https://buy.stripe.com/28E5kF4EtbW2eZTaAoew801" class="card-cta cta-secondary">Subscribe</a>
 			</div>
 		</div>
+
+		<a href="/" class="pricing-back">← Back to Delphi</a>
 	</div>
 </body>
 </html>

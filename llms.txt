@@ -1,0 +1,24 @@
+# Delphi Terminal
+
+> Delphi Terminal is the aggregated prediction market data terminal by Delphi Markets, Inc.
+
+Delphi Terminal provides institutional-grade Level 1, Level 2, and Level 3 market data across 7+ prediction market exchanges including Kalshi, Polymarket, PredictIt, Limitless, Opinion Labs, Metaculus, and Manifold.
+
+## What Delphi Does
+
+- Aggregates real-time and historical prediction market data from multiple exchanges into a single platform
+- Provides L1 (top-of-book), L2 (full order book depth), and L3 (order-by-order) data feeds
+- Proprietary market matching engine links equivalent markets across different exchanges for cross-exchange comparison
+- Offers both a web-based terminal interface and a comprehensive REST + WebSocket API
+
+## Who It's For
+
+Traders, quantitative researchers, market makers, hedge funds, academic researchers, and anyone building on prediction market data.
+
+## Links
+
+- Website: https://delphiterminal.co
+- API Documentation: https://api.delphiterminal.co/docs
+- X/Twitter: https://x.com/Delphi_Terminal
+- Discord: https://discord.gg/cyRBpEqV7g
+- Contact: armon@delphiterminal.co
