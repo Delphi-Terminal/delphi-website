@@ -18,7 +18,7 @@ Traders, quantitative researchers, market makers, hedge funds, academic research
 ## Links
 
 - Website: https://delphiterminal.co
-- API Documentation: https://api.delphiterminal.co/docs
+- API Documentation: https://docs.delphiterminal.co
 - X/Twitter: https://x.com/Delphi_Terminal
 - Discord: https://discord.gg/cyRBpEqV7g
 - Contact: armon@delphiterminal.co
