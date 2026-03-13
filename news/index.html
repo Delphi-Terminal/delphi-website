@@ -167,8 +167,21 @@
 					<a href="/faq/" class="nav-link">FAQ</a>
 					<a href="/#contact" class="nav-link">Contact Us</a>
 				</nav>
-				<div class="header-signup">
-					<a href="/checkout" class="header-signup-btn">Sign Up</a>
+				<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
+					<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
+					<div class="nav-wl-dropdown" id="nav-wl-dropdown">
+						<p>Get early access — we'll notify you when we launch.</p>
+						<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
+							<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
+							<input type="hidden" name="_captcha" value="false" />
+							<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+							<input type="hidden" name="source" value="navbar-news" />
+							<div class="wl-pair" style="max-width:100%; margin:0;">
+								<input type="email" name="email" class="wl-input" placeholder="Your email" required />
+								<button type="submit" class="wl-btn">Join</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</header>
@@ -266,6 +279,24 @@
 		<script src="../assets/js/breakpoints.min.js"></script>
 		<script src="../assets/js/util.js"></script>
 		<script src="../assets/js/main.js"></script>
+		<script>
+			// Navbar waitlist dropdown
+			document.addEventListener('DOMContentLoaded', function() {
+				var wlBtn = document.getElementById('nav-wl-btn');
+				var wlDrop = document.getElementById('nav-wl-dropdown');
+				if (wlBtn && wlDrop) {
+					wlBtn.addEventListener('click', function(e) {
+						e.stopPropagation();
+						wlDrop.classList.toggle('open');
+					});
+					document.addEventListener('click', function(e) {
+						if (!wlDrop.contains(e.target) && e.target !== wlBtn) {
+							wlDrop.classList.remove('open');
+						}
+					});
+				}
+			});
+		</script>
 		<script>
 			// Mobile menu toggle
 			document.addEventListener('DOMContentLoaded', function() {
