@@ -251,6 +251,204 @@
 				</div>
 			</section>
 
+			<!-- ═══════════ CROSS-EXCHANGE SECTION ═══════════ -->
+			<section id="hp-cross-exchange" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">02 &mdash; Cross-Exchange Market Data</span>
+							<h2 class="mp-h2">Aggregated Pricing<br>Across 7+ Exchanges.</h2>
+							<p class="mp-body">
+								Compare prices, volume, and spreads across exchanges side by side. Access real-time order books and historical data for model training, backtesting, and spotting mispricings — all from a single normalized feed.
+							</p>
+							<div class="mp-tags">
+								<span class="mp-tag">Matched Markets</span>
+								<span class="mp-tag">Live Data</span>
+								<span class="mp-tag">Historical Data</span>
+								<span class="mp-tag">L1 Data</span>
+								<span class="mp-tag">L2 Data</span>
+								<span class="mp-tag">L3 Data</span>
+							</div>
+						</div>
+
+						<!-- Right: data table card -->
+						<div>
+							<div class="pd-table-card">
+								<div class="pd-table-header">
+									<span class="pd-table-dot"></span>
+									<span class="pd-table-label">Cross-Exchange</span>
+									<span class="pd-table-live">Live</span>
+								</div>
+								<table class="pd-data-table">
+									<thead>
+										<tr>
+											<th>Market</th>
+											<th>Probability</th>
+											<th>Volume</th>
+											<th>Timestamp</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>US Election 2026</td><td class="pd-prob">52.3%</td><td class="pd-vol">$2.4M</td><td class="pd-time">2026-03-13 14:32:18</td></tr>
+										<tr><td>Fed Rate Cut Q2 2026</td><td class="pd-prob">68.7%</td><td class="pd-vol">$1.8M</td><td class="pd-time">2026-03-13 14:31:45</td></tr>
+										<tr><td>Bitcoin &gt; $100K EOY</td><td class="pd-prob">41.2%</td><td class="pd-vol">$3.1M</td><td class="pd-time">2026-03-13 14:31:12</td></tr>
+										<tr><td>AI Regulation 2026</td><td class="pd-prob">29.5%</td><td class="pd-vol">$950K</td><td class="pd-time">2026-03-13 14:30:58</td></tr>
+										<tr><td>S&amp;P 500 Above 5000</td><td class="pd-prob">76.4%</td><td class="pd-vol">$4.2M</td><td class="pd-time">2026-03-13 14:30:33</td></tr>
+										<tr><td>Climate Summit Agreement</td><td class="pd-prob">33.8%</td><td class="pd-vol">$1.2M</td><td class="pd-time">2026-03-13 14:30:07</td></tr>
+									</tbody>
+								</table>
+								<div class="exchange-logo-grid">
+									<img src="images/kalshi-logo.png" alt="Kalshi" />
+									<img src="images/polymarket-logo.png" alt="Polymarket" />
+									<img src="images/predictit-logo.png" alt="PredictIt" />
+									<img src="images/metaculus-logo.png" alt="Metaculus" />
+									<img src="images/manifold-logo.png" alt="Manifold" />
+									<img src="images/insight-logo.png" alt="Insight" />
+									<img src="images/polymarket-p-logo.png" alt="Polymarket P" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<hr class="mp-divider" />
+
+			<!-- ═══════════ INDICES SECTION ═══════════ -->
+			<section id="hp-indices" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">03 &mdash; Indices</span>
+							<h2 class="mp-h2">Build Analysis Pipelines<br>Through Indices.</h2>
+							<p class="mp-body">
+								Combine prediction market price data with macroeconomic signals to construct public market-style indices. Train models on crowd-sourced probabilities, weight by volume and liquidity, and generate actionable trade signals.
+							</p>
+							<div class="mp-tags">
+								<span class="mp-tag">Visual Builder</span>
+								<span class="mp-tag">Jupyter Notebooks</span>
+								<span class="mp-tag">Built-In Datasets</span>
+							</div>
+						</div>
+
+						<!-- Right: redesigned pipeline diagram -->
+						<div>
+							<div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:1.75rem 1.5rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+								<p style="font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.45); margin-bottom:1.5rem; letter-spacing:0.01em;">Turn inflation predictions into trading signals</p>
+
+								<div class="pipe-v2-row">
+									<!-- Data Sources -->
+									<div class="pipe-v2-group">
+										<div class="pipe-v2-group-label">⊞ Data Source</div>
+										<div class="pipe-v2-card">
+											<div class="pipe-v2-card-name">Kalshi</div>
+											<div class="pipe-v2-card-sub">US $ CPI Markets</div>
+										</div>
+										<div class="pipe-v2-card">
+											<div class="pipe-v2-card-name">Kalshi</div>
+											<div class="pipe-v2-card-sub">US $ Core CPI Markets</div>
+										</div>
+										<div class="pipe-v2-card">
+											<div class="pipe-v2-card-name">Kalshi</div>
+											<div class="pipe-v2-card-sub">US $ PCE Markets</div>
+										</div>
+									</div>
+
+									<div class="pipe-v2-arrow">→</div>
+
+									<!-- Model (smaller) -->
+									<div class="pipe-v2-group model-group">
+										<div class="pipe-v2-group-label">Model</div>
+										<div class="pipe-v2-card model-card" style="flex:1;">
+											<div class="pipe-v2-card-name">E[CPI]</div>
+											<div class="pipe-v2-card-sub" style="margin-top:0.5rem;">Weighted Inflation Index</div>
+										</div>
+									</div>
+
+									<div class="pipe-v2-arrow">→</div>
+
+									<!-- Trade Signals (two cards) -->
+									<div class="pipe-v2-group signal-group">
+										<div class="pipe-v2-group-label">Trade Signal</div>
+										<div class="pipe-v2-card signal-card">
+											<div class="pipe-v2-card-name">Macro Inflation Signal</div>
+										</div>
+										<div class="pipe-v2-card signal-card">
+											<div class="pipe-v2-card-name">Rates / FX / Equity Trades</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="pipe-v2-footer">
+									<span>Visual Builder</span>
+									<span>|</span>
+									<span>Jupyter Notebooks</span>
+									<span>|</span>
+									<span>Built-In Datasets</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<hr class="mp-divider" />
+
+			<!-- ═══════════ API SECTION ═══════════ -->
+			<section id="hp-api" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">04 &mdash; API &amp; Data</span>
+							<h2 class="mp-h2">Programmatic Access<br>to Everything.</h2>
+							<p class="mp-body">
+								Full API access to Kalshi, Polymarket, and all supported exchanges — real-time news, market analytics, order books, and more. REST and WebSocket endpoints, with SDKs and cloud notebooks. Custom endpoints built in 2–3 days.
+							</p>
+							<div class="mp-tags">
+								<span class="mp-tag">REST</span>
+								<span class="mp-tag">WebSocket</span>
+								<span class="mp-tag">SDKs</span>
+								<span class="mp-tag">Cloud Notebooks</span>
+							</div>
+							<div style="margin-top:1.75rem;">
+								<a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer"
+								   style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:#5ac8fa; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(90,200,250,0.3); padding-bottom:1px;">
+									View full API docs →
+								</a>
+							</div>
+						</div>
+
+						<!-- Right: API code card -->
+						<div>
+							<div class="pd-code-card">
+								<div class="pd-code-topbar">
+									<span class="pd-code-status">200</span>
+									<span class="pd-code-endpoint">GET /v1/markets</span>
+								</div>
+								<div class="pd-code-body">
+<pre style="margin:0; font-family:'JetBrains Mono','Courier New',monospace; font-size:0.78rem; line-height:1.8;"><span class="j-br">[</span>
+  <span class="j-br">{</span>
+    <span class="j-key">"type"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-str">"kalshi"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"market_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"klsi_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"poly_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"title"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"category"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span>
+  <span class="j-br">}</span>
+<span class="j-br">]</span></pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
 			<hr class="mp-divider" />
 
 			<!-- Minimal Contact Strip -->

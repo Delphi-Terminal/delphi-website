@@ -13106,6 +13106,140 @@ section {
 	transform: scale(1.08);
 }
 
+/* ── Product page card styles (promoted to shared so homepage can use them) ── */
+.pd-table-card {
+	background: rgba(255,255,255,0.03);
+	border: 1px solid rgba(255,255,255,0.1);
+	border-radius: 14px;
+	overflow: hidden;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.pd-table-header {
+	padding: 0.9rem 1.25rem;
+	background: rgba(255,255,255,0.03);
+	border-bottom: 1px solid rgba(255,255,255,0.07);
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+}
+
+.pd-table-dot {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #5ac8fa;
+	flex-shrink: 0;
+}
+
+.pd-table-label {
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.3);
+}
+
+.pd-table-live {
+	margin-left: auto;
+	font-size: 0.6rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #3fb950;
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.pd-table-live::before {
+	content: '';
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: #3fb950;
+	animation: pd-pulse 2s ease-in-out infinite;
+}
+
+@keyframes pd-pulse {
+	0%, 100% { opacity: 1; }
+	50%       { opacity: 0.3; }
+}
+
+.pd-data-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.78rem;
+}
+
+.pd-data-table th {
+	padding: 0.55rem 1.25rem;
+	text-align: left;
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.3);
+	border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.pd-data-table td {
+	padding: 0.65rem 1.25rem;
+	color: rgba(255,255,255,0.8);
+	border-bottom: 1px solid rgba(255,255,255,0.04);
+	line-height: 1.4;
+}
+
+.pd-data-table tr:last-child td { border-bottom: none; }
+
+.pd-prob { color: #5ac8fa; font-weight: 600; }
+.pd-vol  { color: rgba(255,255,255,0.6); }
+.pd-time { color: rgba(255,255,255,0.3); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; }
+
+.pd-code-card {
+	background: #0d1117;
+	border: 1px solid rgba(255,255,255,0.1);
+	border-radius: 14px;
+	overflow: hidden;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.pd-code-topbar {
+	padding: 0.75rem 1.25rem;
+	background: rgba(255,255,255,0.04);
+	border-bottom: 1px solid rgba(255,255,255,0.07);
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.pd-code-status {
+	font-size: 0.68rem;
+	font-weight: 700;
+	color: #3fb950;
+	background: rgba(63,185,80,0.1);
+	border: 1px solid rgba(63,185,80,0.3);
+	border-radius: 4px;
+	padding: 0.2rem 0.5rem;
+}
+
+.pd-code-endpoint {
+	font-size: 0.68rem;
+	color: rgba(255,255,255,0.35);
+}
+
+.pd-code-body {
+	padding: 1.25rem 1.5rem;
+	font-size: 0.78rem;
+	line-height: 1.8;
+	overflow-x: auto;
+}
+
+.j-br  { color: rgba(255,255,255,0.55); }
+.j-key { color: #f97583; }
+.j-str { color: #85e89d; }
+.j-typ { color: #9ecbff; }
+
 /* ── Bottom CTA section ── */
 .hp-final-cta {
 	text-align: center;
