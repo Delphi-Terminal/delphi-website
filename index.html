@@ -201,6 +201,56 @@
 				</div>
 			</section>
 
+			<!-- ═══════════ NEWS SECTION ═══════════ -->
+			<section id="hp-news" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">01 &mdash; Realtime News &times; Data &times; Markets</span>
+							<h2 class="mp-h2">Turning Signals<br>into Alpha.</h2>
+							<p class="mp-body">
+								Delphi connects breaking news to prediction markets across 7+ exchanges — surface which markets move and why, instantly. One platform. All the signal.
+							</p>
+							<div class="mp-tags" style="margin-bottom:2rem;">
+								<span class="mp-tag">Auto-Matched</span>
+								<span class="mp-tag">Multi-Source</span>
+								<span class="mp-tag">Real-Time</span>
+								<span class="mp-tag">7+ Exchanges</span>
+							</div>
+
+							<form class="wl-pair" id="hp-news-form" method="POST"
+								  action="https://formsubmit.co/armon@delphiterminal.co"
+								  style="max-width:420px;">
+								<input type="hidden" name="_subject" value="New Waitlist Signup — Homepage News" />
+								<input type="hidden" name="_captcha" value="false" />
+								<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+								<input type="hidden" name="source" value="homepage-news" />
+								<input type="email" name="email" class="wl-input" placeholder="Enter your email" required />
+								<button type="submit" class="wl-btn">Join Waitlist</button>
+							</form>
+							<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.72rem; color:rgba(255,255,255,0.2); margin-top:0.75rem;">No spam. Unsubscribe any time.</p>
+							<div id="hp-news-success" style="display:none; margin-top:0.75rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:#5ac8fa;">You're on the list.</div>
+						</div>
+
+						<!-- Right: "Be First to Know" card -->
+						<div style="display:flex; flex-direction:column; justify-content:center;">
+							<div class="mp-card" style="padding:2rem;">
+								<div class="mp-card-label">Early Access</div>
+								<h3 style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:1.25rem; font-weight:700; color:#ffffff; margin-bottom:0.75rem; line-height:1.3;">Be First to Know<br>When We Launch.</h3>
+								<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.45); line-height:1.75; margin-bottom:1.5rem;">
+									Delphi's real-time news feed — matched markets, live signals, and cross-exchange data — is coming soon.
+								</p>
+								<a href="/news/" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.8rem; color:#5ac8fa; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(90,200,250,0.3); padding-bottom:1px;">
+									Learn more about News →
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
 			<hr class="mp-divider" />
 
 			<!-- Minimal Contact Strip -->
@@ -313,7 +363,22 @@
 				});
 			</script>
 			<script>
-				// Contact form — set redirect and show success
+				// Homepage news waitlist + navbar wl=1 success
+			document.addEventListener('DOMContentLoaded', function() {
+				var params = new URLSearchParams(window.location.search);
+				if (params.get('wl') === '1') {
+					['hp-news-form'].forEach(function(id) {
+						var f = document.getElementById(id);
+						if (f) f.style.display = 'none';
+					});
+					var s = document.getElementById('hp-news-success');
+					if (s) s.style.display = 'block';
+					window.history.replaceState({}, document.title, window.location.pathname);
+				}
+			});
+		</script>
+		<script>
+			// Contact form — set redirect and show success
 				document.addEventListener('DOMContentLoaded', function() {
 					var form = document.getElementById('contact-form');
 					var redirectInput = document.getElementById('form-redirect');
