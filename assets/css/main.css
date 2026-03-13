@@ -11979,3 +11979,662 @@ section {
 		filter: saturate(0.5) brightness(0.95) !important;
 	}
 }
+
+/* ============================================================
+   MULTI-PAGE SITE STYLES
+   Added for multi-page refactor (Home / News / Product / FAQ)
+   ============================================================ */
+
+/* --- Navbar layout: social left, signup right --- */
+.site-header .header-social {
+	position: absolute;
+	left: 2rem;
+	right: auto;
+}
+
+.site-header .header-signup {
+	position: absolute;
+	right: 2rem;
+	left: auto;
+}
+
+/* --- Shared font & page base --- */
+.mp-page {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #ffffff;
+}
+
+.mp-page main {
+	padding-top: 4.5rem;
+}
+
+/* --- Section containers --- */
+.mp-section {
+	padding: 6rem 2rem;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.mp-section-full {
+	padding: 6rem 2rem;
+}
+
+/* --- Small section label (e.g. "01 — REALTIME NEWS × DATA × MARKETS") --- */
+.mp-label {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.68rem;
+	font-weight: 600;
+	letter-spacing: 0.15em;
+	color: #5ac8fa;
+	text-transform: uppercase;
+	margin-bottom: 1.25rem;
+	display: block;
+}
+
+/* --- Two-column layout --- */
+.mp-two-col {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 5rem;
+	align-items: center;
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 6rem 2rem;
+}
+
+/* --- Headings --- */
+.mp-h1 {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 2.75rem;
+	font-weight: 700;
+	line-height: 1.15;
+	color: #ffffff;
+	margin-bottom: 1.25rem;
+	letter-spacing: -0.02em;
+}
+
+.mp-h2 {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1.2;
+	color: #ffffff;
+	margin-bottom: 1.25rem;
+	letter-spacing: -0.02em;
+}
+
+.mp-body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.95rem;
+	line-height: 1.75;
+	color: rgba(255, 255, 255, 0.6);
+	margin-bottom: 2rem;
+	max-width: 480px;
+}
+
+/* --- Feature tags (MATCHED MARKETS · LIVE DATA etc.) --- */
+.mp-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 1.5rem;
+}
+
+.mp-tag {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.62rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.45);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 3px;
+	padding: 0.3rem 0.65rem;
+}
+
+/* --- Card base --- */
+.mp-card {
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	padding: 1.75rem;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.mp-card-label {
+	font-size: 0.62rem;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.35);
+	margin-bottom: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.mp-card-label::before {
+	content: '';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: #5ac8fa;
+}
+
+.mp-card-title {
+	font-size: 0.95rem;
+	font-weight: 600;
+	color: #ffffff;
+	margin-bottom: 1.25rem;
+}
+
+/* --- Cross Exchange table inside card --- */
+.mp-exchange-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.78rem;
+}
+
+.mp-exchange-table th {
+	color: rgba(255, 255, 255, 0.35);
+	font-size: 0.62rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.35rem 0.5rem;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	text-align: left;
+}
+
+.mp-exchange-table td {
+	padding: 0.45rem 0.5rem;
+	color: rgba(255, 255, 255, 0.8);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.mp-exchange-table .mp-spread {
+	color: #f6c90e;
+	font-weight: 700;
+}
+
+.mp-exchange-name {
+	font-weight: 600;
+	color: #5ac8fa;
+}
+
+/* Exchange logo strip */
+.mp-exchange-logos {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	align-items: center;
+	margin-top: 1.5rem;
+}
+
+.mp-exchange-logo {
+	width: 34px;
+	height: 34px;
+	object-fit: contain;
+	opacity: 0.65;
+	filter: grayscale(20%);
+	transition: opacity 0.2s, filter 0.2s;
+}
+
+.mp-exchange-logo:hover {
+	opacity: 1;
+	filter: grayscale(0%);
+}
+
+/* --- Pipeline Diagram (Indices) --- */
+.mp-pipeline {
+	display: flex;
+	align-items: stretch;
+	gap: 0;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.mp-pipeline-col {
+	flex: 1;
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	padding: 1.25rem 1rem;
+}
+
+.mp-pipeline-col.model {
+	background: rgba(180, 120, 30, 0.1);
+	border-color: rgba(180, 120, 30, 0.3);
+}
+
+.mp-pipeline-col.signal {
+	background: rgba(90, 200, 250, 0.04);
+	border-color: rgba(90, 200, 250, 0.2);
+}
+
+.mp-pipeline-col-label {
+	font-size: 0.58rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.35);
+	margin-bottom: 0.75rem;
+}
+
+.mp-pipeline-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.4rem;
+	font-size: 0.76rem;
+	color: rgba(255, 255, 255, 0.75);
+	margin-bottom: 0.4rem;
+	line-height: 1.4;
+}
+
+.mp-pipeline-item::before {
+	content: '›';
+	color: #5ac8fa;
+	font-weight: 700;
+	flex-shrink: 0;
+	margin-top: 0.05rem;
+}
+
+.mp-pipeline-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 0.6rem;
+	color: rgba(255, 255, 255, 0.2);
+	font-size: 1.2rem;
+	flex-shrink: 0;
+}
+
+/* --- API Code Card --- */
+.mp-code-card {
+	background: #0d1117;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 12px;
+	overflow: hidden;
+	font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+.mp-code-header {
+	padding: 0.7rem 1.25rem;
+	background: rgba(255, 255, 255, 0.04);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.mp-code-status {
+	font-size: 0.68rem;
+	font-weight: 700;
+	color: #3fb950;
+	background: rgba(63, 185, 80, 0.1);
+	border: 1px solid rgba(63, 185, 80, 0.3);
+	border-radius: 4px;
+	padding: 0.2rem 0.5rem;
+	font-family: 'JetBrains Mono', monospace;
+}
+
+.mp-code-path {
+	font-size: 0.68rem;
+	color: rgba(255, 255, 255, 0.35);
+	letter-spacing: 0.02em;
+}
+
+.mp-code-body {
+	padding: 1.25rem;
+	font-size: 0.78rem;
+	line-height: 1.75;
+}
+
+.mp-json-key { color: #f97583; }
+.mp-json-val { color: #9ecbff; }
+.mp-json-str { color: #85e89d; }
+.mp-json-bracket { color: rgba(255, 255, 255, 0.55); }
+
+/* --- Waitlist form --- */
+.mp-waitlist-form {
+	display: flex;
+	gap: 0.75rem;
+	margin-top: 2rem;
+	max-width: 440px;
+}
+
+.mp-waitlist-input {
+	flex: 1;
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	border-radius: 6px;
+	padding: 0.7rem 1rem;
+	color: #ffffff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	outline: none;
+	transition: border-color 0.2s;
+}
+
+.mp-waitlist-input::placeholder {
+	color: rgba(255, 255, 255, 0.3);
+}
+
+.mp-waitlist-input:focus {
+	border-color: #5ac8fa;
+}
+
+.mp-waitlist-btn {
+	background: #5ac8fa;
+	color: #000000;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	font-weight: 700;
+	border: none;
+	border-radius: 6px;
+	padding: 0.7rem 1.5rem;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background 0.2s, box-shadow 0.2s;
+}
+
+.mp-waitlist-btn:hover {
+	background: #7dd4fb;
+	box-shadow: 0 0 16px rgba(90, 200, 250, 0.3);
+}
+
+/* --- FAQ Accordion --- */
+.mp-faq-list {
+	max-width: 760px;
+	margin: 0 auto;
+}
+
+.mp-faq-item {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mp-faq-question {
+	width: 100%;
+	background: none;
+	border: none;
+	text-align: left;
+	padding: 1.4rem 0;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.975rem;
+	font-weight: 500;
+	color: #ffffff;
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	transition: color 0.2s;
+}
+
+.mp-faq-question:hover {
+	color: #5ac8fa;
+}
+
+.mp-faq-icon {
+	flex-shrink: 0;
+	width: 18px;
+	height: 18px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgba(255, 255, 255, 0.3);
+	font-size: 1.2rem;
+	font-weight: 300;
+	transition: transform 0.25s ease, color 0.2s;
+	line-height: 1;
+}
+
+.mp-faq-item.open .mp-faq-icon {
+	transform: rotate(45deg);
+	color: #5ac8fa;
+}
+
+.mp-faq-item.open .mp-faq-question {
+	color: #5ac8fa;
+}
+
+.mp-faq-answer {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.35s ease, padding-bottom 0.25s ease;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	line-height: 1.8;
+	color: rgba(255, 255, 255, 0.55);
+	padding-bottom: 0;
+}
+
+.mp-faq-item.open .mp-faq-answer {
+	max-height: 400px;
+	padding-bottom: 1.5rem;
+}
+
+/* --- Sub-page hero header --- */
+.mp-page-hero {
+	padding: 7rem 2rem 3.5rem;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.mp-page-hero-center {
+	text-align: center;
+}
+
+/* --- Home teaser preview grid --- */
+.mp-teaser-section {
+	padding: 0 2rem 5rem;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.mp-teaser-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.25rem;
+}
+
+.mp-teaser-card {
+	background: rgba(255, 255, 255, 0.02);
+	border: 1px solid rgba(255, 255, 255, 0.07);
+	border-radius: 10px;
+	padding: 1.75rem 1.5rem;
+	text-decoration: none;
+	color: #ffffff;
+	transition: border-color 0.2s, background 0.2s, transform 0.2s;
+	display: block;
+}
+
+.mp-teaser-card:hover {
+	border-color: rgba(90, 200, 250, 0.3);
+	background: rgba(90, 200, 250, 0.03);
+	transform: translateY(-2px);
+	color: #ffffff;
+}
+
+.mp-teaser-num {
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: #5ac8fa;
+	margin-bottom: 0.75rem;
+	display: block;
+}
+
+.mp-teaser-title {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.975rem;
+	font-weight: 600;
+	color: #ffffff;
+	margin-bottom: 0.5rem;
+	line-height: 1.35;
+}
+
+.mp-teaser-desc {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.8rem;
+	color: rgba(255, 255, 255, 0.4);
+	line-height: 1.6;
+}
+
+.mp-teaser-arrow {
+	margin-top: 1.25rem;
+	font-size: 0.78rem;
+	color: rgba(90, 200, 250, 0.6);
+	font-weight: 500;
+}
+
+/* --- Section divider --- */
+.mp-divider {
+	border: none;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+	margin: 0;
+}
+
+/* --- Minimal contact strip at bottom of home --- */
+.mp-contact-strip {
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+	padding: 4rem 2rem;
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.mp-contact-strip .fields {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+
+.mp-contact-strip .field.full {
+	grid-column: 1 / -1;
+}
+
+.mp-contact-strip label {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.78rem;
+	color: rgba(255, 255, 255, 0.45);
+	display: block;
+	margin-bottom: 0.4rem;
+	letter-spacing: 0.02em;
+}
+
+.mp-contact-strip input,
+.mp-contact-strip textarea {
+	width: 100%;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 6px;
+	padding: 0.6rem 0.9rem;
+	color: #ffffff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.85rem;
+	outline: none;
+	transition: border-color 0.2s;
+	box-sizing: border-box;
+}
+
+.mp-contact-strip input:focus,
+.mp-contact-strip textarea:focus {
+	border-color: rgba(90, 200, 250, 0.5);
+}
+
+.mp-contact-strip textarea {
+	resize: vertical;
+	min-height: 80px;
+}
+
+.mp-contact-strip .mp-submit-btn {
+	background: rgba(90, 200, 250, 0.08);
+	border: 1px solid rgba(90, 200, 250, 0.5);
+	color: #ffffff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.85rem;
+	font-weight: 600;
+	padding: 0.65rem 2rem;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background 0.2s, box-shadow 0.2s;
+}
+
+.mp-contact-strip .mp-submit-btn:hover {
+	background: rgba(90, 200, 250, 0.2);
+	box-shadow: 0 0 14px rgba(90, 200, 250, 0.15);
+}
+
+/* --- Responsive: tablet --- */
+@media screen and (max-width: 1024px) {
+	.mp-two-col {
+		grid-template-columns: 1fr;
+		gap: 3rem;
+		padding: 4rem 2rem;
+	}
+
+	.mp-teaser-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+	.mp-h1 { font-size: 2.25rem; }
+	.mp-h2 { font-size: 1.75rem; }
+}
+
+/* --- Responsive: mobile --- */
+@media screen and (max-width: 736px) {
+	.mp-two-col {
+		padding: 3rem 1.25rem;
+	}
+
+	.mp-section {
+		padding: 4rem 1.25rem;
+	}
+
+	.mp-teaser-section {
+		padding: 0 1.25rem 3.5rem;
+	}
+
+	.mp-teaser-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.mp-page-hero {
+		padding: 6rem 1.25rem 3rem;
+	}
+
+	.mp-h1 { font-size: 1.9rem; }
+	.mp-h2 { font-size: 1.4rem; }
+
+	.mp-waitlist-form {
+		flex-direction: column;
+	}
+
+	.mp-pipeline {
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.mp-pipeline-arrow {
+		transform: rotate(90deg);
+		padding: 0.25rem 0;
+	}
+
+	.mp-contact-strip {
+		padding: 3rem 1.25rem;
+	}
+
+	.mp-contact-strip .fields {
+		grid-template-columns: 1fr;
+	}
+
+	.mp-contact-strip .field.full {
+		grid-column: 1;
+	}
+
+	/* Mobile: navbar social/signup stack behavior */
+	.site-header .header-social {
+		display: none;
+	}
+}
