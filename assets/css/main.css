@@ -12639,3 +12639,517 @@ section {
 		display: none;
 	}
 }
+
+/* ============================================================
+   PHASE 2 REDESIGN STYLES
+   Long-form homepage, hero, FAQ, pipeline, CTA polish
+   ============================================================ */
+
+/* ── Hero: darker overlay ── */
+.terminal-hero {
+	background: #000000;
+}
+
+.terminal-hero::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.65);
+	z-index: 0;
+	pointer-events: none;
+}
+
+.terminal-hero .hero-inner {
+	position: relative;
+	z-index: 1;
+}
+
+/* ── DELPHI wordmark: expanded tracking ── */
+.hero-logo-expanded {
+	letter-spacing: 0.35em;
+	text-transform: uppercase;
+	filter: brightness(1.05);
+}
+
+/* ── Hero label (above logo) ── */
+.hero-eyebrow {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.68rem;
+	font-weight: 600;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.35);
+	display: block;
+	margin-bottom: 1.25rem;
+}
+
+/* ── Hero supporting metadata (smaller) ── */
+.hero-meta {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.78rem;
+	color: rgba(255, 255, 255, 0.35);
+	letter-spacing: 0.04em;
+	margin-top: 0.35rem;
+	white-space: nowrap;
+}
+
+/* ── Hero platform line (larger, more prominent) ── */
+.hero-platform-line {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 1.15rem;
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.75);
+	letter-spacing: 0.03em;
+	margin-top: 0.6rem;
+	margin-bottom: 0;
+}
+
+/* ── Hero CTA: smaller, tighter ── */
+.hero-cta-sm {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.55rem 1.4rem;
+	background: rgba(90, 200, 250, 0.12);
+	border: 1px solid #5ac8fa;
+	color: #ffffff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.8rem;
+	font-weight: 600;
+	border-radius: 5px;
+	text-decoration: none;
+	letter-spacing: 0.04em;
+	transition: background 0.2s, box-shadow 0.2s;
+	white-space: nowrap;
+}
+
+.hero-cta-sm:hover {
+	background: rgba(90, 200, 250, 0.25);
+	box-shadow: 0 0 14px rgba(90, 200, 250, 0.25);
+	color: #ffffff;
+}
+
+/* ── Waitlist button/input pair — matched height ── */
+.wl-pair {
+	display: flex;
+	gap: 0;
+	max-width: 420px;
+	height: 42px;
+}
+
+.wl-pair .wl-input {
+	flex: 1;
+	height: 42px;
+	background: rgba(255, 255, 255, 0.06);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-right: none;
+	border-radius: 6px 0 0 6px;
+	padding: 0 1rem;
+	color: #ffffff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.85rem;
+	outline: none;
+	transition: border-color 0.2s;
+	box-sizing: border-box;
+}
+
+.wl-pair .wl-input::placeholder {
+	color: rgba(255, 255, 255, 0.3);
+}
+
+.wl-pair .wl-input:focus {
+	border-color: rgba(90, 200, 250, 0.6);
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.wl-pair .wl-btn {
+	height: 42px;
+	padding: 0 1.4rem;
+	background: #5ac8fa;
+	color: #000000;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.82rem;
+	font-weight: 700;
+	border: 1px solid #5ac8fa;
+	border-radius: 0 6px 6px 0;
+	cursor: pointer;
+	white-space: nowrap;
+	letter-spacing: 0.03em;
+	transition: background 0.2s, box-shadow 0.2s;
+	box-sizing: border-box;
+}
+
+.wl-pair .wl-btn:hover {
+	background: #7dd4fb;
+	box-shadow: 0 0 14px rgba(90, 200, 250, 0.3);
+}
+
+/* Stacked on mobile */
+@media screen and (max-width: 600px) {
+	.wl-pair {
+		flex-direction: column;
+		height: auto;
+	}
+
+	.wl-pair .wl-input {
+		height: 42px;
+		border-right: 1px solid rgba(255, 255, 255, 0.18);
+		border-bottom: none;
+		border-radius: 6px 6px 0 0;
+	}
+
+	.wl-pair .wl-btn {
+		height: 42px;
+		border-radius: 0 0 6px 6px;
+	}
+}
+
+/* ── Navbar: Join Waitlist dropdown ── */
+.nav-wl-wrap {
+	position: relative;
+}
+
+.nav-wl-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.45rem 1.1rem;
+	background: rgba(90, 200, 250, 0.12);
+	border: 1px solid #5ac8fa;
+	color: #ffffff;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.8rem;
+	font-weight: 600;
+	border-radius: 5px;
+	cursor: pointer;
+	letter-spacing: 0.03em;
+	transition: background 0.2s, box-shadow 0.2s;
+	white-space: nowrap;
+}
+
+.nav-wl-btn:hover {
+	background: rgba(90, 200, 250, 0.25);
+	box-shadow: 0 0 12px rgba(90, 200, 250, 0.2);
+}
+
+.nav-wl-dropdown {
+	display: none;
+	position: absolute;
+	top: calc(100% + 0.6rem);
+	right: 0;
+	background: #0a0a0a;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 8px;
+	padding: 1rem;
+	width: 280px;
+	z-index: 2000;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.nav-wl-dropdown.open {
+	display: block;
+}
+
+.nav-wl-dropdown p {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.75rem;
+	color: rgba(255, 255, 255, 0.4);
+	margin-bottom: 0.75rem;
+	line-height: 1.5;
+}
+
+/* ── Homepage long-form section wrapper ── */
+.hp-section {
+	padding: 6rem 2rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.hp-section-inner {
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/* ── Section identity header (used on each embedded section) ── */
+.hp-section-eyebrow {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: #5ac8fa;
+	display: block;
+	margin-bottom: 1rem;
+}
+
+/* ── FAQ v2: centered, lines only, high contrast ── */
+.faq-v2 {
+	max-width: 700px;
+	margin: 0 auto;
+}
+
+.faq-v2-title {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: #5ac8fa;
+	display: block;
+	margin-bottom: 1rem;
+	text-align: center;
+}
+
+.faq-v2-heading {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 2rem;
+	font-weight: 700;
+	color: #ffffff;
+	text-align: center;
+	margin-bottom: 0.5rem;
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+}
+
+.faq-v2-sub {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	color: rgba(255, 255, 255, 0.4);
+	text-align: center;
+	margin-bottom: 3rem;
+	line-height: 1.6;
+}
+
+.faq-v2-item {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.faq-v2-item:first-of-type {
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.faq-v2-q {
+	width: 100%;
+	background: none;
+	border: none;
+	padding: 1.35rem 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1.5rem;
+	cursor: pointer;
+	text-align: left;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 1rem;
+	font-weight: 600;
+	color: #ffffff;
+	letter-spacing: 0.01em;
+	transition: color 0.2s;
+}
+
+.faq-v2-q:hover {
+	color: #5ac8fa;
+}
+
+.faq-v2-icon {
+	flex-shrink: 0;
+	font-size: 1.1rem;
+	font-weight: 300;
+	color: rgba(255, 255, 255, 0.3);
+	line-height: 1;
+	transition: transform 0.25s ease, color 0.2s;
+	width: 16px;
+	text-align: center;
+}
+
+.faq-v2-item.open .faq-v2-icon {
+	transform: rotate(45deg);
+	color: #5ac8fa;
+}
+
+.faq-v2-item.open .faq-v2-q {
+	color: #5ac8fa;
+}
+
+.faq-v2-answer {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.35s ease, padding-bottom 0.2s ease;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	line-height: 1.8;
+	color: rgba(255, 255, 255, 0.5);
+	padding-bottom: 0;
+}
+
+.faq-v2-item.open .faq-v2-answer {
+	max-height: 360px;
+	padding-bottom: 1.4rem;
+}
+
+/* ── Pipeline v2: differentiated card sizes ── */
+.pipe-v2 {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.pipe-v2-row {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75rem;
+}
+
+.pipe-v2-group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	flex: 1.4;
+}
+
+.pipe-v2-group.model-group {
+	flex: 0.9;
+}
+
+.pipe-v2-group.signal-group {
+	flex: 1.1;
+}
+
+.pipe-v2-card {
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	border-radius: 8px;
+	padding: 0.9rem 1rem;
+}
+
+.pipe-v2-card.model-card {
+	background: rgba(160, 100, 20, 0.1);
+	border-color: rgba(180, 120, 30, 0.3);
+}
+
+.pipe-v2-card.signal-card {
+	background: rgba(90, 200, 250, 0.04);
+	border-color: rgba(90, 200, 250, 0.18);
+}
+
+.pipe-v2-group-label {
+	font-size: 0.57rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.25);
+	margin-bottom: 0.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+}
+
+.pipe-v2-card-name {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.85);
+	margin-bottom: 0.2rem;
+}
+
+.pipe-v2-card-sub {
+	font-size: 0.68rem;
+	color: rgba(255, 255, 255, 0.35);
+	line-height: 1.4;
+}
+
+.pipe-v2-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgba(255, 255, 255, 0.18);
+	font-size: 1.2rem;
+	padding: 0 0.25rem;
+	padding-top: 1.8rem;
+	flex-shrink: 0;
+}
+
+.pipe-v2-footer {
+	display: flex;
+	justify-content: center;
+	gap: 1.5rem;
+	margin-top: 1.25rem;
+	padding-top: 1.1rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.pipe-v2-footer span {
+	font-size: 0.6rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.22);
+}
+
+/* ── Exchange logos: larger, centered, even spacing ── */
+.exchange-logo-grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	gap: 1.25rem;
+	padding: 1.25rem 1rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.exchange-logo-grid img {
+	width: 40px;
+	height: 40px;
+	object-fit: contain;
+	opacity: 0.65;
+	transition: opacity 0.2s, transform 0.2s;
+}
+
+.exchange-logo-grid img:hover {
+	opacity: 1;
+	transform: scale(1.08);
+}
+
+/* ── Bottom CTA section ── */
+.hp-final-cta {
+	text-align: center;
+	padding: 5rem 2rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.hp-final-cta .wl-pair {
+	margin: 0 auto;
+	justify-content: center;
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 1024px) {
+	.pipe-v2-row {
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.pipe-v2-arrow {
+		transform: rotate(90deg);
+		padding: 0.25rem 0;
+		padding-top: 0;
+		align-self: center;
+	}
+
+	.pipe-v2-group,
+	.pipe-v2-group.model-group,
+	.pipe-v2-group.signal-group {
+		flex: 1;
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 736px) {
+	.hp-section {
+		padding: 4rem 1.25rem;
+	}
+
+	.faq-v2-heading {
+		font-size: 1.5rem;
+	}
+
+	.hp-final-cta {
+		padding: 4rem 1.25rem;
+	}
+}
