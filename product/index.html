@@ -1,0 +1,674 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Product — Delphi Terminal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="Delphi Terminal — cross-exchange market data, prediction market indices, and full API access across 7+ exchanges." />
+		<link rel="canonical" href="https://delphiterminal.co/product/" />
+		<link rel="icon" type="image/png" href="../images/DelphiWhiteLogo.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://delphiterminal.co/product/" />
+		<meta property="og:title" content="Product — Delphi Terminal" />
+		<meta property="og:description" content="Institutional-grade prediction market data. Cross-exchange, real-time, and historical." />
+		<meta property="og:image" content="https://delphiterminal.co/images/DelphiWhite.png" />
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+
+		<style>
+			/* ── Product page specific styles ── */
+
+			/* Data table (cross-exchange card) */
+			.pd-table-card {
+				background: rgba(255,255,255,0.03);
+				border: 1px solid rgba(255,255,255,0.1);
+				border-radius: 14px;
+				overflow: hidden;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
+
+			.pd-table-header {
+				padding: 0.9rem 1.25rem;
+				background: rgba(255,255,255,0.03);
+				border-bottom: 1px solid rgba(255,255,255,0.07);
+				display: flex;
+				align-items: center;
+				gap: 0.6rem;
+			}
+
+			.pd-table-dot {
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: #5ac8fa;
+				flex-shrink: 0;
+			}
+
+			.pd-table-label {
+				font-size: 0.62rem;
+				font-weight: 700;
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.3);
+			}
+
+			.pd-table-live {
+				margin-left: auto;
+				font-size: 0.6rem;
+				font-weight: 700;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: #3fb950;
+				display: flex;
+				align-items: center;
+				gap: 0.35rem;
+			}
+
+			.pd-table-live::before {
+				content: '';
+				width: 5px;
+				height: 5px;
+				border-radius: 50%;
+				background: #3fb950;
+				animation: pd-pulse 2s ease-in-out infinite;
+			}
+
+			@keyframes pd-pulse {
+				0%, 100% { opacity: 1; }
+				50%       { opacity: 0.3; }
+			}
+
+			.pd-data-table {
+				width: 100%;
+				border-collapse: collapse;
+				font-size: 0.78rem;
+			}
+
+			.pd-data-table th {
+				padding: 0.55rem 1.25rem;
+				text-align: left;
+				font-size: 0.62rem;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.3);
+				border-bottom: 1px solid rgba(255,255,255,0.07);
+			}
+
+			.pd-data-table td {
+				padding: 0.65rem 1.25rem;
+				color: rgba(255,255,255,0.8);
+				border-bottom: 1px solid rgba(255,255,255,0.04);
+				line-height: 1.4;
+			}
+
+			.pd-data-table tr:last-child td {
+				border-bottom: none;
+			}
+
+			.pd-prob { color: #5ac8fa; font-weight: 600; }
+			.pd-vol  { color: rgba(255,255,255,0.6); }
+			.pd-time { color: rgba(255,255,255,0.3); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace; }
+
+			/* Exchange logo strip (inside cross-exchange card) */
+			.pd-exchange-strip {
+				padding: 1rem 1.25rem;
+				border-top: 1px solid rgba(255,255,255,0.07);
+				display: flex;
+				align-items: center;
+				gap: 0.8rem;
+				flex-wrap: wrap;
+			}
+
+			.pd-exchange-strip img {
+				width: 28px;
+				height: 28px;
+				object-fit: contain;
+				opacity: 0.6;
+				transition: opacity 0.2s;
+			}
+
+			.pd-exchange-strip img:hover { opacity: 1; }
+
+			/* ── Indices pipeline ── */
+			.pd-pipeline-wrap {
+				background: rgba(255,255,255,0.02);
+				border: 1px solid rgba(255,255,255,0.09);
+				border-radius: 14px;
+				padding: 1.75rem 1.5rem;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+			}
+
+			.pd-pipeline-row {
+				display: flex;
+				align-items: stretch;
+				gap: 0;
+			}
+
+			.pd-pipe-col {
+				flex: 1;
+				background: rgba(255,255,255,0.03);
+				border: 1px solid rgba(255,255,255,0.09);
+				border-radius: 8px;
+				padding: 1.1rem 1rem;
+			}
+
+			.pd-pipe-col.model-col {
+				background: rgba(160, 100, 20, 0.1);
+				border-color: rgba(180,120,30,0.3);
+			}
+
+			.pd-pipe-col.signal-col {
+				background: rgba(90,200,250,0.04);
+				border-color: rgba(90,200,250,0.2);
+			}
+
+			.pd-pipe-col-title {
+				font-size: 0.58rem;
+				font-weight: 700;
+				letter-spacing: 0.13em;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.3);
+				margin-bottom: 0.9rem;
+				display: flex;
+				align-items: center;
+				gap: 0.4rem;
+			}
+
+			.pd-pipe-col-title .pd-pipe-icon {
+				font-size: 0.75rem;
+				opacity: 0.5;
+			}
+
+			.pd-pipe-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 0.4rem;
+				font-size: 0.75rem;
+				color: rgba(255,255,255,0.7);
+				margin-bottom: 0.4rem;
+				line-height: 1.4;
+			}
+
+			.pd-pipe-item::before {
+				content: '›';
+				color: #5ac8fa;
+				font-weight: 700;
+				flex-shrink: 0;
+				margin-top: 0.05rem;
+			}
+
+			.pd-pipe-arrow {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				padding: 0 0.75rem;
+				color: rgba(255,255,255,0.18);
+				font-size: 1.3rem;
+				flex-shrink: 0;
+			}
+
+			.pd-pipeline-footer {
+				display: flex;
+				justify-content: center;
+				gap: 2rem;
+				margin-top: 1.25rem;
+				padding-top: 1.25rem;
+				border-top: 1px solid rgba(255,255,255,0.07);
+			}
+
+			.pd-pipeline-footer span {
+				font-size: 0.62rem;
+				font-weight: 600;
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				color: rgba(255,255,255,0.25);
+			}
+
+			/* ── API code card ── */
+			.pd-code-card {
+				background: #0d1117;
+				border: 1px solid rgba(255,255,255,0.1);
+				border-radius: 14px;
+				overflow: hidden;
+				font-family: 'JetBrains Mono', 'Courier New', monospace;
+			}
+
+			.pd-code-topbar {
+				padding: 0.75rem 1.25rem;
+				background: rgba(255,255,255,0.04);
+				border-bottom: 1px solid rgba(255,255,255,0.07);
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+			}
+
+			.pd-code-status {
+				font-size: 0.68rem;
+				font-weight: 700;
+				color: #3fb950;
+				background: rgba(63,185,80,0.1);
+				border: 1px solid rgba(63,185,80,0.3);
+				border-radius: 4px;
+				padding: 0.2rem 0.5rem;
+			}
+
+			.pd-code-endpoint {
+				font-size: 0.68rem;
+				color: rgba(255,255,255,0.35);
+			}
+
+			.pd-code-body {
+				padding: 1.25rem 1.5rem;
+				font-size: 0.78rem;
+				line-height: 1.8;
+				overflow-x: auto;
+			}
+
+			.j-br  { color: rgba(255,255,255,0.55); }
+			.j-key { color: #f97583; }
+			.j-str { color: #85e89d; }
+			.j-typ { color: #9ecbff; }
+
+			/* ── Responsive ── */
+			@media screen and (max-width: 1024px) {
+				.pd-pipeline-row { flex-direction: column; gap: 0.5rem; }
+				.pd-pipe-arrow   { transform: rotate(90deg); padding: 0.25rem 0; }
+			}
+
+			@media screen and (max-width: 736px) {
+				.pd-pipeline-footer { flex-direction: column; gap: 0.5rem; align-items: center; }
+			}
+		</style>
+	</head>
+	<body class="mp-page">
+		<!-- Mouse Highlight Effect -->
+		<div class="mouse-highlight" id="mouse-highlight"></div>
+
+		<!-- Navbar -->
+		<header class="site-header" id="site-header">
+			<div class="header-inner">
+				<div class="header-social">
+					<a href="https://x.com/Delphi_Terminal" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
+					<a href="https://discord.gg/cyRBpEqV7g" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a>
+				</div>
+				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+					<span></span><span></span><span></span>
+				</button>
+				<nav class="header-nav" id="header-nav" role="navigation" aria-label="Main navigation">
+					<a href="/" class="nav-link">Home</a>
+					<a href="/product/" class="nav-link active">Product</a>
+					<a href="/news/" class="nav-link">News</a>
+					<a href="https://docs.delphiterminal.co" class="nav-link" target="_blank" rel="noopener noreferrer">Terminal</a>
+					<a href="/faq/" class="nav-link">FAQ</a>
+					<a href="/#contact" class="nav-link">Contact Us</a>
+				</nav>
+				<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
+					<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
+					<div class="nav-wl-dropdown" id="nav-wl-dropdown">
+						<p>Get early access — we'll notify you when we launch.</p>
+						<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
+							<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
+							<input type="hidden" name="_captcha" value="false" />
+							<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+							<input type="hidden" name="source" value="navbar-product" />
+							<div class="wl-pair" style="max-width:100%; margin:0;">
+								<input type="email" name="email" class="wl-input" placeholder="Your email" required />
+								<button type="submit" class="wl-btn">Join</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<main>
+
+			<!-- Page hero -->
+			<div class="mp-page-hero">
+				<span class="mp-label">Product</span>
+				<h1 class="mp-h1" style="max-width:640px;">The Largest Aggregated<br>Prediction Market Dataset.</h1>
+				<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.45); max-width:520px; line-height:1.75; margin-top:0.25rem;">
+					24/7 news. Cross-exchange data. Full API access. One platform for traders, researchers, and builders.
+				</p>
+			</div>
+
+			<hr class="mp-divider" />
+
+			<!-- ══════════════════════════════════════
+			     Section 1: Cross Exchange Market Data
+			     ══════════════════════════════════════ -->
+			<div id="cross-exchange" class="mp-two-col" style="padding-top:5rem; padding-bottom:5rem;">
+
+				<!-- Left: copy -->
+				<div>
+					<span class="mp-label">02 &mdash; Cross-Exchange Market Data</span>
+					<h2 class="mp-h2">Aggregated Pricing<br>Across 7+ Exchanges.</h2>
+					<p class="mp-body">
+						Compare prices, volume, and spreads across exchanges side by side. Access real-time order books and historical data for model training, backtesting, and spotting mispricings — all from a single normalized feed.
+					</p>
+					<div class="mp-tags">
+						<span class="mp-tag">Matched Markets</span>
+						<span class="mp-tag">Live Data</span>
+						<span class="mp-tag">Historical Data</span>
+						<span class="mp-tag">L1 Data</span>
+						<span class="mp-tag">L2 Data</span>
+						<span class="mp-tag">L3 Data</span>
+					</div>
+				</div>
+
+				<!-- Right: data table card -->
+				<div>
+					<div class="pd-table-card">
+						<div class="pd-table-header">
+							<span class="pd-table-dot"></span>
+							<span class="pd-table-label">Cross-Exchange</span>
+							<span class="pd-table-live">Live</span>
+						</div>
+						<table class="pd-data-table">
+							<thead>
+								<tr>
+									<th>Market</th>
+									<th>Probability</th>
+									<th>Volume</th>
+									<th>Timestamp</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>US Election 2026</td>
+									<td class="pd-prob">52.3%</td>
+									<td class="pd-vol">$2.4M</td>
+									<td class="pd-time">2026-03-13 14:32:18</td>
+								</tr>
+								<tr>
+									<td>Fed Rate Cut by Q2 2026</td>
+									<td class="pd-prob">68.7%</td>
+									<td class="pd-vol">$1.8M</td>
+									<td class="pd-time">2026-03-13 14:31:45</td>
+								</tr>
+								<tr>
+									<td>Bitcoin &gt; $100K by EOY</td>
+									<td class="pd-prob">41.2%</td>
+									<td class="pd-vol">$3.1M</td>
+									<td class="pd-time">2026-03-13 14:31:12</td>
+								</tr>
+								<tr>
+									<td>AI Regulation Passes in 2026</td>
+									<td class="pd-prob">29.5%</td>
+									<td class="pd-vol">$950K</td>
+									<td class="pd-time">2026-03-13 14:30:58</td>
+								</tr>
+								<tr>
+									<td>S&amp;P 500 Closes Above 5000</td>
+									<td class="pd-prob">76.4%</td>
+									<td class="pd-vol">$4.2M</td>
+									<td class="pd-time">2026-03-13 14:30:33</td>
+								</tr>
+								<tr>
+									<td>Climate Summit Agreement</td>
+									<td class="pd-prob">33.8%</td>
+									<td class="pd-vol">$1.2M</td>
+									<td class="pd-time">2026-03-13 14:30:07</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="pd-exchange-strip">
+							<img src="../images/kalshi-logo.png" alt="Kalshi" />
+							<img src="../images/polymarket-logo.png" alt="Polymarket" />
+							<img src="../images/predictit-logo.png" alt="PredictIt" />
+							<img src="../images/metaculus-logo.png" alt="Metaculus" />
+							<img src="../images/manifold-logo.png" alt="Manifold" />
+							<img src="../images/insight-logo.png" alt="Insight" />
+							<img src="../images/polymarket-p-logo.png" alt="Polymarket" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<hr class="mp-divider" />
+
+			<!-- ══════════════════════════════════════
+			     Section 2: Indices
+			     ══════════════════════════════════════ -->
+			<div id="indices" class="mp-two-col" style="padding-top:5rem; padding-bottom:5rem;">
+
+				<!-- Left: copy -->
+				<div>
+					<span class="mp-label">03 &mdash; Indices</span>
+					<h2 class="mp-h2">Build Analysis Pipelines<br>Through Indices.</h2>
+					<p class="mp-body">
+						Combine prediction market price data with macroeconomic signals to construct public market-style indices. Train models on crowd-sourced probabilities, weight them by volume and liquidity, and generate actionable trade signals.
+					</p>
+					<div class="mp-tags">
+						<span class="mp-tag">Visual Builder</span>
+						<span class="mp-tag">Jupyter Notebooks</span>
+						<span class="mp-tag">Built-In Datasets</span>
+					</div>
+				</div>
+
+				<!-- Right: inflation pipeline diagram -->
+				<div>
+					<div class="pd-pipeline-wrap">
+						<div style="font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.5); margin-bottom:1.25rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; letter-spacing:0.01em;">
+							Turn inflation predictions into trading signals
+						</div>
+
+						<div class="pd-pipeline-row">
+
+							<!-- Data Source -->
+							<div class="pd-pipe-col">
+								<div class="pd-pipe-col-title">
+									<span class="pd-pipe-icon">⊞</span> Data Source
+								</div>
+								<div class="pd-pipe-item">
+									<span>Kalshi<br><span style="color:rgba(255,255,255,0.4); font-size:0.68rem;">US $ CPI Markets</span></span>
+								</div>
+								<div class="pd-pipe-item">
+									<span>Kalshi<br><span style="color:rgba(255,255,255,0.4); font-size:0.68rem;">US $ Core CPI Markets</span></span>
+								</div>
+								<div class="pd-pipe-item">
+									<span>Kalshi<br><span style="color:rgba(255,255,255,0.4); font-size:0.68rem;">US $ PCE Markets</span></span>
+								</div>
+							</div>
+
+							<div class="pd-pipe-arrow">→</div>
+
+							<!-- Model -->
+							<div class="pd-pipe-col model-col">
+								<div class="pd-pipe-col-title">Model</div>
+								<div class="pd-pipe-item">E[CPI]</div>
+								<div class="pd-pipe-item">Weighted Inflation Index</div>
+							</div>
+
+							<div class="pd-pipe-arrow">→</div>
+
+							<!-- Trade Signal -->
+							<div class="pd-pipe-col signal-col">
+								<div class="pd-pipe-col-title">Trade Signal</div>
+								<div class="pd-pipe-item">Macro Inflation Signal</div>
+								<div class="pd-pipe-item">Rates / FX / Equity Trades</div>
+							</div>
+
+						</div>
+
+						<div class="pd-pipeline-footer">
+							<span>Visual Builder</span>
+							<span>|</span>
+							<span>Jupyter Notebooks</span>
+							<span>|</span>
+							<span>Built-In Datasets</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<hr class="mp-divider" />
+
+			<!-- ══════════════════════════════════════
+			     Section 3: API & Data
+			     ══════════════════════════════════════ -->
+			<div id="api" class="mp-two-col" style="padding-top:5rem; padding-bottom:5rem;">
+
+				<!-- Left: copy -->
+				<div>
+					<span class="mp-label">04 &mdash; API &amp; Data</span>
+					<h2 class="mp-h2">Programmatic Access<br>to Everything.</h2>
+					<p class="mp-body">
+						Full API access to Kalshi, Polymarket, and all supported exchanges — real-time news, market analytics, order books, and more. REST and WebSocket endpoints, with SDKs and cloud notebooks available. Custom endpoints built in 2–3 days.
+					</p>
+					<div class="mp-tags">
+						<span class="mp-tag">REST</span>
+						<span class="mp-tag">WebSocket</span>
+						<span class="mp-tag">SDKs</span>
+						<span class="mp-tag">Cloud Notebooks</span>
+					</div>
+					<div style="margin-top:2rem;">
+						<a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer"
+						   style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:#5ac8fa; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(90,200,250,0.3); padding-bottom:1px; transition:border-color 0.2s;">
+							View full API docs →
+						</a>
+					</div>
+				</div>
+
+				<!-- Right: API code card -->
+				<div>
+					<div class="pd-code-card">
+						<div class="pd-code-topbar">
+							<span class="pd-code-status">200</span>
+							<span class="pd-code-endpoint">GET /v1/markets</span>
+						</div>
+						<div class="pd-code-body">
+<pre style="margin:0; font-family:'JetBrains Mono','Courier New',monospace; font-size:0.78rem; line-height:1.8;"><span class="j-br">[</span>
+  <span class="j-br">{</span>
+    <span class="j-key">"type"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-str">"kalshi"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"market_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"klsi_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"poly_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"title"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"category"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span>
+  <span class="j-br">}</span>
+<span class="j-br">]</span></pre>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<hr class="mp-divider" />
+
+			<!-- Bottom CTA -->
+			<div style="text-align:center; padding:4.5rem 2rem;">
+				<p class="mp-label" style="display:block; margin-bottom:1rem;">Get Started</p>
+				<h2 class="mp-h2" style="font-size:1.75rem; margin-bottom:1.5rem;">Ready to access the data?</h2>
+				<div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; align-items:center;">
+					<a href="/checkout" class="hero-cta"><span>Sign Up</span></a>
+					<a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer"
+					   class="docs-link" style="margin:0;">View Docs</a>
+				</div>
+			</div>
+
+		</main>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="footer-bottom">
+				<p>Copyright &copy; 2026 Delphi Markets, Inc.</p>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script>
+			// Navbar waitlist dropdown
+			document.addEventListener('DOMContentLoaded', function() {
+				var wlBtn = document.getElementById('nav-wl-btn');
+				var wlDrop = document.getElementById('nav-wl-dropdown');
+				if (wlBtn && wlDrop) {
+					wlBtn.addEventListener('click', function(e) {
+						e.stopPropagation();
+						wlDrop.classList.toggle('open');
+					});
+					document.addEventListener('click', function(e) {
+						if (!wlDrop.contains(e.target) && e.target !== wlBtn) {
+							wlDrop.classList.remove('open');
+						}
+					});
+				}
+			});
+		</script>
+		<script>
+			// Mobile menu toggle
+			document.addEventListener('DOMContentLoaded', function() {
+				var menuToggle = document.getElementById('mobile-menu-toggle');
+				var header = document.getElementById('site-header');
+				var headerNav = document.getElementById('header-nav');
+
+				if (menuToggle && header && headerNav) {
+					menuToggle.addEventListener('click', function() {
+						var isOpen = header.classList.contains('menu-open');
+						header.classList.toggle('menu-open');
+						headerNav.classList.toggle('mobile-open');
+						menuToggle.classList.toggle('active');
+						menuToggle.setAttribute('aria-expanded', !isOpen);
+					});
+
+					headerNav.querySelectorAll('.nav-link').forEach(function(link) {
+						link.addEventListener('click', function() {
+							header.classList.remove('menu-open');
+							headerNav.classList.remove('mobile-open');
+							menuToggle.classList.remove('active');
+							menuToggle.setAttribute('aria-expanded', 'false');
+						});
+					});
+
+					document.addEventListener('click', function(e) {
+						if (!menuToggle.contains(e.target) && !headerNav.contains(e.target)) {
+							header.classList.remove('menu-open');
+							headerNav.classList.remove('mobile-open');
+							menuToggle.classList.remove('active');
+							menuToggle.setAttribute('aria-expanded', 'false');
+						}
+					});
+				}
+			});
+		</script>
+		<script>
+			// Scroll to hash section on load (e.g. /product/#cross-exchange)
+			document.addEventListener('DOMContentLoaded', function() {
+				if (window.location.hash) {
+					var target = document.querySelector(window.location.hash);
+					if (target) {
+						setTimeout(function() {
+							var headerH = document.getElementById('site-header').offsetHeight || 70;
+							window.scrollTo({ top: target.offsetTop - headerH, behavior: 'smooth' });
+						}, 100);
+					}
+				}
+			});
+		</script>
+		<script>
+			// Mouse highlight
+			(function() {
+				var highlight = document.getElementById('mouse-highlight');
+				if (!highlight) return;
+				document.addEventListener('mousemove', function(e) {
+					highlight.style.left = e.clientX + 'px';
+					highlight.style.top = e.clientY + 'px';
+				});
+				document.querySelectorAll('p, h1, h2, h3, a, span, li, td, th').forEach(function(el) {
+					el.addEventListener('mouseenter', function() { highlight.classList.add('active'); });
+					el.addEventListener('mouseleave', function() { highlight.classList.remove('active'); });
+				});
+			})();
+		</script>
+	</body>
+</html>

@@ -134,12 +134,13 @@
 	<body>
 		<!-- Mouse Highlight Effect -->
 		<div class="mouse-highlight" id="mouse-highlight"></div>
-		
+
 		<!-- Sticky Navigation Header -->
 		<header class="site-header" id="site-header">
 			<div class="header-inner">
-				<div class="header-signup">
-					<a href="/checkout" class="header-signup-btn">Sign Up</a>
+				<div class="header-social">
+					<a href="https://x.com/Delphi_Terminal" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
+					<a href="https://discord.gg/cyRBpEqV7g" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a>
 				</div>
 				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
 					<span></span>
@@ -147,17 +148,28 @@
 					<span></span>
 				</button>
 				<nav class="header-nav" id="header-nav" role="navigation" aria-label="Main navigation">
-					<a href="#intro" class="nav-link active">Welcome</a>
-					<a href="#product-preview" class="nav-link">Product Preview</a>
-					<a href="https://docs.delphiterminal.co" class="nav-link" target="_blank" rel="noopener noreferrer">Docs</a>
-					<a href="#one" class="nav-link">Who We Are</a>
-					<a href="#two" class="nav-link">What We Do</a>
-					<a href="#faq" class="nav-link">FAQ</a>
-					<a href="#three" class="nav-link">Contact Us</a>
+					<a href="/" class="nav-link active">Home</a>
+					<a href="/product/" class="nav-link">Product</a>
+					<a href="/news/" class="nav-link">News</a>
+					<a href="https://docs.delphiterminal.co" class="nav-link" target="_blank" rel="noopener noreferrer">Terminal</a>
+					<a href="/faq/" class="nav-link">FAQ</a>
+					<a href="#contact" class="nav-link">Contact Us</a>
 				</nav>
-				<div class="header-social">
-					<a href="https://x.com/Delphi_Terminal" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
-					<a href="https://discord.gg/cyRBpEqV7g" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a>
+				<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
+					<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
+					<div class="nav-wl-dropdown" id="nav-wl-dropdown">
+						<p>Get early access — we'll notify you when we launch.</p>
+						<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
+							<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
+							<input type="hidden" name="_captcha" value="false" />
+							<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+							<input type="hidden" name="source" value="navbar-home" />
+							<div class="wl-pair" style="max-width:100%; margin:0;">
+								<input type="email" name="email" class="wl-input" placeholder="Your email" required />
+								<button type="submit" class="wl-btn">Join</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</header>
@@ -165,225 +177,369 @@
 		<!-- Main Content -->
 		<main id="main-content">
 
-				<!-- Intro - Left-Aligned Hero -->
-					<section id="intro" class="terminal-hero">
-						<svg class="hero-pattern" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-							<defs>
-								<pattern id="verticalLines" x="0" y="0" width="40" height="100%" patternUnits="userSpaceOnUse">
-									<line x1="0" y1="0" x2="0" y2="100%" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-								</pattern>
-							</defs>
-							<rect width="100%" height="100%" fill="url(#verticalLines)"/>
-						</svg>
-						<div class="hero-inner">
-							<div class="hero-logo-wrapper">
-								<img src="images/DelphiWhite.png" alt="Delphi" class="hero-logo" id="hero-logo" />
-								<span class="typing-cursor"></span>
+			<!-- ═══════════ HERO ═══════════ -->
+			<section id="intro" class="terminal-hero">
+				<svg class="hero-pattern" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+					<defs>
+						<pattern id="verticalLines" x="0" y="0" width="40" height="100%" patternUnits="userSpaceOnUse">
+							<line x1="0" y1="0" x2="0" y2="100%" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+						</pattern>
+					</defs>
+					<rect width="100%" height="100%" fill="url(#verticalLines)"/>
+				</svg>
+				<div class="hero-inner" style="text-align:center; align-items:center;">
+					<span class="hero-eyebrow">Wisdom of the Crowd.</span>
+					<div class="hero-logo-wrapper" style="margin-bottom:1rem; justify-content:center;">
+						<a href="/"><img src="images/DelphiWhite.png" alt="Delphi" class="hero-logo" style="max-width:185px; transform:scaleX(1.14); transform-origin:center;" /></a>
+					</div>
+					<p class="hero-meta">Cross-exchange data &nbsp;·&nbsp; 7+ Exchanges &nbsp;·&nbsp; Real-time news</p>
+					<p class="hero-platform-line">In One Platform.</p>
+					<div class="hero-cta-group" style="margin-top:1.75rem; display:flex; gap:1rem; justify-content:center; align-items:center; flex-wrap:wrap;">
+						<a href="/checkout" class="hero-cta-sm" id="request-access-btn">Sign Up</a>
+						<a href="https://docs.delphiterminal.co" class="docs-link" target="_blank" rel="noopener noreferrer" style="margin:0; font-size:0.8rem;">Documentation</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- ═══════════ NEWS SECTION ═══════════ -->
+			<section id="hp-news" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">01 &mdash; Realtime News &times; Data &times; Markets</span>
+							<h2 class="mp-h2">Turning Signals<br>into Alpha.</h2>
+							<p class="mp-body">
+								Delphi connects breaking news to prediction markets across 7+ exchanges — surface which markets move and why, instantly. One platform. All the signal.
+							</p>
+							<div class="mp-tags" style="margin-bottom:2rem;">
+								<span class="mp-tag">Auto-Matched</span>
+								<span class="mp-tag">Multi-Source</span>
+								<span class="mp-tag">Real-Time</span>
+								<span class="mp-tag">7+ Exchanges</span>
 							</div>
-							<h1 class="hero-title" id="hero-title" data-text="Unified Prediction Market Data"></h1>
-							<p class="hero-subtitle">7+ Exchanges | Market Aggregator | L1-L2-L3 Data</p>
-							<div class="hero-cta-group">
-								<a href="/checkout" class="hero-cta" id="request-access-btn">
-									<span>Sign Up</span>
+
+							<form class="wl-pair" id="hp-news-form" method="POST"
+								  action="https://formsubmit.co/armon@delphiterminal.co"
+								  style="max-width:420px;">
+								<input type="hidden" name="_subject" value="New Waitlist Signup — Homepage News" />
+								<input type="hidden" name="_captcha" value="false" />
+								<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+								<input type="hidden" name="source" value="homepage-news" />
+								<input type="email" name="email" class="wl-input" placeholder="Enter your email" required />
+								<button type="submit" class="wl-btn">Join Waitlist</button>
+							</form>
+							<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.72rem; color:rgba(255,255,255,0.2); margin-top:0.75rem;">No spam. Unsubscribe any time.</p>
+							<div id="hp-news-success" style="display:none; margin-top:0.75rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:#5ac8fa;">You're on the list.</div>
+						</div>
+
+						<!-- Right: "Be First to Know" card -->
+						<div style="display:flex; flex-direction:column; justify-content:center;">
+							<div class="mp-card" style="padding:2rem;">
+								<div class="mp-card-label">Early Access</div>
+								<h3 style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:1.25rem; font-weight:700; color:#ffffff; margin-bottom:0.75rem; line-height:1.3;">Be First to Know<br>When We Launch.</h3>
+								<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.45); line-height:1.75; margin-bottom:1.5rem;">
+									Delphi's real-time news feed — matched markets, live signals, and cross-exchange data — is coming soon.
+								</p>
+								<a href="/news/" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.8rem; color:#5ac8fa; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(90,200,250,0.3); padding-bottom:1px;">
+									Learn more about News →
 								</a>
 							</div>
-							<a href="https://docs.delphiterminal.co" class="docs-link" target="_blank" rel="noopener noreferrer">Documentation</a>
-						</div>
-					</section>
-
-				<!-- Product Preview -->
-					<section id="product-preview" class="terminal-grid-section">
-						<div class="product-preview-row">
-							<div class="product-preview-left">
-								<div class="section-header">
-									<h2 class="section-title product-preview-title">Product Preview</h2>
-								</div>
-								<div class="table-wrapper">
-									<table class="delphi-dashboard">
-								<thead>
-									<tr>
-										<th>Market Name</th>
-										<th>Probability</th>
-										<th>Volume</th>
-										<th>Timestamp</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>US Election 2026 </td>
-										<td>52.3%</td>
-										<td>$2.4M</td>
-										<td>2024-01-15 14:32:18</td>
-									</tr>
-									<tr>
-										<td>Fed Rate Cut by Q2 2026</td>
-										<td>68.7%</td>
-										<td>$1.8M</td>
-										<td>2024-01-15 14:31:45</td>
-									</tr>
-									<tr>
-										<td>Bitcoin > $50K by EOY</td>
-										<td>41.2%</td>
-										<td>$3.1M</td>
-										<td>2024-01-15 14:31:12</td>
-									</tr>
-									<tr>
-										<td>AI Regulation Passes in 2026</td>
-										<td>29.5%</td>
-										<td>$950K</td>
-										<td>2024-01-15 14:30:58</td>
-									</tr>
-									<tr>
-										<td>SP500 Closes Above 5000</td>
-										<td>76.4%</td>
-										<td>$4.2M</td>
-										<td>2024-01-15 14:30:33</td>
-									</tr>
-									<tr>
-										<td>Climate Summit Agreement Reached</td>
-										<td>33.8%</td>
-										<td>$1.2M</td>
-										<td>2024-01-15 14:30:07</td>
-									</tr>
-								</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="product-preview-cta">
-								<a href="/checkout" class="hero-cta product-preview-signup"><span>Sign Up</span></a>
-							</div>
-						</div>
-					</section>
-
-				<!-- One - Team Section -->
-					<section id="one" class="terminal-grid-section team-section">
-						<div class="section-header">
-							<h2 class="section-title team-section-title">Who We Are</h2>
-						</div>
-						<div class="team-grid">
-							<div class="team-member">
-								<div class="team-photo-wrapper">
-									<img src="images/ArmonS.png" alt="Armon Singh" class="team-photo" />
-								</div>
-								<h3 class="team-name">Armon Singh</h3>
-								<span class="team-role">CRO</span>
-							</div>
-							<div class="team-member">
-								<div class="team-photo-wrapper">
-									<img src="images/ShayPatel.png" alt="Shay Patel" class="team-photo" />
-								</div>
-								<h3 class="team-name">Shay Patel</h3>
-								<span class="team-role">CEO</span>
-							</div>
-							<div class="team-member">
-								<div class="team-photo-wrapper">
-									<img src="images/MasonB.png" alt="Mason Brownrigg" class="team-photo" />
-								</div>
-								<h3 class="team-name">Mason Brownrigg</h3>
-								<span class="team-role">CTO</span>
-							</div>
-							<div class="team-member team-member-prakash">
-								<div class="team-photo-wrapper">
-									<img src="images/PrakashShekhar.png" alt="Prakash Shekhar" class="team-photo" />
-								</div>
-								<h3 class="team-name">Prakash Shekhar</h3>
-								<span class="team-role">Founding Engineer</span>
-							</div>
-						</div>
-					</section>
-
-				<!-- Two - What We Do -->
-					<section id="two" class="terminal-grid-section what-we-do-section">
-						<div class="section-header">
-							<h2 class="section-title what-we-do-title">What We Do</h2>
-							<h3 class="what-we-do-headline">The Largest Aggregated Prediction Market Platform</h3>
-							<p class="what-we-do-description">We currently own and operate the world's largest Level 1, Level 2, and Level 3 dataset across multiple exchanges.</p>
-						</div>
-						<div class="exchange-logos">
-							<img src="images/kalshi-logo.png" alt="Kalshi" class="exchange-logo" />
-							<img src="images/polymarket-logo.png" alt="Polymarket" class="exchange-logo" />
-							<img src="images/predictit-logo.png" alt="PredictIt" class="exchange-logo" />
-							<img src="images/insight-logo.png" alt="Insight" class="exchange-logo" />
-							<img src="images/metaculus-logo.png" alt="Metaculus" class="exchange-logo" />
-							<img src="images/polymarket-p-logo.png" alt="Polymarket" class="exchange-logo" />
-							<img src="images/manifold-logo.png" alt="Manifold" class="exchange-logo" />
-						</div>
-						<div class="what-we-do-cta">
-							<a href="/checkout" class="hero-cta what-we-do-signup"><span>Sign Up</span></a>
-						</div>
-					</section>
-
-			<!-- FAQ -->
-				<section id="faq" class="terminal-grid-section faq-section">
-					<div class="section-header">
-						<h2 class="section-title faq-title">Frequently Asked Questions</h2>
-					</div>
-					<div class="faq-list">
-						<div class="faq-item">
-							<h3 class="faq-question">What is Delphi Terminal?</h3>
-							<p class="faq-answer">Delphi Terminal is an aggregated prediction market data terminal that provides institutional-grade L1, L2, and L3 market data across multiple exchanges including Kalshi, Polymarket, Limitless, and Opinion Labs. It offers both a web-based terminal interface and a comprehensive API for accessing real-time and historical prediction market data.</p>
-						</div>
-						<div class="faq-item">
-							<h3 class="faq-question">What prediction market exchanges does Delphi support?</h3>
-							<p class="faq-answer">Delphi aggregates data from 7+ prediction market exchanges including Kalshi, Polymarket, PredictIt, Limitless, Opinion Labs, Metaculus, and Manifold. We continuously add new exchanges to provide the most comprehensive market coverage available.</p>
-						</div>
-						<div class="faq-item">
-							<h3 class="faq-question">What is L1, L2, and L3 market data?</h3>
-							<p class="faq-answer">L1 (Level 1) data includes top-of-book prices and basic market information. L2 (Level 2) data provides full order book depth, showing all bids and asks at every price level. L3 (Level 3) data is the most granular — full order-by-order data showing every individual order placed, modified, or cancelled in the market.</p>
-						</div>
-						<div class="faq-item">
-							<h3 class="faq-question">Does Delphi offer an API?</h3>
-							<p class="faq-answer">Yes. Delphi provides a comprehensive REST and WebSocket API for accessing real-time and historical prediction market data. The API supports L1, L2, and L3 data feeds across all supported exchanges. Full documentation is available at <a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer">docs.delphiterminal.co</a>.</p>
-						</div>
-						<div class="faq-item">
-							<h3 class="faq-question">Who is Delphi built for?</h3>
-							<p class="faq-answer">Delphi is built for traders, quantitative researchers, market makers, hedge funds, academic researchers, and anyone who needs comprehensive prediction market data. Whether you're building trading algorithms, conducting research, or analyzing market sentiment, Delphi provides the data infrastructure you need.</p>
-						</div>
-						<div class="faq-item faq-item-last">
-							<h3 class="faq-question">How does Delphi's market matching work?</h3>
-							<p class="faq-answer">Delphi's proprietary market matching engine identifies and links equivalent or related prediction markets across different exchanges, enabling cross-exchange comparison and analysis. This allows users to see how the same event is priced across Kalshi, Polymarket, and other platforms in a single unified view.</p>
 						</div>
 					</div>
-				</section>
+				</div>
+			</section>
 
-			<!-- Three -->
-				<section id="three" class="terminal-grid-section contact-section">
-						<div class="section-header">
-							<h2 class="section-title contact-title">Get In Touch</h2>
-							<p class="section-description">Reach out to learn more about Delphi.</p>
-						</div>
-						<div class="contact-form-wrapper">							<div id="form-success" style="display: none; padding: 1em; background-color: rgba(255, 47, 82, 0.1); border: 1px solid #ff2f52; border-radius: 0.25em; margin-bottom: 2em;">
-								<p style="color: #ff2f52; margin: 0;"><strong>Thank you!</strong> Your message has been sent successfully. We'll get back to you soon.</p>
+			<!-- ═══════════ CROSS-EXCHANGE SECTION ═══════════ -->
+			<section id="hp-cross-exchange" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">02 &mdash; Cross-Exchange Market Data</span>
+							<h2 class="mp-h2">Aggregated Pricing<br>Across 7+ Exchanges.</h2>
+							<p class="mp-body">
+								Compare prices, volume, and spreads across exchanges side by side. Access real-time order books and historical data for model training, backtesting, and spotting mispricings — all from a single normalized feed.
+							</p>
+							<div class="mp-tags">
+								<span class="mp-tag">Matched Markets</span>
+								<span class="mp-tag">Live Data</span>
+								<span class="mp-tag">Historical Data</span>
+								<span class="mp-tag">L1 Data</span>
+								<span class="mp-tag">L2 Data</span>
+								<span class="mp-tag">L3 Data</span>
 							</div>
-							<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="contact-form">
-								<input type="hidden" name="_subject" value="New Contact Form Submission from Delphi Website">
-								<input type="hidden" name="_captcha" value="false">
-								<input type="hidden" name="_next" id="form-redirect" value="">
-								<div class="fields">
-									<div class="field half">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" required />
+						</div>
+
+						<!-- Right: data table card -->
+						<div>
+							<div class="pd-table-card">
+								<div class="pd-table-header">
+									<span class="pd-table-dot"></span>
+									<span class="pd-table-label">Cross-Exchange</span>
+									<span class="pd-table-live">Live</span>
+								</div>
+								<table class="pd-data-table">
+									<thead>
+										<tr>
+											<th>Market</th>
+											<th>Probability</th>
+											<th>Volume</th>
+											<th>Timestamp</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>US Election 2026</td><td class="pd-prob">52.3%</td><td class="pd-vol">$2.4M</td><td class="pd-time">2026-03-13 14:32:18</td></tr>
+										<tr><td>Fed Rate Cut Q2 2026</td><td class="pd-prob">68.7%</td><td class="pd-vol">$1.8M</td><td class="pd-time">2026-03-13 14:31:45</td></tr>
+										<tr><td>Bitcoin &gt; $100K EOY</td><td class="pd-prob">41.2%</td><td class="pd-vol">$3.1M</td><td class="pd-time">2026-03-13 14:31:12</td></tr>
+										<tr><td>AI Regulation 2026</td><td class="pd-prob">29.5%</td><td class="pd-vol">$950K</td><td class="pd-time">2026-03-13 14:30:58</td></tr>
+										<tr><td>S&amp;P 500 Above 5000</td><td class="pd-prob">76.4%</td><td class="pd-vol">$4.2M</td><td class="pd-time">2026-03-13 14:30:33</td></tr>
+										<tr><td>Climate Summit Agreement</td><td class="pd-prob">33.8%</td><td class="pd-vol">$1.2M</td><td class="pd-time">2026-03-13 14:30:07</td></tr>
+									</tbody>
+								</table>
+								<div class="exchange-logo-grid">
+									<img src="images/kalshi-logo.png" alt="Kalshi" />
+									<img src="images/polymarket-logo.png" alt="Polymarket" />
+									<img src="images/predictit-logo.png" alt="PredictIt" />
+									<img src="images/metaculus-logo.png" alt="Metaculus" />
+									<img src="images/manifold-logo.png" alt="Manifold" />
+									<img src="images/insight-logo.png" alt="Insight" />
+									<img src="images/polymarket-p-logo.png" alt="Polymarket P" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<hr class="mp-divider" />
+
+			<!-- ═══════════ INDICES SECTION ═══════════ -->
+			<section id="hp-indices" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">03 &mdash; Indices</span>
+							<h2 class="mp-h2">Build Analysis Pipelines<br>Through Indices.</h2>
+							<p class="mp-body">
+								Combine prediction market price data with macroeconomic signals to construct public market-style indices. Train models on crowd-sourced probabilities, weight by volume and liquidity, and generate actionable trade signals.
+							</p>
+							<div class="mp-tags">
+								<span class="mp-tag">Visual Builder</span>
+								<span class="mp-tag">Jupyter Notebooks</span>
+								<span class="mp-tag">Built-In Datasets</span>
+							</div>
+						</div>
+
+						<!-- Right: redesigned pipeline diagram -->
+						<div>
+							<div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:1.75rem 1.5rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+								<p style="font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.45); margin-bottom:1.5rem; letter-spacing:0.01em;">Turn inflation predictions into trading signals</p>
+
+								<div class="pipe-v2-row">
+									<!-- Data Sources -->
+									<div class="pipe-v2-group">
+										<div class="pipe-v2-group-label">⊞ Data Source</div>
+										<div class="pipe-v2-card">
+											<div class="pipe-v2-card-name">Kalshi</div>
+											<div class="pipe-v2-card-sub">US $ CPI Markets</div>
+										</div>
+										<div class="pipe-v2-card">
+											<div class="pipe-v2-card-name">Kalshi</div>
+											<div class="pipe-v2-card-sub">US $ Core CPI Markets</div>
+										</div>
+										<div class="pipe-v2-card">
+											<div class="pipe-v2-card-name">Kalshi</div>
+											<div class="pipe-v2-card-sub">US $ PCE Markets</div>
+										</div>
 									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="email" name="email" id="email" required />
+
+									<div class="pipe-v2-arrow">→</div>
+
+									<!-- Model (smaller) -->
+									<div class="pipe-v2-group model-group">
+										<div class="pipe-v2-group-label">Model</div>
+										<div class="pipe-v2-card model-card" style="flex:1;">
+											<div class="pipe-v2-card-name">E[CPI]</div>
+											<div class="pipe-v2-card-sub" style="margin-top:0.5rem;">Weighted Inflation Index</div>
+										</div>
 									</div>
-									<div class="field">
-										<label for="referral">Referral Code (Optional)</label>
-										<input type="text" name="referral" id="referral" placeholder="Enter referral code if you have one" />
-									</div>
-									<div class="field">
-										<label for="message">Message (Optional)</label>
-										<textarea name="message" id="message" rows="5"></textarea>
-									</div>
-									<div class="field">
-										<button type="submit" class="button submit-button">Send Message</button>
+
+									<div class="pipe-v2-arrow">→</div>
+
+									<!-- Trade Signals (two cards) -->
+									<div class="pipe-v2-group signal-group">
+										<div class="pipe-v2-group-label">Trade Signal</div>
+										<div class="pipe-v2-card signal-card">
+											<div class="pipe-v2-card-name">Macro Inflation Signal</div>
+										</div>
+										<div class="pipe-v2-card signal-card">
+											<div class="pipe-v2-card-name">Rates / FX / Equity Trades</div>
+										</div>
 									</div>
 								</div>
-							</form>
+
+								<div class="pipe-v2-footer">
+									<span>Visual Builder</span>
+									<span>|</span>
+									<span>Jupyter Notebooks</span>
+									<span>|</span>
+									<span>Built-In Datasets</span>
+								</div>
+							</div>
 						</div>
+					</div>
+				</div>
+			</section>
+
+			<hr class="mp-divider" />
+
+			<!-- ═══════════ API SECTION ═══════════ -->
+			<section id="hp-api" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="mp-two-col" style="padding:0; gap:4rem;">
+
+						<!-- Left: copy -->
+						<div>
+							<span class="hp-section-eyebrow">04 &mdash; API &amp; Data</span>
+							<h2 class="mp-h2">Programmatic Access<br>to Everything.</h2>
+							<p class="mp-body">
+								Full API access to Kalshi, Polymarket, and all supported exchanges — real-time news, market analytics, order books, and more. REST and WebSocket endpoints, with SDKs and cloud notebooks. Custom endpoints built in 2–3 days.
+							</p>
+							<div class="mp-tags">
+								<span class="mp-tag">REST</span>
+								<span class="mp-tag">WebSocket</span>
+								<span class="mp-tag">SDKs</span>
+								<span class="mp-tag">Cloud Notebooks</span>
+							</div>
+							<div style="margin-top:1.75rem;">
+								<a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer"
+								   style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:#5ac8fa; text-decoration:none; font-weight:500; border-bottom:1px solid rgba(90,200,250,0.3); padding-bottom:1px;">
+									View full API docs →
+								</a>
+							</div>
 						</div>
-					</section>
+
+						<!-- Right: API code card -->
+						<div>
+							<div class="pd-code-card">
+								<div class="pd-code-topbar">
+									<span class="pd-code-status">200</span>
+									<span class="pd-code-endpoint">GET /v1/markets</span>
+								</div>
+								<div class="pd-code-body">
+<pre style="margin:0; font-family:'JetBrains Mono','Courier New',monospace; font-size:0.78rem; line-height:1.8;"><span class="j-br">[</span>
+  <span class="j-br">{</span>
+    <span class="j-key">"type"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-str">"kalshi"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"market_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"klsi_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"poly_id"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"title"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span><span style="color:rgba(255,255,255,0.5)">,</span>
+    <span class="j-key">"category"</span><span style="color:rgba(255,255,255,0.5)">:</span> <span class="j-typ">"&lt;string&gt;"</span>
+  <span class="j-br">}</span>
+<span class="j-br">]</span></pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- ═══════════ FAQ SECTION ═══════════ -->
+			<section id="hp-faq" class="hp-section">
+				<div class="hp-section-inner">
+					<div class="faq-v2" style="max-width:720px; margin:0 auto;">
+						<span class="faq-v2-title">FAQ</span>
+						<h2 class="faq-v2-heading">Frequently Asked Questions.</h2>
+						<p class="faq-v2-sub">Everything you need to know about Delphi Terminal.</p>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">What is Delphi Terminal?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Delphi Terminal is an aggregated prediction market data terminal providing institutional-grade L1, L2, and L3 market data across 7+ exchanges — including Kalshi, Polymarket, PredictIt, Limitless, Opinion Labs, Metaculus, and Manifold. It offers a web-based terminal interface and a comprehensive API for real-time and historical data access.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">Which exchanges do you support?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Delphi aggregates data from 7+ prediction market exchanges: Kalshi, Polymarket, PredictIt, Limitless, Opinion Labs, Metaculus, and Manifold. We continuously expand coverage to provide the most comprehensive cross-exchange dataset available.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">Is the data real-time?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Yes. Delphi provides real-time streaming data via WebSocket and REST endpoints. L1 top-of-book, L2 full order book depth, and L3 order-by-order data are all available with low-latency delivery.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">Do you offer API access?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Yes. Delphi provides a comprehensive REST and WebSocket API supporting L1, L2, and L3 data feeds across all supported exchanges. Full documentation is available at <a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer" style="color:#5ac8fa;">docs.delphiterminal.co</a>.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">Who is Delphi for?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Delphi is built for traders, quantitative researchers, market makers, hedge funds, academic researchers, and developers who need institutional-grade prediction market data — whether for building trading algorithms, conducting research, or analyzing crowd-sourced signals.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">Do you provide historical data?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Yes. Delphi maintains a growing historical dataset across all supported exchanges. Historical L1, L2, and L3 data is available via API for backtesting, model training, and academic research.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">How is Delphi different from open-source tools?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">Open-source tools typically cover a single exchange and require significant infrastructure work. Delphi aggregates 7+ exchanges into a single normalized feed with matched markets, full order book depth, and real-time streaming — built for institutional use without the setup overhead.</div>
+						</div>
+
+						<div class="faq-v2-item">
+							<button class="faq-v2-q" aria-expanded="false">How do I get access?<span class="faq-v2-icon">+</span></button>
+							<div class="faq-v2-answer">You can sign up at <a href="/checkout" style="color:#5ac8fa;">delphiterminal.co/checkout</a>. Plans range from a free tier to institutional access. For custom enterprise arrangements, reach out via the <a href="#contact" style="color:#5ac8fa;">contact form below</a>.</div>
+						</div>
+
+					</div>
+				</div>
+			</section>
+
+			<hr class="mp-divider" />
+
+			<!-- Minimal Contact Strip -->
+			<section id="contact" class="mp-contact-strip">
+				<p class="mp-label" style="margin-bottom:0.5rem;">Contact</p>
+				<h2 class="mp-h2" style="font-size:1.4rem; margin-bottom:0.4rem;">Get in Touch</h2>
+				<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.4); margin-bottom:2rem;">Reach out to learn more about Delphi.</p>
+
+				<div id="form-success-home" style="display:none; padding:0.7em 1em; background:rgba(90,200,250,0.06); border:1px solid rgba(90,200,250,0.3); border-radius:6px; margin-bottom:1.5rem;">
+					<p style="color:#5ac8fa; margin:0; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.875rem;"><strong>Thank you.</strong> We'll be in touch soon.</p>
+				</div>
+
+				<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="contact-form">
+					<input type="hidden" name="_subject" value="New Contact Form Submission from Delphi Website">
+					<input type="hidden" name="_captcha" value="false">
+					<input type="hidden" name="_next" id="form-redirect" value="">
+					<div class="fields">
+						<div>
+							<label for="name">Name</label>
+							<input type="text" name="name" id="name" required />
+						</div>
+						<div>
+							<label for="email">Email</label>
+							<input type="email" name="email" id="email" required />
+						</div>
+						<div class="full">
+							<label for="referral">Referral Code (Optional)</label>
+							<input type="text" name="referral" id="referral" placeholder="Enter referral code if you have one" />
+						</div>
+						<div class="full">
+							<label for="message">Message (Optional)</label>
+							<textarea name="message" id="message" rows="3"></textarea>
+						</div>
+						<div class="full">
+							<button type="submit" class="mp-submit-btn">Send Message</button>
+						</div>
+					</div>
+				</form>
+			</section>
 
 		</main>
 
@@ -398,19 +554,35 @@
 
 		<!-- Scripts -->
 			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script>
-				// Mobile menu toggle
-				document.addEventListener('DOMContentLoaded', function() {
-					var menuToggle = document.getElementById('mobile-menu-toggle');
-					var header = document.getElementById('site-header');
-					var headerNav = document.getElementById('header-nav');
-					
+		// Navbar waitlist dropdown
+			document.addEventListener('DOMContentLoaded', function() {
+				var wlBtn = document.getElementById('nav-wl-btn');
+				var wlDrop = document.getElementById('nav-wl-dropdown');
+				if (wlBtn && wlDrop) {
+					wlBtn.addEventListener('click', function(e) {
+						e.stopPropagation();
+						wlDrop.classList.toggle('open');
+					});
+					document.addEventListener('click', function(e) {
+						if (!wlDrop.contains(e.target) && e.target !== wlBtn) {
+							wlDrop.classList.remove('open');
+						}
+					});
+				}
+			});
+		</script>
+		<script>
+			// Mobile menu toggle
+			document.addEventListener('DOMContentLoaded', function() {
+				var menuToggle = document.getElementById('mobile-menu-toggle');
+				var header = document.getElementById('site-header');
+				var headerNav = document.getElementById('header-nav');
+
 					if (menuToggle && header && headerNav) {
 						menuToggle.addEventListener('click', function() {
 							var isOpen = header.classList.contains('menu-open');
@@ -419,10 +591,8 @@
 							menuToggle.classList.toggle('active');
 							menuToggle.setAttribute('aria-expanded', !isOpen);
 						});
-						
-						// Close menu when clicking on a link
-						var navLinks = headerNav.querySelectorAll('.nav-link');
-						navLinks.forEach(function(link) {
+
+						headerNav.querySelectorAll('.nav-link').forEach(function(link) {
 							link.addEventListener('click', function() {
 								header.classList.remove('menu-open');
 								headerNav.classList.remove('mobile-open');
@@ -430,8 +600,7 @@
 								menuToggle.setAttribute('aria-expanded', 'false');
 							});
 						});
-						
-						// Close menu when clicking outside
+
 						document.addEventListener('click', function(e) {
 							if (!menuToggle.contains(e.target) && !headerNav.contains(e.target)) {
 								header.classList.remove('menu-open');
@@ -444,370 +613,77 @@
 				});
 			</script>
 			<script>
-				// Set redirect URL to current page with success parameter
+				// Homepage news waitlist + navbar wl=1 success
+			document.addEventListener('DOMContentLoaded', function() {
+				var params = new URLSearchParams(window.location.search);
+				if (params.get('wl') === '1') {
+					['hp-news-form'].forEach(function(id) {
+						var f = document.getElementById(id);
+						if (f) f.style.display = 'none';
+					});
+					var s = document.getElementById('hp-news-success');
+					if (s) s.style.display = 'block';
+					window.history.replaceState({}, document.title, window.location.pathname);
+				}
+			});
+		</script>
+		<script>
+			// Contact form — set redirect and show success
 				document.addEventListener('DOMContentLoaded', function() {
 					var form = document.getElementById('contact-form');
 					var redirectInput = document.getElementById('form-redirect');
-					var successMessage = document.getElementById('form-success');
-					
+					var successMessage = document.getElementById('form-success-home');
+
 					if (form && redirectInput) {
-						// Get current page URL and add success parameter
-						var currentUrl = window.location.origin + window.location.pathname + '?submitted=true';
-						redirectInput.value = currentUrl;
+						redirectInput.value = window.location.origin + window.location.pathname + '?submitted=true#contact';
 					}
-					
-					// Check if form was just submitted
+
 					var urlParams = new URLSearchParams(window.location.search);
 					if (urlParams.get('submitted') === 'true') {
 						if (successMessage) {
 							successMessage.style.display = 'block';
-							// Hide form
-							if (form) {
-								form.style.display = 'none';
-							}
-							// Scroll to success message
-							successMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-							// Clean up URL
-							window.history.replaceState({}, document.title, window.location.pathname);
+							if (form) form.style.display = 'none';
+							document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+							window.history.replaceState({}, document.title, window.location.pathname + '#contact');
 						}
 					}
 				});
 			</script>
-			<script>
-				// Smooth scrolling navigation and active section indicator
-				(function() {
-					'use strict';
-					
-					var navLinks = document.querySelectorAll('#site-header .header-nav a[href^="#"]');
-					var sections = [];
-					var isScrolling = false;
-					var scrollTimeout;
-					
-					// Build sections array from nav links
-					navLinks.forEach(function(link) {
-						var href = link.getAttribute('href');
-						if (href && href !== '#') {
-							var section = document.querySelector(href);
-							if (section) {
-								sections.push({
-									id: href.substring(1),
-									element: section,
-									link: link
-								});
-							}
+		<script>
+			// FAQ accordion (faq-v2 items on homepage)
+			document.addEventListener('DOMContentLoaded', function() {
+				document.querySelectorAll('.faq-v2-item').forEach(function(item) {
+					var btn = item.querySelector('.faq-v2-q');
+					if (!btn) return;
+					btn.addEventListener('click', function() {
+						var isOpen = item.classList.contains('open');
+						document.querySelectorAll('.faq-v2-item.open').forEach(function(openItem) {
+							openItem.classList.remove('open');
+							var ob = openItem.querySelector('.faq-v2-q');
+							if (ob) ob.setAttribute('aria-expanded', 'false');
+						});
+						if (!isOpen) {
+							item.classList.add('open');
+							btn.setAttribute('aria-expanded', 'true');
 						}
 					});
-					
-					// Function to update active nav item
-					function updateActiveNav() {
-						if (isScrolling) return;
-						
-						var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-						var windowHeight = window.innerHeight;
-						var offset = windowHeight * 0.3; // 30% from top of viewport
-						
-						// Find the section currently in view
-						var activeSection = null;
-						
-						for (var i = sections.length - 1; i >= 0; i--) {
-							var section = sections[i];
-							var sectionTop = section.element.offsetTop;
-							var sectionHeight = section.element.offsetHeight;
-							
-							// Check if section is in viewport (with offset)
-							if (scrollPosition + offset >= sectionTop && 
-							    scrollPosition + offset < sectionTop + sectionHeight) {
-								activeSection = section;
-								break;
-							}
-						}
-						
-						// If no section found and we're at the top, activate first section
-						if (!activeSection && scrollPosition < 100) {
-							activeSection = sections[0];
-						}
-						
-						// If no section found and we're near bottom, activate last section
-						if (!activeSection && scrollPosition + windowHeight >= document.documentElement.scrollHeight - 100) {
-							activeSection = sections[sections.length - 1];
-						}
-						
-						// Update active class
-						navLinks.forEach(function(link) {
-							link.classList.remove('active');
-						});
-						
-						if (activeSection) {
-							activeSection.link.classList.add('active');
-						}
-					}
-					
-					// Handle smooth scrolling on nav link click
-					navLinks.forEach(function(link) {
-						link.addEventListener('click', function(e) {
-							var href = this.getAttribute('href');
-							if (href && href !== '#') {
-								var targetSection = document.querySelector(href);
-								if (targetSection) {
-									e.preventDefault();
-									
-									// Set scrolling flag
-									isScrolling = true;
-									
-									// Update active nav immediately
-									navLinks.forEach(function(l) {
-										l.classList.remove('active');
-									});
-									this.classList.add('active');
-									
-									// Smooth scroll to section
-									var targetPosition = targetSection.offsetTop;
-									var header = document.getElementById('site-header');
-									var offset = 80; // Default header height
-									
-									// Account for header height
-									if (header) {
-										offset = header.offsetHeight;
-									}
-									
-									window.scrollTo({
-										top: targetPosition - offset,
-										behavior: 'smooth'
-									});
-									
-									// Clear scrolling flag after scroll completes
-									clearTimeout(scrollTimeout);
-									scrollTimeout = setTimeout(function() {
-										isScrolling = false;
-										updateActiveNav();
-									}, 1000);
-								}
-							}
-						});
-					});
-					
-					// Update active nav on scroll
-					var scrollHandler = function() {
-						if (!isScrolling) {
-							updateActiveNav();
-						}
-					};
-					
-					// Throttle scroll events for performance
-					var scrollThrottle;
-					window.addEventListener('scroll', function() {
-						if (!scrollThrottle) {
-							window.requestAnimationFrame(function() {
-								scrollHandler();
-								scrollThrottle = null;
-							});
-							scrollThrottle = true;
-						}
-					}, { passive: true });
-					
-					// Initial update on page load
-					window.addEventListener('load', function() {
-						setTimeout(updateActiveNav, 100);
-					});
-					
-					// Update on hash change (e.g., direct link to section)
-					window.addEventListener('hashchange', function() {
-						setTimeout(updateActiveNav, 100);
-					});
-					
-					// Initial check
-					if (document.readyState === 'loading') {
-						document.addEventListener('DOMContentLoaded', function() {
-							setTimeout(updateActiveNav, 100);
-						});
-					} else {
-						setTimeout(updateActiveNav, 100);
-					}
-				})();
-			</script>
-			<script>
-				// Scroll-based reveal animations (Apple-style)
-				(function() {
-					'use strict';
-
-					if (!('IntersectionObserver' in window)) {
-						// Fallback: make everything visible
-						document.querySelectorAll('.reveal').forEach(function(el) {
-							el.classList.add('reveal-visible');
-						});
-						return;
-					}
-
-					var revealElements = [];
-
-					function addReveal(targets, options) {
-						if (!targets || !targets.length) return;
-						targets.forEach(function(el, index) {
-							if (!el) return;
-							el.classList.add('reveal');
-							if (options && options.stagger) {
-								var delayIndex = Math.min(index, 3);
-								if (delayIndex > 0) {
-									el.classList.add('reveal-delay-' + delayIndex);
-								}
-							}
-							revealElements.push(el);
-						});
-					}
-
-					function selectAll(selector) {
-						return Array.prototype.slice.call(document.querySelectorAll(selector));
-					}
-
-					// Hero section - stagger title, subtitle, CTA
-					addReveal(selectAll('#intro .hero-inner > *'), { stagger: true });
-
-					// Mission section - grid cells
-					addReveal(selectAll('#one .grid-cell'), { stagger: true });
-
-					// What we do section
-					addReveal(selectAll('#two .section-header'));
-					addReveal(selectAll('#two .grid-cell'), { stagger: true });
-
-					// How it works section
-					addReveal(selectAll('#how-it-works .section-header'));
-					addReveal(selectAll('#how-it-works .flow-step'), { stagger: true });
-
-					// Use cases section
-					addReveal(selectAll('#use-cases .section-header'));
-					addReveal(selectAll('#use-cases .grid-cell'), { stagger: true });
-
-					// Developer ready section
-					addReveal(selectAll('#developer-ready .section-header'));
-					addReveal(selectAll('#developer-ready .grid-cell'), { stagger: true });
-
-					// Product preview section
-					addReveal(selectAll('#product-preview .inner'));
-
-					// Contact section
-					addReveal(selectAll('#three .inner'));
-
-					if (!revealElements.length) {
-						return;
-					}
-
-					var observer = new IntersectionObserver(function(entries) {
-						entries.forEach(function(entry) {
-							if (entry.isIntersecting) {
-								var el = entry.target;
-								el.classList.add('reveal-visible');
-								observer.unobserve(el);
-							}
-						});
-					}, {
-						threshold: 0.1,
-						rootMargin: '0px 0px -50px 0px'
-					});
-
-					revealElements.forEach(function(el) {
-						observer.observe(el);
-					});
-				})();
-			</script>
-			<script>
-				(function() {
-					'use strict';
-					var logoCursor = document.querySelector('.typing-cursor');
-					var heroTitle = document.getElementById('hero-title');
-					var text = heroTitle ? heroTitle.getAttribute('data-text') : '';
-
-					var chars = [];
-					if (heroTitle && text) {
-						var words = text.split(' ');
-						for (var w = 0; w < words.length; w++) {
-							if (w > 0) {
-								var spaceSpan = document.createElement('span');
-								spaceSpan.className = 'title-char space';
-								spaceSpan.innerHTML = '&nbsp;';
-								heroTitle.appendChild(spaceSpan);
-								chars.push(spaceSpan);
-							}
-							var wordWrap = document.createElement('span');
-							wordWrap.className = 'title-word';
-							for (var c = 0; c < words[w].length; c++) {
-								var span = document.createElement('span');
-								span.className = 'title-char';
-								span.textContent = words[w][c];
-								wordWrap.appendChild(span);
-								chars.push(span);
-							}
-							heroTitle.appendChild(wordWrap);
-						}
-						var titleCursor = document.createElement('span');
-						titleCursor.className = 'hero-title-cursor';
-						heroTitle.appendChild(titleCursor);
-						titleCursor.style.display = 'none';
-					}
-
-					setTimeout(function() {
-						if (logoCursor) logoCursor.classList.add('hidden');
-						if (!chars || !chars.length) return;
-
-						titleCursor.style.display = '';
-						var idx = 0;
-						var interval = setInterval(function() {
-							if (idx < chars.length) {
-								chars[idx].classList.add('visible');
-								idx++;
-							} else {
-								clearInterval(interval);
-								setTimeout(function() {
-									titleCursor.classList.add('hidden');
-								}, 800);
-							}
-						}, 45);
-					}, 1300);
-				})();
-			</script>
-			<script>
-				// Mouse highlight effect on text hover
-				(function() {
-					'use strict';
-					
+				});
+			});
+		</script>
+		<script>
+			// Mouse highlight effect
+			(function() {
 					var highlight = document.getElementById('mouse-highlight');
 					if (!highlight) return;
-					
 					document.addEventListener('mousemove', function(e) {
 						highlight.style.left = e.clientX + 'px';
 						highlight.style.top = e.clientY + 'px';
 					});
-					
-					// Show highlight when hovering over text elements
-					var textElements = document.querySelectorAll('p, h1, h2, h3, h4, h5, h6, span, a, li, td, th, label');
-					textElements.forEach(function(el) {
-						el.addEventListener('mouseenter', function() {
-							highlight.classList.add('active');
-						});
-						el.addEventListener('mouseleave', function() {
-							highlight.classList.remove('active');
-						});
+					document.querySelectorAll('p, h1, h2, h3, a, span, li, td, th, label').forEach(function(el) {
+						el.addEventListener('mouseenter', function() { highlight.classList.add('active'); });
+						el.addEventListener('mouseleave', function() { highlight.classList.remove('active'); });
 					});
-				})();
-			</script>
-			<script>
-				// Referral code auto-fill in contact form
-				(function() {
-					'use strict';
-					
-					var requestAccessBtn = document.getElementById('request-access-btn');
-					var referralInput = document.getElementById('referral-code-input');
-					var referralField = document.getElementById('referral');
-					
-					if (requestAccessBtn && referralInput && referralField) {
-						requestAccessBtn.addEventListener('click', function() {
-							var referralCode = referralInput.value.trim();
-							if (referralCode) {
-								// Auto-fill the referral code field
-								referralField.value = referralCode;
-							}
-						});
-					}
-				})();
+			})();
 			</script>
 
 	</body>
