@@ -12813,17 +12813,17 @@ section {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.45rem 1.1rem;
-	background: rgba(90, 200, 250, 0.12);
-	border: 1px solid #5ac8fa;
-	color: #ffffff;
+	padding: 0.3rem 0.75rem;
+	background: rgba(90, 200, 250, 0.1);
+	border: 1px solid rgba(90, 200, 250, 0.5);
+	color: rgba(255, 255, 255, 0.8);
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 0.8rem;
-	font-weight: 600;
-	border-radius: 5px;
+	font-size: 0.72rem;
+	font-weight: 500;
+	border-radius: 4px;
 	cursor: pointer;
-	letter-spacing: 0.03em;
-	transition: background 0.2s, box-shadow 0.2s;
+	letter-spacing: 0.04em;
+	transition: background 0.2s, border-color 0.2s;
 	white-space: nowrap;
 }
 
@@ -12922,40 +12922,30 @@ section {
 .faq-v2-list {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
 }
 
 .faq-v2-item {
-	background: rgba(255, 255, 255, 0.03);
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	border-radius: 8px;
-	overflow: hidden;
-	transition: border-color 0.2s;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.faq-v2-item:hover {
-	border-color: rgba(255, 255, 255, 0.18);
-}
-
-.faq-v2-item.open {
-	border-color: rgba(90, 200, 250, 0.25);
+.faq-v2-item:first-child {
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .faq-v2-q {
 	width: 100%;
 	background: none;
 	border: none;
-	padding: 1.1rem 1.25rem;
+	padding: 1.1rem 0;
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	gap: 1.5rem;
+	gap: 0.875rem;
 	cursor: pointer;
 	text-align: left;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 0.95rem;
 	font-weight: 500;
-	color: rgba(255, 255, 255, 0.9);
+	color: rgba(255, 255, 255, 0.85);
 	letter-spacing: 0.01em;
 	transition: color 0.2s;
 }
@@ -12972,7 +12962,7 @@ section {
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
-	color: rgba(255, 255, 255, 0.4);
+	color: rgba(255, 255, 255, 0.35);
 	transition: transform 0.25s ease, color 0.2s;
 }
 
@@ -12982,23 +12972,24 @@ section {
 
 .faq-v2-item.open .faq-v2-icon {
 	transform: rotate(180deg);
-	color: rgba(255, 255, 255, 0.7);
+	color: rgba(255, 255, 255, 0.6);
 }
 
 .faq-v2-answer {
 	max-height: 0;
 	overflow: hidden;
-	transition: max-height 0.35s ease, padding 0.2s ease;
+	transition: max-height 0.35s ease, padding-bottom 0.2s ease;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 0.875rem;
 	line-height: 1.8;
 	color: rgba(255, 255, 255, 0.5);
-	padding: 0 1.25rem;
+	padding-left: 1.875rem;
+	padding-bottom: 0;
 }
 
 .faq-v2-item.open .faq-v2-answer {
 	max-height: 400px;
-	padding: 0 1.25rem 1.25rem;
+	padding-bottom: 1.25rem;
 }
 
 /* ── Pipeline v2: differentiated card sizes ── */
