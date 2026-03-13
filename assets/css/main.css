@@ -12510,7 +12510,8 @@ section {
 	gap: 1rem;
 }
 
-.mp-contact-strip .field.full {
+.mp-contact-strip .field.full,
+.mp-contact-strip .full {
 	grid-column: 1 / -1;
 }
 
