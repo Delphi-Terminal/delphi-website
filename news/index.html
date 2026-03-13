@@ -1,0 +1,338 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>News — Delphi Terminal</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="Delphi Terminal — real-time prediction market signals matched to breaking news across 7+ exchanges." />
+		<link rel="canonical" href="https://delphiterminal.co/news/" />
+		<link rel="icon" type="image/png" href="../images/DelphiWhiteLogo.png" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://delphiterminal.co/news/" />
+		<meta property="og:title" content="News — Delphi Terminal" />
+		<meta property="og:description" content="Real-time news matched to prediction markets across 7+ exchanges." />
+		<meta property="og:image" content="https://delphiterminal.co/images/DelphiWhite.png" />
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+
+		<style>
+			.news-hero {
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+				padding: 7rem 2rem 5rem;
+				position: relative;
+			}
+
+			.news-hero .mp-label {
+				margin-bottom: 1.5rem;
+			}
+
+			.news-hero .mp-h1 {
+				font-size: 3rem;
+				max-width: 640px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.news-hero .mp-body {
+				max-width: 520px;
+				margin-left: auto;
+				margin-right: auto;
+				text-align: center;
+			}
+
+			.news-hero .mp-tags {
+				justify-content: center;
+				margin-bottom: 0;
+			}
+
+			.news-waitlist-form {
+				display: flex;
+				gap: 0.75rem;
+				margin-top: 2.25rem;
+				justify-content: center;
+				flex-wrap: wrap;
+				max-width: 440px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.news-waitlist-input {
+				flex: 1;
+				min-width: 200px;
+				background: rgba(255, 255, 255, 0.05);
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				border-radius: 6px;
+				padding: 0.75rem 1rem;
+				color: #ffffff;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-size: 0.875rem;
+				outline: none;
+				transition: border-color 0.2s;
+			}
+
+			.news-waitlist-input::placeholder {
+				color: rgba(255, 255, 255, 0.3);
+			}
+
+			.news-waitlist-input:focus {
+				border-color: #5ac8fa;
+			}
+
+			.news-waitlist-btn {
+				background: #5ac8fa;
+				color: #000000;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-size: 0.875rem;
+				font-weight: 700;
+				border: none;
+				border-radius: 6px;
+				padding: 0.75rem 1.6rem;
+				cursor: pointer;
+				white-space: nowrap;
+				transition: background 0.2s, box-shadow 0.2s;
+			}
+
+			.news-waitlist-btn:hover {
+				background: #7dd4fb;
+				box-shadow: 0 0 18px rgba(90, 200, 250, 0.3);
+			}
+
+			.news-success {
+				display: none;
+				margin-top: 1.25rem;
+				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+				font-size: 0.875rem;
+				color: #5ac8fa;
+			}
+
+			/* Bottom "Be First" section */
+			.news-launch-section {
+				border-top: 1px solid rgba(255, 255, 255, 0.07);
+				padding: 5rem 2rem;
+				text-align: center;
+				max-width: 680px;
+				margin: 0 auto;
+			}
+
+			@media screen and (max-width: 736px) {
+				.news-hero {
+					min-height: auto;
+					padding: 6rem 1.25rem 4rem;
+				}
+
+				.news-hero .mp-h1 {
+					font-size: 2.1rem;
+				}
+
+				.news-waitlist-form {
+					flex-direction: column;
+					align-items: stretch;
+				}
+
+				.news-launch-section {
+					padding: 4rem 1.25rem;
+				}
+			}
+		</style>
+	</head>
+	<body class="mp-page">
+		<!-- Mouse Highlight Effect -->
+		<div class="mouse-highlight" id="mouse-highlight"></div>
+
+		<!-- Navbar -->
+		<header class="site-header" id="site-header">
+			<div class="header-inner">
+				<div class="header-social">
+					<a href="https://x.com/Delphi_Terminal" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
+					<a href="https://discord.gg/cyRBpEqV7g" class="header-social-link" target="_blank" rel="noopener noreferrer" aria-label="Discord">Discord</a>
+				</div>
+				<button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+					<span></span><span></span><span></span>
+				</button>
+				<nav class="header-nav" id="header-nav" role="navigation" aria-label="Main navigation">
+					<a href="/" class="nav-link">Home</a>
+					<a href="/product/" class="nav-link">Product</a>
+					<a href="/news/" class="nav-link active">News</a>
+					<a href="https://docs.delphiterminal.co" class="nav-link" target="_blank" rel="noopener noreferrer">Terminal</a>
+					<a href="/faq/" class="nav-link">FAQ</a>
+					<a href="/#contact" class="nav-link">Contact Us</a>
+				</nav>
+				<div class="header-signup">
+					<a href="/checkout" class="header-signup-btn">Sign Up</a>
+				</div>
+			</div>
+		</header>
+
+		<main>
+
+			<!-- Hero: centered -->
+			<section class="news-hero">
+				<span class="mp-label">01 &mdash; Realtime News &times; Data &times; Markets</span>
+				<h1 class="mp-h1">Turning Signals<br>into Alpha.</h1>
+				<p class="mp-body">
+					Delphi connects breaking news to prediction markets across 7+ exchanges — surface which markets move and why, instantly. One platform. All the signal.
+				</p>
+				<div class="mp-tags">
+					<span class="mp-tag">Auto-Matched</span>
+					<span class="mp-tag">Multi-Source</span>
+					<span class="mp-tag">Real-Time</span>
+					<span class="mp-tag">7+ Exchanges</span>
+				</div>
+
+				<!-- Waitlist form -->
+				<form class="news-waitlist-form" id="news-waitlist-form"
+					  method="POST"
+					  action="https://formsubmit.co/armon@delphiterminal.co">
+					<input type="hidden" name="_subject" value="New Waitlist Signup — Delphi News" />
+					<input type="hidden" name="_captcha" value="false" />
+					<input type="hidden" name="_next" value="https://delphiterminal.co/news/?joined=true" />
+					<input type="hidden" name="source" value="news-page-hero" />
+					<input
+						type="email"
+						name="email"
+						id="news-email"
+						class="news-waitlist-input"
+						placeholder="Enter your email"
+						required
+					/>
+					<button type="submit" class="news-waitlist-btn">Join Waitlist</button>
+				</form>
+
+				<div class="news-success" id="news-success">
+					You're on the list. We'll be in touch.
+				</div>
+
+				<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.2); margin-top:1rem;">
+					No spam. Unsubscribe any time.
+				</p>
+			</section>
+
+			<hr class="mp-divider" />
+
+			<!-- Be First section -->
+			<div class="news-launch-section">
+				<span class="mp-label" style="display:block; margin-bottom:1rem;">Early Access</span>
+				<h2 class="mp-h2">Be First to Know<br>When We Launch.</h2>
+				<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.9rem; color:rgba(255,255,255,0.45); line-height:1.75; margin-bottom:2.5rem; max-width:480px; margin-left:auto; margin-right:auto;">
+					Delphi's real-time news feed is coming soon. Join the waitlist to get early access — matched markets, live signals, and cross-exchange data in one place.
+				</p>
+
+				<form class="news-waitlist-form" id="news-waitlist-form-2"
+					  method="POST"
+					  action="https://formsubmit.co/armon@delphiterminal.co"
+					  style="margin-top:0;">
+					<input type="hidden" name="_subject" value="New Waitlist Signup — Delphi News" />
+					<input type="hidden" name="_captcha" value="false" />
+					<input type="hidden" name="_next" value="https://delphiterminal.co/news/?joined=true" />
+					<input type="hidden" name="source" value="news-page-bottom" />
+					<input
+						type="email"
+						name="email"
+						id="news-email-2"
+						class="news-waitlist-input"
+						placeholder="Enter your email"
+						required
+					/>
+					<button type="submit" class="news-waitlist-btn">Join Waitlist</button>
+				</form>
+
+				<div class="news-success" id="news-success-2">
+					You're on the list. We'll be in touch.
+				</div>
+			</div>
+
+		</main>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<div class="footer-bottom">
+				<p>Copyright &copy; 2026 Delphi Markets, Inc.</p>
+			</div>
+		</footer>
+
+		<!-- Scripts -->
+		<script src="../assets/js/jquery.min.js"></script>
+		<script src="../assets/js/browser.min.js"></script>
+		<script src="../assets/js/breakpoints.min.js"></script>
+		<script src="../assets/js/util.js"></script>
+		<script src="../assets/js/main.js"></script>
+		<script>
+			// Mobile menu toggle
+			document.addEventListener('DOMContentLoaded', function() {
+				var menuToggle = document.getElementById('mobile-menu-toggle');
+				var header = document.getElementById('site-header');
+				var headerNav = document.getElementById('header-nav');
+
+				if (menuToggle && header && headerNav) {
+					menuToggle.addEventListener('click', function() {
+						var isOpen = header.classList.contains('menu-open');
+						header.classList.toggle('menu-open');
+						headerNav.classList.toggle('mobile-open');
+						menuToggle.classList.toggle('active');
+						menuToggle.setAttribute('aria-expanded', !isOpen);
+					});
+
+					headerNav.querySelectorAll('.nav-link').forEach(function(link) {
+						link.addEventListener('click', function() {
+							header.classList.remove('menu-open');
+							headerNav.classList.remove('mobile-open');
+							menuToggle.classList.remove('active');
+							menuToggle.setAttribute('aria-expanded', 'false');
+						});
+					});
+
+					document.addEventListener('click', function(e) {
+						if (!menuToggle.contains(e.target) && !headerNav.contains(e.target)) {
+							header.classList.remove('menu-open');
+							headerNav.classList.remove('mobile-open');
+							menuToggle.classList.remove('active');
+							menuToggle.setAttribute('aria-expanded', 'false');
+						}
+					});
+				}
+			});
+		</script>
+		<script>
+			// Show inline success if redirected back with ?joined=true
+			document.addEventListener('DOMContentLoaded', function() {
+				var params = new URLSearchParams(window.location.search);
+				if (params.get('joined') === 'true') {
+					['news-waitlist-form', 'news-waitlist-form-2'].forEach(function(id) {
+						var form = document.getElementById(id);
+						if (form) form.style.display = 'none';
+					});
+					['news-success', 'news-success-2'].forEach(function(id) {
+						var el = document.getElementById(id);
+						if (el) el.style.display = 'block';
+					});
+					window.history.replaceState({}, document.title, window.location.pathname);
+				}
+			});
+		</script>
+		<script>
+			// Mouse highlight
+			(function() {
+				var highlight = document.getElementById('mouse-highlight');
+				if (!highlight) return;
+				document.addEventListener('mousemove', function(e) {
+					highlight.style.left = e.clientX + 'px';
+					highlight.style.top = e.clientY + 'px';
+				});
+				document.querySelectorAll('p, h1, h2, h3, a, span, li, button').forEach(function(el) {
+					el.addEventListener('mouseenter', function() { highlight.classList.add('active'); });
+					el.addEventListener('mouseleave', function() { highlight.classList.remove('active'); });
+				});
+			})();
+		</script>
+	</body>
+</html>
