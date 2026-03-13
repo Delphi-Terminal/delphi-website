@@ -12922,14 +12922,15 @@ section {
 .faq-v2-list {
 	display: flex;
 	flex-direction: column;
+	border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .faq-v2-item {
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.faq-v2-item:first-child {
-	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	background: none !important;
+	border: none !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+	border-radius: 0 !important;
+	overflow: visible !important;
 }
 
 .faq-v2-q {
