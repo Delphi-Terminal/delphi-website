@@ -12881,7 +12881,7 @@ section {
 	margin-bottom: 1rem;
 }
 
-/* ── FAQ v2: centered, lines only, high contrast ── */
+/* ── FAQ v2: full-border card rows ── */
 .faq-v2 {
 	max-width: 700px;
 	margin: 0 auto;
@@ -12915,23 +12915,37 @@ section {
 	font-size: 0.875rem;
 	color: rgba(255, 255, 255, 0.4);
 	text-align: center;
-	margin-bottom: 3rem;
+	margin-bottom: 2rem;
 	line-height: 1.6;
 }
 
-.faq-v2-item {
-	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.faq-v2-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
 }
 
-.faq-v2-item:first-of-type {
-	border-top: 1px solid rgba(255, 255, 255, 0.1);
+.faq-v2-item {
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 8px;
+	overflow: hidden;
+	transition: border-color 0.2s;
+}
+
+.faq-v2-item:hover {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+.faq-v2-item.open {
+	border-color: rgba(90, 200, 250, 0.25);
 }
 
 .faq-v2-q {
 	width: 100%;
 	background: none;
 	border: none;
-	padding: 1.35rem 0;
+	padding: 1.1rem 1.25rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -12939,51 +12953,52 @@ section {
 	cursor: pointer;
 	text-align: left;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 1rem;
-	font-weight: 600;
-	color: #ffffff;
+	font-size: 0.95rem;
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.9);
 	letter-spacing: 0.01em;
 	transition: color 0.2s;
 }
 
 .faq-v2-q:hover {
-	color: #5ac8fa;
+	color: #ffffff;
+}
+
+.faq-v2-item.open .faq-v2-q {
+	color: #ffffff;
 }
 
 .faq-v2-icon {
 	flex-shrink: 0;
-	font-size: 1.1rem;
-	font-weight: 300;
-	color: rgba(255, 255, 255, 0.3);
-	line-height: 1;
+	display: flex;
+	align-items: center;
+	color: rgba(255, 255, 255, 0.4);
 	transition: transform 0.25s ease, color 0.2s;
-	width: 16px;
-	text-align: center;
+}
+
+.faq-v2-icon svg {
+	display: block;
 }
 
 .faq-v2-item.open .faq-v2-icon {
-	transform: rotate(45deg);
-	color: #5ac8fa;
-}
-
-.faq-v2-item.open .faq-v2-q {
-	color: #5ac8fa;
+	transform: rotate(180deg);
+	color: rgba(255, 255, 255, 0.7);
 }
 
 .faq-v2-answer {
 	max-height: 0;
 	overflow: hidden;
-	transition: max-height 0.35s ease, padding-bottom 0.2s ease;
+	transition: max-height 0.35s ease, padding 0.2s ease;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 0.875rem;
 	line-height: 1.8;
 	color: rgba(255, 255, 255, 0.5);
-	padding-bottom: 0;
+	padding: 0 1.25rem;
 }
 
 .faq-v2-item.open .faq-v2-answer {
-	max-height: 360px;
-	padding-bottom: 1.4rem;
+	max-height: 400px;
+	padding: 0 1.25rem 1.25rem;
 }
 
 /* ── Pipeline v2: differentiated card sizes ── */
@@ -13281,6 +13296,19 @@ section {
 
 	.faq-v2-heading {
 		font-size: 1.5rem;
+	}
+
+	.faq-v2-q {
+		padding: 1rem;
+		font-size: 0.875rem;
+	}
+
+	.faq-v2-answer {
+		padding: 0 1rem;
+	}
+
+	.faq-v2-item.open .faq-v2-answer {
+		padding: 0 1rem 1rem;
 	}
 
 	.hp-final-cta {
