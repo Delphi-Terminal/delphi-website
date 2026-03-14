@@ -13606,6 +13606,28 @@ section {
 	}
 }
 
+/* ── Social links (X, Discord) match Join Terminal / Join Waitlist size ── */
+.site-header .header-social-link {
+	padding: 0.3rem 0.75rem !important;
+	font-size: 0.72rem !important;
+	font-weight: 500 !important;
+	border-radius: 4px !important;
+	letter-spacing: 0.04em !important;
+	line-height: 1 !important;
+	color: rgba(255, 255, 255, 0.65) !important;
+	border: 1px solid rgba(255, 255, 255, 0.2) !important;
+	text-decoration: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	transition: background 0.2s, border-color 0.2s, color 0.2s !important;
+}
+
+.site-header .header-social-link:hover {
+	color: #ffffff !important;
+	background: rgba(255, 255, 255, 0.08) !important;
+	border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
 /* ── CRITICAL: Override Hyperspace base button !important styles on .faq-v2-q ──
    The base CSS has: button { border: solid 1px !important; border-color: #5ac8fa !important;
    color: #5ac8fa !important; text-transform: uppercase; border-radius: 3em; ... }
