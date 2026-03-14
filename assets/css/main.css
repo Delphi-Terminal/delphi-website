@@ -12730,58 +12730,78 @@ section {
 }
 
 /* ── Waitlist button/input pair — matched height ── */
+/* ══════════════════════════════════════
+   Waitlist pair — email input + submit
+   ══════════════════════════════════════ */
 .wl-pair {
 	display: flex;
 	gap: 0;
 	max-width: 420px;
-	height: 42px;
+	height: 44px;
+	box-sizing: border-box;
 }
 
 .wl-pair .wl-input {
 	flex: 1;
-	height: 42px;
+	min-width: 0;
+	height: 44px;
 	background: rgba(255, 255, 255, 0.06);
-	border: 1px solid rgba(255, 255, 255, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.2);
 	border-right: none;
 	border-radius: 6px 0 0 6px;
 	padding: 0 1rem;
 	color: #ffffff;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 0.85rem;
+	font-size: 0.875rem;
 	outline: none;
-	transition: border-color 0.2s;
+	transition: border-color 0.2s, background 0.2s;
 	box-sizing: border-box;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 .wl-pair .wl-input::placeholder {
-	color: rgba(255, 255, 255, 0.3);
+	color: rgba(255, 255, 255, 0.35);
 }
 
 .wl-pair .wl-input:focus {
-	border-color: rgba(90, 200, 250, 0.6);
-	background: rgba(255, 255, 255, 0.08);
+	border-color: #5ac8fa;
+	background: rgba(90, 200, 250, 0.06);
+	outline: none;
 }
 
 .wl-pair .wl-btn {
-	height: 42px;
-	padding: 0 1.4rem;
+	flex-shrink: 0;
+	height: 44px;
+	padding: 0 1.25rem;
 	background: #5ac8fa;
 	color: #000000;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 0.82rem;
+	font-size: 0.8rem;
 	font-weight: 700;
-	border: 1px solid #5ac8fa;
+	border: none;
 	border-radius: 0 6px 6px 0;
 	cursor: pointer;
 	white-space: nowrap;
-	letter-spacing: 0.03em;
-	transition: background 0.2s, box-shadow 0.2s;
+	letter-spacing: 0.04em;
+	transition: background 0.18s, color 0.18s;
 	box-sizing: border-box;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 .wl-pair .wl-btn:hover {
-	background: #7dd4fb;
-	box-shadow: 0 0 14px rgba(90, 200, 250, 0.3);
+	background: #ffffff;
+	color: #000000;
+}
+
+.wl-pair .wl-btn:active {
+	background: #cce9f7;
+}
+
+.wl-pair .wl-btn:focus-visible {
+	outline: 2px solid rgba(90, 200, 250, 0.7);
+	outline-offset: 2px;
 }
 
 /* Stacked on mobile */
@@ -12789,18 +12809,21 @@ section {
 	.wl-pair {
 		flex-direction: column;
 		height: auto;
+		max-width: 100%;
 	}
 
 	.wl-pair .wl-input {
-		height: 42px;
-		border-right: 1px solid rgba(255, 255, 255, 0.18);
+		height: 44px;
+		border-right: 1px solid rgba(255, 255, 255, 0.2);
 		border-bottom: none;
 		border-radius: 6px 6px 0 0;
+		width: 100%;
 	}
 
 	.wl-pair .wl-btn {
-		height: 42px;
+		height: 44px;
 		border-radius: 0 0 6px 6px;
+		width: 100%;
 	}
 }
 
@@ -12881,27 +12904,32 @@ section {
 	margin-bottom: 1rem;
 }
 
-/* ── FAQ v2: full-border card rows ── */
+/* ══════════════════════════════════════
+   FAQ v2 — centered premium accordion
+   ══════════════════════════════════════ */
 .faq-v2 {
-	max-width: 700px;
-	margin: 0 auto;
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 .faq-v2-title {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 0.62rem;
+	font-size: 0.6rem;
 	font-weight: 700;
-	letter-spacing: 0.18em;
+	letter-spacing: 0.2em;
 	text-transform: uppercase;
 	color: #5ac8fa;
 	display: block;
-	margin-bottom: 1rem;
+	margin-bottom: 0.875rem;
 	text-align: center;
 }
 
 .faq-v2-heading {
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 2rem;
+	font-size: 1.875rem;
 	font-weight: 700;
 	color: #ffffff;
 	text-align: center;
@@ -12915,44 +12943,54 @@ section {
 	font-size: 0.875rem;
 	color: rgba(255, 255, 255, 0.4);
 	text-align: center;
-	margin-bottom: 2rem;
+	margin-bottom: 2.5rem;
 	line-height: 1.6;
 }
 
 .faq-v2-list {
-	display: flex;
-	flex-direction: column;
-	border-top: 1px solid rgba(255, 255, 255, 0.12);
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .faq-v2-item {
-	background: none !important;
-	border: none !important;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-	border-radius: 0 !important;
-	overflow: visible !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	background: transparent;
+	border-left: none;
+	border-right: none;
+	border-radius: 0;
+	overflow: visible;
+	box-shadow: none;
 }
 
 .faq-v2-q {
 	width: 100%;
-	background: none;
+	background: transparent;
 	border: none;
-	padding: 1.1rem 0;
+	border-radius: 0;
+	-webkit-appearance: none;
+	appearance: none;
+	outline: none;
+	padding: 1.25rem 0;
 	display: flex;
 	align-items: center;
 	gap: 0.875rem;
 	cursor: pointer;
 	text-align: left;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 0.95rem;
+	font-size: 0.9375rem;
 	font-weight: 500;
-	color: rgba(255, 255, 255, 0.85);
-	letter-spacing: 0.01em;
-	transition: color 0.2s;
+	color: rgba(255, 255, 255, 0.8);
+	letter-spacing: 0;
+	transition: color 0.18s ease;
 }
 
 .faq-v2-q:hover {
 	color: #ffffff;
+}
+
+.faq-v2-q:focus-visible {
+	outline: 2px solid rgba(90, 200, 250, 0.5);
+	outline-offset: 3px;
+	border-radius: 2px;
 }
 
 .faq-v2-item.open .faq-v2-q {
@@ -12963,17 +13001,22 @@ section {
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
 	color: rgba(255, 255, 255, 0.35);
-	transition: transform 0.25s ease, color 0.2s;
+	transition: transform 0.25s ease, color 0.18s ease;
 }
 
 .faq-v2-icon svg {
 	display: block;
+	width: 16px;
+	height: 16px;
 }
 
 .faq-v2-item.open .faq-v2-icon {
 	transform: rotate(180deg);
-	color: rgba(255, 255, 255, 0.6);
+	color: #5ac8fa;
 }
 
 .faq-v2-answer {
@@ -12982,7 +13025,7 @@ section {
 	transition: max-height 0.35s ease, padding-bottom 0.2s ease;
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	font-size: 0.875rem;
-	line-height: 1.8;
+	line-height: 1.85;
 	color: rgba(255, 255, 255, 0.5);
 	padding-left: 1.875rem;
 	padding-bottom: 0;
@@ -12990,7 +13033,62 @@ section {
 
 .faq-v2-item.open .faq-v2-answer {
 	max-height: 400px;
-	padding-bottom: 1.25rem;
+	padding-bottom: 1.4rem;
+}
+
+/* ── News page shared styles ── */
+.news-hero {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 7rem 2rem 5rem;
+	position: relative;
+}
+
+.news-hero .mp-label { margin-bottom: 1.5rem; }
+
+.news-hero .mp-h1 {
+	font-size: 3rem;
+	max-width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.news-hero .mp-body {
+	max-width: 520px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+.news-hero .mp-tags {
+	justify-content: center;
+	margin-bottom: 0;
+}
+
+.news-waitlist-form {
+	margin-top: 2.25rem;
+	display: flex;
+	justify-content: center;
+}
+
+.news-success {
+	display: none;
+	margin-top: 1.25rem;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.875rem;
+	color: #5ac8fa;
+}
+
+.news-launch-section {
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+	padding: 5rem 2rem;
+	text-align: center;
+	max-width: 680px;
+	margin: 0 auto;
 }
 
 /* ── Pipeline v2: differentiated card sizes ── */
@@ -13291,16 +13389,20 @@ section {
 	}
 
 	.faq-v2-q {
-		padding: 1rem;
 		font-size: 0.875rem;
+		padding: 1.1rem 0;
 	}
 
-	.faq-v2-answer {
-		padding: 0 1rem;
+	.news-hero .mp-h1 {
+		font-size: 2.1rem;
 	}
 
-	.faq-v2-item.open .faq-v2-answer {
-		padding: 0 1rem 1rem;
+	.news-waitlist-form {
+		width: 100%;
+	}
+
+	.news-launch-section {
+		padding: 4rem 1.25rem;
 	}
 
 	.hp-final-cta {

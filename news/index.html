@@ -16,134 +16,8 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-		<script src="https://cdn.tailwindcss.com"></script>
-		<link rel="stylesheet" href="../assets/css/main.css?v=3" />
+		<link rel="stylesheet" href="../assets/css/main.css?v=4" />
 		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
-
-		<style>
-			.news-hero {
-				min-height: 100vh;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				text-align: center;
-				padding: 7rem 2rem 5rem;
-				position: relative;
-			}
-
-			.news-hero .mp-label {
-				margin-bottom: 1.5rem;
-			}
-
-			.news-hero .mp-h1 {
-				font-size: 3rem;
-				max-width: 640px;
-				margin-left: auto;
-				margin-right: auto;
-			}
-
-			.news-hero .mp-body {
-				max-width: 520px;
-				margin-left: auto;
-				margin-right: auto;
-				text-align: center;
-			}
-
-			.news-hero .mp-tags {
-				justify-content: center;
-				margin-bottom: 0;
-			}
-
-			.news-waitlist-form {
-				display: flex;
-				gap: 0.75rem;
-				margin-top: 2.25rem;
-				justify-content: center;
-				flex-wrap: wrap;
-				max-width: 440px;
-				margin-left: auto;
-				margin-right: auto;
-			}
-
-			.news-waitlist-input {
-				flex: 1;
-				min-width: 200px;
-				background: rgba(255, 255, 255, 0.05);
-				border: 1px solid rgba(255, 255, 255, 0.15);
-				border-radius: 6px;
-				padding: 0.75rem 1rem;
-				color: #ffffff;
-				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-				font-size: 0.875rem;
-				outline: none;
-				transition: border-color 0.2s;
-			}
-
-			.news-waitlist-input::placeholder {
-				color: rgba(255, 255, 255, 0.3);
-			}
-
-			.news-waitlist-input:focus {
-				border-color: #5ac8fa;
-			}
-
-			.news-waitlist-btn {
-				background: #5ac8fa;
-				color: #000000;
-				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-				font-size: 0.875rem;
-				font-weight: 700;
-				border: none;
-				border-radius: 6px;
-				padding: 0.75rem 1.6rem;
-				cursor: pointer;
-				white-space: nowrap;
-				transition: background 0.2s, box-shadow 0.2s;
-			}
-
-			.news-waitlist-btn:hover {
-				background: #7dd4fb;
-				box-shadow: 0 0 18px rgba(90, 200, 250, 0.3);
-			}
-
-			.news-success {
-				display: none;
-				margin-top: 1.25rem;
-				font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-				font-size: 0.875rem;
-				color: #5ac8fa;
-			}
-
-			/* Bottom "Be First" section */
-			.news-launch-section {
-				border-top: 1px solid rgba(255, 255, 255, 0.07);
-				padding: 5rem 2rem;
-				text-align: center;
-				max-width: 680px;
-				margin: 0 auto;
-			}
-
-			@media screen and (max-width: 736px) {
-				.news-hero {
-					min-height: auto;
-					padding: 6rem 1.25rem 4rem;
-				}
-
-				.news-hero .mp-h1 {
-					font-size: 2.1rem;
-				}
-
-				.news-waitlist-form {
-					flex-direction: column;
-					align-items: stretch;
-				}
-
-				.news-launch-section {
-					padding: 4rem 1.25rem;
-				}
-			}
-		</style>
 	</head>
 	<body class="mp-page">
 		<!-- Mouse Highlight Effect -->
@@ -202,24 +76,19 @@
 					<span class="mp-tag">7+ Exchanges</span>
 				</div>
 
-				<!-- Waitlist form -->
-				<form class="news-waitlist-form" id="news-waitlist-form"
-					  method="POST"
-					  action="https://formsubmit.co/armon@delphiterminal.co">
-					<input type="hidden" name="_subject" value="New Waitlist Signup — Delphi News" />
-					<input type="hidden" name="_captcha" value="false" />
-					<input type="hidden" name="_next" value="https://delphiterminal.co/news/?joined=true" />
-					<input type="hidden" name="source" value="news-page-hero" />
-					<input
-						type="email"
-						name="email"
-						id="news-email"
-						class="news-waitlist-input"
-						placeholder="Enter your email"
-						required
-					/>
-					<button type="submit" class="news-waitlist-btn">Join Waitlist</button>
-				</form>
+			<!-- Waitlist form -->
+			<form class="news-waitlist-form" id="news-waitlist-form"
+				  method="POST"
+				  action="https://formsubmit.co/armon@delphiterminal.co">
+				<input type="hidden" name="_subject" value="New Waitlist Signup — Delphi News" />
+				<input type="hidden" name="_captcha" value="false" />
+				<input type="hidden" name="_next" value="https://delphiterminal.co/news/?joined=true" />
+				<input type="hidden" name="source" value="news-page-hero" />
+				<div class="wl-pair">
+					<input type="email" name="email" id="news-email" class="wl-input" placeholder="Enter your email" required />
+					<button type="submit" class="wl-btn">Join Waitlist</button>
+				</div>
+			</form>
 
 				<div class="news-success" id="news-success">
 					You're on the list. We'll be in touch.
@@ -240,24 +109,18 @@
 					Delphi's real-time news feed is coming soon. Join the waitlist to get early access — matched markets, live signals, and cross-exchange data in one place.
 				</p>
 
-				<form class="news-waitlist-form" id="news-waitlist-form-2"
-					  method="POST"
-					  action="https://formsubmit.co/armon@delphiterminal.co"
-					  style="margin-top:0;">
-					<input type="hidden" name="_subject" value="New Waitlist Signup — Delphi News" />
-					<input type="hidden" name="_captcha" value="false" />
-					<input type="hidden" name="_next" value="https://delphiterminal.co/news/?joined=true" />
-					<input type="hidden" name="source" value="news-page-bottom" />
-					<input
-						type="email"
-						name="email"
-						id="news-email-2"
-						class="news-waitlist-input"
-						placeholder="Enter your email"
-						required
-					/>
-					<button type="submit" class="news-waitlist-btn">Join Waitlist</button>
-				</form>
+			<form class="news-waitlist-form" id="news-waitlist-form-2"
+				  method="POST"
+				  action="https://formsubmit.co/armon@delphiterminal.co">
+				<input type="hidden" name="_subject" value="New Waitlist Signup — Delphi News" />
+				<input type="hidden" name="_captcha" value="false" />
+				<input type="hidden" name="_next" value="https://delphiterminal.co/news/?joined=true" />
+				<input type="hidden" name="source" value="news-page-bottom" />
+				<div class="wl-pair">
+					<input type="email" name="email" id="news-email-2" class="wl-input" placeholder="Enter your email" required />
+					<button type="submit" class="wl-btn">Join Waitlist</button>
+				</div>
+			</form>
 
 				<div class="news-success" id="news-success-2">
 					You're on the list. We'll be in touch.
