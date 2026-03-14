@@ -13606,6 +13606,11 @@ section {
 	}
 }
 
+/* ── Contact strip: reduce top padding so content sits higher ── */
+.mp-contact-strip {
+	padding-top: 2rem !important;
+}
+
 /* ── Social links (X, Discord) match Join Terminal / Join Waitlist size ── */
 .site-header .header-social-link {
 	padding: 0.3rem 0.75rem !important;
