@@ -13605,3 +13605,105 @@ section {
 		display: none;
 	}
 }
+
+/* ── CRITICAL: Override Hyperspace base button !important styles on .faq-v2-q ──
+   The base CSS has: button { border: solid 1px !important; border-color: #5ac8fa !important;
+   color: #5ac8fa !important; text-transform: uppercase; border-radius: 3em; ... }
+   These override .faq-v2-q unless we use !important here too.
+*/
+.faq-v2 .faq-v2-q,
+.faq-v2-list .faq-v2-q,
+.faq-v2-item .faq-v2-q,
+button.faq-v2-q {
+	border: none !important;
+	border-color: transparent !important;
+	border-radius: 0 !important;
+	border-top: none !important;
+	border-bottom: none !important;
+	border-left: none !important;
+	border-right: none !important;
+	background: transparent !important;
+	background-color: transparent !important;
+	color: rgba(255, 255, 255, 0.8) !important;
+	text-transform: none !important;
+	letter-spacing: 0 !important;
+	font-size: 0.9375rem !important;
+	font-weight: 500 !important;
+	height: auto !important;
+	line-height: 1.4 !important;
+	padding: 1.25rem 0 !important;
+	width: 100% !important;
+	display: flex !important;
+	align-items: center !important;
+	gap: 0.875rem !important;
+	text-align: left !important;
+	cursor: pointer !important;
+	white-space: normal !important;
+	box-shadow: none !important;
+	outline: none !important;
+	position: static !important;
+}
+
+.faq-v2 .faq-v2-q::after,
+.faq-v2-item .faq-v2-q::after,
+button.faq-v2-q::after {
+	display: none !important;
+	content: none !important;
+	background: none !important;
+	opacity: 0 !important;
+}
+
+.faq-v2 .faq-v2-q:hover,
+.faq-v2-item .faq-v2-q:hover,
+button.faq-v2-q:hover {
+	color: #ffffff !important;
+	background: transparent !important;
+	border-color: transparent !important;
+}
+
+.faq-v2-item.open .faq-v2-q,
+.faq-v2-item.open button.faq-v2-q {
+	color: #ffffff !important;
+	background: transparent !important;
+	border-color: transparent !important;
+}
+
+/* ── Also override base button styles for .nav-wl-btn, .nav-jt-btn ── */
+button.nav-wl-btn {
+	border-radius: 4px !important;
+	text-transform: none !important;
+	letter-spacing: 0.04em !important;
+	height: auto !important;
+	line-height: 1 !important;
+	font-size: 0.72rem !important;
+}
+
+button.nav-wl-btn::after {
+	display: none !important;
+}
+
+/* ── Also override for .wl-btn ── */
+button.wl-btn {
+	border: none !important;
+	border-radius: 0 6px 6px 0 !important;
+	text-transform: none !important;
+	height: 44px !important;
+	line-height: 1 !important;
+	font-size: 0.8rem !important;
+	letter-spacing: 0.04em !important;
+	padding: 0 1.25rem !important;
+}
+
+button.wl-btn::after {
+	display: none !important;
+}
+
+.wl-pair button.wl-btn {
+	color: #000000 !important;
+	background: #5ac8fa !important;
+}
+
+.wl-pair button.wl-btn:hover {
+	background: #ffffff !important;
+	color: #000000 !important;
+}
