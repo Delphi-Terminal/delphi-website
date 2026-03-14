@@ -16,7 +16,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="../assets/css/main.css?v=4" />
+		<link rel="stylesheet" href="../assets/css/main.css?v=5" />
 		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
 
 		<style>
@@ -307,22 +307,23 @@
 					<a href="/faq/" class="nav-link">FAQ</a>
 					<a href="/#contact" class="nav-link">Contact Us</a>
 				</nav>
-				<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
-					<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
-					<div class="nav-wl-dropdown" id="nav-wl-dropdown">
-						<p>Get early access — we'll notify you when we launch.</p>
-						<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
-							<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
-							<input type="hidden" name="_captcha" value="false" />
-							<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
-							<input type="hidden" name="source" value="navbar-product" />
-							<div class="wl-pair" style="max-width:100%; margin:0;">
-								<input type="email" name="email" class="wl-input" placeholder="Your email" required />
-								<button type="submit" class="wl-btn">Join</button>
-							</div>
-						</form>
-					</div>
+			<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
+				<a href="/#intro" class="nav-jt-btn">Join Terminal</a>
+				<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
+				<div class="nav-wl-dropdown" id="nav-wl-dropdown">
+					<p>Get early access — we'll notify you when we launch.</p>
+					<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
+						<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
+						<input type="hidden" name="_captcha" value="false" />
+						<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+						<input type="hidden" name="source" value="navbar-product" />
+						<div class="wl-pair" style="max-width:100%; margin:0;">
+							<input type="email" name="email" class="wl-input" placeholder="Your email" required />
+							<button type="submit" class="wl-btn">Join</button>
+						</div>
+					</form>
 				</div>
+			</div>
 			</div>
 		</header>
 
@@ -417,15 +418,15 @@
 								</tr>
 							</tbody>
 						</table>
-						<div class="pd-exchange-strip">
-							<img src="../images/kalshi-logo.png" alt="Kalshi" />
-							<img src="../images/polymarket-logo.png" alt="Polymarket" />
-							<img src="../images/predictit-logo.png" alt="PredictIt" />
-							<img src="../images/metaculus-logo.png" alt="Metaculus" />
-							<img src="../images/manifold-logo.png" alt="Manifold" />
-							<img src="../images/insight-logo.png" alt="Insight" />
-							<img src="../images/polymarket-p-logo.png" alt="Polymarket" />
-						</div>
+					<div class="exchange-logo-grid">
+						<img src="../images/kalshi-logo.png" alt="Kalshi prediction market" />
+						<img src="../images/polymarket-logo.png" alt="Polymarket prediction market" />
+						<img src="../images/predictit-logo.png" alt="PredictIt prediction market" />
+						<img src="../images/metaculus-logo.png" alt="Metaculus forecasting market" />
+						<img src="../images/manifold-logo.png" alt="Manifold prediction market" />
+						<img src="../images/insight-logo.png" alt="Insight prediction market" />
+						<img src="../images/polymarket-p-logo.png" alt="Polymarket P" />
+					</div>
 					</div>
 				</div>
 			</div>
@@ -451,60 +452,63 @@
 					</div>
 				</div>
 
-				<!-- Right: inflation pipeline diagram -->
-				<div>
-					<div class="pd-pipeline-wrap">
-						<div style="font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.5); margin-bottom:1.25rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; letter-spacing:0.01em;">
-							Turn inflation predictions into trading signals
+			<!-- Right: inflation pipeline diagram — pipe-v2 structure matching homepage -->
+			<div>
+				<div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:1.75rem 1.5rem; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+					<p style="font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.45); margin-bottom:1.5rem; letter-spacing:0.01em;">Turn inflation predictions into trading signals</p>
+
+					<div class="pipe-v2-row">
+						<!-- Data Sources: 3 cards -->
+						<div class="pipe-v2-group">
+							<div class="pipe-v2-group-label">⊞ Data Source</div>
+							<div class="pipe-v2-card">
+								<div class="pipe-v2-card-name">Kalshi</div>
+								<div class="pipe-v2-card-sub">US $ CPI Markets</div>
+							</div>
+							<div class="pipe-v2-card">
+								<div class="pipe-v2-card-name">Kalshi</div>
+								<div class="pipe-v2-card-sub">US $ Core CPI Markets</div>
+							</div>
+							<div class="pipe-v2-card">
+								<div class="pipe-v2-card-name">Kalshi</div>
+								<div class="pipe-v2-card-sub">US $ PCE Markets</div>
+							</div>
 						</div>
 
-						<div class="pd-pipeline-row">
+						<div class="pipe-v2-arrow">→</div>
 
-							<!-- Data Source -->
-							<div class="pd-pipe-col">
-								<div class="pd-pipe-col-title">
-									<span class="pd-pipe-icon">⊞</span> Data Source
-								</div>
-								<div class="pd-pipe-item">
-									<span>Kalshi<br><span style="color:rgba(255,255,255,0.4); font-size:0.68rem;">US $ CPI Markets</span></span>
-								</div>
-								<div class="pd-pipe-item">
-									<span>Kalshi<br><span style="color:rgba(255,255,255,0.4); font-size:0.68rem;">US $ Core CPI Markets</span></span>
-								</div>
-								<div class="pd-pipe-item">
-									<span>Kalshi<br><span style="color:rgba(255,255,255,0.4); font-size:0.68rem;">US $ PCE Markets</span></span>
-								</div>
+						<!-- Model: 1 card (amber) -->
+						<div class="pipe-v2-group model-group">
+							<div class="pipe-v2-group-label">Model</div>
+							<div class="pipe-v2-card model-card" style="flex:1;">
+								<div class="pipe-v2-card-name">E[CPI]</div>
+								<div class="pipe-v2-card-sub" style="margin-top:0.5rem;">Weighted Inflation Index</div>
 							</div>
-
-							<div class="pd-pipe-arrow">→</div>
-
-							<!-- Model -->
-							<div class="pd-pipe-col model-col">
-								<div class="pd-pipe-col-title">Model</div>
-								<div class="pd-pipe-item">E[CPI]</div>
-								<div class="pd-pipe-item">Weighted Inflation Index</div>
-							</div>
-
-							<div class="pd-pipe-arrow">→</div>
-
-							<!-- Trade Signal -->
-							<div class="pd-pipe-col signal-col">
-								<div class="pd-pipe-col-title">Trade Signal</div>
-								<div class="pd-pipe-item">Macro Inflation Signal</div>
-								<div class="pd-pipe-item">Rates / FX / Equity Trades</div>
-							</div>
-
 						</div>
 
-						<div class="pd-pipeline-footer">
-							<span>Visual Builder</span>
-							<span>|</span>
-							<span>Jupyter Notebooks</span>
-							<span>|</span>
-							<span>Built-In Datasets</span>
+						<div class="pipe-v2-arrow">→</div>
+
+						<!-- Trade Signals: 2 cards (teal) -->
+						<div class="pipe-v2-group signal-group">
+							<div class="pipe-v2-group-label">Trade Signal</div>
+							<div class="pipe-v2-card signal-card">
+								<div class="pipe-v2-card-name">Macro Inflation Signal</div>
+							</div>
+							<div class="pipe-v2-card signal-card">
+								<div class="pipe-v2-card-name">Rates / FX / Equity Trades</div>
+							</div>
 						</div>
 					</div>
+
+					<div class="pipe-v2-footer">
+						<span>Visual Builder</span>
+						<span>|</span>
+						<span>Jupyter Notebooks</span>
+						<span>|</span>
+						<span>Built-In Datasets</span>
+					</div>
 				</div>
+			</div>
 			</div>
 
 			<hr class="mp-divider" />
@@ -560,16 +564,17 @@
 
 			<hr class="mp-divider" />
 
-			<!-- Bottom CTA -->
-			<div style="text-align:center; padding:4.5rem 2rem;">
-				<p class="mp-label" style="display:block; margin-bottom:1rem;">Get Started</p>
-				<h2 class="mp-h2" style="font-size:1.75rem; margin-bottom:1.5rem;">Ready to access the data?</h2>
-				<div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; align-items:center;">
-					<a href="/checkout" class="hero-cta"><span>Sign Up</span></a>
-					<a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer"
-					   class="docs-link" style="margin:0;">View Docs</a>
-				</div>
+		<!-- Bottom CTA -->
+		<div class="pd-bottom-cta">
+			<p class="mp-label" style="display:block; margin-bottom:1rem; text-align:center;">Get Started</p>
+			<h2 class="mp-h2" style="font-size:1.75rem; margin-bottom:1.5rem; text-align:center;">Ready to Access the Data?</h2>
+			<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.9rem; color:rgba(255,255,255,0.4); margin-bottom:2rem; text-align:center;">Sign up to start pulling live and historical prediction market data today.</p>
+			<div class="cta-row">
+				<a href="/checkout" class="hero-cta-sm">Sign Up</a>
+				<a href="https://docs.delphiterminal.co" target="_blank" rel="noopener noreferrer"
+				   class="docs-link" style="margin:0;">View Docs</a>
 			</div>
+		</div>
 
 		</main>
 

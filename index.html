@@ -166,7 +166,7 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="assets/css/main.css?v=4" />
+		<link rel="stylesheet" href="assets/css/main.css?v=5" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body>
@@ -193,22 +193,23 @@
 					<a href="/faq/" class="nav-link">FAQ</a>
 					<a href="#contact" class="nav-link">Contact Us</a>
 				</nav>
-				<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
-					<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
-					<div class="nav-wl-dropdown" id="nav-wl-dropdown">
-						<p>Get early access — we'll notify you when we launch.</p>
-						<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
-							<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
-							<input type="hidden" name="_captcha" value="false" />
-							<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
-							<input type="hidden" name="source" value="navbar-home" />
-							<div class="wl-pair" style="max-width:100%; margin:0;">
-								<input type="email" name="email" class="wl-input" placeholder="Your email" required />
-								<button type="submit" class="wl-btn">Join</button>
-							</div>
-						</form>
-					</div>
+			<div class="header-signup nav-wl-wrap" id="nav-wl-wrap">
+				<a href="#intro" class="nav-jt-btn">Join Terminal</a>
+				<button class="nav-wl-btn" id="nav-wl-btn" type="button">Join Waitlist</button>
+				<div class="nav-wl-dropdown" id="nav-wl-dropdown">
+					<p>Get early access — we'll notify you when we launch.</p>
+					<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="nav-wl-form">
+						<input type="hidden" name="_subject" value="New Waitlist Signup — Navbar" />
+						<input type="hidden" name="_captcha" value="false" />
+						<input type="hidden" name="_next" value="https://delphiterminal.co/?wl=1" />
+						<input type="hidden" name="source" value="navbar-home" />
+						<div class="wl-pair" style="max-width:100%; margin:0;">
+							<input type="email" name="email" class="wl-input" placeholder="Your email" required />
+							<button type="submit" class="wl-btn">Join</button>
+						</div>
+					</form>
 				</div>
+			</div>
 			</div>
 		</header>
 
@@ -231,9 +232,9 @@
 					<div class="hero-logo-wrapper" style="margin-bottom:1rem; justify-content:center;">
 						<a href="/"><img src="images/DelphiWhite.png" alt="Delphi Terminal — prediction market data terminal and API logo" class="hero-logo" style="max-width:185px; transform:scaleX(1.14); transform-origin:center;" /></a>
 					</div>
-					<p class="hero-meta">Cross-exchange prediction market data &nbsp;·&nbsp; 7+ Exchanges &nbsp;·&nbsp; L1 L2 L3 order book &nbsp;·&nbsp; Real-time news</p>
-					<p class="hero-platform-line">In One Platform.</p>
-					<div class="hero-cta-group" style="margin-top:1.75rem; display:flex; gap:1rem; justify-content:center; align-items:center; flex-wrap:wrap;">
+				<p class="hero-meta">Cross-exchange prediction market data &nbsp;·&nbsp; 7+ Exchanges<br>L1 &nbsp;·&nbsp; L2 &nbsp;·&nbsp; L3 order book &nbsp;·&nbsp; Real-time news</p>
+				<p class="hero-platform-line">In One Platform.</p>
+				<div class="hero-cta-group" style="margin-top:0.75rem; display:flex; gap:1rem; justify-content:center; align-items:center; flex-wrap:wrap;">
 						<a href="/checkout" class="hero-cta-sm" id="request-access-btn">Sign Up</a>
 						<a href="https://docs.delphiterminal.co" class="docs-link" target="_blank" rel="noopener noreferrer" style="margin:0; font-size:0.8rem;">Documentation</a>
 					</div>
@@ -545,17 +546,17 @@
 
 			<hr class="mp-divider" />
 
-			<!-- Minimal Contact Strip -->
-			<section id="contact" class="mp-contact-strip">
-				<p class="mp-label" style="margin-bottom:0.5rem;">Contact</p>
-				<h2 class="mp-h2" style="font-size:1.4rem; margin-bottom:0.4rem;">Get in Touch</h2>
-				<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.4); margin-bottom:2rem;">Reach out to learn more about Delphi.</p>
+		<!-- Minimal Contact Strip -->
+		<section id="contact" class="mp-contact-strip" style="text-align:center;">
+			<p class="mp-label" style="margin-bottom:0.5rem; text-align:center;">Contact</p>
+			<h2 class="mp-h2" style="font-size:1.4rem; margin-bottom:0.4rem; text-align:center;">Get in Touch</h2>
+			<p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.4); margin-bottom:2rem; text-align:center;">Reach out to learn more about Delphi.</p>
 
 				<div id="form-success-home" style="display:none; padding:0.7em 1em; background:rgba(90,200,250,0.06); border:1px solid rgba(90,200,250,0.3); border-radius:6px; margin-bottom:1.5rem;">
 					<p style="color:#5ac8fa; margin:0; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-size:0.875rem;"><strong>Thank you.</strong> We'll be in touch soon.</p>
 				</div>
 
-				<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="contact-form">
+				<form method="POST" action="https://formsubmit.co/armon@delphiterminal.co" id="contact-form" style="max-width:560px; margin:0 auto; text-align:left;">
 					<input type="hidden" name="_subject" value="New Contact Form Submission from Delphi Website">
 					<input type="hidden" name="_captcha" value="false">
 					<input type="hidden" name="_next" id="form-redirect" value="">

@@ -13409,3 +13409,199 @@ section {
 		padding: 4rem 1.25rem;
 	}
 }
+
+/* ═══════════════════════════════════════════════════════
+   V5 FIXES — Design pass: FAQ, hero, nav, CTA, logos, contact
+   ═══════════════════════════════════════════════════════ */
+
+/* ── FAQ: guarantee no boxes — only horizontal line separators ── */
+.faq-v2-item {
+	border-top: none !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+	border-left: none !important;
+	border-right: none !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	outline: none !important;
+	padding: 0 !important;
+	overflow: visible !important;
+}
+
+.faq-v2-list {
+	border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+	border-radius: 0 !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	border-left: none !important;
+	border-right: none !important;
+	border-bottom: none !important;
+}
+
+/* ── Hero meta: center and allow wrapping ── */
+.hero-meta {
+	text-align: center !important;
+	white-space: normal !important;
+	max-width: 580px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	line-height: 1.6 !important;
+}
+
+/* ── Hero platform line: center ── */
+.hero-platform-line {
+	text-align: center !important;
+}
+
+/* ── Hero eyebrow: center ── */
+.hero-eyebrow {
+	text-align: center !important;
+}
+
+/* ── Tighten hero CTA spacing — closer to "In One Platform" ── */
+.hero-cta-group {
+	margin-top: 0.75rem !important;
+}
+
+/* ── wl-btn: always readable, black text on cyan, use flex ── */
+.wl-pair .wl-btn {
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: #000000 !important;
+	background: #5ac8fa !important;
+	font-weight: 700 !important;
+	opacity: 1 !important;
+	text-shadow: none !important;
+	-webkit-font-smoothing: antialiased !important;
+}
+
+.wl-pair .wl-btn:hover {
+	background: #ffffff !important;
+	color: #000000 !important;
+}
+
+.wl-pair .wl-btn:active {
+	background: #cce9f7 !important;
+	color: #000000 !important;
+}
+
+/* ── Navbar: Join Terminal + Join Waitlist side by side ── */
+.header-signup {
+	display: flex !important;
+	align-items: center !important;
+	gap: 0.5rem !important;
+	flex-shrink: 0 !important;
+}
+
+.nav-jt-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.3rem 0.75rem;
+	background: transparent;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	color: rgba(255, 255, 255, 0.65);
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 0.72rem;
+	font-weight: 500;
+	border-radius: 4px;
+	cursor: pointer;
+	letter-spacing: 0.04em;
+	transition: background 0.2s, border-color 0.2s, color 0.2s;
+	white-space: nowrap;
+	text-decoration: none;
+	line-height: 1;
+}
+
+.nav-jt-btn:hover {
+	background: rgba(255, 255, 255, 0.08);
+	border-color: rgba(255, 255, 255, 0.4);
+	color: #ffffff;
+}
+
+.nav-jt-btn:focus-visible {
+	outline: 2px solid rgba(90, 200, 250, 0.6);
+	outline-offset: 2px;
+}
+
+/* ── Contact strip: center headings, form max-width ── */
+.mp-contact-strip {
+	text-align: center !important;
+}
+
+.mp-contact-strip form {
+	text-align: left;
+	max-width: 560px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.mp-contact-strip .mp-h2 {
+	text-align: center;
+}
+
+/* ── Product page: exchange logos match homepage (40px) ── */
+.pd-exchange-strip {
+	display: flex !important;
+	flex-wrap: wrap !important;
+	justify-content: center !important;
+	align-items: center !important;
+	gap: 1.25rem !important;
+	padding: 1.25rem 1rem !important;
+	border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.pd-exchange-strip img {
+	width: 40px !important;
+	height: 40px !important;
+	object-fit: contain !important;
+	opacity: 0.65 !important;
+	transition: opacity 0.2s, transform 0.2s !important;
+}
+
+.pd-exchange-strip img:hover {
+	opacity: 1 !important;
+	transform: scale(1.08) !important;
+}
+
+/* ── News section wl-pair: visually prominent ── */
+#hp-news .wl-pair,
+.news-waitlist-form .wl-pair {
+	box-shadow: 0 0 0 1px rgba(90, 200, 250, 0.15);
+	border-radius: 6px;
+}
+
+/* ── Product bottom CTA: force center ── */
+.pd-bottom-cta {
+	text-align: center;
+	padding: 5rem 2rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.pd-bottom-cta .mp-label,
+.pd-bottom-cta .mp-h2 {
+	text-align: center !important;
+	display: block !important;
+}
+
+.pd-bottom-cta .cta-row {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 1.5rem;
+}
+
+/* ── hp-final-cta heading: center ── */
+.hp-final-cta .mp-h2,
+.hp-final-cta .mp-label {
+	text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+	.nav-jt-btn {
+		display: none;
+	}
+}
