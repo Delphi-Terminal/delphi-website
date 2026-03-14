@@ -13606,6 +13606,31 @@ section {
 	}
 }
 
+/* ── Product bottom CTA: Sign Up and View Docs same font/size ── */
+.pd-bottom-cta .docs-link,
+.cta-row .docs-link {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+	font-size: 0.8rem !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.04em !important;
+	color: rgba(255, 255, 255, 0.75) !important;
+	border: 1px solid rgba(255, 255, 255, 0.25) !important;
+	border-radius: 5px !important;
+	padding: 0.55rem 1.4rem !important;
+	text-decoration: none !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	margin: 0 !important;
+	transition: background 0.2s, color 0.2s, border-color 0.2s !important;
+}
+
+.pd-bottom-cta .docs-link:hover,
+.cta-row .docs-link:hover {
+	color: #ffffff !important;
+	border-color: rgba(255, 255, 255, 0.5) !important;
+	background: rgba(255, 255, 255, 0.06) !important;
+}
+
 /* ── Contact strip: reduce top padding so content sits higher ── */
 .mp-contact-strip {
 	padding-top: 2rem !important;
