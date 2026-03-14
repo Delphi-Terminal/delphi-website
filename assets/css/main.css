@@ -13682,6 +13682,48 @@ button.nav-wl-btn::after {
 	display: none !important;
 }
 
+/* ── mp-submit-btn: override base button styles ── */
+.mp-contact-strip .mp-submit-btn,
+.mp-contact-strip button.mp-submit-btn,
+button.mp-submit-btn {
+	background: rgba(90, 200, 250, 0.08) !important;
+	border: 1px solid rgba(90, 200, 250, 0.5) !important;
+	border-color: rgba(90, 200, 250, 0.5) !important;
+	border-radius: 6px !important;
+	color: #ffffff !important;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+	font-size: 0.85rem !important;
+	font-weight: 600 !important;
+	letter-spacing: 0.04em !important;
+	text-transform: none !important;
+	padding: 0.65rem 2.25rem !important;
+	height: auto !important;
+	line-height: 1.5 !important;
+	white-space: nowrap !important;
+	display: inline-block !important;
+	cursor: pointer !important;
+	transition: background 0.2s, box-shadow 0.2s !important;
+	position: static !important;
+}
+
+.mp-contact-strip .mp-submit-btn::after,
+button.mp-submit-btn::after {
+	display: none !important;
+	content: none !important;
+	background: none !important;
+}
+
+.mp-contact-strip .mp-submit-btn:hover,
+button.mp-submit-btn:hover {
+	background: rgba(90, 200, 250, 0.2) !important;
+	box-shadow: 0 0 14px rgba(90, 200, 250, 0.15) !important;
+}
+
+/* Center the submit button row */
+.mp-contact-strip .full:last-child {
+	text-align: center;
+}
+
 /* ── Also override for .wl-btn ── */
 button.wl-btn {
 	border: none !important;
