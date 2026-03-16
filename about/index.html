@@ -102,6 +102,63 @@
     .header__menu-btn.is-open span:nth-child(2) { opacity: 0; }
     .header__menu-btn.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+    .hero {
+      position: relative;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .hero__image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center -10%;
+    }
+
+    .hero__shimmer {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      z-index: 1;
+      background: radial-gradient(
+        ellipse 35% 35% at 50% 50%,
+        rgba(100, 150, 255, 1) 0%,
+        rgba(80, 130, 230, 0.9) 20%,
+        rgba(60, 110, 200, 0.5) 45%,
+        rgba(40, 90, 180, 0.15) 65%,
+        transparent 80%
+      );
+      mix-blend-mode: screen;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .hero__text {
+      position: absolute;
+      top: 120px;
+      left: 56px;
+      right: 56px;
+      max-width: min(900px, 52vw);
+      padding-right: 24px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .hero__tagline {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(44px, 6vw, 88px);
+      font-weight: 500;
+      color: #0a1f44;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      padding-bottom: 24px;
+    }
+
     @media (max-width: 768px) {
       .header { padding: 0 20px; height: 56px; }
       .header__brand-icon { height: 48px; }
@@ -140,20 +197,42 @@
         display: block;
         opacity: 1;
         pointer-events: auto;
+        inset: auto;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: min(320px, 85vw);
+        width: auto;
+        height: auto;
       }
-      .hero__text { top: 120px; left: 20px; right: 20px; }
+      .hero__text {
+        top: 88px;
+        left: 20px;
+        right: 72px;
+        max-width: 85%;
+        padding-right: 16px;
+      }
+      .hero__image { object-position: center 20%; }
+      .hero__tagline {
+        font-size: clamp(32px, 8vw, 44px);
+        padding-bottom: 16px;
+      }
       .below-hero { padding: 60px 24px 80px; }
-      .below-hero > div:first-child { width: 100% !important; padding: 0 20px !important; margin-bottom: 48px !important; }
+      .timeline-spacer { height: 24px !important; }
+      .below-hero__intro { width: 100% !important; padding: 0 20px !important; margin-bottom: 24px !important; }
       .timeline {
-        padding: 60px 0 80px;
+        padding: 32px 20px 48px;
         width: 100%;
+        box-sizing: border-box;
       }
       .timeline__track {
+        position: relative;
         height: auto;
         min-height: 0;
       }
       .timeline__line { display: none; }
       .timeline__points {
+        display: flex;
         flex-direction: column;
         align-items: stretch;
         gap: 0;
@@ -162,57 +241,98 @@
       }
       .timeline__point {
         position: relative !important;
-        left: auto !important;
+        left: unset !important;
+        right: unset !important;
         transform: none !important;
+        display: flex !important;
         flex-direction: row;
         align-items: flex-start;
-        gap: 16px;
+        gap: 20px;
         padding: 24px 0;
         border-bottom: 1px solid rgba(10, 31, 68, 0.12);
         min-height: 0;
       }
       .timeline__point:last-of-type { border-bottom: none; }
+      .timeline__point:not(:last-child) {
+        padding-bottom: 24px;
+      }
       .timeline__dot {
         flex-shrink: 0;
         width: 44px;
         height: 44px;
+        min-width: 44px;
         font-size: 11px;
+        border-radius: 50%;
+        background: #fff;
+        border: 2.5px solid #0a1f44;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      .timeline__dot .timeline__year { font-size: 10px; }
+      .timeline__dot .timeline__year {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 10px;
+        font-weight: 800;
+        color: #0a1f44;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+      }
       .timeline__stem { display: none; }
       .timeline__blurb {
         position: relative !important;
-        top: auto !important;
-        bottom: auto !important;
-        left: auto !important;
+        top: unset !important;
+        bottom: unset !important;
+        left: unset !important;
+        right: unset !important;
         transform: none !important;
+        flex: 1;
+        min-width: 0;
+        max-width: none;
         width: auto;
         text-align: left;
-        padding: 12px 16px;
-        font-size: 15px;
-        flex: 1;
+        padding: 14px 18px;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.4;
+        color: #0a1f44;
+        border: 2.5px solid #0a1f44;
+        background: #fff;
+        box-sizing: border-box;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        overflow: visible;
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       }
       .timeline__point.is-below .timeline__blurb,
-      .timeline__point.is-above .timeline__blurb { top: auto; bottom: auto; }
+      .timeline__point.is-above .timeline__blurb { top: unset; bottom: unset; }
       .timeline__point.is-active .timeline__blurb {
         transform: none !important;
         box-shadow: 0 2px 12px rgba(10, 31, 68, 0.1);
       }
       .timeline__point.is-active.is-below .timeline__blurb,
-      .timeline__point.is-active.is-above .timeline__blurb { top: auto; bottom: auto; }
+      .timeline__point.is-active.is-above .timeline__blurb { top: unset; bottom: unset; }
       .timeline__point:last-child {
-        padding-left: 0;
+        padding: 24px 0 0;
+        flex-direction: row;
+        align-items: center;
       }
-      .timeline__point:last-child > span {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-        font-size: clamp(28px, 6vw, 36px);
-        font-weight: 700;
-        color: #0a1f44;
-        letter-spacing: -0.03em;
+      .timeline__point:last-child .timeline__blurb {
+        font-size: clamp(18px, 4.5vw, 24px);
       }
       .timeline__detail {
-        margin-top: 48px;
+        margin-top: 32px;
         width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: opacity 0.35s ease, max-height 0.4s ease;
+      }
+      .timeline__detail.is-visible {
+        opacity: 1;
+        max-height: 1200px;
       }
       .site-footer { padding: 48px 24px 32px !important; }
     }
@@ -220,69 +340,27 @@
       .header__nav-backdrop { display: none !important; }
     }
 
-    .hero {
-      position: relative;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero__text {
+        top: 100px;
+        left: 32px;
+        right: 80px;
+        max-width: 58vw;
+      }
     }
 
-    .hero__image {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center center;
+    @media (max-width: 480px) {
+      .hero__text { top: 84px; left: 16px; right: 64px; max-width: 88%; }
+      .hero__tagline { font-size: 28px; }
+      .timeline { padding: 24px 16px 40px; }
+      .timeline__point { padding: 20px 0; }
+      .timeline__point:not(:last-child) { padding-bottom: 20px; }
+      .timeline__blurb { padding: 10px 12px; font-size: 15px; }
+      .timeline__detail { padding: 0 16px; }
     }
 
-    .hero__shimmer {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      z-index: 1;
-      background: radial-gradient(
-        ellipse 35% 35% at 50% 50%,
-        rgba(100, 150, 255, 1) 0%,
-        rgba(80, 130, 230, 0.9) 20%,
-        rgba(60, 110, 200, 0.5) 45%,
-        rgba(40, 90, 180, 0.15) 65%,
-        transparent 80%
-      );
-      mix-blend-mode: screen;
-      pointer-events: none;
-      will-change: transform;
-    }
-
-    .hero__text {
-      position: absolute;
-      top: 200px;
-      left: 56px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .hero__tagline {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(28px, 3.5vw, 52px);
-      font-weight: 500;
-      color: #0a1f44;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      padding-bottom: 24px;
-    }
-
-    .hero__subtitle {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(14px, 1.3vw, 20px);
-      font-weight: 300;
-      color: #0a1f44;
-      letter-spacing: -0.01em;
-      line-height: 1.5;
-      max-width: 900px;
-      margin-top: 20px;
+    .timeline-spacer {
+      height: 60px;
     }
 
     .below-hero {
@@ -297,6 +375,8 @@
       justify-content: center;
     }
 
+    /* Desktop timeline only – scoped so mobile is never overridden */
+    @media (min-width: 769px) {
     .timeline {
       position: relative;
       width: 92%;
@@ -360,9 +440,6 @@
       letter-spacing: -0.02em;
       white-space: nowrap;
     }
-
-
-
 
 
     .timeline__stem {
@@ -457,6 +534,7 @@
       opacity: 1;
       max-height: 600px;
     }
+    }
 
     .timeline__detail-title {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -512,11 +590,11 @@
     </section>
 
     <section class="below-hero">
-      <div style="width:92%;max-width:1400px;margin:0 auto;text-align:left;margin-bottom:80px">
+      <div class="below-hero__intro" style="width:92%;max-width:1400px;margin:0 auto;text-align:left;margin-bottom:60px">
         <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(22px,2.5vw,36px);font-weight:500;color:#0a1f44;letter-spacing:-0.03em;line-height:1.3">All asset classes start with markets and exchanges. The next domino that falls is infrastructure.</p>
         <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(22px,2.5vw,36px);font-weight:700;color:#0a1f44;letter-spacing:-0.03em;line-height:1.3;margin-top:48px">Enter Delphi.</p>
       </div>
-      <div style="height:140px"></div>
+      <div class="timeline-spacer"></div>
       <div class="timeline">
         <div class="timeline__track">
           <div class="timeline__line"></div>
@@ -576,8 +654,10 @@
               <span class="timeline__blurb">Kalshi &amp; Polymarket</span>
             </div>
 
-            <div class="timeline__point" style="left:98%;cursor:pointer" data-title="Delphi (2025)" data-detail="You know why you're here.">
-              <span style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(36px,4vw,56px);font-weight:700;color:#0a1f44;letter-spacing:-0.03em;white-space:nowrap">Delphi</span>
+            <div class="timeline__point is-below" style="left:98%" data-title="Delphi (2025)" data-detail="You know why you're here.">
+              <div class="timeline__dot"><span class="timeline__year">2025</span></div>
+              <div class="timeline__stem"></div>
+              <span class="timeline__blurb">Delphi</span>
             </div>
 
           </div>
@@ -635,6 +715,17 @@
     const detailTitle = document.getElementById('detailTitle');
     const detailText = document.getElementById('detailText');
     let activePoint = null;
+
+    function stripTimelineInlineStyles() {
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        document.querySelectorAll('.timeline__point').forEach(p => {
+          p.style.removeProperty('left');
+          p.style.removeProperty('right');
+        });
+      }
+    }
+    stripTimelineInlineStyles();
+    window.addEventListener('resize', stripTimelineInlineStyles);
 
     document.querySelectorAll('.timeline__point[data-title]').forEach(point => {
       point.style.cursor = 'pointer';
