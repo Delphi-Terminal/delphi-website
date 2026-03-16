@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News – Delphi Terminal</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a1f44'/><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>D</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: transparent;
+    }
+
+    .header__brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .header__brand-icon {
+      height: 64px;
+      width: auto;
+      mix-blend-mode: multiply;
+    }
+
+    .header__nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .header__nav a {
+      color: #0a1f44;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .header__nav a:hover { opacity: 0.7; }
+
+    .header__nav a.is-active {
+      background: #0a1f44;
+      color: #fff;
+    }
+
+    .page-content {
+      padding: 140px 56px 120px;
+      min-height: 100vh;
+    }
+
+    .page-title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(36px, 4vw, 64px);
+      font-weight: 700;
+      color: #0a1f44;
+      letter-spacing: -0.03em;
+    }
+
+    .page-subtitle {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 18px;
+      font-weight: 300;
+      color: #0a1f44;
+      margin-top: 24px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="/" class="header__brand">
+      <img class="header__brand-icon" src="../logo-Photoroom.png" alt="Delphi" />
+    </a>
+    <nav>
+      <ul class="header__nav">
+        <li><a href="/markets/">Markets</a></li>
+        <li><a href="/news/" class="is-active">News</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="page-content">
+      <p class="page-title">News</p>
+      <p class="page-subtitle">Coming soon.</p>
+    </div>
+  </main>
+
+  <footer style="background:#0a1f44;width:100%;padding:64px 72px 48px">
+    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
+      <a href="/markets/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Markets</a>
+      <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
+      <a href="/about/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">About</a>
+      <a href="/contact/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Contact</a>
+    </div>
+    <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;font-weight:300;color:#fff;opacity:0.5;letter-spacing:-0.01em;text-align:center">© Delphi Markets Inc. 2026</p>
+  </footer>
+
+</body>
+</html>
