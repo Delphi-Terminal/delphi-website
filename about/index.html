@@ -67,6 +67,159 @@
       color: #fff;
     }
 
+    .header__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .header__menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 48px;
+      height: 48px;
+      padding: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 60;
+      -webkit-tap-highlight-color: transparent;
+      margin-right: -8px;
+    }
+    .header__menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #0a1f44;
+      border-radius: 1px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .header__menu-btn.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .header__menu-btn.is-open span:nth-child(2) { opacity: 0; }
+    .header__menu-btn.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .header { padding: 0 20px; height: 56px; }
+      .header__brand-icon { height: 48px; }
+      .header__menu-btn { display: flex; }
+      .header nav { position: fixed; }
+      .header__nav {
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        width: min(320px, 85vw);
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 80px 24px 32px;
+        background: #fff;
+        z-index: 55;
+        box-shadow: -4px 0 24px rgba(10, 31, 68, 0.08);
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .header__nav.is-open { transform: translateX(0); }
+      .header__nav li { border-bottom: 1px solid rgba(10, 31, 68, 0.08); }
+      .header__nav li:last-child { border-bottom: none; }
+      .header__nav a { display: block; font-size: 18px; padding: 18px 0; border-radius: 0; }
+      .header__nav-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 31, 68, 0.15);
+        z-index: 54;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      .header__nav-backdrop.is-visible {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .hero__text { top: 120px; left: 20px; right: 20px; }
+      .below-hero { padding: 60px 24px 80px; }
+      .below-hero > div:first-child { width: 100% !important; padding: 0 20px !important; margin-bottom: 48px !important; }
+      .timeline {
+        padding: 60px 0 80px;
+        width: 100%;
+      }
+      .timeline__track {
+        height: auto;
+        min-height: 0;
+      }
+      .timeline__line { display: none; }
+      .timeline__points {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        position: relative;
+        height: auto;
+      }
+      .timeline__point {
+        position: relative !important;
+        left: auto !important;
+        transform: none !important;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 24px 0;
+        border-bottom: 1px solid rgba(10, 31, 68, 0.12);
+        min-height: 0;
+      }
+      .timeline__point:last-of-type { border-bottom: none; }
+      .timeline__dot {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        font-size: 11px;
+      }
+      .timeline__dot .timeline__year { font-size: 10px; }
+      .timeline__stem { display: none; }
+      .timeline__blurb {
+        position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: auto;
+        text-align: left;
+        padding: 12px 16px;
+        font-size: 15px;
+        flex: 1;
+      }
+      .timeline__point.is-below .timeline__blurb,
+      .timeline__point.is-above .timeline__blurb { top: auto; bottom: auto; }
+      .timeline__point.is-active .timeline__blurb {
+        transform: none !important;
+        box-shadow: 0 2px 12px rgba(10, 31, 68, 0.1);
+      }
+      .timeline__point.is-active.is-below .timeline__blurb,
+      .timeline__point.is-active.is-above .timeline__blurb { top: auto; bottom: auto; }
+      .timeline__point:last-child {
+        padding-left: 0;
+      }
+      .timeline__point:last-child > span {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: clamp(28px, 6vw, 36px);
+        font-weight: 700;
+        color: #0a1f44;
+        letter-spacing: -0.03em;
+      }
+      .timeline__detail {
+        margin-top: 48px;
+        width: 100%;
+      }
+      .site-footer { padding: 48px 24px 32px !important; }
+    }
+    @media (min-width: 769px) {
+      .header__nav-backdrop { display: none !important; }
+    }
+
     .hero {
       position: relative;
       height: 100vh;
@@ -328,11 +481,17 @@
 <body>
 
   <header class="header">
-    <a href="/" class="header__brand">
-      <img class="header__brand-icon" src="../logo-Photoroom.png" alt="Delphi" />
-    </a>
+    <div class="header__row">
+      <a href="/" class="header__brand">
+        <img class="header__brand-icon" src="../logo-Photoroom.png" alt="Delphi" />
+      </a>
+      <button type="button" class="header__menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header__nav-backdrop" id="navBackdrop"></div>
     <nav>
-      <ul class="header__nav">
+      <ul class="header__nav" id="headerNav">
         <li><a href="/markets/">Markets</a></li>
         <li><a href="/news/">News</a></li>
         <li><a href="/about/" class="is-active">About</a></li>
@@ -431,7 +590,7 @@
     </section>
   </main>
 
-  <footer style="background:#0a1f44;width:100%;padding:64px 72px 48px">
+  <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
     <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
       <a href="/markets/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Markets</a>
       <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
@@ -478,6 +637,7 @@
     let activePoint = null;
 
     document.querySelectorAll('.timeline__point[data-title]').forEach(point => {
+      point.style.cursor = 'pointer';
       point.addEventListener('click', () => {
         if (activePoint === point) {
           point.classList.remove('is-active');
@@ -495,6 +655,30 @@
         activePoint = point;
       });
     });
+
+    (function() {
+      var menuBtn = document.getElementById('menuBtn');
+      var headerNav = document.getElementById('headerNav');
+      var navBackdrop = document.getElementById('navBackdrop');
+      function closeMenu() {
+        if (menuBtn) menuBtn.classList.remove('is-open');
+        if (headerNav) headerNav.classList.remove('is-open');
+        if (navBackdrop) navBackdrop.classList.remove('is-visible');
+        document.body.style.overflow = '';
+      }
+      if (menuBtn && headerNav) {
+        menuBtn.addEventListener('click', function() {
+          if (headerNav.classList.contains('is-open')) closeMenu();
+          else {
+            menuBtn.classList.add('is-open');
+            headerNav.classList.add('is-open');
+            if (navBackdrop) navBackdrop.classList.add('is-visible');
+            document.body.style.overflow = 'hidden';
+          }
+        });
+        if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
+      }
+    })();
   </script>
 
 </body>

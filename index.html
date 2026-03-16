@@ -136,6 +136,13 @@
       color: #fff;
     }
 
+    .header__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
     /* ── Hero ── */
     .hero {
       position: relative;
@@ -146,8 +153,11 @@
 
     .hero__text {
       position: absolute;
-      top: 200px;
+      top: 120px;
       left: 56px;
+      right: 56px;
+      max-width: min(900px, 52vw);
+      padding-right: 24px;
       z-index: 2;
       pointer-events: none;
     }
@@ -232,6 +242,184 @@
       letter-spacing: -0.03em;
       line-height: 1.1;
     }
+
+    /* ── Mobile menu button (hidden on desktop) ── */
+    .header__menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 48px;
+      height: 48px;
+      padding: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 60;
+      -webkit-tap-highlight-color: transparent;
+      margin-right: -8px;
+    }
+    .header__menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #0a1f44;
+      border-radius: 1px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .header__menu-btn.is-open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .header__menu-btn.is-open span:nth-child(2) { opacity: 0; }
+    .header__menu-btn.is-open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* ── Mobile breakpoints ── */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+        height: 56px;
+      }
+      .header__brand-icon { height: 48px; }
+      .header__menu-btn { display: flex; }
+      .header nav { position: fixed; }
+      .header__nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: min(320px, 85vw);
+        max-width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 80px 24px 32px;
+        background: #fff;
+        z-index: 55;
+        box-shadow: -4px 0 24px rgba(10, 31, 68, 0.08);
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow-y: auto;
+      }
+      .header__nav.is-open {
+        transform: translateX(0);
+      }
+      .header__nav li {
+        border-bottom: 1px solid rgba(10, 31, 68, 0.08);
+      }
+      .header__nav li:last-child { border-bottom: none; }
+      .header__nav a {
+        display: block;
+        font-size: 18px;
+        padding: 18px 0;
+        border-radius: 0;
+      }
+      .header__nav-backdrop {
+        display: none;
+        position: fixed !important;
+        inset: 0;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(10, 31, 68, 0.15);
+        z-index: 54;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      .header__nav-backdrop.is-visible {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .hero__text {
+        top: 88px;
+        left: 20px;
+        right: 72px;
+        max-width: 85%;
+        padding-right: 16px;
+      }
+      .hero__image {
+        object-position: center 20%;
+      }
+      .hero__tagline {
+        font-size: clamp(32px, 8vw, 44px);
+        padding-bottom: 16px;
+      }
+      .hero__subtitle {
+        font-size: clamp(14px, 4vw, 18px);
+        margin-top: 16px;
+      }
+
+      .below-hero { padding: 60px 0 80px; }
+      .section-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .section-statement {
+        padding: 20px 20px 48px;
+        border-bottom: 0.5px solid #0a1f44;
+      }
+      .section-statement:first-child { border-top: 0.5px solid #0a1f44; }
+
+      .block-benchmarks {
+        height: auto !important;
+        min-height: 400px !important;
+        padding: 40px 20px !important;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .block-news-intro {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 32px;
+        padding: 24px 20px 0 !important;
+      }
+      .block-news-intro__left {
+        display: contents;
+      }
+      .block-news-intro__title {
+        order: 1;
+      }
+      .block-news-intro__tagline {
+        order: 2;
+      }
+      .block-news-intro__links {
+        order: 3;
+      }
+      .block-news-intro__links p {
+        margin-top: 24px !important;
+      }
+      .block-news-intro__links p:first-child {
+        margin-top: 0 !important;
+      }
+      .site-footer { padding: 48px 24px 32px !important; }
+    }
+
+    @media (min-width: 769px) {
+      .header__nav-backdrop { display: none !important; }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .hero__text {
+        top: 100px;
+        left: 32px;
+        right: 80px;
+        max-width: 58vw;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header { padding: 0 16px; }
+      .hero__text { top: 84px; left: 16px; right: 64px; max-width: 88%; }
+      .hero__tagline { font-size: 28px; }
+      .block-benchmarks { padding: 32px 16px !important; min-height: 320px !important; }
+      .block-news-intro { padding: 20px 16px 0 !important; gap: 32px; }
+      .site-footer { padding: 40px 16px 24px !important; }
+    }
   </style>
 </head>
 <body class="intro-active">
@@ -242,11 +430,17 @@
   <div class="preloader__curtain" id="preloaderCurtain"></div>
 
   <header class="header">
-    <a href="/" class="header__brand">
-      <img class="header__brand-icon" src="logo-Photoroom.png" alt="Delphi" />
-    </a>
+    <div class="header__row">
+      <a href="/" class="header__brand">
+        <img class="header__brand-icon" src="logo-Photoroom.png" alt="Delphi" />
+      </a>
+      <button type="button" class="header__menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header__nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
     <nav>
-      <ul class="header__nav">
+      <ul class="header__nav" id="headerNav">
         <li><a href="/markets/">Markets</a></li>
         <li><a href="/news/">News</a></li>
         <li><a href="/about/">About</a></li>
@@ -277,18 +471,20 @@
         </div>
       </div>
       <div style="height:120px"></div>
-      <div style="background:#0a1f44;width:100%;height:720px;padding:56px">
-        <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:500;color:#fff;letter-spacing:-0.03em;line-height:1.1">The widest range of benchmarks. Globally.</p>
+      <div class="block-benchmarks" style="background:#0a1f44;width:100%;height:720px;padding:56px;display:flex;flex-direction:column;align-items:flex-start">
+        <p class="block-benchmarks__title" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:500;color:#fff;letter-spacing:-0.03em;line-height:1.1">The widest range of benchmarks. Globally.</p>
       </div>
       <div style="height:120px"></div>
       <div style="border-top:0.5px solid #0a1f44;width:100%"></div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;padding:28px 240px 0 72px">
-        <div>
-          <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(32px,3.5vw,52px);font-weight:700;color:#0a1f44;letter-spacing:-0.03em">Delphi News ›</p>
-          <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(16px,1.6vw,22px);font-weight:700;color:#0a1f44;letter-spacing:-0.01em;margin-top:120px">News ›</p>
-          <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(16px,1.6vw,22px);font-weight:700;color:#0a1f44;letter-spacing:-0.01em;margin-top:288px">Research ›</p>
+      <div class="block-news-intro" style="display:flex;justify-content:space-between;align-items:baseline;padding:28px 240px 0 72px">
+        <div class="block-news-intro__left">
+          <p class="block-news-intro__title" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(32px,3.5vw,52px);font-weight:700;color:#0a1f44;letter-spacing:-0.03em">Delphi News ›</p>
+          <div class="block-news-intro__links">
+            <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(16px,1.6vw,22px);font-weight:700;color:#0a1f44;letter-spacing:-0.01em;margin-top:120px">News ›</p>
+            <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(16px,1.6vw,22px);font-weight:700;color:#0a1f44;letter-spacing:-0.01em;margin-top:288px">Research ›</p>
+          </div>
         </div>
-        <div style="text-align:center">
+        <div class="block-news-intro__tagline" style="text-align:center">
           <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(28px,3vw,44px);font-weight:500;color:#0a1f44;letter-spacing:-0.02em">News backed by you.</p>
           <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(14px,1.3vw,20px);font-weight:300;color:#0a1f44;letter-spacing:-0.01em;margin-top:8px">And Everyone. Unfiltered News,<br>Backed By The Crowd.</p>
         </div>
@@ -296,7 +492,7 @@
       <div style="height:200px"></div>
     </section>
 
-    <footer style="background:#0a1f44;width:100%;padding:64px 72px 48px">
+    <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
       <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
         <a href="/markets/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Markets</a>
         <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
@@ -353,6 +549,29 @@
     makeShimmer(document.getElementById('shimmer1'), 0.05, 0.15, 42);
     makeShimmer(document.getElementById('shimmer2'), 0.95, 0.85, 220);
 
+    // ── Mobile menu ──
+    var menuBtn = document.getElementById('menuBtn');
+    var headerNav = document.getElementById('headerNav');
+    var navBackdrop = document.getElementById('navBackdrop');
+    function closeMenu() {
+      if (menuBtn) menuBtn.classList.remove('is-open');
+      if (headerNav) headerNav.classList.remove('is-open');
+      if (navBackdrop) navBackdrop.classList.remove('is-visible');
+      document.body.style.overflow = '';
+    }
+    function openMenu() {
+      if (menuBtn) menuBtn.classList.add('is-open');
+      if (headerNav) headerNav.classList.add('is-open');
+      if (navBackdrop) navBackdrop.classList.add('is-visible');
+      document.body.style.overflow = 'hidden';
+    }
+    if (menuBtn && headerNav) {
+      menuBtn.addEventListener('click', function () {
+        if (headerNav.classList.contains('is-open')) closeMenu();
+        else openMenu();
+      });
+      if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
+    }
   </script>
 </body>
 </html>

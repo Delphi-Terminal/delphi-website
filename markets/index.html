@@ -67,6 +67,87 @@
       color: #fff;
     }
 
+    .header__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .header__menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 48px;
+      height: 48px;
+      padding: 12px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 60;
+      -webkit-tap-highlight-color: transparent;
+      margin-right: -8px;
+    }
+    .header__menu-btn span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #0a1f44;
+      border-radius: 1px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .header__menu-btn.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .header__menu-btn.is-open span:nth-child(2) { opacity: 0; }
+    .header__menu-btn.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      .header { padding: 0 20px; height: 56px; }
+      .header__brand-icon { height: 48px; }
+      .header__menu-btn { display: flex; }
+      .header nav { position: fixed; }
+      .header__nav {
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        width: min(320px, 85vw);
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 80px 24px 32px;
+        background: #fff;
+        z-index: 55;
+        box-shadow: -4px 0 24px rgba(10, 31, 68, 0.08);
+        transform: translateX(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .header__nav.is-open { transform: translateX(0); }
+      .header__nav li { border-bottom: 1px solid rgba(10, 31, 68, 0.08); }
+      .header__nav li:last-child { border-bottom: none; }
+      .header__nav a { display: block; font-size: 18px; padding: 18px 0; border-radius: 0; }
+      .header__nav-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 31, 68, 0.15);
+        z-index: 54;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      .header__nav-backdrop.is-visible {
+        display: block;
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .page-content { padding: 100px 20px 80px; }
+      .site-footer { padding: 48px 24px 32px !important; }
+    }
+    @media (min-width: 769px) {
+      .header__nav-backdrop { display: none !important; }
+    }
+
     .page-content {
       padding: 140px 56px 120px;
       min-height: 100vh;
@@ -93,11 +174,17 @@
 <body>
 
   <header class="header">
-    <a href="/" class="header__brand">
-      <img class="header__brand-icon" src="../logo-Photoroom.png" alt="Delphi" />
-    </a>
+    <div class="header__row">
+      <a href="/" class="header__brand">
+        <img class="header__brand-icon" src="../logo-Photoroom.png" alt="Delphi" />
+      </a>
+      <button type="button" class="header__menu-btn" id="menuBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header__nav-backdrop" id="navBackdrop"></div>
     <nav>
-      <ul class="header__nav">
+      <ul class="header__nav" id="headerNav">
         <li><a href="/markets/" class="is-active">Markets</a></li>
         <li><a href="/news/">News</a></li>
         <li><a href="/about/">About</a></li>
@@ -113,7 +200,7 @@
     </div>
   </main>
 
-  <footer style="background:#0a1f44;width:100%;padding:64px 72px 48px">
+  <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
     <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
       <a href="/markets/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Markets</a>
       <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
@@ -123,5 +210,30 @@
     <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;font-weight:300;color:#fff;opacity:0.5;letter-spacing:-0.01em;text-align:center">© Delphi Markets Inc. 2026</p>
   </footer>
 
+  <script>
+    (function() {
+      var menuBtn = document.getElementById('menuBtn');
+      var headerNav = document.getElementById('headerNav');
+      var navBackdrop = document.getElementById('navBackdrop');
+      function closeMenu() {
+        if (menuBtn) menuBtn.classList.remove('is-open');
+        if (headerNav) headerNav.classList.remove('is-open');
+        if (navBackdrop) navBackdrop.classList.remove('is-visible');
+        document.body.style.overflow = '';
+      }
+      if (menuBtn && headerNav) {
+        menuBtn.addEventListener('click', function() {
+          if (headerNav.classList.contains('is-open')) closeMenu();
+          else {
+            menuBtn.classList.add('is-open');
+            headerNav.classList.add('is-open');
+            if (navBackdrop) navBackdrop.classList.add('is-visible');
+            document.body.style.overflow = 'hidden';
+          }
+        });
+        if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
+      }
+    })();
+  </script>
 </body>
 </html>
