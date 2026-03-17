@@ -317,8 +317,13 @@
         flex-direction: row;
         align-items: center;
       }
+      .timeline__point:last-child .timeline__dot {
+        width: 52px;
+        height: 52px;
+        min-width: 52px;
+      }
       .timeline__point:last-child .timeline__blurb {
-        font-size: clamp(18px, 4.5vw, 24px);
+        font-size: clamp(20px, 5vw, 28px);
       }
       .timeline__detail {
         margin-top: 32px;
@@ -439,6 +444,16 @@
       color: #0a1f44;
       letter-spacing: -0.02em;
       white-space: nowrap;
+    }
+
+    .timeline__point:last-child .timeline__dot {
+      width: 64px;
+      height: 64px;
+    }
+    .timeline__point:last-child .timeline__blurb {
+      font-size: 22px;
+      padding: 22px 28px;
+      width: 200px;
     }
 
 
@@ -654,7 +669,7 @@
               <span class="timeline__blurb">Kalshi &amp; Polymarket</span>
             </div>
 
-            <div class="timeline__point is-below" style="left:98%" data-title="Delphi (2025)" data-detail="You know why you're here.">
+            <div class="timeline__point is-above is-active" style="left:98%" data-title="Delphi (2025)" data-detail="You know why you're here.">
               <div class="timeline__dot"><span class="timeline__year">2025</span></div>
               <div class="timeline__stem"></div>
               <span class="timeline__blurb">Delphi</span>
@@ -663,9 +678,9 @@
           </div>
         </div>
       </div>
-      <div class="timeline__detail" id="timelineDetail">
-        <p class="timeline__detail-title" id="detailTitle"></p>
-        <p class="timeline__detail-text" id="detailText"></p>
+      <div class="timeline__detail is-visible" id="timelineDetail">
+        <p class="timeline__detail-title" id="detailTitle">Delphi (2025)</p>
+        <p class="timeline__detail-text" id="detailText">You know why you're here.</p>
       </div>
     </section>
   </main>
@@ -726,6 +741,9 @@
     }
     stripTimelineInlineStyles();
     window.addEventListener('resize', stripTimelineInlineStyles);
+
+    const delphiPoint = document.querySelector('.timeline__point[data-title="Delphi (2025)"]');
+    if (delphiPoint) activePoint = delphiPoint;
 
     document.querySelectorAll('.timeline__point[data-title]').forEach(point => {
       point.style.cursor = 'pointer';
