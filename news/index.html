@@ -246,11 +246,19 @@
 
     /* ── Lead Story (center) ── */
     .lead-story__img-wrap {
-      width: 100%; aspect-ratio: 16/9;
-      overflow: hidden; margin-bottom: 20px;
+      width: 100%;
+      aspect-ratio: 624/264;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: #fff;
+      border: 1px solid rgba(10,31,68,0.06);
     }
     .lead-story__img-wrap img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      image-rendering: -webkit-optimize-contrast;
     }
     .lead-story__img-placeholder { width: 100%; height: 100%; }
     .lead-story__title {
@@ -318,6 +326,25 @@
       line-height: 1.6;
       color: rgba(10,31,68,0.6);
     }
+
+    /* ── Category filtered view (matches hero grid format) ── */
+    .cat-view { display: none; padding: 28px 0 36px; border-bottom: 1px solid rgba(10,31,68,0.1); }
+    .cat-view.is-visible { display: block; }
+    .cat-view__grid {
+      display: grid;
+      grid-template-columns: 268px 1fr;
+      gap: 0;
+    }
+    .cat-view__left {
+      padding-right: 30px;
+      border-right: 1px solid rgba(10,31,68,0.1);
+    }
+    @media (max-width: 900px) {
+      .cat-view__grid { grid-template-columns: 1fr; }
+      .cat-view__left { padding-right: 0; border-right: none; }
+    }
+    .news-default { transition: opacity 0.2s; }
+    .news-default.is-hidden { display: none; }
 
     /* Signals 2-column layout */
     .signals-grid {
@@ -454,15 +481,15 @@
     <!-- Category Nav -->
     <nav class="cat-nav" aria-label="News categories">
       <ul class="cat-nav__inner">
-        <li class="cat-nav__item cat-nav__item--active"><a href="#">All</a></li>
-        <li class="cat-nav__item"><a href="../articles/recession-yield-curve-normalizes.html">Economy</a></li>
-        <li class="cat-nav__item"><a href="#">U.S.</a></li>
-        <li class="cat-nav__item"><a href="#">World</a></li>
-        <li class="cat-nav__item"><a href="#">Markets</a></li>
-        <li class="cat-nav__item"><a href="#">Crypto</a></li>
-        <li class="cat-nav__item"><a href="#">Tech</a></li>
-        <li class="cat-nav__item"><a href="#">Politics</a></li>
-        <li class="cat-nav__item"><a href="#">Research</a></li>
+        <li class="cat-nav__item cat-nav__item--active" data-cat="all"><a href="#">All</a></li>
+        <li class="cat-nav__item" data-cat="Economy"><a href="#">Economy</a></li>
+        <li class="cat-nav__item" data-cat="U.S."><a href="#">U.S.</a></li>
+        <li class="cat-nav__item" data-cat="World"><a href="#">World</a></li>
+        <li class="cat-nav__item" data-cat="Markets"><a href="#">Markets</a></li>
+        <li class="cat-nav__item" data-cat="Crypto"><a href="#">Crypto</a></li>
+        <li class="cat-nav__item" data-cat="Tech"><a href="#">Tech</a></li>
+        <li class="cat-nav__item" data-cat="Politics"><a href="#">Politics</a></li>
+        <li class="cat-nav__item" data-cat="Research"><a href="#">Research</a></li>
       </ul>
     </nav>
 
@@ -475,6 +502,19 @@
         </div>
       </div>
 
+      <!-- ── Category filtered view (hero format) ── -->
+      <div class="cat-view" id="catView">
+        <div class="cat-view__grid">
+          <div class="cat-view__left">
+            <p class="col-hd" id="catViewTitle">Economy</p>
+            <div id="catViewList"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Default news layout ── -->
+      <div class="news-default" id="newsDefault">
+
       <!-- ── THREE-COLUMN EDITORIAL GRID ── -->
       <div class="news-grid">
 
@@ -483,6 +523,19 @@
           <p class="col-hd">Latest</p>
 
           <div class="article-preview" style="padding-top:18px">
+            <span class="kicker">World</span>
+            <a href="../articles/crude-oil-top-market-mover.html" class="article-preview__title">Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium</a>
+            <p class="article-preview__excerpt">Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI near $95.40, Brent above $102.90.</p>
+            <div class="meta">
+              <span class="meta__author">Sahana Lydia</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 17</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">4 min</span>
+            </div>
+          </div>
+
+          <div class="article-preview">
             <span class="kicker">Economy</span>
             <a href="../articles/recession-yield-curve-normalizes.html" class="article-preview__title">Recession Fears Recede as Yield Curve Normalizes</a>
             <p class="article-preview__excerpt">Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn. The spread between the 10 year and 3 month Treasury yields has moved back into positive territory.</p>
@@ -508,61 +561,23 @@
             </div>
           </div>
 
-          <div class="article-preview">
-            <span class="kicker">Regulatory</span>
-            <a href="#" class="article-preview__title">SEC Proposes New Framework for Digital Asset Classification</a>
-            <p class="article-preview__excerpt">The Commission unveiled proposed rules that could reshape how prediction markets and tokenized instruments are regulated across platforms.</p>
-            <div class="meta">
-              <span class="meta__author">Alexandra K. Dunn, Esq.</span>
-              <span class="meta__dot"></span>
-              <span class="meta__date">Mar 14</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">5 min</span>
-            </div>
-          </div>
-
-          <div class="article-preview">
-            <span class="kicker">Markets</span>
-            <a href="#" class="article-preview__title">Delphi Indices Signal Early Divergence in Sentiment vs. Positioning</a>
-            <p class="article-preview__excerpt">FRPI and PMIE readings show a 14-point spread between retail sentiment and institutional exposure — the widest gap since Q3 2024.</p>
-            <div class="meta">
-              <span class="meta__author">Delphi Research</span>
-              <span class="meta__dot"></span>
-              <span class="meta__date">Mar 13</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">4 min</span>
-            </div>
-          </div>
-
-          <div class="article-preview">
-            <span class="kicker">Industry</span>
-            <a href="#" class="article-preview__title">Meridian Capital Enhances Due Diligence Platform for Accredited Investors</a>
-            <p class="article-preview__excerpt">The platform update integrates Delphi data feeds to improve pre-trade risk analysis for alternative asset allocators.</p>
-            <div class="meta">
-              <span class="meta__author">Meridian Capital</span>
-              <span class="meta__dot"></span>
-              <span class="meta__date">Mar 12</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">3 min</span>
-            </div>
-          </div>
         </div>
 
         <!-- CENTER: The Lead -->
         <div class="news-grid__center">
           <div class="lead-story">
             <div class="lead-story__img-wrap">
-              <div class="lead-story__img-placeholder" style="background: linear-gradient(160deg, #0d2b5e 0%, #1a3f7a 52%, #1f4f92 100%);"></div>
+              <img src="../articles/images/crude-oil-past-month.png" alt="Crude Oil — Past Month" class="lead-story__img" />
             </div>
-            <span class="kicker">The Lead &nbsp;·&nbsp; Markets</span>
-            <a href="#" class="lead-story__title">Fed Signals Cautious Approach to Rate Cuts as Inflation Data Remains Mixed</a>
-            <p class="lead-story__excerpt">Federal Reserve officials suggest a measured pace of monetary easing amid persistent core inflation pressures and resilient labor markets. Delphi's rate-cut probability index held at 44% through the week, underscoring a market consensus that remains split on June vs. September timing. Futures markets are pricing a 60% chance of at least one cut by July.</p>
+            <span class="kicker">The Lead &nbsp;·&nbsp; World</span>
+            <a href="../articles/crude-oil-top-market-mover.html" class="lead-story__title">Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium</a>
+            <p class="lead-story__excerpt">Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI trading near $95.40 per barrel, Brent above $102.90. The move has not been driven by demand but by a geopolitical repricing.</p>
             <div class="meta">
-              <span class="meta__author">Dr. Sarah Mitchell</span>
+              <span class="meta__author">Sahana Lydia</span>
               <span class="meta__dot"></span>
-              <span class="meta__date">Mar 14, 2026</span>
+              <span class="meta__date">Mar 17, 2026</span>
               <span class="meta__dot"></span>
-              <span class="meta__time">6 min read</span>
+              <span class="meta__time">4 min read</span>
             </div>
           </div>
         </div>
@@ -580,6 +595,25 @@
             <span class="kicker">Economy</span>
             <h3 class="economy-card__title">Recession Fears Recede as Yield Curve Normalizes</h3>
             <p class="economy-card__excerpt">Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn. The spread between the 10 year and 3 month Treasury yields has moved back into positive territory.</p>
+            <div class="meta">
+              <span class="meta__author">Sahana Lydia</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 17, 2026</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- ── SECTION: World ── -->
+      <div class="news-section">
+        <div class="news-section__hd">
+          <span class="news-section__label">World</span>
+        </div>
+        <a href="../articles/crude-oil-top-market-mover.html" class="economy-card">
+          <div class="economy-card__content">
+            <span class="kicker">World</span>
+            <h3 class="economy-card__title">Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium</h3>
+            <p class="economy-card__excerpt">Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI near $95.40, Brent above $102.90.</p>
             <div class="meta">
               <span class="meta__author">Sahana Lydia</span>
               <span class="meta__dot"></span>
@@ -618,6 +652,8 @@
           </div>
         </div>
       </div>
+
+      </div><!-- /news-default -->
 
     </div><!-- /news-wrap -->
   </main>
@@ -695,18 +731,60 @@
         container.appendChild(widgetScript);
       })();
 
-      /* Category nav tab switching */
+      /* ── Category filtering (WSJ-style headline list) ── */
+      var articles = [
+        { cat: 'World', title: 'Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium', sub: 'Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI near $95, Brent above $102.', url: '../articles/crude-oil-top-market-mover.html', date: 'Mar 17', author: 'Sahana Lydia' },
+        { cat: 'Economy', title: 'Recession Fears Recede as Yield Curve Normalizes', sub: 'Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn.', url: '../articles/recession-yield-curve-normalizes.html', date: 'Mar 17', author: 'Sahana Lydia' },
+        { cat: 'Markets', title: 'Fed Signals Cautious Approach to Rate Cuts as Inflation Data Remains Mixed', sub: 'Federal Reserve officials suggest a measured pace of monetary easing amid persistent core inflation pressures and resilient labor markets.', url: '#', date: 'Mar 14', author: 'Dr. Sarah Mitchell' },
+        { cat: 'Research', title: 'Global Equity Markets: Q1 2026 Performance Review and Forward Outlook', sub: 'A comprehensive analysis of equity market dynamics across regions, with implications for institutional reallocation through mid-year.', url: '#', date: 'Mar 14', author: 'Michael R. Foster' },
+        { cat: 'U.S.', title: 'Recession Fears Recede as Yield Curve Normalizes', sub: 'Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn.', url: '../articles/recession-yield-curve-normalizes.html', date: 'Mar 17', author: 'Sahana Lydia' },
+        { cat: 'World', title: 'Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium', sub: 'Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz.', url: '../articles/crude-oil-top-market-mover.html', date: 'Mar 17', author: 'Sahana Lydia' },
+        { cat: 'Crypto', title: 'SEC Proposes New Framework for Digital Asset Classification', sub: 'Proposed rules could reshape how prediction markets and tokenized instruments are regulated.', url: '#', date: 'Mar 14', author: 'Alexandra K. Dunn, Esq.' }
+      ];
+
+      var catView = document.getElementById('catView');
+      var catViewTitle = document.getElementById('catViewTitle');
+      var catViewList = document.getElementById('catViewList');
+      var newsDefault = document.getElementById('newsDefault');
+
+      function renderCategory(cat) {
+        var filtered = cat === 'all' ? articles : articles.filter(function(a) { return a.cat === cat; });
+        catViewTitle.textContent = cat === 'all' ? 'All' : cat;
+        catViewList.innerHTML = '';
+        filtered.forEach(function(a, i) {
+          var div = document.createElement('div');
+          div.className = 'article-preview';
+          if (i === 0) div.style.paddingTop = '18px';
+          div.innerHTML =
+            '<span class="kicker">' + a.cat + '</span>' +
+            '<a href="' + a.url + '" class="article-preview__title">' + a.title + '</a>' +
+            (a.sub ? '<p class="article-preview__excerpt">' + a.sub + '</p>' : '') +
+            '<div class="meta">' +
+              '<span class="meta__author">' + a.author + '</span>' +
+              '<span class="meta__dot"></span>' +
+              '<span class="meta__date">' + a.date + '</span>' +
+            '</div>';
+          catViewList.appendChild(div);
+        });
+        if (cat === 'all') {
+          catView.classList.remove('is-visible');
+          newsDefault.classList.remove('is-hidden');
+        } else {
+          catView.classList.add('is-visible');
+          newsDefault.classList.add('is-hidden');
+        }
+      }
+
       var catItems = document.querySelectorAll('.cat-nav__item');
       catItems.forEach(function(item) {
         var link = item.querySelector('a');
-        if (!link) return;
+        var cat = item.getAttribute('data-cat');
+        if (!link || !cat) return;
         link.addEventListener('click', function(e) {
-          var href = link.getAttribute('href') || '';
-          if (href === '#' || href === '') {
-            e.preventDefault();
-            catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
-            item.classList.add('cat-nav__item--active');
-          }
+          e.preventDefault();
+          catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
+          item.classList.add('cat-nav__item--active');
+          renderCategory(cat);
         });
       });
 
