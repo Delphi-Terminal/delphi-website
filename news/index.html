@@ -345,34 +345,6 @@
     }
     .news-section__more:hover { opacity: 0.7; }
 
-    /* Story card 4-column grid */
-    .story-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 28px;
-    }
-    .story-card__img-wrap {
-      width: 100%; aspect-ratio: 3/2;
-      overflow: hidden; margin-bottom: 12px;
-    }
-    .story-card__img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .story-card__img-ph { width: 100%; height: 100%; }
-    .story-card__title {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 14px; font-weight: 600;
-      line-height: 1.36; letter-spacing: -0.01em;
-      color: #0a1f44; text-decoration: none;
-      display: block; margin-bottom: 6px;
-      transition: opacity 0.15s;
-    }
-    .story-card__title:hover { opacity: 0.68; }
-    .story-card__excerpt {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 12px; font-weight: 300;
-      line-height: 1.62; color: rgba(10,31,68,0.46);
-      margin-bottom: 8px;
-    }
-
     /* Signals 2-column layout */
     .signals-grid {
       display: grid;
@@ -469,14 +441,12 @@
         padding-top: 28px;
         border-top: 1px solid rgba(10,31,68,0.1);
       }
-      .story-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
       .signals-grid { grid-template-columns: 1fr; gap: 28px; }
       .signal-item__term { flex: 0 0 160px; }
     }
 
     @media (max-width: 600px) {
       .news-masthead { padding: 32px 20px 22px; }
-      .story-grid { grid-template-columns: 1fr; gap: 24px; }
       .site-footer { padding: 48px 24px 32px; }
       .signal-item__term { flex: 0 0 130px; font-size: 12px; }
     }
@@ -710,73 +680,6 @@
       </div>
       <!-- /news-grid -->
 
-      <!-- ── SECTION: Top Market Movements ── -->
-      <div class="news-section">
-        <div class="news-section__hd">
-          <span class="news-section__label">Top Market Movements</span>
-          <a href="#" class="news-section__more">View all ›</a>
-        </div>
-        <div class="story-grid">
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0a2a5e 0%, #1a4a8a 100%);"></div>
-            </div>
-            <span class="kicker">Equities</span>
-            <a href="#" class="story-card__title">S&P 500 Closes Above 5,800 for Third Consecutive Session</a>
-            <p class="story-card__excerpt">Broad market strength driven by strong earnings and easing credit spreads. Delphi data shows increasing institutional confidence.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 17</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">3 min</span>
-            </div>
-          </div>
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0f2e18 0%, #1c5030 100%);"></div>
-            </div>
-            <span class="kicker">Fixed Income</span>
-            <a href="#" class="story-card__title">10-Year Treasury Yield Retreats to 4.38% on Softer CPI Print</a>
-            <p class="story-card__excerpt">A below-consensus CPI reading triggered a bond rally, with Delphi's rate path model shifting modestly toward an earlier cut.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 16</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">4 min</span>
-            </div>
-          </div>
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #2a0e40 0%, #4a1a70 100%);"></div>
-            </div>
-            <span class="kicker">Crypto</span>
-            <a href="#" class="story-card__title">Bitcoin Breaks $95K as Spot ETF Inflows Reach Monthly High</a>
-            <p class="story-card__excerpt">Prediction market positioning on BTC breaching $100K in Q2 rose to 38% this week, per Delphi's digital asset index.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 15</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">3 min</span>
-            </div>
-          </div>
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #3a2508 0%, #6a4510 100%);"></div>
-            </div>
-            <span class="kicker">Commodities</span>
-            <a href="#" class="story-card__title">Gold Holds Above $2,900 as Dollar Weakens on Fed Guidance Shift</a>
-            <p class="story-card__excerpt">Safe-haven demand and dollar softness combine to support gold near multi-year highs. Delphi's commodity index sits at 61.5.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 14</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">3 min</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
       <!-- ── SECTION: Signals From X and Search ── -->
       <div class="news-section" id="signals-section">
         <div class="news-section__hd">
@@ -792,73 +695,6 @@
             <p class="signals-col__label">Market Conversations — Reddit & Social</p>
             <div id="signals-conversations" class="signals-loading">Loading…</div>
           </div>
-        </div>
-      </div>
-
-      <!-- ── SECTION: Geopolitics Watch ── -->
-      <div class="news-section">
-        <div class="news-section__hd">
-          <span class="news-section__label">Geopolitics Watch</span>
-          <a href="#" class="news-section__more">View all ›</a>
-        </div>
-        <div class="story-grid">
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #141824 0%, #22304a 100%);"></div>
-            </div>
-            <span class="kicker">Geopolitics</span>
-            <a href="#" class="story-card__title">Ceasefire Probability in Eastern Europe Rises to 52% on Delphi Markets</a>
-            <p class="story-card__excerpt">A surge in diplomatic activity shifted Delphi prediction market odds toward a negotiated ceasefire within 90 days.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 16</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">5 min</span>
-            </div>
-          </div>
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #200808 0%, #4a1212 100%);"></div>
-            </div>
-            <span class="kicker">Trade</span>
-            <a href="#" class="story-card__title">U.S.–China Trade Friction Intensifies: Tariff Escalation Odds Now at 41%</a>
-            <p class="story-card__excerpt">Delphi data shows a meaningful shift in market-implied probability of expanded tariffs following latest export control measures.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 15</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">4 min</span>
-            </div>
-          </div>
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0a1826 0%, #0e2e50 100%);"></div>
-            </div>
-            <span class="kicker">Energy</span>
-            <a href="#" class="story-card__title">Middle East Supply Risk Premium Repriced as Regional Tensions Ease</a>
-            <p class="story-card__excerpt">Oil markets recalibrate as Delphi's geopolitical risk index ticks down 3 points from its March peak.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 14</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">3 min</span>
-            </div>
-          </div>
-
-          <div class="story-card">
-            <div class="story-card__img-wrap">
-              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0a2210 0%, #144020 100%);"></div>
-            </div>
-            <span class="kicker">Macro</span>
-            <a href="#" class="story-card__title">Emerging Market Capital Flows Stabilize as Dollar Index Retreats</a>
-            <p class="story-card__excerpt">EM bond markets see renewed inflows as the DXY pulls back, with Delphi's GRPI index reflecting improved confidence in EM allocations.</p>
-            <div class="meta">
-              <span class="meta__date">Mar 13</span>
-              <span class="meta__dot"></span>
-              <span class="meta__time">4 min</span>
-            </div>
-          </div>
-
         </div>
       </div>
 
