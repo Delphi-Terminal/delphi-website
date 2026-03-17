@@ -294,6 +294,31 @@
     }
     .news-section__more:hover { opacity: 0.7; }
 
+    .economy-card {
+      display: block;
+      padding: 24px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.08);
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .economy-card:hover { opacity: 0.82; }
+    .economy-card__title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 600;
+      line-height: 1.32;
+      letter-spacing: -0.02em;
+      color: #0a1f44;
+      margin-bottom: 10px;
+    }
+    .economy-card__excerpt {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: rgba(10,31,68,0.6);
+    }
+
     /* Signals 2-column layout */
     .signals-grid {
       display: grid;
@@ -530,6 +555,25 @@
 
       </div>
       <!-- /news-grid -->
+
+      <!-- ── SECTION: Economy ── -->
+      <div class="news-section">
+        <div class="news-section__hd">
+          <span class="news-section__label">Economy</span>
+        </div>
+        <a href="/articles/recession-yield-curve-normalizes.html" class="economy-card">
+          <div class="economy-card__content">
+            <span class="kicker">Economy</span>
+            <h3 class="economy-card__title">Recession Fears Recede as Yield Curve Normalizes</h3>
+            <p class="economy-card__excerpt">Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn. The spread between the 10 year and 3 month Treasury yields has moved back into positive territory.</p>
+            <div class="meta">
+              <span class="meta__author">Sahana Lydia</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 17, 2026</span>
+            </div>
+          </div>
+        </a>
+      </div>
 
       <!-- ── SECTION: Signals From X and Search ── -->
       <div class="news-section" id="signals-section">
