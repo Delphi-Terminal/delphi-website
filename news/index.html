@@ -413,6 +413,17 @@
     .signal-item__trend.dn { color: #dc2626; }
     .signal-item__trend.nt { color: rgba(10,31,68,0.35); }
 
+    .signals-loading {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px; color: rgba(10,31,68,0.35);
+      padding: 16px 0;
+    }
+    .signals-updated {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 400;
+      color: rgba(10,31,68,0.3); letter-spacing: 0.03em;
+    }
+
     /* ── Footer ── */
     .site-footer {
       background: #0a1f44;
@@ -767,71 +778,20 @@
       </div>
 
       <!-- ── SECTION: Signals From X and Search ── -->
-      <div class="news-section">
+      <div class="news-section" id="signals-section">
         <div class="news-section__hd">
           <span class="news-section__label">Signals From X and Search</span>
-          <a href="#" class="news-section__more">View methodology ›</a>
+          <span class="signals-updated" id="signals-updated"></span>
         </div>
-        <div class="signals-grid">
-
+        <div class="signals-grid" id="signals-grid">
           <div class="signals-col">
             <p class="signals-col__label">Trending Search Terms — Finance</p>
-            <div class="signal-item">
-              <span class="signal-item__term">Federal Reserve rate cut</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:88%"></div></div>
-              <span class="signal-item__trend up">+34%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">Bitcoin ETF inflows</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:74%"></div></div>
-              <span class="signal-item__trend up">+21%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">Gold price forecast</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:61%"></div></div>
-              <span class="signal-item__trend up">+15%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">Recession probability 2026</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:52%"></div></div>
-              <span class="signal-item__trend dn">−8%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">S&P 500 earnings season</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:45%"></div></div>
-              <span class="signal-item__trend nt">flat</span>
-            </div>
+            <div id="signals-search" class="signals-loading">Loading…</div>
           </div>
-
           <div class="signals-col">
-            <p class="signals-col__label">Attention on X — Market Conversations</p>
-            <div class="signal-item">
-              <span class="signal-item__term">CPI miss / inflation narrative</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:91%"></div></div>
-              <span class="signal-item__trend up">+47%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">BTC $100K milestone debate</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:79%"></div></div>
-              <span class="signal-item__trend up">+29%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">SEC digital asset rules</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:66%"></div></div>
-              <span class="signal-item__trend up">+18%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">AI chip demand / semiconductors</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:58%"></div></div>
-              <span class="signal-item__trend dn">−5%</span>
-            </div>
-            <div class="signal-item">
-              <span class="signal-item__term">Geopolitical risk premium</span>
-              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:40%"></div></div>
-              <span class="signal-item__trend nt">flat</span>
-            </div>
+            <p class="signals-col__label">Market Conversations — Reddit & Social</p>
+            <div id="signals-conversations" class="signals-loading">Loading…</div>
           </div>
-
         </div>
       </div>
 
@@ -951,6 +911,59 @@
           item.classList.add('cat-nav__item--active');
         });
       });
+
+      /* ── Signals: fetch signals.json and render dynamically ── */
+      function buildSignalItem(item) {
+        var dirClass = item.direction || 'nt';
+        var el = document.createElement('div');
+        el.className = 'signal-item';
+        el.innerHTML =
+          '<span class="signal-item__term">' + item.term + '</span>' +
+          '<div class="signal-item__bar-wrap">' +
+            '<div class="signal-item__bar" style="width:' + (item.value || 50) + '%"></div>' +
+          '</div>' +
+          '<span class="signal-item__trend ' + dirClass + '">' + (item.change || '—') + '</span>';
+        return el;
+      }
+
+      function renderSignals(data) {
+        var searchEl = document.getElementById('signals-search');
+        var convEl   = document.getElementById('signals-conversations');
+        var updEl    = document.getElementById('signals-updated');
+
+        if (searchEl && data.search_trends) {
+          searchEl.innerHTML = '';
+          data.search_trends.forEach(function(item) {
+            searchEl.appendChild(buildSignalItem(item));
+          });
+        }
+
+        if (convEl && data.market_conversations) {
+          convEl.innerHTML = '';
+          data.market_conversations.forEach(function(item) {
+            convEl.appendChild(buildSignalItem(item));
+          });
+        }
+
+        if (updEl && data.updated) {
+          var d = new Date(data.updated);
+          var now = new Date();
+          var diffMins = Math.round((now - d) / 60000);
+          var label = diffMins < 60
+            ? 'Updated ' + diffMins + 'm ago'
+            : 'Updated ' + Math.round(diffMins / 60) + 'h ago';
+          updEl.textContent = label;
+        }
+      }
+
+      fetch('../signals.json?v=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) { renderSignals(data); })
+        .catch(function() {
+          var els = document.querySelectorAll('.signals-loading');
+          els.forEach(function(el) { el.textContent = 'Data unavailable.'; });
+        });
+
     })();
   </script>
 </body>

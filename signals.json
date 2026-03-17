@@ -1,0 +1,17 @@
+{
+  "updated": "2026-03-17T00:00:00Z",
+  "search_trends": [
+    { "term": "Federal Reserve rate cut",  "value": 88, "change": "+34%", "direction": "up" },
+    { "term": "Bitcoin ETF",               "value": 74, "change": "+21%", "direction": "up" },
+    { "term": "Gold price forecast",       "value": 61, "change": "+15%", "direction": "up" },
+    { "term": "Recession 2026",            "value": 52, "change": "−8%",  "direction": "dn" },
+    { "term": "S&P 500 earnings",          "value": 45, "change": "flat", "direction": "nt" }
+  ],
+  "market_conversations": [
+    { "term": "Inflation / CPI narrative",     "value": 91, "change": "+47%", "direction": "up" },
+    { "term": "Bitcoin price action",          "value": 79, "change": "+29%", "direction": "up" },
+    { "term": "SEC crypto regulation",         "value": 66, "change": "+18%", "direction": "up" },
+    { "term": "AI stocks & semiconductors",    "value": 58, "change": "−5%",  "direction": "dn" },
+    { "term": "Geopolitical risk premium",     "value": 40, "change": "flat", "direction": "nt" }
+  ]
+}
