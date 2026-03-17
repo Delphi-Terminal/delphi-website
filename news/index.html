@@ -165,50 +165,13 @@
     }
     @media (max-width: 768px) { .news-wrap { padding: 0 20px; } }
 
-    /* ── Delphi Indices Ticker ── */
-    .delphi-ticker {
-      display: flex;
-      align-items: center;
-      padding: 11px 0;
+    /* ── Live Market Ticker ── */
+    .market-ticker-wrap {
       border-bottom: 1px solid rgba(10,31,68,0.1);
-      overflow-x: auto;
-      scrollbar-width: none;
-      gap: 0;
     }
-    .delphi-ticker::-webkit-scrollbar { display: none; }
-    .delphi-ticker__label {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: rgba(10,31,68,0.38);
-      padding-right: 20px;
-      border-right: 1px solid rgba(10,31,68,0.12);
-      margin-right: 20px;
-      flex-shrink: 0;
+    .market-ticker-wrap .tradingview-widget-container {
+      width: 100%;
     }
-    .ticker-item {
-      display: flex; align-items: baseline; gap: 7px;
-      padding: 0 18px;
-      border-right: 1px solid rgba(10,31,68,0.08);
-      flex-shrink: 0;
-    }
-    .ticker-item:last-child { border-right: none; }
-    .ticker-item__name {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.07em; text-transform: uppercase;
-      color: rgba(10,31,68,0.5);
-    }
-    .ticker-item__val {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 13px; font-weight: 700; color: #0a1f44;
-    }
-    .ticker-item__chg {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 11px; font-weight: 500;
-    }
-    .ticker-item__chg.up { color: #16a34a; }
-    .ticker-item__chg.dn { color: #dc2626; }
-    .ticker-item__chg.nt { color: rgba(10,31,68,0.35); }
 
     /* ── Shared: Kicker ── */
     .kicker {
@@ -555,33 +518,33 @@
 
     <div class="news-wrap">
 
-      <!-- Delphi Indices Ticker -->
-      <div class="delphi-ticker">
-        <span class="delphi-ticker__label">Delphi Indices</span>
-        <div class="ticker-item">
-          <span class="ticker-item__name">FRPI</span>
-          <span class="ticker-item__val">74.2</span>
-          <span class="ticker-item__chg up">+1.8%</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-item__name">GRPI</span>
-          <span class="ticker-item__val">61.5</span>
-          <span class="ticker-item__chg dn">−0.4%</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-item__name">PMIE</span>
-          <span class="ticker-item__val">58.9</span>
-          <span class="ticker-item__chg up">+2.1%</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-item__name">Recession Prob.</span>
-          <span class="ticker-item__val">31%</span>
-          <span class="ticker-item__chg dn">−2 pts</span>
-        </div>
-        <div class="ticker-item">
-          <span class="ticker-item__name">Rate Cut Prob.</span>
-          <span class="ticker-item__val">44%</span>
-          <span class="ticker-item__chg nt">flat</span>
+      <!-- Live Market Ticker -->
+      <div class="market-ticker-wrap">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+            "symbols": [
+              { "proName": "FOREXCOM:SPXUSD",  "title": "S&P 500"  },
+              { "proName": "NASDAQ:NVDA",       "title": "NVIDIA"   },
+              { "proName": "NASDAQ:MSFT",       "title": "Microsoft"},
+              { "proName": "NASDAQ:GOOGL",      "title": "Alphabet" },
+              { "proName": "NASDAQ:META",       "title": "Meta"     },
+              { "proName": "NASDAQ:AMZN",       "title": "Amazon"   },
+              { "proName": "NASDAQ:AAPL",       "title": "Apple"    },
+              { "proName": "NASDAQ:TSLA",       "title": "Tesla"    },
+              { "proName": "NYSE:JPM",          "title": "JPMorgan" },
+              { "proName": "NYMEX:CL1!",        "title": "Crude Oil"},
+              { "proName": "COMEX:GC1!",        "title": "Gold"     },
+              { "proName": "FOREXCOM:NSXUSD",   "title": "Nasdaq 100"}
+            ],
+            "showSymbolLogo": false,
+            "isTransparent": true,
+            "displayMode": "compact",
+            "colorTheme": "light",
+            "locale": "en"
+          }
+          </script>
         </div>
       </div>
 
