@@ -212,7 +212,7 @@
     /* ── Three-Column Grid ── */
     .news-grid {
       display: grid;
-      grid-template-columns: 268px 1fr 268px;
+      grid-template-columns: 268px 1fr;
       gap: 0;
       padding: 28px 0 36px;
       border-bottom: 1px solid rgba(10,31,68,0.1);
@@ -222,10 +222,6 @@
       border-right: 1px solid rgba(10,31,68,0.1);
     }
     .news-grid__center { padding: 0 34px; }
-    .news-grid__right {
-      padding-left: 30px;
-      border-left: 1px solid rgba(10,31,68,0.1);
-    }
 
     /* ── Article Preview (left/right sidebar) ── */
     .article-preview {
@@ -272,53 +268,6 @@
       font-size: 14px; font-weight: 300;
       line-height: 1.72; color: rgba(10,31,68,0.56);
     }
-
-    /* ── Compact Item (right sidebar rows) ── */
-    .compact-item {
-      display: flex; gap: 12px;
-      padding: 13px 0;
-      border-bottom: 1px solid rgba(10,31,68,0.07);
-    }
-    .compact-item:last-child { border-bottom: none; }
-    .compact-item__thumb {
-      width: 66px; height: 50px;
-      flex-shrink: 0; overflow: hidden;
-    }
-    .compact-item__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .compact-item__thumb-ph { width: 100%; height: 100%; }
-    .compact-item__body { flex: 1; min-width: 0; }
-    .compact-item__author {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.09em; text-transform: uppercase;
-      color: #2057a7; margin-bottom: 4px;
-    }
-    .compact-item__title {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 13px; font-weight: 600;
-      line-height: 1.36; letter-spacing: -0.01em;
-      color: #0a1f44; text-decoration: none;
-      display: block; transition: opacity 0.15s;
-    }
-    .compact-item__title:hover { opacity: 0.68; }
-
-    /* ── Watch Block (inside right sidebar) ── */
-    .watch-block {
-      background: #f4f6f9;
-      padding: 16px 16px 4px;
-      margin-top: 18px;
-    }
-    .watch-block__hd {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: rgba(10,31,68,0.36);
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(10,31,68,0.1);
-      margin-bottom: 0;
-    }
-    .watch-block .article-preview { padding: 14px 0; }
-    .watch-block .article-preview__excerpt { font-size: 11.5px; }
 
     /* ── Below-Grid Sections ── */
     .news-section {
@@ -420,10 +369,9 @@
        RESPONSIVE
     ───────────────────────────────────── */
     @media (max-width: 1100px) {
-      .news-grid { grid-template-columns: 228px 1fr 228px; }
+      .news-grid { grid-template-columns: 220px 1fr; }
       .news-grid__left { padding-right: 24px; }
       .news-grid__center { padding: 0 26px; }
-      .news-grid__right { padding-left: 24px; }
     }
 
     @media (max-width: 900px) {
@@ -435,12 +383,6 @@
         border-top: 1px solid rgba(10,31,68,0.1);
       }
       .news-grid__center { padding: 0; order: 1; }
-      .news-grid__right {
-        padding-left: 0; border-left: none;
-        order: 3;
-        padding-top: 28px;
-        border-top: 1px solid rgba(10,31,68,0.1);
-      }
       .signals-grid { grid-template-columns: 1fr; gap: 28px; }
       .signal-item__term { flex: 0 0 160px; }
     }
@@ -506,18 +448,19 @@
           <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
           {
             "symbols": [
-              { "proName": "FOREXCOM:SPXUSD",  "title": "S&P 500"  },
-              { "proName": "NASDAQ:NVDA",       "title": "NVIDIA"   },
-              { "proName": "NASDAQ:MSFT",       "title": "Microsoft"},
-              { "proName": "NASDAQ:GOOGL",      "title": "Alphabet" },
-              { "proName": "NASDAQ:META",       "title": "Meta"     },
-              { "proName": "NASDAQ:AMZN",       "title": "Amazon"   },
-              { "proName": "NASDAQ:AAPL",       "title": "Apple"    },
-              { "proName": "NASDAQ:TSLA",       "title": "Tesla"    },
-              { "proName": "NYSE:JPM",          "title": "JPMorgan" },
-              { "proName": "NYMEX:CL1!",        "title": "Crude Oil"},
-              { "proName": "COMEX:GC1!",        "title": "Gold"     },
-              { "proName": "FOREXCOM:NSXUSD",   "title": "Nasdaq 100"}
+              { "proName": "FOREXCOM:SPXUSD",   "title": "S&P 500"    },
+              { "proName": "COINBASE:BTCUSD",   "title": "Bitcoin"     },
+              { "proName": "NASDAQ:NVDA",       "title": "NVIDIA"      },
+              { "proName": "NASDAQ:MSFT",       "title": "Microsoft"   },
+              { "proName": "NASDAQ:GOOGL",      "title": "Alphabet"    },
+              { "proName": "NASDAQ:META",       "title": "Meta"        },
+              { "proName": "NASDAQ:AMZN",       "title": "Amazon"      },
+              { "proName": "NASDAQ:AAPL",       "title": "Apple"       },
+              { "proName": "NASDAQ:TSLA",       "title": "Tesla"       },
+              { "proName": "NYSE:JPM",          "title": "JPMorgan"    },
+              { "proName": "TVC:USOIL",         "title": "Crude Oil"   },
+              { "proName": "TVC:GOLD",          "title": "Gold"        },
+              { "proName": "FOREXCOM:NSXUSD",   "title": "Nasdaq 100"  }
             ],
             "showSymbolLogo": false,
             "isTransparent": true,
@@ -608,75 +551,6 @@
           </div>
         </div>
 
-        <!-- RIGHT: Opinion + AI Watch -->
-        <div class="news-grid__right">
-          <p class="col-hd">Opinion</p>
-
-          <div class="compact-item" style="padding-top:13px">
-            <div class="compact-item__thumb">
-              <div class="compact-item__thumb-ph" style="background: #1a3260;"></div>
-            </div>
-            <div class="compact-item__body">
-              <p class="compact-item__author">Dr. Sarah Mitchell</p>
-              <a href="#" class="compact-item__title">The Fed's Credibility Problem Is the Market's Volatility Problem</a>
-            </div>
-          </div>
-
-          <div class="compact-item">
-            <div class="compact-item__thumb">
-              <div class="compact-item__thumb-ph" style="background: #1e4a2e;"></div>
-            </div>
-            <div class="compact-item__body">
-              <p class="compact-item__author">Michael R. Foster</p>
-              <a href="#" class="compact-item__title">Why Institutional Allocators Are Rethinking the 60/40 in 2026</a>
-            </div>
-          </div>
-
-          <div class="compact-item">
-            <div class="compact-item__thumb">
-              <div class="compact-item__thumb-ph" style="background: #2d1a5e;"></div>
-            </div>
-            <div class="compact-item__body">
-              <p class="compact-item__author">Alexandra K. Dunn, Esq.</p>
-              <a href="#" class="compact-item__title">Digital Asset Regulation: Why Clarity Is More Valuable Than Leniency</a>
-            </div>
-          </div>
-
-          <div class="compact-item">
-            <div class="compact-item__thumb">
-              <div class="compact-item__thumb-ph" style="background: #3d2a0a;"></div>
-            </div>
-            <div class="compact-item__body">
-              <p class="compact-item__author">James T. Harrington</p>
-              <a href="#" class="compact-item__title">The Case for Commodities in a Late-Cycle Portfolio</a>
-            </div>
-          </div>
-
-          <!-- AI Watch -->
-          <div class="watch-block">
-            <p class="watch-block__hd">AI Watch</p>
-            <div class="article-preview">
-              <span class="kicker">AI</span>
-              <a href="#" class="article-preview__title">AI Inference Costs Fall 60% in 12 Months — What It Means for Markets</a>
-              <p class="article-preview__excerpt">Delphi analysis tracks a sharp decline in model compute costs and its downstream effect on tech sector prediction markets.</p>
-              <div class="meta">
-                <span class="meta__author">Delphi Research</span>
-                <span class="meta__dot"></span>
-                <span class="meta__date">Mar 15</span>
-              </div>
-            </div>
-            <div class="article-preview">
-              <span class="kicker">AI</span>
-              <a href="#" class="article-preview__title">Prediction Markets on AI Regulation: Europe vs. U.S. Divergence Widens</a>
-              <div class="meta">
-                <span class="meta__author">Platform Team</span>
-                <span class="meta__dot"></span>
-                <span class="meta__date">Mar 13</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
       <!-- /news-grid -->
 
@@ -689,11 +563,23 @@
         <div class="signals-grid" id="signals-grid">
           <div class="signals-col">
             <p class="signals-col__label">Trending Search Terms — Finance</p>
-            <div id="signals-search" class="signals-loading">Loading…</div>
+            <div id="signals-search">
+              <div class="signal-item"><span class="signal-item__term">Federal Reserve rate cut</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:88%"></div></div><span class="signal-item__trend up">+34%</span></div>
+              <div class="signal-item"><span class="signal-item__term">Bitcoin ETF</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:74%"></div></div><span class="signal-item__trend up">+21%</span></div>
+              <div class="signal-item"><span class="signal-item__term">Gold price forecast</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:61%"></div></div><span class="signal-item__trend up">+15%</span></div>
+              <div class="signal-item"><span class="signal-item__term">Recession 2026</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:52%"></div></div><span class="signal-item__trend dn">−8%</span></div>
+              <div class="signal-item"><span class="signal-item__term">S&amp;P 500 earnings</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:45%"></div></div><span class="signal-item__trend nt">flat</span></div>
+            </div>
           </div>
           <div class="signals-col">
-            <p class="signals-col__label">Market Conversations — Reddit & Social</p>
-            <div id="signals-conversations" class="signals-loading">Loading…</div>
+            <p class="signals-col__label">Market Conversations — Reddit &amp; Social</p>
+            <div id="signals-conversations">
+              <div class="signal-item"><span class="signal-item__term">Inflation / CPI narrative</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:91%"></div></div><span class="signal-item__trend up">+47%</span></div>
+              <div class="signal-item"><span class="signal-item__term">Bitcoin price action</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:79%"></div></div><span class="signal-item__trend up">+29%</span></div>
+              <div class="signal-item"><span class="signal-item__term">SEC crypto regulation</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:66%"></div></div><span class="signal-item__trend up">+18%</span></div>
+              <div class="signal-item"><span class="signal-item__term">AI stocks &amp; semiconductors</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:58%"></div></div><span class="signal-item__trend dn">−5%</span></div>
+              <div class="signal-item"><span class="signal-item__term">Geopolitical risk premium</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:40%"></div></div><span class="signal-item__trend nt">flat</span></div>
+            </div>
           </div>
         </div>
       </div>
