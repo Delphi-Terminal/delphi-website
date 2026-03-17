@@ -455,6 +455,7 @@
     <nav class="cat-nav" aria-label="News categories">
       <ul class="cat-nav__inner">
         <li class="cat-nav__item cat-nav__item--active"><a href="#">All</a></li>
+        <li class="cat-nav__item"><a href="../articles/recession-yield-curve-normalizes.html">Economy</a></li>
         <li class="cat-nav__item"><a href="#">U.S.</a></li>
         <li class="cat-nav__item"><a href="#">World</a></li>
         <li class="cat-nav__item"><a href="#">Markets</a></li>
@@ -482,6 +483,19 @@
           <p class="col-hd">Latest</p>
 
           <div class="article-preview" style="padding-top:18px">
+            <span class="kicker">Economy</span>
+            <a href="../articles/recession-yield-curve-normalizes.html" class="article-preview__title">Recession Fears Recede as Yield Curve Normalizes</a>
+            <p class="article-preview__excerpt">Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn. The spread between the 10 year and 3 month Treasury yields has moved back into positive territory.</p>
+            <div class="meta">
+              <span class="meta__author">Sahana Lydia</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 17</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">5 min</span>
+            </div>
+          </div>
+
+          <div class="article-preview">
             <span class="kicker">Research</span>
             <a href="#" class="article-preview__title">Global Equity Markets: Q1 2026 Performance Review and Forward Outlook</a>
             <p class="article-preview__excerpt">A comprehensive analysis of equity market dynamics across regions, with implications for institutional reallocation through mid-year.</p>
@@ -561,7 +575,7 @@
         <div class="news-section__hd">
           <span class="news-section__label">Economy</span>
         </div>
-        <a href="/articles/recession-yield-curve-normalizes.html" class="economy-card">
+        <a href="../articles/recession-yield-curve-normalizes.html" class="economy-card">
           <div class="economy-card__content">
             <span class="kicker">Economy</span>
             <h3 class="economy-card__title">Recession Fears Recede as Yield Curve Normalizes</h3>
@@ -684,10 +698,15 @@
       /* Category nav tab switching */
       var catItems = document.querySelectorAll('.cat-nav__item');
       catItems.forEach(function(item) {
-        item.querySelector('a').addEventListener('click', function(e) {
-          e.preventDefault();
-          catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
-          item.classList.add('cat-nav__item--active');
+        var link = item.querySelector('a');
+        if (!link) return;
+        link.addEventListener('click', function(e) {
+          var href = link.getAttribute('href') || '';
+          if (href === '#' || href === '') {
+            e.preventDefault();
+            catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
+            item.classList.add('cat-nav__item--active');
+          }
         });
       });
 
