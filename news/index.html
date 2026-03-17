@@ -444,32 +444,8 @@
 
       <!-- Live Market Ticker -->
       <div class="market-ticker-wrap">
-        <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container" id="tv-ticker-tape">
           <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-          {
-            "symbols": [
-              { "proName": "FOREXCOM:SPXUSD",   "title": "S&P 500"    },
-              { "proName": "COINBASE:BTCUSD",   "title": "Bitcoin"     },
-              { "proName": "NASDAQ:NVDA",       "title": "NVIDIA"      },
-              { "proName": "NASDAQ:MSFT",       "title": "Microsoft"   },
-              { "proName": "NASDAQ:GOOGL",      "title": "Alphabet"    },
-              { "proName": "NASDAQ:META",       "title": "Meta"        },
-              { "proName": "NASDAQ:AMZN",       "title": "Amazon"      },
-              { "proName": "NASDAQ:AAPL",       "title": "Apple"       },
-              { "proName": "NASDAQ:TSLA",       "title": "Tesla"       },
-              { "proName": "NYSE:JPM",          "title": "JPMorgan"    },
-              { "proName": "TVC:USOIL",         "title": "Crude Oil"   },
-              { "proName": "TVC:GOLD",          "title": "Gold"        },
-              { "proName": "FOREXCOM:NSXUSD",   "title": "Nasdaq 100"  }
-            ],
-            "showSymbolLogo": false,
-            "isTransparent": true,
-            "displayMode": "compact",
-            "colorTheme": "light",
-            "locale": "en"
-          }
-          </script>
         </div>
       </div>
 
@@ -624,6 +600,42 @@
         });
         if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
       }
+
+      /* ── TradingView ticker tape ── */
+      (function() {
+        var container = document.getElementById('tv-ticker-tape');
+        if (!container) return;
+        var cfg = {
+          symbols: [
+            { proName: 'FOREXCOM:SPXUSD',  title: 'S\u0026P 500'  },
+            { proName: 'COINBASE:BTCUSD',  title: 'Bitcoin'        },
+            { proName: 'NASDAQ:NVDA',      title: 'NVIDIA'         },
+            { proName: 'NASDAQ:MSFT',      title: 'Microsoft'      },
+            { proName: 'NASDAQ:GOOGL',     title: 'Alphabet'       },
+            { proName: 'NASDAQ:META',      title: 'Meta'           },
+            { proName: 'NASDAQ:AMZN',      title: 'Amazon'         },
+            { proName: 'NASDAQ:AAPL',      title: 'Apple'          },
+            { proName: 'NASDAQ:TSLA',      title: 'Tesla'          },
+            { proName: 'NYSE:JPM',         title: 'JPMorgan'       },
+            { proName: 'TVC:USOIL',        title: 'Crude Oil'      },
+            { proName: 'TVC:GOLD',         title: 'Gold'           },
+            { proName: 'FOREXCOM:NSXUSD',  title: 'Nasdaq 100'     }
+          ],
+          showSymbolLogo: false,
+          isTransparent: true,
+          displayMode: 'compact',
+          colorTheme: 'light',
+          locale: 'en'
+        };
+        var cfgScript = document.createElement('script');
+        cfgScript.textContent = JSON.stringify(cfg);
+        var widgetScript = document.createElement('script');
+        widgetScript.type = 'text/javascript';
+        widgetScript.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+        widgetScript.async = true;
+        widgetScript.appendChild(cfgScript);
+        container.appendChild(widgetScript);
+      })();
 
       /* Category nav tab switching */
       var catItems = document.querySelectorAll('.cat-nav__item');
