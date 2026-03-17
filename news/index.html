@@ -651,7 +651,7 @@
       })();
 
       /* ── Category filtering (WSJ-style headline list) ── */
-      var articleBase = location.pathname.indexOf('/news/') !== -1 ? '../' : '';
+      var articleBase = location.pathname.indexOf('news') !== -1 ? '../' : '';
       var articles = [];
 
       function normArticle(a) {
@@ -668,31 +668,33 @@
 
         function renderCategory(cat) {
           var filtered = cat === 'all' ? articles : articles.filter(function(a) { return a.cat === cat; });
-        catViewTitle.textContent = cat === 'all' ? 'All' : cat;
-        catViewList.innerHTML = '';
-        filtered.forEach(function(a, i) {
-          var div = document.createElement('div');
-          div.className = 'article-preview';
-          if (i === 0) div.style.paddingTop = '18px';
-          div.innerHTML =
-            '<span class="kicker">' + a.cat + '</span>' +
-            '<a href="' + a.url + '" class="article-preview__title">' + a.title + '</a>' +
-            (a.sub ? '<p class="article-preview__excerpt">' + a.sub + '</p>' : '') +
-            '<div class="meta">' +
-              '<span class="meta__author">' + a.author + '</span>' +
-              '<span class="meta__dot"></span>' +
-              '<span class="meta__date">' + a.date + '</span>' +
-            '</div>';
-          catViewList.appendChild(div);
-        });
-        if (cat === 'all') {
-          catView.classList.remove('is-visible');
-          newsDefault.classList.remove('is-hidden');
-        } else {
-          catView.classList.add('is-visible');
-          newsDefault.classList.add('is-hidden');
+          catViewTitle.textContent = cat === 'all' ? 'All' : cat;
+          catViewList.innerHTML = '';
+          filtered.forEach(function(a, i) {
+            var div = document.createElement('div');
+            div.className = 'article-preview';
+            if (i === 0) div.style.paddingTop = '18px';
+            div.innerHTML =
+              '<span class="kicker">' + a.cat + '</span>' +
+              '<a href="' + a.url + '" class="article-preview__title">' + a.title + '</a>' +
+              (a.sub ? '<p class="article-preview__excerpt">' + a.sub + '</p>' : '') +
+              '<div class="meta">' +
+                '<span class="meta__author">' + a.author + '</span>' +
+                '<span class="meta__dot"></span>' +
+                '<span class="meta__date">' + a.date + '</span>' +
+              '</div>';
+            catViewList.appendChild(div);
+          });
+          if (cat === 'all') {
+            catView.classList.remove('is-visible');
+            newsDefault.classList.remove('is-hidden');
+          } else {
+            catView.classList.add('is-visible');
+            newsDefault.classList.add('is-hidden');
+          }
         }
 
+        /* ── Category nav: attach click handlers once ── */
         var catItems = document.querySelectorAll('.cat-nav__item');
         catItems.forEach(function(item) {
           var link = item.querySelector('a');
@@ -742,7 +744,7 @@
         }
       }
 
-      fetch('../articles.json?v=' + Date.now())
+      fetch((articleBase || '') + 'articles.json?v=' + Date.now())
         .then(function(r) { return r.json(); })
         .then(initArticles)
         .catch(function() { initArticles([]); });
