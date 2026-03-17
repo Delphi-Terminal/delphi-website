@@ -121,6 +121,9 @@
 
     /* ── Category Nav ── */
     .cat-nav {
+      position: sticky;
+      top: 64px;
+      z-index: 40;
       border-bottom: 1px solid rgba(10,31,68,0.14);
       background: #fff;
       overflow-x: auto;
@@ -148,6 +151,7 @@
     .cat-nav__item a:hover { color: #0a1f44; }
     .cat-nav__item--active a { color: #0a1f44; border-bottom-color: #0a1f44; }
     @media (max-width: 768px) {
+      .cat-nav { top: 56px; }
       .cat-nav__inner { padding: 0 20px; }
     }
 
@@ -158,38 +162,6 @@
       padding: 0 40px;
     }
     @media (max-width: 768px) { .news-wrap { padding: 0 20px; } }
-
-    /* ── Editor's Note ── */
-    .editors-note {
-      display: flex;
-      align-items: baseline;
-      gap: 20px;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(10,31,68,0.1);
-    }
-    .editors-note__label {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10px; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: #2057a7; flex-shrink: 0;
-    }
-    .editors-note__body {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 13px; font-weight: 400;
-      line-height: 1.65; color: rgba(10,31,68,0.58);
-      flex: 1;
-    }
-    .editors-note__body strong { color: #0a1f44; font-weight: 600; }
-    .editors-note__date {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 11px; font-weight: 400;
-      color: rgba(10,31,68,0.3); flex-shrink: 0;
-      letter-spacing: 0.03em;
-    }
-    @media (max-width: 600px) {
-      .editors-note { flex-direction: column; gap: 8px; }
-      .editors-note__date { display: none; }
-    }
 
     /* ── Delphi Indices Ticker ── */
     .delphi-ticker {
@@ -580,15 +552,6 @@
     </nav>
 
     <div class="news-wrap">
-
-      <!-- Editor's Note -->
-      <div class="editors-note">
-        <span class="editors-note__label">Editor's Note</span>
-        <p class="editors-note__body">
-          <strong>Macro uncertainty is at a cycle peak.</strong> This week, Delphi analysis tracks a narrowing consensus window on rate cuts, renewed volatility in digital assets following regulatory clarity signals, and the first measurable divergence between search-driven sentiment and market positioning in 14 months. We're watching closely.
-        </p>
-        <span class="editors-note__date">Mar 17, 2026</span>
-      </div>
 
       <!-- Delphi Indices Ticker -->
       <div class="delphi-ticker">
