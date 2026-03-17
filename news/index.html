@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>News – Delphi Terminal</title>
+  <title>Delphi Intelligence — News & Analysis</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a1f44'/><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>D</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,89 +18,49 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ─────────────────────────────────────
+       HEADER  (unchanged from existing site)
+    ───────────────────────────────────── */
     .header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 40px;
-      height: 64px;
-      background: transparent;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 64px; background: transparent;
     }
-
-    .header__brand {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .header__brand-icon {
-      height: 64px;
-      width: auto;
-      mix-blend-mode: multiply;
-    }
-
-    .header__nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-
+    .header__brand { display: flex; align-items: center; text-decoration: none; }
+    .header__brand-icon { height: 64px; width: auto; mix-blend-mode: multiply; }
+    .header__nav { display: flex; align-items: center; gap: 28px; list-style: none; }
     .header__nav a {
-      color: #0a1f44;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      padding: 6px 14px;
-      border-radius: 20px;
-      transition: all 0.2s ease;
+      color: #0a1f44; text-decoration: none;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px; font-weight: 500; letter-spacing: -0.01em;
+      padding: 6px 14px; border-radius: 20px; transition: all 0.2s ease;
     }
-
     .header__nav a:hover { opacity: 0.7; }
-
-    .header__nav a.is-active {
-      background: #0a1f44;
-      color: #fff;
-    }
-
-    .header__row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-
+    .header__nav a.is-active { background: #0a1f44; color: #fff; }
+    .header__row { display: flex; align-items: center; justify-content: space-between; width: 100%; }
     .header__menu-btn {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-      width: 48px;
-      height: 48px;
-      padding: 12px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 60;
-      -webkit-tap-highlight-color: transparent;
-      margin-right: -8px;
+      display: none; flex-direction: column; justify-content: center;
+      align-items: center; gap: 5px; width: 48px; height: 48px; padding: 12px;
+      background: none; border: none; cursor: pointer; z-index: 60;
+      -webkit-tap-highlight-color: transparent; margin-right: -8px;
     }
     .header__menu-btn span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: #0a1f44;
-      border-radius: 1px;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      display: block; width: 22px; height: 2px; background: #0a1f44;
+      border-radius: 1px; transition: transform 0.2s ease, opacity 0.2s ease;
     }
     .header__menu-btn.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .header__menu-btn.is-open span:nth-child(2) { opacity: 0; }
     .header__menu-btn.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .header__nav-backdrop {
+      display: none; position: fixed; inset: 0;
+      background: rgba(10,31,68,0.15); z-index: 54;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .header__nav-backdrop.is-visible {
+      display: block; opacity: 1; pointer-events: auto;
+      inset: auto; left: 0; top: 0; bottom: 0;
+      right: min(320px, 85vw); width: auto; height: auto;
+    }
 
     @media (max-width: 768px) {
       .header { padding: 0 20px; height: 56px; }
@@ -108,78 +68,475 @@
       .header__menu-btn { display: flex; }
       .header nav { position: fixed; }
       .header__nav {
-        position: fixed;
-        top: 0; right: 0; bottom: 0;
-        width: min(320px, 85vw);
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        gap: 0;
-        padding: 80px 24px 32px;
-        background: #fff;
-        z-index: 55;
-        box-shadow: -4px 0 24px rgba(10, 31, 68, 0.08);
+        position: fixed; top: 0; right: 0; bottom: 0;
+        width: min(320px, 85vw); flex-direction: column;
+        align-items: stretch; justify-content: flex-start;
+        gap: 0; padding: 80px 24px 32px;
+        background: #fff; z-index: 55;
+        box-shadow: -4px 0 24px rgba(10,31,68,0.08);
         transform: translateX(100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
       }
       .header__nav.is-open { transform: translateX(0); }
-      .header__nav li { border-bottom: 1px solid rgba(10, 31, 68, 0.08); }
+      .header__nav li { border-bottom: 1px solid rgba(10,31,68,0.08); }
       .header__nav li:last-child { border-bottom: none; }
       .header__nav a { display: block; font-size: 18px; padding: 18px 0; border-radius: 0; }
-      .header__nav-backdrop {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(10, 31, 68, 0.15);
-        z-index: 54;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-      }
-      .header__nav-backdrop.is-visible {
-        display: block;
-        opacity: 1;
-        pointer-events: auto;
-        inset: auto;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        right: min(320px, 85vw);
-        width: auto;
-        height: auto;
-      }
-      .page-content { padding: 100px 20px 80px; }
-      .site-footer { padding: 48px 24px 32px !important; }
     }
-    @media (min-width: 769px) {
-      .header__nav-backdrop { display: none !important; }
-    }
+    @media (min-width: 769px) { .header__nav-backdrop { display: none !important; } }
 
-    .page-content {
-      padding: 140px 56px 120px;
-      min-height: 100vh;
+    /* ─────────────────────────────────────
+       NEWS PAGE LAYOUT
+    ───────────────────────────────────── */
+    .news-main {
+      padding-top: 64px;
+      background: #fff;
     }
+    @media (max-width: 768px) { .news-main { padding-top: 56px; } }
 
-    .page-title {
+    /* ── Masthead ── */
+    .news-masthead {
+      text-align: center;
+      padding: 44px 24px 30px;
+      border-bottom: 2px solid #0a1f44;
+    }
+    .news-masthead__title {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(36px, 4vw, 64px);
-      font-weight: 700;
+      font-size: clamp(26px, 4.5vw, 58px);
+      font-weight: 800;
+      letter-spacing: 0.1em;
       color: #0a1f44;
-      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .news-masthead__tagline {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(9px, 1vw, 11px);
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      color: #0a1f44;
+      text-transform: uppercase;
+      margin-top: 11px;
+      opacity: 0.42;
     }
 
-    .page-subtitle {
+    /* ── Category Nav ── */
+    .cat-nav {
+      border-bottom: 1px solid rgba(10,31,68,0.14);
+      background: #fff;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .cat-nav::-webkit-scrollbar { display: none; }
+    .cat-nav__inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 40px;
+      display: flex; gap: 0;
+      list-style: none;
+    }
+    .cat-nav__item a {
+      display: block;
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 18px;
-      font-weight: 300;
-      color: #0a1f44;
-      margin-top: 24px;
-      opacity: 0.6;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(10,31,68,0.38); text-decoration: none;
+      padding: 15px 18px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .cat-nav__item a:hover { color: #0a1f44; }
+    .cat-nav__item--active a { color: #0a1f44; border-bottom-color: #0a1f44; }
+    @media (max-width: 768px) {
+      .cat-nav__inner { padding: 0 20px; }
+    }
+
+    /* ── Content Wrapper ── */
+    .news-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+    @media (max-width: 768px) { .news-wrap { padding: 0 20px; } }
+
+    /* ── Editor's Note ── */
+    .editors-note {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.1);
+    }
+    .editors-note__label {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: #2057a7; flex-shrink: 0;
+    }
+    .editors-note__body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px; font-weight: 400;
+      line-height: 1.65; color: rgba(10,31,68,0.58);
+      flex: 1;
+    }
+    .editors-note__body strong { color: #0a1f44; font-weight: 600; }
+    .editors-note__date {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px; font-weight: 400;
+      color: rgba(10,31,68,0.3); flex-shrink: 0;
+      letter-spacing: 0.03em;
+    }
+    @media (max-width: 600px) {
+      .editors-note { flex-direction: column; gap: 8px; }
+      .editors-note__date { display: none; }
+    }
+
+    /* ── Delphi Indices Ticker ── */
+    .delphi-ticker {
+      display: flex;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.1);
+      overflow-x: auto;
+      scrollbar-width: none;
+      gap: 0;
+    }
+    .delphi-ticker::-webkit-scrollbar { display: none; }
+    .delphi-ticker__label {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(10,31,68,0.38);
+      padding-right: 20px;
+      border-right: 1px solid rgba(10,31,68,0.12);
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    .ticker-item {
+      display: flex; align-items: baseline; gap: 7px;
+      padding: 0 18px;
+      border-right: 1px solid rgba(10,31,68,0.08);
+      flex-shrink: 0;
+    }
+    .ticker-item:last-child { border-right: none; }
+    .ticker-item__name {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: rgba(10,31,68,0.5);
+    }
+    .ticker-item__val {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px; font-weight: 700; color: #0a1f44;
+    }
+    .ticker-item__chg {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px; font-weight: 500;
+    }
+    .ticker-item__chg.up { color: #16a34a; }
+    .ticker-item__chg.dn { color: #dc2626; }
+    .ticker-item__chg.nt { color: rgba(10,31,68,0.35); }
+
+    /* ── Shared: Kicker ── */
+    .kicker {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: #2057a7; display: block; margin-bottom: 7px;
+    }
+
+    /* ── Shared: Meta Row ── */
+    .meta {
+      display: flex; align-items: center; gap: 7px;
+      flex-wrap: wrap; margin-top: 10px;
+    }
+    .meta__author {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px; font-weight: 500; color: rgba(10,31,68,0.5);
+    }
+    .meta__date, .meta__time {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px; font-weight: 400; color: rgba(10,31,68,0.38);
+    }
+    .meta__dot {
+      display: inline-block; width: 2px; height: 2px;
+      border-radius: 50%; background: rgba(10,31,68,0.22);
+    }
+
+    /* ── Shared: Column Header ── */
+    .col-hd {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(10,31,68,0.36);
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(10,31,68,0.12);
+    }
+
+    /* ── Three-Column Grid ── */
+    .news-grid {
+      display: grid;
+      grid-template-columns: 268px 1fr 268px;
+      gap: 0;
+      padding: 28px 0 36px;
+      border-bottom: 1px solid rgba(10,31,68,0.1);
+    }
+    .news-grid__left {
+      padding-right: 30px;
+      border-right: 1px solid rgba(10,31,68,0.1);
+    }
+    .news-grid__center { padding: 0 34px; }
+    .news-grid__right {
+      padding-left: 30px;
+      border-left: 1px solid rgba(10,31,68,0.1);
+    }
+
+    /* ── Article Preview (left/right sidebar) ── */
+    .article-preview {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.07);
+    }
+    .article-preview:last-child { border-bottom: none; }
+    .article-preview__title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px; font-weight: 600;
+      line-height: 1.38; letter-spacing: -0.01em;
+      color: #0a1f44; text-decoration: none;
+      display: block; margin-bottom: 7px;
+      transition: opacity 0.15s;
+    }
+    .article-preview__title:hover { opacity: 0.62; }
+    .article-preview__excerpt {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px; font-weight: 300;
+      line-height: 1.65; color: rgba(10,31,68,0.48);
+    }
+
+    /* ── Lead Story (center) ── */
+    .lead-story__img-wrap {
+      width: 100%; aspect-ratio: 16/9;
+      overflow: hidden; margin-bottom: 20px;
+    }
+    .lead-story__img-wrap img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .lead-story__img-placeholder { width: 100%; height: 100%; }
+    .lead-story__title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(20px, 2.4vw, 32px);
+      font-weight: 700; line-height: 1.22;
+      letter-spacing: -0.025em; color: #0a1f44;
+      text-decoration: none; display: block;
+      margin-bottom: 12px;
+      transition: opacity 0.15s;
+    }
+    .lead-story__title:hover { opacity: 0.72; }
+    .lead-story__excerpt {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px; font-weight: 300;
+      line-height: 1.72; color: rgba(10,31,68,0.56);
+    }
+
+    /* ── Compact Item (right sidebar rows) ── */
+    .compact-item {
+      display: flex; gap: 12px;
+      padding: 13px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.07);
+    }
+    .compact-item:last-child { border-bottom: none; }
+    .compact-item__thumb {
+      width: 66px; height: 50px;
+      flex-shrink: 0; overflow: hidden;
+    }
+    .compact-item__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .compact-item__thumb-ph { width: 100%; height: 100%; }
+    .compact-item__body { flex: 1; min-width: 0; }
+    .compact-item__author {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: #2057a7; margin-bottom: 4px;
+    }
+    .compact-item__title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px; font-weight: 600;
+      line-height: 1.36; letter-spacing: -0.01em;
+      color: #0a1f44; text-decoration: none;
+      display: block; transition: opacity 0.15s;
+    }
+    .compact-item__title:hover { opacity: 0.68; }
+
+    /* ── Watch Block (inside right sidebar) ── */
+    .watch-block {
+      background: #f4f6f9;
+      padding: 16px 16px 4px;
+      margin-top: 18px;
+    }
+    .watch-block__hd {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(10,31,68,0.36);
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(10,31,68,0.1);
+      margin-bottom: 0;
+    }
+    .watch-block .article-preview { padding: 14px 0; }
+    .watch-block .article-preview__excerpt { font-size: 11.5px; }
+
+    /* ── Below-Grid Sections ── */
+    .news-section {
+      padding: 36px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.1);
+    }
+    .news-section__hd {
+      display: flex; align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .news-section__label {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(10,31,68,0.36);
+    }
+    .news-section__more {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #2057a7; text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .news-section__more:hover { opacity: 0.7; }
+
+    /* Story card 4-column grid */
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+    }
+    .story-card__img-wrap {
+      width: 100%; aspect-ratio: 3/2;
+      overflow: hidden; margin-bottom: 12px;
+    }
+    .story-card__img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .story-card__img-ph { width: 100%; height: 100%; }
+    .story-card__title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 14px; font-weight: 600;
+      line-height: 1.36; letter-spacing: -0.01em;
+      color: #0a1f44; text-decoration: none;
+      display: block; margin-bottom: 6px;
+      transition: opacity 0.15s;
+    }
+    .story-card__title:hover { opacity: 0.68; }
+    .story-card__excerpt {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 12px; font-weight: 300;
+      line-height: 1.62; color: rgba(10,31,68,0.46);
+      margin-bottom: 8px;
+    }
+
+    /* Signals 2-column layout */
+    .signals-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .signals-col__label {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: rgba(10,31,68,0.38);
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(10,31,68,0.1);
+    }
+    .signal-item {
+      display: flex; align-items: center;
+      gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid rgba(10,31,68,0.06);
+    }
+    .signal-item:last-child { border-bottom: none; }
+    .signal-item__term {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px; font-weight: 500;
+      color: #0a1f44; flex: 0 0 200px; min-width: 0;
+    }
+    .signal-item__bar-wrap {
+      flex: 1; height: 3px; background: rgba(10,31,68,0.08);
+      border-radius: 2px; overflow: hidden;
+    }
+    .signal-item__bar { height: 100%; background: #2057a7; border-radius: 2px; }
+    .signal-item__trend {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11px; font-weight: 600;
+      flex-shrink: 0; min-width: 44px; text-align: right;
+    }
+    .signal-item__trend.up { color: #16a34a; }
+    .signal-item__trend.dn { color: #dc2626; }
+    .signal-item__trend.nt { color: rgba(10,31,68,0.35); }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: #0a1f44;
+      width: 100%;
+      padding: 64px 72px 48px;
+    }
+    .site-footer__links {
+      display: flex; flex-direction: column; gap: 24px; margin-bottom: 80px;
+    }
+    .site-footer__link {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 20px; font-weight: 400; color: #fff;
+      text-decoration: none; letter-spacing: -0.01em; opacity: 0.85;
+    }
+    .site-footer__copy {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px; font-weight: 300; color: #fff;
+      opacity: 0.5; letter-spacing: -0.01em; text-align: center;
+    }
+
+    /* ─────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .news-grid { grid-template-columns: 228px 1fr 228px; }
+      .news-grid__left { padding-right: 24px; }
+      .news-grid__center { padding: 0 26px; }
+      .news-grid__right { padding-left: 24px; }
+    }
+
+    @media (max-width: 900px) {
+      .news-grid { grid-template-columns: 1fr; }
+      .news-grid__left {
+        padding-right: 0; border-right: none;
+        order: 2;
+        padding-top: 28px; margin-top: 4px;
+        border-top: 1px solid rgba(10,31,68,0.1);
+      }
+      .news-grid__center { padding: 0; order: 1; }
+      .news-grid__right {
+        padding-left: 0; border-left: none;
+        order: 3;
+        padding-top: 28px;
+        border-top: 1px solid rgba(10,31,68,0.1);
+      }
+      .story-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .signals-grid { grid-template-columns: 1fr; gap: 28px; }
+      .signal-item__term { flex: 0 0 160px; }
+    }
+
+    @media (max-width: 600px) {
+      .news-masthead { padding: 32px 20px 22px; }
+      .story-grid { grid-template-columns: 1fr; gap: 24px; }
+      .site-footer { padding: 48px 24px 32px; }
+      .signal-item__term { flex: 0 0 130px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ── HEADER ── -->
   <header class="header">
     <div class="header__row">
       <a href="/" class="header__brand">
@@ -200,21 +557,435 @@
     </nav>
   </header>
 
-  <main>
-    <div class="page-content">
-      <p class="page-title">News</p>
-      <p class="page-subtitle">Coming soon.</p>
+  <!-- ── MAIN ── -->
+  <main class="news-main">
+
+    <!-- Masthead -->
+    <div class="news-masthead">
+      <p class="news-masthead__title">Delphi Intelligence</p>
+      <p class="news-masthead__tagline">Prediction Markets &middot; Data &middot; Research</p>
     </div>
+
+    <!-- Category Nav -->
+    <nav class="cat-nav" aria-label="News categories">
+      <ul class="cat-nav__inner">
+        <li class="cat-nav__item cat-nav__item--active"><a href="#">All</a></li>
+        <li class="cat-nav__item"><a href="#">Markets</a></li>
+        <li class="cat-nav__item"><a href="#">Research</a></li>
+        <li class="cat-nav__item"><a href="#">Opinion</a></li>
+        <li class="cat-nav__item"><a href="#">Regulatory</a></li>
+        <li class="cat-nav__item"><a href="#">Industry</a></li>
+        <li class="cat-nav__item"><a href="#">Platform</a></li>
+      </ul>
+    </nav>
+
+    <div class="news-wrap">
+
+      <!-- Editor's Note -->
+      <div class="editors-note">
+        <span class="editors-note__label">Editor's Note</span>
+        <p class="editors-note__body">
+          <strong>Macro uncertainty is at a cycle peak.</strong> This week, Delphi analysis tracks a narrowing consensus window on rate cuts, renewed volatility in digital assets following regulatory clarity signals, and the first measurable divergence between search-driven sentiment and market positioning in 14 months. We're watching closely.
+        </p>
+        <span class="editors-note__date">Mar 17, 2026</span>
+      </div>
+
+      <!-- Delphi Indices Ticker -->
+      <div class="delphi-ticker">
+        <span class="delphi-ticker__label">Delphi Indices</span>
+        <div class="ticker-item">
+          <span class="ticker-item__name">FRPI</span>
+          <span class="ticker-item__val">74.2</span>
+          <span class="ticker-item__chg up">+1.8%</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-item__name">GRPI</span>
+          <span class="ticker-item__val">61.5</span>
+          <span class="ticker-item__chg dn">−0.4%</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-item__name">PMIE</span>
+          <span class="ticker-item__val">58.9</span>
+          <span class="ticker-item__chg up">+2.1%</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-item__name">Recession Prob.</span>
+          <span class="ticker-item__val">31%</span>
+          <span class="ticker-item__chg dn">−2 pts</span>
+        </div>
+        <div class="ticker-item">
+          <span class="ticker-item__name">Rate Cut Prob.</span>
+          <span class="ticker-item__val">44%</span>
+          <span class="ticker-item__chg nt">flat</span>
+        </div>
+      </div>
+
+      <!-- ── THREE-COLUMN EDITORIAL GRID ── -->
+      <div class="news-grid">
+
+        <!-- LEFT: Latest -->
+        <div class="news-grid__left">
+          <p class="col-hd">Latest</p>
+
+          <div class="article-preview" style="padding-top:18px">
+            <span class="kicker">Research</span>
+            <a href="#" class="article-preview__title">Global Equity Markets: Q1 2026 Performance Review and Forward Outlook</a>
+            <p class="article-preview__excerpt">A comprehensive analysis of equity market dynamics across regions, with implications for institutional reallocation through mid-year.</p>
+            <div class="meta">
+              <span class="meta__author">Michael R. Foster</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 14</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">8 min</span>
+            </div>
+          </div>
+
+          <div class="article-preview">
+            <span class="kicker">Regulatory</span>
+            <a href="#" class="article-preview__title">SEC Proposes New Framework for Digital Asset Classification</a>
+            <p class="article-preview__excerpt">The Commission unveiled proposed rules that could reshape how prediction markets and tokenized instruments are regulated across platforms.</p>
+            <div class="meta">
+              <span class="meta__author">Alexandra K. Dunn, Esq.</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 14</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">5 min</span>
+            </div>
+          </div>
+
+          <div class="article-preview">
+            <span class="kicker">Markets</span>
+            <a href="#" class="article-preview__title">Delphi Indices Signal Early Divergence in Sentiment vs. Positioning</a>
+            <p class="article-preview__excerpt">FRPI and PMIE readings show a 14-point spread between retail sentiment and institutional exposure — the widest gap since Q3 2024.</p>
+            <div class="meta">
+              <span class="meta__author">Delphi Research</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 13</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">4 min</span>
+            </div>
+          </div>
+
+          <div class="article-preview">
+            <span class="kicker">Industry</span>
+            <a href="#" class="article-preview__title">Meridian Capital Enhances Due Diligence Platform for Accredited Investors</a>
+            <p class="article-preview__excerpt">The platform update integrates Delphi data feeds to improve pre-trade risk analysis for alternative asset allocators.</p>
+            <div class="meta">
+              <span class="meta__author">Meridian Capital</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 12</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">3 min</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CENTER: The Lead -->
+        <div class="news-grid__center">
+          <div class="lead-story">
+            <div class="lead-story__img-wrap">
+              <div class="lead-story__img-placeholder" style="background: linear-gradient(160deg, #0d2b5e 0%, #1a3f7a 52%, #1f4f92 100%);"></div>
+            </div>
+            <span class="kicker">The Lead &nbsp;·&nbsp; Markets</span>
+            <a href="#" class="lead-story__title">Fed Signals Cautious Approach to Rate Cuts as Inflation Data Remains Mixed</a>
+            <p class="lead-story__excerpt">Federal Reserve officials suggest a measured pace of monetary easing amid persistent core inflation pressures and resilient labor markets. Delphi's rate-cut probability index held at 44% through the week, underscoring a market consensus that remains split on June vs. September timing. Futures markets are pricing a 60% chance of at least one cut by July.</p>
+            <div class="meta">
+              <span class="meta__author">Dr. Sarah Mitchell</span>
+              <span class="meta__dot"></span>
+              <span class="meta__date">Mar 14, 2026</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">6 min read</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Opinion + AI Watch -->
+        <div class="news-grid__right">
+          <p class="col-hd">Opinion</p>
+
+          <div class="compact-item" style="padding-top:13px">
+            <div class="compact-item__thumb">
+              <div class="compact-item__thumb-ph" style="background: #1a3260;"></div>
+            </div>
+            <div class="compact-item__body">
+              <p class="compact-item__author">Dr. Sarah Mitchell</p>
+              <a href="#" class="compact-item__title">The Fed's Credibility Problem Is the Market's Volatility Problem</a>
+            </div>
+          </div>
+
+          <div class="compact-item">
+            <div class="compact-item__thumb">
+              <div class="compact-item__thumb-ph" style="background: #1e4a2e;"></div>
+            </div>
+            <div class="compact-item__body">
+              <p class="compact-item__author">Michael R. Foster</p>
+              <a href="#" class="compact-item__title">Why Institutional Allocators Are Rethinking the 60/40 in 2026</a>
+            </div>
+          </div>
+
+          <div class="compact-item">
+            <div class="compact-item__thumb">
+              <div class="compact-item__thumb-ph" style="background: #2d1a5e;"></div>
+            </div>
+            <div class="compact-item__body">
+              <p class="compact-item__author">Alexandra K. Dunn, Esq.</p>
+              <a href="#" class="compact-item__title">Digital Asset Regulation: Why Clarity Is More Valuable Than Leniency</a>
+            </div>
+          </div>
+
+          <div class="compact-item">
+            <div class="compact-item__thumb">
+              <div class="compact-item__thumb-ph" style="background: #3d2a0a;"></div>
+            </div>
+            <div class="compact-item__body">
+              <p class="compact-item__author">James T. Harrington</p>
+              <a href="#" class="compact-item__title">The Case for Commodities in a Late-Cycle Portfolio</a>
+            </div>
+          </div>
+
+          <!-- AI Watch -->
+          <div class="watch-block">
+            <p class="watch-block__hd">AI Watch</p>
+            <div class="article-preview">
+              <span class="kicker">AI</span>
+              <a href="#" class="article-preview__title">AI Inference Costs Fall 60% in 12 Months — What It Means for Markets</a>
+              <p class="article-preview__excerpt">Delphi analysis tracks a sharp decline in model compute costs and its downstream effect on tech sector prediction markets.</p>
+              <div class="meta">
+                <span class="meta__author">Delphi Research</span>
+                <span class="meta__dot"></span>
+                <span class="meta__date">Mar 15</span>
+              </div>
+            </div>
+            <div class="article-preview">
+              <span class="kicker">AI</span>
+              <a href="#" class="article-preview__title">Prediction Markets on AI Regulation: Europe vs. U.S. Divergence Widens</a>
+              <div class="meta">
+                <span class="meta__author">Platform Team</span>
+                <span class="meta__dot"></span>
+                <span class="meta__date">Mar 13</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /news-grid -->
+
+      <!-- ── SECTION: Top Market Movements ── -->
+      <div class="news-section">
+        <div class="news-section__hd">
+          <span class="news-section__label">Top Market Movements</span>
+          <a href="#" class="news-section__more">View all ›</a>
+        </div>
+        <div class="story-grid">
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0a2a5e 0%, #1a4a8a 100%);"></div>
+            </div>
+            <span class="kicker">Equities</span>
+            <a href="#" class="story-card__title">S&P 500 Closes Above 5,800 for Third Consecutive Session</a>
+            <p class="story-card__excerpt">Broad market strength driven by strong earnings and easing credit spreads. Delphi data shows increasing institutional confidence.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 17</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">3 min</span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0f2e18 0%, #1c5030 100%);"></div>
+            </div>
+            <span class="kicker">Fixed Income</span>
+            <a href="#" class="story-card__title">10-Year Treasury Yield Retreats to 4.38% on Softer CPI Print</a>
+            <p class="story-card__excerpt">A below-consensus CPI reading triggered a bond rally, with Delphi's rate path model shifting modestly toward an earlier cut.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 16</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">4 min</span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #2a0e40 0%, #4a1a70 100%);"></div>
+            </div>
+            <span class="kicker">Crypto</span>
+            <a href="#" class="story-card__title">Bitcoin Breaks $95K as Spot ETF Inflows Reach Monthly High</a>
+            <p class="story-card__excerpt">Prediction market positioning on BTC breaching $100K in Q2 rose to 38% this week, per Delphi's digital asset index.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 15</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">3 min</span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #3a2508 0%, #6a4510 100%);"></div>
+            </div>
+            <span class="kicker">Commodities</span>
+            <a href="#" class="story-card__title">Gold Holds Above $2,900 as Dollar Weakens on Fed Guidance Shift</a>
+            <p class="story-card__excerpt">Safe-haven demand and dollar softness combine to support gold near multi-year highs. Delphi's commodity index sits at 61.5.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 14</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">3 min</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── SECTION: Signals From X and Search ── -->
+      <div class="news-section">
+        <div class="news-section__hd">
+          <span class="news-section__label">Signals From X and Search</span>
+          <a href="#" class="news-section__more">View methodology ›</a>
+        </div>
+        <div class="signals-grid">
+
+          <div class="signals-col">
+            <p class="signals-col__label">Trending Search Terms — Finance</p>
+            <div class="signal-item">
+              <span class="signal-item__term">Federal Reserve rate cut</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:88%"></div></div>
+              <span class="signal-item__trend up">+34%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">Bitcoin ETF inflows</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:74%"></div></div>
+              <span class="signal-item__trend up">+21%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">Gold price forecast</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:61%"></div></div>
+              <span class="signal-item__trend up">+15%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">Recession probability 2026</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:52%"></div></div>
+              <span class="signal-item__trend dn">−8%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">S&P 500 earnings season</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:45%"></div></div>
+              <span class="signal-item__trend nt">flat</span>
+            </div>
+          </div>
+
+          <div class="signals-col">
+            <p class="signals-col__label">Attention on X — Market Conversations</p>
+            <div class="signal-item">
+              <span class="signal-item__term">CPI miss / inflation narrative</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:91%"></div></div>
+              <span class="signal-item__trend up">+47%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">BTC $100K milestone debate</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:79%"></div></div>
+              <span class="signal-item__trend up">+29%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">SEC digital asset rules</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:66%"></div></div>
+              <span class="signal-item__trend up">+18%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">AI chip demand / semiconductors</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:58%"></div></div>
+              <span class="signal-item__trend dn">−5%</span>
+            </div>
+            <div class="signal-item">
+              <span class="signal-item__term">Geopolitical risk premium</span>
+              <div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:40%"></div></div>
+              <span class="signal-item__trend nt">flat</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── SECTION: Geopolitics Watch ── -->
+      <div class="news-section">
+        <div class="news-section__hd">
+          <span class="news-section__label">Geopolitics Watch</span>
+          <a href="#" class="news-section__more">View all ›</a>
+        </div>
+        <div class="story-grid">
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #141824 0%, #22304a 100%);"></div>
+            </div>
+            <span class="kicker">Geopolitics</span>
+            <a href="#" class="story-card__title">Ceasefire Probability in Eastern Europe Rises to 52% on Delphi Markets</a>
+            <p class="story-card__excerpt">A surge in diplomatic activity shifted Delphi prediction market odds toward a negotiated ceasefire within 90 days.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 16</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">5 min</span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #200808 0%, #4a1212 100%);"></div>
+            </div>
+            <span class="kicker">Trade</span>
+            <a href="#" class="story-card__title">U.S.–China Trade Friction Intensifies: Tariff Escalation Odds Now at 41%</a>
+            <p class="story-card__excerpt">Delphi data shows a meaningful shift in market-implied probability of expanded tariffs following latest export control measures.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 15</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">4 min</span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0a1826 0%, #0e2e50 100%);"></div>
+            </div>
+            <span class="kicker">Energy</span>
+            <a href="#" class="story-card__title">Middle East Supply Risk Premium Repriced as Regional Tensions Ease</a>
+            <p class="story-card__excerpt">Oil markets recalibrate as Delphi's geopolitical risk index ticks down 3 points from its March peak.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 14</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">3 min</span>
+            </div>
+          </div>
+
+          <div class="story-card">
+            <div class="story-card__img-wrap">
+              <div class="story-card__img-ph" style="background: linear-gradient(140deg, #0a2210 0%, #144020 100%);"></div>
+            </div>
+            <span class="kicker">Macro</span>
+            <a href="#" class="story-card__title">Emerging Market Capital Flows Stabilize as Dollar Index Retreats</a>
+            <p class="story-card__excerpt">EM bond markets see renewed inflows as the DXY pulls back, with Delphi's GRPI index reflecting improved confidence in EM allocations.</p>
+            <div class="meta">
+              <span class="meta__date">Mar 13</span>
+              <span class="meta__dot"></span>
+              <span class="meta__time">4 min</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /news-wrap -->
   </main>
 
-  <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
-    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
-      <a href="/markets/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Markets</a>
-      <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
-      <a href="/about/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">About</a>
-      <a href="/contact/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Contact</a>
+  <!-- ── FOOTER ── -->
+  <footer class="site-footer">
+    <div class="site-footer__links">
+      <a href="/markets/" class="site-footer__link">Markets</a>
+      <a href="/news/" class="site-footer__link">News</a>
+      <a href="/about/" class="site-footer__link">About</a>
+      <a href="/contact/" class="site-footer__link">Contact</a>
     </div>
-    <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;font-weight:300;color:#fff;opacity:0.5;letter-spacing:-0.01em;text-align:center">© Delphi Markets Inc. 2026</p>
+    <p class="site-footer__copy">© Delphi Markets Inc. 2026</p>
   </footer>
 
   <script>
@@ -222,12 +993,14 @@
       var menuBtn = document.getElementById('menuBtn');
       var headerNav = document.getElementById('headerNav');
       var navBackdrop = document.getElementById('navBackdrop');
+
       function closeMenu() {
         if (menuBtn) menuBtn.classList.remove('is-open');
         if (headerNav) headerNav.classList.remove('is-open');
         if (navBackdrop) navBackdrop.classList.remove('is-visible');
         document.body.style.overflow = '';
       }
+
       if (menuBtn && headerNav) {
         menuBtn.addEventListener('click', function() {
           if (headerNav.classList.contains('is-open')) closeMenu();
@@ -240,6 +1013,16 @@
         });
         if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
       }
+
+      /* Category nav tab switching */
+      var catItems = document.querySelectorAll('.cat-nav__item');
+      catItems.forEach(function(item) {
+        item.querySelector('a').addEventListener('click', function(e) {
+          e.preventDefault();
+          catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
+          item.classList.add('cat-nav__item--active');
+        });
+      });
     })();
   </script>
 </body>
