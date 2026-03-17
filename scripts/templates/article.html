@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium — Delphi Intelligence</title>
+  <title>{{ PAGE_TITLE }}</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a1f44'/><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>D</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -227,27 +227,18 @@
       <a href="../news/" class="article__back">← Back to News</a>
 
       <header>
-        <p class="article__kicker">World</p>
-        <h1 class="article__headline">Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium</h1>
-        <p class="article__dek">Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI near $95, Brent above $102.</p>
+        <p class="article__kicker">{{ KICKER }}</p>
+        <h1 class="article__headline">{{ HEADLINE }}</h1>
+        <p class="article__dek">{{ DEK }}</p>
         <div class="article__meta">
-          <span class="article__meta-author">By Sahana Lydia</span>
+          <span class="article__meta-author">By {{ AUTHOR }}</span>
           <span class="article__meta-dot"></span>
-          <time datetime="2026-03-17">Mar 17, 2026</time>
+          <time datetime="{{ DATE_ISO }}">{{ DATE_DISPLAY }}</time>
         </div>
       </header>
 
       <div class="article__body">
-        <p>Crude oil has climbed more than 50% in recent weeks with WTI trading near $95.40 per barrel and Brent above $102.90, showing the market is pricing geopolitical risk and not stronger demand.</p>
-<figure class="article__figure">
-  <img src="images/crude-oil-past-month.png" alt="Crude Oil — Past Month: WTI and Brent price performance, USD per barrel, March 17, 2026" class="article__figure-img" />
-  <figcaption class="article__figure-caption">Crude Oil — Past Month. USD per barrel · March 17, 2026. Source: Yahoo Finance.</figcaption>
-</figure>
-<p>The center of the repricing is the Strait of Hormuz, where a fifth of the world's oil supply passes. Recent tensions in the region have forced markets to price in the possibility of major disruption. Traders are paying up because the downside of being wrong is severe.</p>
-<p>The move being globally driven is reinforced by Brent's premium over WTI widening. A result of Brent being more sensitive to international supply routes like Hormuz, pricing a higher risk of disruption than the domestically anchored WTI.</p>
-<h2>What This Means</h2>
-<p>Oil markets move not on what has happened but on what could happen. If the tensions were to escalate further or shipping through Hormuz is threatened, current oil prices are not the peak but merely an early stage of repricing.</p>
-<p>The crude oil market is waiting for just one event to possibly change everything, and that very quickly.</p>
+        {{ BODY }}
       </div>
     </article>
   </main>

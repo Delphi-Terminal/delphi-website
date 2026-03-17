@@ -651,20 +651,23 @@
       })();
 
       /* ── Category filtering (WSJ-style headline list) ── */
-      var articles = [
-        { cat: 'World', title: 'Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium', sub: 'Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI near $95, Brent above $102.', url: '../articles/crude-oil-top-market-mover.html', date: 'Mar 17', author: 'Sahana Lydia' },
-        { cat: 'Economy', title: 'Recession Fears Recede as Yield Curve Normalizes', sub: 'Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn.', url: '../articles/recession-yield-curve-normalizes.html', date: 'Mar 17', author: 'Sahana Lydia' },
-        { cat: 'Tech', title: 'AI Driven Equities Significantly Outperformed Broad Markets Over the Past 12 Months', sub: 'AMD, Google, Palantir, and Nvidia led gains while broad indices and sectors lagged.', url: '../articles/third.html', date: 'Mar 17', author: 'Sahana Lydia' },
-        { cat: 'Research', title: 'Trump Pushes for Fed Rate Cuts. Markets Bet It Won\'t.', sub: 'President Trump called for a special Fed meeting to cut rates. Prediction markets assign near certainty the Fed will hold steady.', url: '../articles/fourth.html', date: 'Mar 17', author: 'Sahana Lydia' }
-      ];
+      var articleBase = location.pathname.indexOf('/news/') !== -1 ? '../' : '';
+      var articles = [];
 
-      var catView = document.getElementById('catView');
-      var catViewTitle = document.getElementById('catViewTitle');
-      var catViewList = document.getElementById('catViewList');
-      var newsDefault = document.getElementById('newsDefault');
+      function normArticle(a) {
+        return { cat: a.category, title: a.title, sub: a.excerpt, url: articleBase + a.url, date: a.dateShort || a.date, author: a.author, image: a.image };
+      }
 
-      function renderCategory(cat) {
-        var filtered = cat === 'all' ? articles : articles.filter(function(a) { return a.cat === cat; });
+      function initArticles(data) {
+        articles = (data || []).map(normArticle);
+
+        var catView = document.getElementById('catView');
+        var catViewTitle = document.getElementById('catViewTitle');
+        var catViewList = document.getElementById('catViewList');
+        var newsDefault = document.getElementById('newsDefault');
+
+        function renderCategory(cat) {
+          var filtered = cat === 'all' ? articles : articles.filter(function(a) { return a.cat === cat; });
         catViewTitle.textContent = cat === 'all' ? 'All' : cat;
         catViewList.innerHTML = '';
         filtered.forEach(function(a, i) {
@@ -689,28 +692,28 @@
           catView.classList.add('is-visible');
           newsDefault.classList.add('is-hidden');
         }
-      }
 
-      var catItems = document.querySelectorAll('.cat-nav__item');
-      catItems.forEach(function(item) {
-        var link = item.querySelector('a');
-        var cat = item.getAttribute('data-cat');
-        if (!link || !cat) return;
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
-          item.classList.add('cat-nav__item--active');
-          renderCategory(cat);
+        var catItems = document.querySelectorAll('.cat-nav__item');
+        catItems.forEach(function(item) {
+          var link = item.querySelector('a');
+          var cat = item.getAttribute('data-cat');
+          if (!link || !cat) return;
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            catItems.forEach(function(i) { i.classList.remove('cat-nav__item--active'); });
+            item.classList.add('cat-nav__item--active');
+            renderCategory(cat);
+          });
         });
-      });
 
-      /* ── Latest sidebar: exclude lead story ── */
-      var leadUrl = '../articles/crude-oil-top-market-mover.html';
-      var latestList = document.getElementById('latestList');
-      if (latestList) {
+        /* ── Latest sidebar: exclude lead story ── */
+        var leadArticle = articles[0];
+        var leadUrl = leadArticle ? leadArticle.url : '';
+        var latestList = document.getElementById('latestList');
+        if (latestList) {
         var latest = articles.filter(function(a) { return a.url !== leadUrl; });
         latest.forEach(function(a, i) {
-          var div = document.createElement('div');
+            var div = document.createElement('div');
           div.className = 'article-preview';
           if (i === 0) div.style.paddingTop = '18px';
           div.innerHTML =
@@ -723,8 +726,26 @@
               '<span class="meta__date">' + a.date + '</span>' +
             '</div>';
           latestList.appendChild(div);
-        });
+          });
+        }
+
+        /* ── Lead story: update from first article ── */
+        if (leadArticle) {
+          var leadImg = document.querySelector('.lead-story__img');
+          var leadTitle = document.querySelector('.lead-story__title');
+          var leadSub = document.querySelector('.lead-story__subhead');
+          var leadKicker = document.querySelector('.lead-story .kicker');
+          if (leadImg && leadArticle.image) leadImg.src = articleBase + 'articles/' + leadArticle.image;
+          if (leadTitle) { leadTitle.href = leadArticle.url; leadTitle.textContent = leadArticle.title; }
+          if (leadSub) leadSub.textContent = leadArticle.sub;
+          if (leadKicker) leadKicker.textContent = 'The Lead \u00A0·\u00A0 ' + leadArticle.cat;
+        }
       }
+
+      fetch('../articles.json?v=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(initArticles)
+        .catch(function() { initArticles([]); });
 
       /* ── Signals: fetch signals.json and render dynamically ── */
       function buildSignalItem(item) {

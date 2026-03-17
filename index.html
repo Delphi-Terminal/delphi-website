@@ -745,15 +745,13 @@
     makeShimmer(document.getElementById('shimmer1'), 0.05, 0.15, 42);
     makeShimmer(document.getElementById('shimmer2'), 0.95, 0.85, 220);
 
-    // ── Latest News & Research (synced with news page) ──
+    // ── Latest News & Research (synced with news page via articles.json) ──
     (function() {
-      var articles = [
-        { cat: 'World', title: 'Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium', sub: 'Oil markets have surged over the past month, driven by geopolitical risk centered on the Strait of Hormuz. WTI near $95, Brent above $102.', url: 'articles/crude-oil-top-market-mover.html', date: 'Mar 17', author: 'Sahana Lydia' },
-        { cat: 'Economy', title: 'Recession Fears Recede as Yield Curve Normalizes', sub: 'Recession risks have subsided in recent months, as key economic indicators point to a slowdown rather than an immediate downturn.', url: 'articles/recession-yield-curve-normalizes.html', date: 'Mar 17', author: 'Sahana Lydia' },
-        { cat: 'Tech', title: 'AI Driven Equities Significantly Outperformed Broad Markets Over the Past 12 Months', sub: 'AMD, Google, Palantir, and Nvidia led gains while broad indices and sectors lagged.', url: 'articles/third.html', date: 'Mar 17', author: 'Sahana Lydia' },
-        { cat: 'Research', title: 'Trump Pushes for Fed Rate Cuts. Markets Bet It Won\'t.', sub: 'President Trump called for a special Fed meeting to cut rates. Prediction markets assign near certainty the Fed will hold steady.', url: 'articles/fourth.html', date: 'Mar 17', author: 'Sahana Lydia' }
-      ];
-      function renderList(containerId, filter) {
+      var articleBase = location.pathname.indexOf('/news/') !== -1 ? '../' : '';
+      function normArticle(a) {
+        return { cat: a.category, title: a.title, sub: a.excerpt, url: articleBase + a.url, date: a.dateShort || a.date, author: a.author };
+      }
+      function renderList(articles, containerId, filter) {
         var container = document.getElementById(containerId);
         if (!container) return;
         var filtered = articles.filter(filter);
@@ -772,8 +770,15 @@
           container.appendChild(div);
         });
       }
-      renderList('homeLatestNews', function(a) { return a.cat !== 'Research'; });
-      renderList('homeLatestResearch', function(a) { return a.cat === 'Research'; });
+      function initArticles(data) {
+        var articles = (data || []).map(normArticle);
+        renderList(articles, 'homeLatestNews', function(a) { return a.cat !== 'Research'; });
+        renderList(articles, 'homeLatestResearch', function(a) { return a.cat === 'Research'; });
+      }
+      fetch('articles.json?v=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(initArticles)
+        .catch(function() { initArticles([]); });
     })();
 
     // ── Mobile menu ──
