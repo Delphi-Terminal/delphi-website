@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Delphi Intelligence — Market Signals Fetcher
+Delphi News — Market Signals Fetcher
 =============================================
 Fetches real-time finance signal data from two sources:
   1. Google Trends (via pytrends) — search interest for finance keywords

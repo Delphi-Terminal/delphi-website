@@ -1,6 +1,6 @@
 # Delphi Website
 
-Static marketing site for Delphi Terminal.
+Static marketing site for Delphi Markets.
 
 ## Running on localhost
 

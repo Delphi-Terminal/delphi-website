@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Delphi Terminal</title>
+  <title>Delphi Markets</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a1f44'/><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>D</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -92,7 +92,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 40px;
+      padding: 0 28px;
       height: 64px;
       background: transparent;
     }
@@ -216,22 +216,21 @@
     /* ── Below hero ── */
     .below-hero {
       position: relative;
-      min-height: 100vh;
       background: #fff;
       z-index: 1;
-      padding: 120px 0;
+      padding: 60px 0 48px;
     }
 
     .section-row {
       display: flex;
       align-items: stretch;
-      gap: 60px;
+      gap: 40px;
     }
 
     .section-statement {
       border-top: 0.5px solid #0a1f44;
       border-bottom: 0.5px solid #0a1f44;
-      padding: 24px 48px 80px 48px;
+      padding: 24px 32px 48px 32px;
     }
 
     .section-statement__text {
@@ -381,8 +380,8 @@
       }
       .block-news-intro {
         grid-template-columns: 1fr !important;
-        gap: 40px;
-        padding: 40px 20px 48px !important;
+        gap: 32px;
+        padding: 32px 20px 40px !important;
       }
       .block-news-intro__cols {
         grid-template-columns: 1fr;
@@ -420,11 +419,11 @@
         max-width: 58vw;
       }
       .block-news-intro {
-        padding: 48px 40px 56px;
-        gap: 48px;
+        padding: 36px 32px 40px;
+        gap: 40px;
       }
       .block-news-intro__col {
-        padding: 28px 28px 32px;
+        padding: 24px 24px 28px;
       }
     }
 
@@ -442,8 +441,8 @@
     .block-news-intro {
       display: grid;
       grid-template-columns: minmax(260px, 0.65fr) minmax(560px, 2.35fr);
-      gap: 64px;
-      padding: 56px clamp(32px, 4vw, 64px) 64px;
+      gap: 48px;
+      padding: 40px clamp(24px, 3vw, 48px) 40px;
       max-width: 100%;
       width: 100%;
     }
@@ -492,7 +491,7 @@
     }
     .block-news-intro__col {
       min-width: 0;
-      padding: 32px 36px 36px;
+      padding: 24px 28px 28px;
       background: #fff;
     }
     .block-news-intro__col--news {
@@ -508,7 +507,7 @@
     }
     .block-news-intro__view-all {
       margin-top: auto;
-      padding-top: 32px;
+      padding-top: 20px;
       padding-bottom: 4px;
     }
     .block-news-intro__view-all a {
@@ -551,7 +550,7 @@
 
     /* ── Home: Article previews (under News / Research) ── */
     .home-article {
-      padding: 24px 0;
+      padding: 18px 0;
       border-bottom: 1px solid rgba(10, 31, 68, 0.06);
     }
     .home-article:last-child { border-bottom: none; }
@@ -607,7 +606,7 @@
       background: rgba(10, 31, 68, 0.25);
     }
     .block-news-intro__spacer {
-      height: 80px;
+      height: 32px;
     }
   </style>
 </head>
@@ -659,11 +658,11 @@
           <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em;margin-top:2em">We turn noise into signal.</p>
         </div>
       </div>
-      <div style="height:120px"></div>
+      <div style="height:48px"></div>
       <div class="block-benchmarks" style="background:#0a1f44;width:100%;height:720px;padding:56px;display:flex;flex-direction:column;align-items:flex-start">
         <p class="block-benchmarks__title" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(22px,3vw,42px);font-weight:500;color:#fff;letter-spacing:-0.03em;line-height:1.1">The widest range of benchmarks. Globally.</p>
       </div>
-      <div style="height:120px"></div>
+      <div style="height:48px"></div>
       <div style="border-top:0.5px solid #0a1f44;width:100%"></div>
       <div class="block-news-intro">
         <div class="block-news-intro__header">
@@ -688,8 +687,8 @@
       <div class="block-news-intro__spacer"></div>
     </section>
 
-    <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
-      <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
+    <footer class="site-footer" style="background:#0a1f44;width:100%;padding:48px 48px 36px">
+      <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:48px">
         <a href="/markets/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Markets</a>
         <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
         <a href="/about/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">About</a>

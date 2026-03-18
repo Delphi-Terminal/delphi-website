@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Delphi Intelligence — Article Build Script
+Delphi News — Article Build Script
 ==========================================
 Reads Markdown files from content/articles/*.md, parses YAML frontmatter,
 converts body to HTML, injects into a shared template, and writes to articles/*.html.
@@ -100,7 +100,7 @@ def process_article(md_path: Path, template: str) -> tuple[str, dict]:
         html_body = re.sub(r"</figure>\s*</p>", "</figure>", html_body)
 
     # Apply template
-    page_title = f"{title} — Delphi Intelligence"
+    page_title = f"{title} — Delphi News"
     html = template.replace("{{ PAGE_TITLE }}", page_title)
     html = html.replace("{{ KICKER }}", category)
     html = html.replace("{{ HEADLINE }}", title)

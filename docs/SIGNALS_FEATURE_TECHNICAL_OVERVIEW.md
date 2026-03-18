@@ -1,7 +1,7 @@
 # Signals From Search — Technical Overview
 
 **Prepared for:** Internal review  
-**Feature:** Market signals displayed on the Delphi Intelligence news page  
+**Feature:** Market signals displayed on the Delphi News page  
 **Last updated:** March 2026
 
 ---
