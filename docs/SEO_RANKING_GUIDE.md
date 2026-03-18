@@ -57,7 +57,7 @@
   - Add a blog or resources section.
   - Target terms like “prediction market API”, “Kalshi API”, “Polymarket data”.
 3. **Internal linking**
-  - Link between homepage, news, about, data/pricing, and articles.
+  - Link between homepage, news, about, data, and articles.
   - Use descriptive anchor text (e.g. “prediction market data API”).
 
 ### Medium-term (authority)

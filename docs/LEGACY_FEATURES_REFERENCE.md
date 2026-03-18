@@ -68,7 +68,7 @@ When re-adding these as tabs in the new style:
 2. **Contact:** FormSubmit → `armon@delphiterminal.co` with `name`, `email`, `message` (and optionally `referral`), all with `name` attributes
 3. **Checkout page:** `/checkout` with 3-tier pricing cards and Stripe payment links
 
-**Update (Mar 2026):** Pricing has been added at `/pricing/` with 3-tier cards (Free, Pro, Max) and Stripe payment links. Nav order: Markets | News | About | Pricing | Contact.
+**Update (Mar 2026):** Data/pricing has been added at `/data/` with 3-tier cards (Free, Dev, Enterprise) and Stripe payment links. Nav order: Markets | News | About | Data | Contact.
 
 ---
 
