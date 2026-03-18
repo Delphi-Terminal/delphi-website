@@ -109,13 +109,45 @@
       overflow: hidden;
     }
 
+    .hero__text-zone {
+      position: absolute;
+      top: 0;
+      left: 0;
+      max-width: min(420px, 38vw);
+      padding: 96px 44px 44px 44px;
+      background: #fff;
+      z-index: 2;
+    }
+
+    .hero__text {
+      position: static;
+      max-width: 100%;
+      padding-right: 0;
+      pointer-events: auto;
+    }
+
+    .hero__tagline {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(36px, 4.5vw, 64px);
+      font-weight: 500;
+      color: #0a1f44;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      padding-bottom: 20px;
+    }
+
+    .hero__image-zone {
+      position: absolute;
+      inset: 0;
+    }
+
     .hero__image {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center -10%;
+      object-position: center center;
     }
 
     .hero__shimmer {
@@ -136,27 +168,6 @@
       mix-blend-mode: screen;
       pointer-events: none;
       will-change: transform;
-    }
-
-    .hero__text {
-      position: absolute;
-      top: 120px;
-      left: 56px;
-      right: 56px;
-      max-width: min(900px, 52vw);
-      padding-right: 24px;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .hero__tagline {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(44px, 6vw, 88px);
-      font-weight: 500;
-      color: #0a1f44;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      padding-bottom: 24px;
     }
 
     @media (max-width: 768px) {
@@ -205,17 +216,28 @@
         width: auto;
         height: auto;
       }
-      .hero__text {
-        top: 88px;
-        left: 20px;
-        right: 72px;
-        max-width: 85%;
-        padding-right: 16px;
+      .hero {
+        display: flex;
+        flex-direction: column;
       }
-      .hero__image { object-position: center 20%; }
+      .hero__text-zone {
+        position: static;
+        top: auto;
+        left: auto;
+        max-width: none;
+        flex: 0 0 auto;
+        padding: 48px 24px 56px;
+        order: 2;
+      }
+      .hero__image-zone {
+        position: relative;
+        flex: 0 0 70vh;
+        min-height: 400px;
+        order: 1;
+      }
       .hero__tagline {
-        font-size: clamp(32px, 8vw, 44px);
-        padding-bottom: 16px;
+        font-size: clamp(28px, 7vw, 40px);
+        padding-bottom: 14px;
       }
       .below-hero { padding: 60px 24px 80px; }
       .timeline-spacer { height: 24px !important; }
@@ -346,16 +368,27 @@
     }
 
     @media (min-width: 769px) and (max-width: 1024px) {
-      .hero__text {
-        top: 100px;
-        left: 32px;
-        right: 80px;
-        max-width: 58vw;
+      .hero {
+        display: flex;
+        flex-direction: column;
+      }
+      .hero__text-zone {
+        position: static;
+        max-width: none;
+        flex: 0 0 auto;
+        padding: 48px 40px 56px;
+        order: 2;
+      }
+      .hero__image-zone {
+        position: relative;
+        flex: 0 0 70vh;
+        min-height: 400px;
+        order: 1;
       }
     }
 
     @media (max-width: 480px) {
-      .hero__text { top: 84px; left: 16px; right: 64px; max-width: 88%; }
+      .hero__text-zone { padding: 40px 20px 48px; }
       .hero__tagline { font-size: 28px; }
       .timeline { padding: 24px 16px 40px; }
       .timeline__point { padding: 20px 0; }
@@ -596,12 +629,16 @@
 
   <main>
     <section class="hero">
-      <img class="hero__image" src="../empire flip.png" alt="" />
-      <div class="hero__shimmer" id="shimmer1"></div>
-      <div class="hero__shimmer" id="shimmer2"></div>
-      <div class="hero__text">
-        <p class="hero__tagline">We are building the infrastructure<br>for prediction markets.</p>
-        <div style="border-bottom:0.5px solid #0a1f44;width:70%;margin-top:0"></div>
+      <div class="hero__text-zone">
+        <div class="hero__text">
+          <p class="hero__tagline">We are building the infrastructure<br>for prediction markets.</p>
+          <div style="border-bottom:0.5px solid #0a1f44;width:70%;margin-top:0"></div>
+        </div>
+      </div>
+      <div class="hero__image-zone">
+        <img class="hero__image" src="../empire flip.png" alt="" />
+        <div class="hero__shimmer" id="shimmer1"></div>
+        <div class="hero__shimmer" id="shimmer2"></div>
       </div>
     </section>
 

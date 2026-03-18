@@ -143,7 +143,7 @@
       width: 100%;
     }
 
-    /* ── Hero ── */
+    /* ── Hero (full image, text in corner) ── */
     .hero {
       position: relative;
       height: 100vh;
@@ -151,37 +151,47 @@
       overflow: hidden;
     }
 
-    .hero__text {
+    .hero__text-zone {
       position: absolute;
-      top: 120px;
-      left: 56px;
-      right: 56px;
-      max-width: min(900px, 52vw);
-      padding-right: 24px;
+      top: 0;
+      left: 0;
+      max-width: min(420px, 38vw);
+      padding: 96px 44px 44px 44px;
+      background: #fff;
       z-index: 2;
-      pointer-events: none;
+    }
+
+    .hero__text {
+      position: static;
+      max-width: 100%;
+      padding-right: 0;
+      pointer-events: auto;
     }
 
     .hero__tagline {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(44px, 6vw, 88px);
+      font-size: clamp(36px, 4.5vw, 64px);
       font-weight: 500;
       color: #0a1f44;
       letter-spacing: -0.03em;
       line-height: 1;
-      padding-bottom: 24px;
+      padding-bottom: 20px;
       border-bottom: 0.5px solid #0a1f44;
     }
 
     .hero__subtitle {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(14px, 1.3vw, 20px);
+      font-size: clamp(13px, 1.2vw, 17px);
       font-weight: 300;
       color: #0a1f44;
       letter-spacing: -0.01em;
       line-height: 1.5;
-      max-width: 900px;
-      margin-top: 20px;
+      margin-top: 16px;
+    }
+
+    .hero__image-zone {
+      position: absolute;
+      inset: 0;
     }
 
     .hero__image {
@@ -190,7 +200,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center -10%;
+      object-position: center center;
     }
 
     .hero__shimmer {
@@ -340,23 +350,32 @@
         width: auto !important;
         height: auto !important;
       }
-      .hero__text {
-        top: 88px;
-        left: 20px;
-        right: 72px;
-        max-width: 85%;
-        padding-right: 16px;
+      .hero {
+        display: flex;
+        flex-direction: column;
       }
-      .hero__image {
-        object-position: center 20%;
+      .hero__text-zone {
+        position: static;
+        top: auto;
+        left: auto;
+        max-width: none;
+        flex: 0 0 auto;
+        padding: 48px 24px 56px;
+        order: 2;
+      }
+      .hero__image-zone {
+        position: relative;
+        flex: 0 0 70vh;
+        min-height: 400px;
+        order: 1;
       }
       .hero__tagline {
-        font-size: clamp(32px, 8vw, 44px);
-        padding-bottom: 16px;
+        font-size: clamp(28px, 7vw, 40px);
+        padding-bottom: 14px;
       }
       .hero__subtitle {
-        font-size: clamp(14px, 4vw, 18px);
-        margin-top: 16px;
+        font-size: clamp(13px, 3.5vw, 16px);
+        margin-top: 14px;
       }
 
       .below-hero { padding: 60px 0 80px; }
@@ -412,11 +431,22 @@
     }
 
     @media (min-width: 769px) and (max-width: 1024px) {
-      .hero__text {
-        top: 100px;
-        left: 32px;
-        right: 80px;
-        max-width: 58vw;
+      .hero {
+        display: flex;
+        flex-direction: column;
+      }
+      .hero__text-zone {
+        position: static;
+        max-width: none;
+        flex: 0 0 auto;
+        padding: 48px 40px 56px;
+        order: 2;
+      }
+      .hero__image-zone {
+        position: relative;
+        flex: 0 0 70vh;
+        min-height: 400px;
+        order: 1;
       }
       .block-news-intro {
         padding: 36px 32px 40px;
@@ -429,8 +459,8 @@
 
     @media (max-width: 480px) {
       .header { padding: 0 16px; }
-      .hero__text { top: 84px; left: 16px; right: 64px; max-width: 88%; }
-      .hero__tagline { font-size: 28px; }
+      .hero__text-zone { padding: 40px 20px 48px; }
+      .hero__tagline { font-size: 26px; }
       .block-benchmarks { padding: 32px 16px !important; min-height: 320px !important; }
       .block-news-intro { padding: 32px 16px 40px !important; gap: 32px; }
       .block-news-intro__col { padding: 24px 20px 28px; }
@@ -640,12 +670,16 @@
 
   <main>
     <section class="hero">
-      <img class="hero__image" src="flip sketc nyc.png" alt="" />
-      <div class="hero__shimmer" id="shimmer1"></div>
-      <div class="hero__shimmer" id="shimmer2"></div>
-      <div class="hero__text">
-        <p class="hero__tagline">Wisdom of the Crowds</p>
-        <p class="hero__subtitle">Delphi is creating the first benchmark for anything. Indices for everything.<br>Our data grasps the unseen, connecting markets to global events.</p>
+      <div class="hero__text-zone">
+        <div class="hero__text">
+          <p class="hero__tagline">Wisdom of the Crowds</p>
+          <p class="hero__subtitle">Delphi is creating the first benchmark for anything. Indices for everything.<br>Our data grasps the unseen, connecting markets to global events.</p>
+        </div>
+      </div>
+      <div class="hero__image-zone">
+        <img class="hero__image" src="flip sketc nyc.png" alt="" />
+        <div class="hero__shimmer" id="shimmer1"></div>
+        <div class="hero__shimmer" id="shimmer2"></div>
       </div>
     </section>
 
