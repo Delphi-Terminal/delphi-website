@@ -118,7 +118,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      max-width: min(420px, 38vw);
+      max-width: min(720px, 60vw);
       padding: 96px 44px 44px 44px;
       background: #fff;
       z-index: 2;
@@ -139,6 +139,14 @@
       letter-spacing: -0.03em;
       line-height: 1;
       padding-bottom: 20px;
+    }
+    .hero__tagline-line {
+      display: block;
+      white-space: nowrap;
+    }
+    @media (max-width: 1024px) {
+      .hero__tagline-line { display: inline; white-space: normal; }
+      .hero__tagline-line:not(:last-child)::after { content: " "; }
     }
 
     .hero__image-zone {
@@ -636,7 +644,7 @@
     <section class="hero">
       <div class="hero__text-zone">
         <div class="hero__text">
-          <p class="hero__tagline">We are building the infrastructure<br>for prediction markets.</p>
+          <p class="hero__tagline"><span class="hero__tagline-line">We are building</span><span class="hero__tagline-line">the <strong>infrastructure</strong> for</span><span class="hero__tagline-line">prediction markets</span></p>
           <div style="border-bottom:0.5px solid #0a1f44;width:70%;margin-top:0"></div>
         </div>
       </div>

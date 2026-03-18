@@ -185,6 +185,23 @@
       padding-bottom: 20px;
       border-bottom: 0.5px solid #0a1f44;
     }
+    .hero__tagline-line {
+      display: block;
+      white-space: nowrap;
+    }
+    /* One-line vs two-line: wide = one line, narrow = two lines. Bottom layout = auto wrap, no line rules. */
+    .hero__tagline--1line { display: none; white-space: nowrap; }
+    .hero__tagline--2lines { display: block; }
+    @media (min-width: 1200px) {
+      .hero__tagline--1line { display: block; }
+      .hero__tagline--2lines { display: none; }
+      .hero__text-zone { max-width: min(460px, 40vw); }
+    }
+    @media (max-width: 1024px) {
+      .hero__tagline--1line { display: block; white-space: normal; }
+      .hero__tagline--2lines { display: none; }
+      .hero__tagline-line { white-space: normal; }
+    }
 
     .hero__subtitle {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -685,8 +702,8 @@
     <section class="hero">
       <div class="hero__text-zone">
         <div class="hero__text">
-          <p class="hero__tagline">Wisdom of the Crowds</p>
-          <p class="hero__subtitle">Delphi is creating the first benchmark for anything. Indices for everything.<br>Our data grasps the unseen, connecting markets to global events.</p>
+          <p class="hero__tagline"><span class="hero__tagline--1line">Wisdom of the Crowds</span><span class="hero__tagline--2lines"><span class="hero__tagline-line">Wisdom of</span><span class="hero__tagline-line">the Crowds</span></span></p>
+          <p class="hero__subtitle">Delphi is creating the first benchmark for anything. Indices for everything. Our data grasps the unseen, connecting markets to global events.</p>
         </div>
       </div>
       <div class="hero__image-zone">
