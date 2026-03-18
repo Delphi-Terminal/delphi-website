@@ -339,7 +339,7 @@
         </div>
         <div class="contact-field">
           <span class="contact-label">Your Message</span>
-          <textarea class="contact-textarea" name="message" placeholder="How can we help?" required></textarea>
+          <textarea class="contact-textarea" name="message" id="contactMessage" placeholder="How can we help?" required></textarea>
         </div>
         <div class="contact-submit">
           <button type="submit">Send message</button>
@@ -360,6 +360,13 @@
   </footer>
 
   <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      if (params.get('ref') === 'enterprise') {
+        var msgEl = document.getElementById('contactMessage');
+        if (msgEl) msgEl.value = 'Enterprise API Request:\n\n';
+      }
+    })();
     (function() {
       var menuBtn = document.getElementById('menuBtn');
       var headerNav = document.getElementById('headerNav');
