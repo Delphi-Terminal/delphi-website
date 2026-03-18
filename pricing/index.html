@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact – Delphi Markets</title>
+  <title>Data – Delphi Markets</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%230a1f44'/><text x='50' y='65' font-family='Arial' font-size='40' font-weight='bold' fill='white' text-anchor='middle'>D</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -148,155 +148,171 @@
         width: auto;
         height: auto;
       }
-      .contact-page {
-        flex-direction: column;
-        padding: 100px 24px 80px;
-        gap: 48px;
-      }
-      .contact-left { max-width: none; }
-      .contact-right { padding-left: 0; }
+      .pricing-content { padding: 72px 20px 80px; }
+      .pricing-cards { flex-direction: column; align-items: center; gap: 24px; }
+      .pricing-card { max-width: 360px; width: 100%; }
       .site-footer { padding: 48px 24px 32px !important; }
     }
     @media (min-width: 769px) {
       .header__nav-backdrop { display: none !important; }
     }
 
-    .contact-page {
+    .pricing-content {
+      padding: 80px 56px 120px;
       min-height: 100vh;
-      display: flex;
-      align-items: flex-start;
-      padding: 180px 72px 120px;
-      gap: 0;
     }
 
-    .contact-left {
-      flex: 0 0 28%;
-      max-width: 320px;
-    }
-
-    .contact-heading {
+    .pricing-title {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(48px, 6vw, 80px);
+      font-size: clamp(36px, 4vw, 64px);
       font-weight: 700;
       color: #0a1f44;
-      letter-spacing: -0.04em;
-      line-height: 1;
+      letter-spacing: -0.03em;
     }
 
-    .contact-line {
-      width: 100%;
-      height: 0.5px;
-      background: #0a1f44;
-      margin-top: 32px;
-    }
-
-    .contact-sub {
+    .pricing-subtitle {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(14px, 1.3vw, 18px);
+      font-size: 18px;
       font-weight: 300;
       color: #0a1f44;
-      letter-spacing: -0.01em;
-      margin-top: 20px;
+      margin-top: 24px;
       opacity: 0.6;
+      max-width: 560px;
+    }
+
+    .pricing-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 56px;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .pricing-card {
+      flex: 1;
+      min-width: 260px;
+      max-width: 340px;
+      padding: 40px 32px;
+      border: 1px solid rgba(10, 31, 68, 0.12);
+      border-radius: 8px;
+      background: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pricing-card:hover {
+      border-color: rgba(10, 31, 68, 0.25);
+      box-shadow: 0 8px 32px rgba(10, 31, 68, 0.08);
+    }
+
+    .pricing-card--featured {
+      border-color: #0a1f44;
+      background: rgba(10, 31, 68, 0.02);
+    }
+
+    .pricing-card--featured:hover {
+      border-color: #0a1f44;
+      box-shadow: 0 8px 40px rgba(10, 31, 68, 0.12);
+    }
+
+    .pricing-card__name {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0a1f44;
+      letter-spacing: -0.02em;
+    }
+
+    .pricing-card__price {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      color: #0a1f44;
+      letter-spacing: -0.03em;
+      margin-top: 16px;
+    }
+
+    .pricing-card__price span {
+      font-size: 16px;
+      font-weight: 500;
+      opacity: 0.6;
+    }
+
+    .pricing-card__desc {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      color: rgba(10, 31, 68, 0.7);
+      line-height: 1.5;
+      margin-top: 16px;
+    }
+
+    .pricing-card__features {
+      list-style: none;
+      margin-top: 28px;
+    }
+
+    .pricing-card__cta-wrap {
+      margin-top: auto;
+      padding-top: 48px;
       text-align: center;
     }
 
-    .contact-right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 48px;
-      padding-top: 20px;
-      padding-left: 12%;
-    }
-
-    .contact-field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .contact-label {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 11px;
-      font-weight: 600;
-      color: #0a1f44;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      opacity: 0.5;
-    }
-
-    .contact-input {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(24px, 2.5vw, 36px);
-      font-weight: 300;
-      color: #0a1f44;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(10, 31, 68, 0.15);
-      padding: 12px 0 16px;
-      outline: none;
-      transition: border-color 0.2s ease;
-      letter-spacing: -0.02em;
-      width: 100%;
-    }
-
-    .contact-input::placeholder {
-      color: rgba(10, 31, 68, 0.25);
-    }
-
-    .contact-input:focus {
-      border-bottom-color: #0a1f44;
-    }
-
-    .contact-textarea {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(24px, 2.5vw, 36px);
-      font-weight: 300;
-      color: #0a1f44;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(10, 31, 68, 0.15);
-      padding: 12px 0 16px;
-      outline: none;
-      transition: border-color 0.2s ease;
-      letter-spacing: -0.02em;
-      width: 100%;
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .contact-textarea::placeholder {
-      color: rgba(10, 31, 68, 0.25);
-    }
-
-    .contact-textarea:focus {
-      border-bottom-color: #0a1f44;
-    }
-
-    .contact-submit {
-      align-self: center;
-      margin-top: 24px;
-    }
-
-    .contact-submit button {
+    .pricing-card__features li {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 14px;
-      font-weight: 500;
-      color: #0a1f44;
-      background: transparent;
-      border: 1.5px solid #0a1f44;
-      border-radius: 24px;
-      padding: 12px 36px;
-      cursor: pointer;
-      letter-spacing: -0.01em;
-      transition: all 0.2s ease;
+      font-weight: 400;
+      color: rgba(10, 31, 68, 0.8);
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
     }
 
-    .contact-submit button:hover {
-      background: #0a1f44;
-      color: #fff;
+    .pricing-card__features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background: #2057a7;
+      border-radius: 50%;
     }
+
+    .pricing-card__cta {
+      display: inline-block;
+      padding: 14px 28px;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #fff;
+      background: #0a1f44;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+      text-align: center;
+    }
+
+    .pricing-card__cta:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .pricing-card__cta--outline {
+      background: transparent;
+      color: #0a1f44;
+      border: 2px solid #0a1f44;
+    }
+
+    .pricing-card__cta--outline:hover {
+      background: rgba(10, 31, 68, 0.06);
+    }
+
   </style>
 </head>
 <body>
@@ -316,35 +332,62 @@
         <li><a href="/markets/">Markets</a></li>
         <li><a href="/news/">News</a></li>
         <li><a href="/about/">About</a></li>
-        <li><a href="/pricing/">Data</a></li>
-        <li><a href="/contact/" class="is-active">Contact</a></li>
+        <li><a href="/pricing/" class="is-active">Data</a></li>
+        <li><a href="/contact/">Contact</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <div class="contact-page">
-      <div class="contact-left">
-        <p class="contact-heading">Contact</p>
-        <div class="contact-line"></div>
-        <p class="contact-sub">Get in touch with Delphi</p>
-      </div>
+    <div class="pricing-content">
+      <h1 class="pricing-title">Data</h1>
+      <p class="pricing-subtitle">Choose the plan that fits your needs. All plans include access to our unified prediction market data API.</p>
 
-      <form class="contact-right" action="https://formsubmit.co/armon@delphiterminal.co" method="POST">
-        <input type="hidden" name="_subject" value="Delphi Contact Form" />
-        <input type="hidden" name="_template" value="table" />
-        <div class="contact-field">
-          <span class="contact-label">Your Email</span>
-          <input class="contact-input" type="email" name="email" placeholder="name@email.com" required />
-        </div>
-        <div class="contact-field">
-          <span class="contact-label">Your Message</span>
-          <textarea class="contact-textarea" name="message" placeholder="How can we help?" required></textarea>
-        </div>
-        <div class="contact-submit">
-          <button type="submit">Send message</button>
-        </div>
-      </form>
+      <div class="pricing-cards">
+        <article class="pricing-card">
+          <h2 class="pricing-card__name">Free</h2>
+          <p class="pricing-card__price">$0 <span>/mo</span></p>
+          <p class="pricing-card__desc">Get started with test API keys and explore our data.</p>
+          <ul class="pricing-card__features">
+            <li>Test API keys (10 min)</li>
+            <li>60 requests/min</li>
+            <li>Kalshi & Polymarket data</li>
+          </ul>
+          <div class="pricing-card__cta-wrap">
+            <a href="https://buy.stripe.com/9B6cN75Ix4tAaJDgYMew803" class="pricing-card__cta pricing-card__cta--outline" target="_blank" rel="noopener">Subscribe</a>
+          </div>
+        </article>
+
+        <article class="pricing-card pricing-card--featured">
+          <h2 class="pricing-card__name">Enterprise</h2>
+          <p class="pricing-card__price">Custom</p>
+          <p class="pricing-card__desc">For high-volume and enterprise use cases.</p>
+          <ul class="pricing-card__features">
+            <li>Priority support</li>
+            <li>Research insights</li>
+            <li>Higher rate limits</li>
+            <li>Advanced analytics</li>
+          </ul>
+          <div class="pricing-card__cta-wrap">
+            <a href="/contact/" class="pricing-card__cta">Request</a>
+          </div>
+        </article>
+
+        <article class="pricing-card">
+          <h2 class="pricing-card__name">Dev</h2>
+          <p class="pricing-card__price">$20 <span>/mo</span></p>
+          <p class="pricing-card__desc">For developers and small teams building with our API.</p>
+          <ul class="pricing-card__features">
+            <li>Production API keys</li>
+            <li>300 requests/min</li>
+            <li>9+ exchanges</li>
+            <li>WebSocket streaming</li>
+          </ul>
+          <div class="pricing-card__cta-wrap">
+            <a href="https://buy.stripe.com/9B6cN75Ix4tAaJDgYMew803" class="pricing-card__cta pricing-card__cta--outline" target="_blank" rel="noopener">Subscribe</a>
+          </div>
+        </article>
+      </div>
     </div>
   </main>
 
