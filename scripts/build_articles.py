@@ -102,6 +102,7 @@ def process_article(md_path: Path, template: str) -> tuple[str, dict]:
     # Apply template
     page_title = f"{title} — Delphi News"
     html = template.replace("{{ PAGE_TITLE }}", page_title)
+    html = html.replace("{{ SLUG }}", slug)
     html = html.replace("{{ KICKER }}", category)
     html = html.replace("{{ HEADLINE }}", title)
     html = html.replace("{{ DEK }}", excerpt)
