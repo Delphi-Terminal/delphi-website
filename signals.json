@@ -1,17 +1,67 @@
 {
-  "updated": "2026-03-17T00:00:00Z",
+  "updated": "2026-03-18T01:07:01.482471Z",
   "search_trends": [
-    { "term": "Federal Reserve rate cut",  "value": 88, "change": "+34%", "direction": "up" },
-    { "term": "Bitcoin ETF",               "value": 74, "change": "+21%", "direction": "up" },
-    { "term": "Gold price forecast",       "value": 61, "change": "+15%", "direction": "up" },
-    { "term": "Recession 2026",            "value": 52, "change": "−8%",  "direction": "dn" },
-    { "term": "S&P 500 earnings",          "value": 45, "change": "flat", "direction": "nt" }
+    {
+      "term": "Federal Reserve rate cut",
+      "value": 0,
+      "change": "\u221214%",
+      "direction": "dn"
+    },
+    {
+      "term": "Bitcoin ETF",
+      "value": 10,
+      "change": "\u22128%",
+      "direction": "dn"
+    },
+    {
+      "term": "gold price forecast",
+      "value": 10,
+      "change": "flat",
+      "direction": "nt"
+    },
+    {
+      "term": "recession 2026",
+      "value": 10,
+      "change": "+8%",
+      "direction": "up"
+    },
+    {
+      "term": "S&P 500 earnings",
+      "value": 2,
+      "change": "\u22125%",
+      "direction": "dn"
+    }
   ],
   "market_conversations": [
-    { "term": "Inflation / CPI narrative",     "value": 91, "change": "+47%", "direction": "up" },
-    { "term": "Bitcoin price action",          "value": 79, "change": "+29%", "direction": "up" },
-    { "term": "SEC crypto regulation",         "value": 66, "change": "+18%", "direction": "up" },
-    { "term": "AI stocks & semiconductors",    "value": 58, "change": "−5%",  "direction": "dn" },
-    { "term": "Geopolitical risk premium",     "value": 40, "change": "flat", "direction": "nt" }
+    {
+      "term": "Inflation / CPI narrative",
+      "value": 50,
+      "change": "\u2014",
+      "direction": "nt"
+    },
+    {
+      "term": "Bitcoin price action",
+      "value": 50,
+      "change": "\u2014",
+      "direction": "nt"
+    },
+    {
+      "term": "SEC crypto regulation",
+      "value": 50,
+      "change": "\u2014",
+      "direction": "nt"
+    },
+    {
+      "term": "AI stocks & semiconductors",
+      "value": 50,
+      "change": "\u2014",
+      "direction": "nt"
+    },
+    {
+      "term": "Geopolitical risk premium",
+      "value": 50,
+      "change": "\u2014",
+      "direction": "nt"
+    }
   ]
 }
