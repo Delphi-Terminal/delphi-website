@@ -8,12 +8,13 @@ excerpt: "Bullish predictions from analysts, bearish prediction from traders. "
 image: images/screenshot-2026-03-18-204549.png
 imageAlt: "Source: Polymarket"
 ---
-
-In the past year, google has experienced a 94.2% return driven by advancements in AI, cloud investments, and digital advertising. Very recently, they’ve made their largest acquisition ever and one of the largest cybersecurity deals on record as they acquired Wiz, a multi‑cloud security platform (works across AWS, Azure, Oracle, etc.) that focuses on securing large cloud environments and AI workloads. And in the future, they are committing to invest about $40 billion into three new large‑scale data centers in Texas through 2027. 
+In the past year, Google has experienced a 94.2% return driven by advancements in AI, cloud investments, and digital advertising. Very recently, they’ve made their largest acquisition ever and one of the largest cybersecurity deals on record as they acquired Wiz, a multi‑cloud security platform (works across AWS, Azure, Oracle, etc.). And in the future, they are committing to invest about $40 billion into three new large‑scale data centers in Texas through 2027. 
 
 In addition, many analysts have said Google could be trading at above $320 while Yahoo Finance believes Google’s stock to be “on fire” for 2026.
 
-Signs seems to be in flavor for Google, but since Alphabet is currently trading a bit above $300, $250 is a bearish prediction, suggesting traders actually have a lot of doubt towards Google’s stock right now.
+All signs point to be in flavor for Google, but since Alphabet is currently trading a bit above $300, $250 is a bearish prediction, suggesting traders actually have a lot of doubt towards Google’s stock right now. \
+\
+Why so much doubt though...
 
 \[[IMAGE]]
 
