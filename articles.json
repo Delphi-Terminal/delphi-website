@@ -22,6 +22,17 @@
     "url": "articles/fourth.html"
   },
   {
+    "slug": "googl-close-march-2026",
+    "title": "Will GOOGL close above $250 by end of March?",
+    "category": "Tech",
+    "author": "Viviana Chen",
+    "date": "Mar 18, 2026",
+    "dateShort": "Mar 18",
+    "excerpt": "Bullish predictions from analysts, bearish prediction from traders. ",
+    "image": "images/screenshot-2026-03-18-204549.png",
+    "url": "articles/googl-close-march-2026.html"
+  },
+  {
     "slug": "recession-yield-curve-normalizes",
     "title": "Recession Fears Recede as Yield Curve Normalizes",
     "category": "Economy",
