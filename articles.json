@@ -42,5 +42,16 @@
     "excerpt": "AMD, Google, Palantir, and Nvidia led gains while broad indices and sectors lagged.",
     "image": "images/ai-equities-outperform.png",
     "url": "articles/third.html"
+  },
+  {
+    "slug": "tulsi-out-national-intelligence",
+    "title": "Iran Intelligence Dispute Puts Tulsi Gabbard Under Pressure",
+    "category": "World",
+    "author": "Viviana Chen",
+    "date": "Mar 18, 2026",
+    "dateShort": "Mar 18",
+    "excerpt": "Difference in intelligence? No, difference in between views of national intelligence.",
+    "image": "images/tulsi_market.png",
+    "url": "articles/tulsi-out-national-intelligence.html"
   }
 ]
