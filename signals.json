@@ -1,35 +1,35 @@
 {
-  "updated": "2026-03-18T18:41:56.529850Z",
+  "updated": "2026-03-19T01:06:16.977181Z",
   "search_trends": [
     {
       "term": "Federal Reserve rate cut",
-      "value": 2,
-      "change": "+14%",
+      "value": 0,
+      "change": "+17%",
       "direction": "up"
     },
     {
       "term": "Bitcoin ETF",
-      "value": 15,
+      "value": 10,
       "change": "flat",
       "direction": "nt"
     },
     {
       "term": "gold price forecast",
-      "value": 19,
-      "change": "+18%",
+      "value": 12,
+      "change": "+13%",
       "direction": "up"
     },
     {
       "term": "recession 2026",
-      "value": 12,
-      "change": "+15%",
+      "value": 13,
+      "change": "+5%",
       "direction": "up"
     },
     {
       "term": "S&P 500 earnings",
-      "value": 3,
-      "change": "\u22125%",
-      "direction": "dn"
+      "value": 4,
+      "change": "+5%",
+      "direction": "up"
     }
   ],
   "market_conversations": [
