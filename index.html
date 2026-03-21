@@ -207,6 +207,36 @@
       margin-top: 16px;
     }
 
+    .hero__cta {
+      display: inline-block;
+      margin-top: 24px;
+      background: #0a1f44;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 999px;
+      letter-spacing: -0.01em;
+      overflow: hidden;
+      height: 42px;
+      line-height: 42px;
+      padding: 0 28px;
+      text-align: center;
+    }
+    .hero__cta-inner {
+      display: block;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hero__cta-inner span {
+      display: block;
+      height: 42px;
+      line-height: 42px;
+    }
+    .hero__cta:hover .hero__cta-inner {
+      transform: translateY(-42px);
+    }
+
     .hero__image-zone {
       position: absolute;
       inset: 0;
@@ -705,6 +735,7 @@
         <div class="hero__text">
           <p class="hero__tagline"><span class="hero__tagline-line">The Data Infrastructure</span><span class="hero__tagline-line">for the Prediction Economy</span></p>
           <p class="hero__subtitle">Benchmark anything. Price everything.<br>Aggregated data across 10+ prediction market exchanges, in real-time.</p>
+          <a href="/contact/" class="hero__cta"><span class="hero__cta-inner"><span>Talk to our Team</span><span>Talk to our Team</span></span></a>
         </div>
       </div>
       <div class="hero__image-zone">
