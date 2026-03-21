@@ -212,13 +212,18 @@
       inset: 0;
     }
 
-    .hero__image {
+    .hero__tiles {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      object-position: center 20%;
+    }
+    .hero__tiles canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
     }
 
     .hero__shimmer {
@@ -517,6 +522,9 @@
       line-height: 1.2;
       margin-top: 16px;
     }
+    .block-news-intro__tagline-main + .block-news-intro__tagline-main {
+      margin-top: 0;
+    }
     .block-news-intro__tagline-sub {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: clamp(13px, 1.2vw, 16px);
@@ -697,11 +705,11 @@
       <div class="hero__text-zone">
         <div class="hero__text">
           <p class="hero__tagline"><span class="hero__tagline-line">The Data Infrastructure</span><span class="hero__tagline-line">for the Prediction Economy</span></p>
-          <p class="hero__subtitle">Benchmark anything. Price everything.<br>Our data grasps the unseen, connecting markets to global events.</p>
+          <p class="hero__subtitle">Benchmark anything. Price everything.<br>Aggregated data across 10+ prediction market exchanges, in real-time.</p>
         </div>
       </div>
       <div class="hero__image-zone">
-        <img class="hero__image" src="flip sketc nyc.png" alt="" />
+        <div class="hero__tiles" id="heroTiles"></div>
         <div class="hero__shimmer" id="shimmer1"></div>
         <div class="hero__shimmer" id="shimmer2"></div>
       </div>
@@ -713,8 +721,8 @@
           <p class="section-statement__text">Prediction markets<br>are juvenile</p>
         </div>
         <div class="section-statement" style="flex:1">
-          <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em">Delphi Markets, Inc is the infrastructure layer for prediction markets. We currently own and operate the largest and most granular aggregated dataset across prediction markets. Our approach across 10+ exchanges creates a <strong style="font-weight:800">unified view</strong> of fragmented liquidity and price discrepancies in real-time. Our structured products reveal latent connections between global events and the macro world; these are used to hedge exposures across every asset class or to express standalone speculative views. Delphi News is the first news platform backed by prediction market data.</p>
-          <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em;margin-top:2em">We turn noise into signal.</p>
+          <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em">Delphi Markets, Inc is the <strong style="font-weight:800">infrastructure layer for prediction markets</strong>. We currently own and operate the largest and most granular aggregated dataset across prediction markets. Our approach across 10+ exchanges creates a unified view of fragmented liquidity and price discrepancies in real-time. Our <strong style="font-weight:800">structured products</strong> reveal latent connections between global events and the macro world; these are used to hedge exposures across every asset class or to express standalone speculative views. <strong style="font-weight:800">Delphi News</strong> is the first news platform backed by prediction market data.</p>
+          <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em;margin-top:2em"><strong style="font-weight:800">We turn noise into signal.</strong></p>
         </div>
       </div>
       <div style="height:48px"></div>
@@ -727,7 +735,7 @@
         <div class="block-news-intro__header">
           <a href="/news/" class="block-news-intro__title">Delphi News</a>
           <p class="block-news-intro__tagline-main">News backed by you.</p>
-          <p class="block-news-intro__tagline-sub">And Everyone. Unfiltered News, Sourced From The Crowd.</p>
+          <p class="block-news-intro__tagline-main">Unfiltered News, Sourced From The Crowd.</p>
         </div>
         <div class="block-news-intro__cols">
           <div class="block-news-intro__col block-news-intro__col--news">
@@ -863,6 +871,170 @@
       });
       if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
     }
+
+    // ── Hero sketch disassembly effect ──
+    (function() {
+      var container = document.getElementById('heroTiles');
+      if (!container) return;
+
+      if ('ontouchstart' in window && window.innerWidth < 768) {
+        var fi = document.createElement('img');
+        fi.src = 'flip sketc nyc.png';
+        fi.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%';
+        container.appendChild(fi);
+        return;
+      }
+
+      var canvas = document.createElement('canvas');
+      container.appendChild(canvas);
+      var ctx = canvas.getContext('2d');
+
+      var heroImg = new Image();
+      heroImg.src = 'flip sketc nyc.png';
+
+      var particles = [];
+      var origData, workImg;
+      var PX = 3;
+      var RADIUS = 60;
+      var mouseX = -9999, mouseY = -9999;
+      var isHovering = false;
+      var cw, ch, running = false, needsRender = true;
+
+      function coverDims() {
+        var iw = heroImg.naturalWidth, ih = heroImg.naturalHeight;
+        var s = Math.max(cw / iw, ch / ih);
+        return { w: iw * s, h: ih * s, x: (cw - iw * s) / 2, y: (ch - ih * s) * 0.2 };
+      }
+
+      function init() {
+        var rect = container.getBoundingClientRect();
+        cw = Math.round(rect.width);
+        ch = Math.round(rect.height);
+        canvas.width = cw;
+        canvas.height = ch;
+
+        var cd = coverDims();
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(0, 0, cw, ch);
+        ctx.drawImage(heroImg, cd.x, cd.y, cd.w, cd.h);
+
+        var imgData = ctx.getImageData(0, 0, cw, ch);
+        origData = new Uint8ClampedArray(imgData.data);
+        workImg = ctx.createImageData(cw, ch);
+
+        var d = imgData.data;
+        particles = [];
+
+        for (var y = 0; y < ch; y += PX) {
+          for (var x = 0; x < cw; x += PX) {
+            var i = (y * cw + x) * 4;
+            var r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
+            if (a < 10) continue;
+            var lum = 0.299 * r + 0.587 * g + 0.114 * b;
+            if (lum > 252) continue;
+
+            particles.push({
+              hx: x, hy: y, x: x, y: y, vx: 0, vy: 0,
+              r: r, g: g, b: b, a: a,
+              strength: Math.max(0.12, Math.pow(1 - lum / 255, 0.35)),
+              damp: 0.88 + Math.random() * 0.06,
+              angOff: (Math.random() - 0.5) * 0.8
+            });
+          }
+        }
+
+        needsRender = true;
+        if (!running) { running = true; tick(); }
+      }
+
+      function tick() {
+        var rect = container.getBoundingClientRect();
+        var mx = mouseX - rect.left;
+        var my = mouseY - rect.top;
+        var RB = RADIUS + 60;
+
+        var displaced = [];
+
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          var atHome = p.x === p.hx && p.y === p.hy && p.vx === 0;
+
+          if (atHome) {
+            var bx = p.hx - mx, by = p.hy - my;
+            if (bx > RB || bx < -RB || by > RB || by < -RB) continue;
+          }
+
+          var dx = p.x - mx, dy = p.y - my;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (isHovering && dist < RADIUS) {
+            var f = (1 - dist / RADIUS);
+            f = f * f * p.strength;
+            var ang = Math.random() * Math.PI * 2;
+            p.vx += Math.cos(ang) * f * 80;
+            p.vy += Math.sin(ang) * f * 80;
+          }
+
+          p.vx += (p.hx - p.x) * 0.018;
+          p.vy += (p.hy - p.y) * 0.018;
+          p.vx *= p.damp;
+          p.vy *= p.damp;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (Math.abs(p.x - p.hx) + Math.abs(p.y - p.hy) > 0.5) {
+            displaced.push(p);
+          } else {
+            p.x = p.hx; p.y = p.hy;
+            p.vx = 0; p.vy = 0;
+          }
+        }
+
+        if (displaced.length > 0 || needsRender) {
+          workImg.data.set(origData);
+          var wd = workImg.data;
+
+          for (var i = 0; i < displaced.length; i++) {
+            var p = displaced[i];
+            var px = Math.round(p.x), py = Math.round(p.y);
+            var dOff = Math.sqrt((p.x - p.hx) * (p.x - p.hx) + (p.y - p.hy) * (p.y - p.hy));
+            var sz = Math.max(1, Math.round(PX * Math.max(0.45, 1 - dOff / 500)));
+
+            for (var sy = 0; sy < sz; sy++) {
+              for (var sx = 0; sx < sz; sx++) {
+                var ox = px + sx, oy = py + sy;
+                if (ox >= 0 && ox < cw && oy >= 0 && oy < ch) {
+                  var oi = (oy * cw + ox) * 4;
+                  wd[oi] = p.r; wd[oi + 1] = p.g; wd[oi + 2] = p.b; wd[oi + 3] = p.a;
+                }
+              }
+            }
+          }
+
+          ctx.putImageData(workImg, 0, 0);
+          needsRender = displaced.length > 0;
+        }
+
+        requestAnimationFrame(tick);
+      }
+
+      heroImg.onload = function() { init(); };
+
+      var hero = document.querySelector('.hero');
+      hero.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX; mouseY = e.clientY;
+        isHovering = true;
+      });
+      hero.addEventListener('mouseleave', function() {
+        isHovering = false;
+      });
+
+      var rt;
+      window.addEventListener('resize', function() {
+        clearTimeout(rt);
+        rt = setTimeout(function() { if (heroImg.naturalWidth) init(); }, 250);
+      });
+    })();
   </script>
 </body>
 </html>
