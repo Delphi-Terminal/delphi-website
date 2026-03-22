@@ -34,6 +34,13 @@
       padding: 0 40px;
       height: 64px;
       background: transparent;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .header.is-scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
     }
 
     .header__brand {
@@ -361,15 +368,12 @@
       .timeline__point:last-child .timeline__blurb {
         font-size: clamp(20px, 5vw, 28px);
       }
-      .timeline__detail-wrapper {
-        margin-top: 32px;
-        padding: 40px 0;
-      }
       .timeline__detail {
-        margin-top: 0;
+        margin-top: 32px;
         width: 100%;
-        padding: 0 20px;
+        padding: 24px 20px 0;
         box-sizing: border-box;
+        border-top: 1px solid rgba(10, 31, 68, 0.12);
         opacity: 0;
         max-height: 0;
         overflow: hidden;
@@ -379,7 +383,25 @@
         opacity: 1;
         max-height: 1200px;
       }
-      .site-footer { padding: 48px 24px 32px !important; }
+      .timeline__detail-title {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: #0a1f44;
+        letter-spacing: -0.02em;
+        margin-bottom: 12px;
+      }
+      .timeline__detail-text {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: rgba(10, 31, 68, 0.6);
+        letter-spacing: -0.01em;
+        line-height: 1.7;
+      }
+      .site-footer { padding: 48px 24px 0; }
+      .footer__top { flex-direction: column; gap: 40px; }
+      .footer__columns { gap: 48px; }
     }
     @media (min-width: 769px) {
       .header__nav-backdrop { display: none !important; }
@@ -424,7 +446,7 @@
       min-height: 50vh;
       background: #fff;
       z-index: 1;
-      padding: 120px 0 300px;
+      padding: 120px 0 120px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -438,7 +460,7 @@
       width: 92%;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 140px 0 140px;
+      padding: 140px 0 60px;
     }
 
     .timeline__track {
@@ -556,21 +578,13 @@
     }
 
     .timeline__point {
-      cursor: pointer;
+      cursor: default;
     }
 
     .timeline__point.is-active .timeline__blurb {
-      transform: translateX(-50%) scale(1.12);
-      border-width: 3.5px;
-      box-shadow: 0 4px 20px rgba(10, 31, 68, 0.15);
-    }
-
-    .timeline__point.is-active.is-below .timeline__stem {
-      height: 65px;
-    }
-
-    .timeline__point.is-active.is-above .timeline__stem {
-      height: 65px;
+      transform: translateX(-50%) scale(1.06);
+      border-width: 3px;
+      box-shadow: 0 3px 16px rgba(10, 31, 68, 0.1);
     }
 
     .timeline__blurb,
@@ -578,53 +592,158 @@
       transition: all 0.25s ease;
     }
 
-    .timeline__point.is-active.is-below .timeline__blurb {
-      top: calc(100% + 65px);
-    }
-
-    .timeline__point.is-active.is-above .timeline__blurb {
-      bottom: calc(100% + 65px);
-    }
-
-    .timeline__detail-wrapper {
-      width: 100%;
-      background: #0a1f44;
-      margin-top: 240px;
-      padding: 64px 0;
+    .timeline__connector {
+      display: none;
     }
 
     .timeline__detail {
-      width: 92%;
-      max-width: 1400px;
-      margin: 0 auto;
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.35s ease, max-height 0.4s ease;
+      position: relative;
+      margin-top: 240px;
+      border-top: 1px solid rgba(10, 31, 68, 0.12);
+      padding: 32px 0 0;
+      transition: opacity 0.2s ease;
     }
 
     .timeline__detail.is-visible {
       opacity: 1;
-      max-height: 600px;
     }
 
     .timeline__detail-title {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(20px, 2vw, 32px);
+      font-size: clamp(20px, 2vw, 28px);
       font-weight: 700;
-      color: #fff;
+      color: #0a1f44;
       letter-spacing: -0.02em;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .timeline__detail-text {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(15px, 1.4vw, 19px);
-      font-weight: 300;
-      color: rgba(255,255,255,0.85);
+      font-size: clamp(15px, 1.4vw, 18px);
+      font-weight: 400;
+      color: rgba(10, 31, 68, 0.6);
       letter-spacing: -0.01em;
       line-height: 1.7;
-      max-width: 1000px;
+      max-width: 800px;
+    }
+
+    .what-we-do {
+      width: 96%;
+      max-width: 1600px;
+      margin: 80px auto 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 48px;
+    }
+
+    .what-we-do__card {
+      text-align: left;
+      border-top: 2px solid #0a1f44;
+      padding-top: 24px;
+    }
+
+    .what-we-do__title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #0a1f44;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .what-we-do__text {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      color: #0a1f44;
+      line-height: 1.7;
+      letter-spacing: -0.01em;
+      opacity: 0.75;
+    }
+
+    .what-we-do__link {
+      display: inline-block;
+      margin-top: 16px;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #0a1f44;
+      text-decoration: none;
+      border-bottom: 1.5px solid #0a1f44;
+      padding-bottom: 2px;
+      transition: opacity 0.2s ease;
+    }
+
+    .what-we-do__link:hover {
+      opacity: 0.6;
+    }
+
+    @media (max-width: 768px) {
+      .what-we-do {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-top: 60px;
+        padding: 0 20px;
+      }
+    }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: #0a1f44;
+      width: 100%;
+      padding: 64px 48px 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+    }
+    .footer__top {
+      display: flex;
+      justify-content: space-between;
+      gap: 64px;
+      padding-bottom: 48px;
+    }
+    .footer__brand { max-width: 300px; }
+    .footer__logo {
+      height: 48px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .footer__tagline {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      opacity: 0.7;
+      letter-spacing: -0.01em;
+    }
+    .footer__columns { display: flex; gap: 80px; }
+    .footer__col { display: flex; flex-direction: column; gap: 12px; }
+    .footer__col-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+      margin-bottom: 4px;
+    }
+    .footer__col a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 400;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+    .footer__col a:hover { opacity: 1; }
+    .footer__bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 24px 0;
+    }
+    .footer__bottom p {
+      font-size: 13px;
+      font-weight: 300;
+      opacity: 0.4;
+      letter-spacing: -0.01em;
     }
   </style>
 </head>
@@ -670,6 +789,22 @@
         <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(32px,4.5vw,60px);font-weight:500;color:#0a1f44;letter-spacing:-0.03em;line-height:1.3">All asset classes start with markets and exchanges. The next domino that falls is infrastructure.</p>
         <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(32px,4.5vw,60px);font-weight:700;color:#0a1f44;letter-spacing:-0.03em;line-height:1.3;margin-top:48px">Enter Delphi.</p>
       </div>
+      <div class="what-we-do">
+        <div class="what-we-do__card">
+          <p class="what-we-do__title">Data</p>
+          <p class="what-we-do__text">We aggregate real-time and historical market data from 10+ prediction market exchanges, including Kalshi, Polymarket, and many more, into a single unified API. Markets are matched and standardized across exchanges so you get the full picture, not just one exchange's view.</p>
+          <a class="what-we-do__link" href="https://docs.delphimarkets.com" target="_blank" rel="noopener">Explore the API</a>
+        </div>
+        <div class="what-we-do__card">
+          <p class="what-we-do__title">Indices</p>
+          <p class="what-we-do__text">We build cross-exchange indices that benchmark elections, macro outcomes, and geopolitical risks. Think of it as an S&amp;P 500 for real-world events, built on data from multiple exchanges so no single platform can skew the signal.</p>
+        </div>
+        <div class="what-we-do__card">
+          <p class="what-we-do__title">News</p>
+          <p class="what-we-do__text">Delphi News delivers unbiased, non-partisan reporting backed by prediction market data. Instead of editorial opinion, the wisdom of the crowd guides the story, separating signal from noise.</p>
+        </div>
+      </div>
+
       <hr style="border:none;border-top:1px solid #0a1f44;margin:80px 0 0;width:100%">
       <div style="width:96%;max-width:1600px;margin:32px auto 0;text-align:left">
         <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:clamp(28px,3.5vw,48px);font-weight:600;color:#0a1f44;letter-spacing:-0.03em">History of Asset Classes</p>
@@ -734,7 +869,7 @@
               <span class="timeline__blurb">Kalshi &amp; Polymarket</span>
             </div>
 
-            <div class="timeline__point is-above is-active" style="left:98%" data-title="Delphi (2025)" data-detail="You know why you're here.">
+            <div class="timeline__point is-above is-active" style="left:98%" data-title="Delphi (2025)" data-detail="Delphi aggregates data from 10+ prediction market exchanges into a unified API, builds indices that benchmark real-world events, and powers the first unbiased news platform backed by market data. Every asset class that came before followed the same path: exchanges first, then infrastructure. We're that next layer.">
               <div class="timeline__dot"><span class="timeline__year">2025</span></div>
               <div class="timeline__stem"></div>
               <span class="timeline__blurb">Delphi</span>
@@ -742,24 +877,37 @@
 
           </div>
         </div>
-      </div>
-      <div class="timeline__detail-wrapper">
         <div class="timeline__detail is-visible" id="timelineDetail">
           <p class="timeline__detail-title" id="detailTitle">Delphi (2025)</p>
-          <p class="timeline__detail-text" id="detailText">You know why you're here.</p>
+          <p class="timeline__detail-text" id="detailText">Delphi aggregates data from 10+ prediction market exchanges into a unified API, builds indices that benchmark real-world events, and powers the first unbiased news platform backed by market data. Every asset class that came before followed the same path: exchanges first, then infrastructure. We're that next layer.</p>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
-    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
-      <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
-      <a href="/about/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">About</a>
-      <a href="/data/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Data</a>
-      <a href="/contact/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Contact</a>
+  <footer class="site-footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="/"><img src="/logo-Photoroom.png" alt="Delphi" class="footer__logo" /></a>
+        <p class="footer__tagline">The data infrastructure<br>for the prediction economy.</p>
+      </div>
+      <div class="footer__columns">
+        <div class="footer__col">
+          <p class="footer__col-title">Product</p>
+          <a href="/data/">Data</a>
+          <a href="/news/">Delphi News</a>
+          <a href="/markets/">Markets</a>
+        </div>
+        <div class="footer__col">
+          <p class="footer__col-title">Company</p>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
     </div>
-    <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;font-weight:300;color:#fff;opacity:0.5;letter-spacing:-0.01em;text-align:center">© Delphi Markets Inc. 2026</p>
+    <div class="footer__bottom">
+      <p>&copy; Delphi Markets Inc. 2026</p>
+    </div>
   </footer>
 
   <script>
@@ -796,6 +944,9 @@
     const detailBox = document.getElementById('timelineDetail');
     const detailTitle = document.getElementById('detailTitle');
     const detailText = document.getElementById('detailText');
+    const timelineEl = document.querySelector('.timeline');
+    const delphiPoint = document.querySelector('.timeline__point[data-title="Delphi (2025)"]');
+    const isDesktop = () => window.matchMedia('(min-width: 769px)').matches;
     let activePoint = null;
 
     function stripTimelineInlineStyles() {
@@ -809,28 +960,45 @@
     stripTimelineInlineStyles();
     window.addEventListener('resize', stripTimelineInlineStyles);
 
-    const delphiPoint = document.querySelector('.timeline__point[data-title="Delphi (2025)"]');
-    if (delphiPoint) activePoint = delphiPoint;
+    function activatePoint(point) {
+      if (activePoint) activePoint.classList.remove('is-active');
+      point.classList.add('is-active');
+      activePoint = point;
+
+      detailTitle.textContent = point.dataset.title;
+      detailText.textContent = point.dataset.detail;
+      detailBox.classList.add('is-visible');
+
+    }
+
+    if (delphiPoint) activatePoint(delphiPoint);
 
     document.querySelectorAll('.timeline__point[data-title]').forEach(point => {
       point.style.cursor = 'pointer';
+
+      point.addEventListener('mouseenter', () => {
+        if (!isDesktop()) return;
+        activatePoint(point);
+      });
+
       point.addEventListener('click', () => {
+        if (isDesktop()) return;
         if (activePoint === point) {
           point.classList.remove('is-active');
           detailBox.classList.remove('is-visible');
           activePoint = null;
           return;
         }
-
-        if (activePoint) activePoint.classList.remove('is-active');
-
-        point.classList.add('is-active');
-        detailTitle.textContent = point.dataset.title;
-        detailText.textContent = point.dataset.detail;
-        detailBox.classList.add('is-visible');
-        activePoint = point;
+        activatePoint(point);
       });
     });
+
+    if (timelineEl) {
+      timelineEl.addEventListener('mouseleave', () => {
+        if (!isDesktop()) return;
+        if (delphiPoint) activatePoint(delphiPoint);
+      });
+    }
 
     (function() {
       var menuBtn = document.getElementById('menuBtn');
@@ -855,6 +1023,12 @@
         if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
       }
     })();
+  </script>
+  <script>
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 10);
+    }, { passive: true });
   </script>
 
 </body>

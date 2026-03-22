@@ -30,8 +30,14 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 50;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px; height: 64px;
-      background: #fff;
-      border-bottom: 1px solid rgba(10,31,68,0.1);
+      background: transparent;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .header.is-scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
     }
     .header__brand { display: flex; align-items: center; text-decoration: none; }
     .header__brand-icon { height: 64px; width: auto; mix-blend-mode: multiply; }
@@ -350,18 +356,69 @@
     .cat-view__grid {
       display: grid;
       grid-template-columns: 268px 1fr;
-      gap: 0;
+      gap: 36px;
+      max-width: 1100px;
+      margin: 0 auto;
     }
     .cat-view__left {
       padding-right: 30px;
       border-right: 1px solid rgba(10,31,68,0.1);
     }
+    .cat-view__right {
+      padding-top: 18px;
+    }
+    .cat-view__featured-img {
+      width: 100%;
+      aspect-ratio: 624/264;
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: #fff;
+      border: 1px solid rgba(10,31,68,0.06);
+    }
+    .cat-view__featured-img img {
+      width: 100%; height: 100%; object-fit: fill; display: block;
+    }
+    .cat-view__featured-title {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(20px, 2.4vw, 32px);
+      font-weight: 700; line-height: 1.22;
+      letter-spacing: -0.025em; color: #0a1f44;
+      text-decoration: none; display: block;
+      margin-bottom: 12px;
+      transition: opacity 0.15s;
+    }
+    .cat-view__featured-title:hover { opacity: 0.72; }
+    .cat-view__featured-excerpt {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 15px; font-weight: 300;
+      line-height: 1.5; color: rgba(10,31,68,0.6);
+      margin-top: 8px;
+    }
     @media (max-width: 900px) {
       .cat-view__grid { grid-template-columns: 1fr; }
       .cat-view__left { padding-right: 0; border-right: none; }
+      .cat-view__right { padding-top: 24px; border-top: 1px solid rgba(10,31,68,0.1); margin-top: 12px; }
     }
     .news-default { transition: opacity 0.2s; }
     .news-default.is-hidden { display: none; }
+
+    .cat-view__empty {
+      padding: 48px 0;
+      text-align: center;
+    }
+    .cat-view__empty p:first-child {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      color: #0a1f44;
+      margin-bottom: 8px;
+    }
+    .cat-view__empty p:last-child {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(10, 31, 68, 0.45);
+    }
 
     /* Signals 2-column layout */
     .signals-grid {
@@ -403,6 +460,20 @@
     .signal-item__trend.dn { color: #dc2626; }
     .signal-item__trend.nt { color: rgba(10,31,68,0.35); }
 
+    .news-loading, .news-error {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 13px; font-weight: 300;
+      color: rgba(10,31,68,0.4);
+      padding: 24px 0;
+    }
+    .news-error {
+      text-align: center;
+      padding: 48px 0;
+    }
+    .news-error p:first-child {
+      font-size: 15px; font-weight: 500;
+      color: #0a1f44; margin-bottom: 6px;
+    }
     .signals-loading {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       font-size: 12px; color: rgba(10,31,68,0.35);
@@ -418,20 +489,59 @@
     .site-footer {
       background: #0a1f44;
       width: 100%;
-      padding: 64px 72px 48px;
-    }
-    .site-footer__links {
-      display: flex; flex-direction: column; gap: 24px; margin-bottom: 80px;
-    }
-    .site-footer__link {
+      padding: 64px 48px 0;
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 20px; font-weight: 400; color: #fff;
-      text-decoration: none; letter-spacing: -0.01em; opacity: 0.85;
+      color: #fff;
     }
-    .site-footer__copy {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 16px; font-weight: 300; color: #fff;
-      opacity: 0.5; letter-spacing: -0.01em; text-align: center;
+    .footer__top {
+      display: flex;
+      justify-content: space-between;
+      gap: 64px;
+      padding-bottom: 48px;
+    }
+    .footer__brand { max-width: 300px; }
+    .footer__logo {
+      height: 48px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .footer__tagline {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      opacity: 0.7;
+      letter-spacing: -0.01em;
+    }
+    .footer__columns { display: flex; gap: 80px; }
+    .footer__col { display: flex; flex-direction: column; gap: 12px; }
+    .footer__col-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+      margin-bottom: 4px;
+    }
+    .footer__col a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 400;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+    .footer__col a:hover { opacity: 1; }
+    .footer__bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 24px 0;
+    }
+    .footer__bottom p {
+      font-size: 13px;
+      font-weight: 300;
+      opacity: 0.4;
+      letter-spacing: -0.01em;
     }
 
     /* ─────────────────────────────────────
@@ -454,7 +564,9 @@
 
     @media (max-width: 600px) {
       .news-masthead { padding: 32px 20px 22px; }
-      .site-footer { padding: 48px 24px 32px; }
+      .site-footer { padding: 48px 24px 0; }
+      .footer__top { flex-direction: column; gap: 40px; }
+      .footer__columns { gap: 48px; }
       .signal-item__term { flex: 0 0 130px; font-size: 12px; }
     }
   </style>
@@ -522,6 +634,7 @@
             <p class="col-hd" id="catViewTitle">Economy</p>
             <div id="catViewList"></div>
           </div>
+          <div class="cat-view__right" id="catViewFeatured"></div>
         </div>
       </div>
 
@@ -532,20 +645,27 @@
       <div class="news-grid">
         <aside class="news-grid__sidebar">
           <p class="col-hd">Latest</p>
-          <div id="latestList"></div>
+          <div id="latestList">
+            <p class="news-loading">Loading articles…</p>
+          </div>
         </aside>
         <div class="news-grid__main">
-          <div class="lead-story">
+          <div class="lead-story" id="leadStory">
             <div class="lead-story__img-wrap">
-              <img src="../articles/images/crude-oil-past-month.png" alt="Crude Oil — Past Month" class="lead-story__img" />
+              <div class="lead-story__img-placeholder"></div>
             </div>
-            <span class="kicker">The Lead &nbsp;·&nbsp; World</span>
-            <a href="../articles/crude-oil-top-market-mover.html" class="lead-story__title">Crude Oil Surges 50% as Strait of Hormuz Tensions Rewrite Risk Premium</a>
-            <p class="lead-story__subhead">Oil markets surge on Strait of Hormuz risk. WTI near $95, Brent above $102.</p>
           </div>
         </div>
       </div>
       <!-- /news-grid -->
+
+      <!-- ── SECTION: Research ── -->
+      <div class="news-section" id="research-section">
+        <div class="news-section__hd">
+          <span class="news-section__label">Research</span>
+        </div>
+        <div class="section-cards" id="researchCards"></div>
+      </div>
 
       <!-- ── SECTION: Signals From Search ── -->
       <div class="news-section" id="signals-section">
@@ -557,21 +677,13 @@
           <div class="signals-col">
             <p class="signals-col__label">Trending Search Terms — Finance</p>
             <div id="signals-search">
-              <div class="signal-item"><span class="signal-item__term">Federal Reserve rate cut</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:88%"></div></div><span class="signal-item__trend up">+34%</span></div>
-              <div class="signal-item"><span class="signal-item__term">Bitcoin ETF</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:74%"></div></div><span class="signal-item__trend up">+21%</span></div>
-              <div class="signal-item"><span class="signal-item__term">Gold price forecast</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:61%"></div></div><span class="signal-item__trend up">+15%</span></div>
-              <div class="signal-item"><span class="signal-item__term">Recession 2026</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:52%"></div></div><span class="signal-item__trend dn">−8%</span></div>
-              <div class="signal-item"><span class="signal-item__term">S&amp;P 500 earnings</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:45%"></div></div><span class="signal-item__trend nt">flat</span></div>
+              <p class="signals-loading">Loading signals…</p>
             </div>
           </div>
           <div class="signals-col">
             <p class="signals-col__label">Market Conversations — Reddit &amp; Social</p>
             <div id="signals-conversations">
-              <div class="signal-item"><span class="signal-item__term">Inflation / CPI narrative</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:91%"></div></div><span class="signal-item__trend up">+47%</span></div>
-              <div class="signal-item"><span class="signal-item__term">Bitcoin price action</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:79%"></div></div><span class="signal-item__trend up">+29%</span></div>
-              <div class="signal-item"><span class="signal-item__term">SEC crypto regulation</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:66%"></div></div><span class="signal-item__trend up">+18%</span></div>
-              <div class="signal-item"><span class="signal-item__term">AI stocks &amp; semiconductors</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:58%"></div></div><span class="signal-item__trend dn">−5%</span></div>
-              <div class="signal-item"><span class="signal-item__term">Geopolitical risk premium</span><div class="signal-item__bar-wrap"><div class="signal-item__bar" style="width:40%"></div></div><span class="signal-item__trend nt">flat</span></div>
+              <p class="signals-loading">Loading signals…</p>
             </div>
           </div>
         </div>
@@ -584,13 +696,28 @@
 
   <!-- ── FOOTER ── -->
   <footer class="site-footer">
-    <div class="site-footer__links">
-      <a href="/news/" class="site-footer__link">News</a>
-      <a href="/about/" class="site-footer__link">About</a>
-      <a href="/data/" class="site-footer__link">Data</a>
-      <a href="/contact/" class="site-footer__link">Contact</a>
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="/"><img src="/logo-Photoroom.png" alt="Delphi" class="footer__logo" /></a>
+        <p class="footer__tagline">The data infrastructure<br>for the prediction economy.</p>
+      </div>
+      <div class="footer__columns">
+        <div class="footer__col">
+          <p class="footer__col-title">Product</p>
+          <a href="/data/">Data</a>
+          <a href="/news/">Delphi News</a>
+          <a href="/markets/">Markets</a>
+        </div>
+        <div class="footer__col">
+          <p class="footer__col-title">Company</p>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
     </div>
-    <p class="site-footer__copy">© Delphi Markets Inc. 2026</p>
+    <div class="footer__bottom">
+      <p>&copy; Delphi Markets Inc. 2026</p>
+    </div>
   </footer>
 
   <script>
@@ -627,6 +754,7 @@
           symbols: [
             { proName: 'FOREXCOM:SPXUSD',  title: 'S\u0026P 500'  },
             { proName: 'COINBASE:BTCUSD',  title: 'Bitcoin'        },
+            { proName: 'COINBASE:ETHUSD',  title: 'Ethereum'       },
             { proName: 'NASDAQ:NVDA',      title: 'NVIDIA'         },
             { proName: 'NASDAQ:MSFT',      title: 'Microsoft'      },
             { proName: 'NASDAQ:GOOGL',     title: 'Alphabet'       },
@@ -663,33 +791,113 @@
         return { cat: a.category, title: a.title, sub: a.excerpt, url: articleBase + a.url, date: a.dateShort || a.date, author: a.author, image: a.image };
       }
 
+      /* ── Safe article preview builder (no innerHTML for user data) ── */
+      function buildArticlePreview(a, isFirst) {
+        var div = document.createElement('div');
+        div.className = 'article-preview';
+        if (isFirst) div.style.paddingTop = '18px';
+
+        var kicker = document.createElement('span');
+        kicker.className = 'kicker';
+        kicker.textContent = a.cat;
+        div.appendChild(kicker);
+
+        var titleLink = document.createElement('a');
+        titleLink.className = 'article-preview__title';
+        titleLink.href = a.url;
+        titleLink.textContent = a.title;
+        div.appendChild(titleLink);
+
+        if (a.sub) {
+          var excerpt = document.createElement('p');
+          excerpt.className = 'article-preview__excerpt';
+          excerpt.textContent = a.sub;
+          div.appendChild(excerpt);
+        }
+
+        var meta = document.createElement('div');
+        meta.className = 'meta';
+        var authorSpan = document.createElement('span');
+        authorSpan.className = 'meta__author';
+        authorSpan.textContent = a.author;
+        var dot = document.createElement('span');
+        dot.className = 'meta__dot';
+        var dateSpan = document.createElement('span');
+        dateSpan.className = 'meta__date';
+        dateSpan.textContent = a.date;
+        meta.appendChild(authorSpan);
+        meta.appendChild(dot);
+        meta.appendChild(dateSpan);
+        div.appendChild(meta);
+
+        return div;
+      }
+
       function initArticles(data) {
         articles = (data || []).map(normArticle);
 
         var catView = document.getElementById('catView');
         var catViewTitle = document.getElementById('catViewTitle');
         var catViewList = document.getElementById('catViewList');
+        var catViewFeatured = document.getElementById('catViewFeatured');
         var newsDefault = document.getElementById('newsDefault');
 
         function renderCategory(cat) {
           var filtered = cat === 'all' ? articles : articles.filter(function(a) { return a.cat === cat; });
           catViewTitle.textContent = cat === 'all' ? 'All' : cat;
           catViewList.innerHTML = '';
-          filtered.forEach(function(a, i) {
-            var div = document.createElement('div');
-            div.className = 'article-preview';
-            if (i === 0) div.style.paddingTop = '18px';
-            div.innerHTML =
-              '<span class="kicker">' + a.cat + '</span>' +
-              '<a href="' + a.url + '" class="article-preview__title">' + a.title + '</a>' +
-              (a.sub ? '<p class="article-preview__excerpt">' + a.sub + '</p>' : '') +
-              '<div class="meta">' +
-                '<span class="meta__author">' + a.author + '</span>' +
-                '<span class="meta__dot"></span>' +
-                '<span class="meta__date">' + a.date + '</span>' +
-              '</div>';
-            catViewList.appendChild(div);
+          catViewFeatured.innerHTML = '';
+
+          if (filtered.length === 0) {
+            var empty = document.createElement('div');
+            empty.className = 'cat-view__empty';
+            var p1 = document.createElement('p');
+            p1.textContent = 'No stories in this category yet.';
+            var p2 = document.createElement('p');
+            p2.textContent = 'Check back soon \u2014 our team is always working on new coverage.';
+            empty.appendChild(p1);
+            empty.appendChild(p2);
+            catViewList.appendChild(empty);
+          }
+
+          /* Featured article (first) goes in the right column */
+          var featured = filtered[0];
+          var rest = filtered.slice(1);
+
+          if (featured) {
+            if (featured.image) {
+              var imgWrap = document.createElement('div');
+              imgWrap.className = 'cat-view__featured-img';
+              var img = document.createElement('img');
+              img.src = articleBase + 'articles/' + featured.image;
+              img.alt = featured.title;
+              imgWrap.appendChild(img);
+              catViewFeatured.appendChild(imgWrap);
+            }
+            var kicker = document.createElement('span');
+            kicker.className = 'kicker';
+            kicker.textContent = featured.cat;
+            catViewFeatured.appendChild(kicker);
+
+            var titleLink = document.createElement('a');
+            titleLink.className = 'cat-view__featured-title';
+            titleLink.href = featured.url;
+            titleLink.textContent = featured.title;
+            catViewFeatured.appendChild(titleLink);
+
+            if (featured.sub) {
+              var excerpt = document.createElement('p');
+              excerpt.className = 'cat-view__featured-excerpt';
+              excerpt.textContent = featured.sub;
+              catViewFeatured.appendChild(excerpt);
+            }
+          }
+
+          /* Remaining articles in the left list */
+          rest.forEach(function(a, i) {
+            catViewList.appendChild(buildArticlePreview(a, i === 0));
           });
+
           if (cat === 'all') {
             catView.classList.remove('is-visible');
             newsDefault.classList.remove('is-hidden');
@@ -718,41 +926,115 @@
         var leadUrl = leadArticle ? leadArticle.url : '';
         var latestList = document.getElementById('latestList');
         if (latestList) {
-        var latest = articles.filter(function(a) { return a.url !== leadUrl; });
-        latest.forEach(function(a, i) {
-            var div = document.createElement('div');
-          div.className = 'article-preview';
-          if (i === 0) div.style.paddingTop = '18px';
-          div.innerHTML =
-            '<span class="kicker">' + a.cat + '</span>' +
-            '<a href="' + a.url + '" class="article-preview__title">' + a.title + '</a>' +
-            (a.sub ? '<p class="article-preview__excerpt">' + a.sub + '</p>' : '') +
-            '<div class="meta">' +
-              '<span class="meta__author">' + a.author + '</span>' +
-              '<span class="meta__dot"></span>' +
-              '<span class="meta__date">' + a.date + '</span>' +
-            '</div>';
-          latestList.appendChild(div);
+          latestList.innerHTML = '';
+          var latest = articles.filter(function(a) { return a.url !== leadUrl; });
+          if (latest.length === 0 && !leadArticle) {
+            var errDiv = document.createElement('div');
+            errDiv.className = 'news-error';
+            var errP1 = document.createElement('p');
+            errP1.textContent = 'Unable to load articles.';
+            var errP2 = document.createElement('p');
+            errP2.textContent = 'Please try refreshing the page.';
+            errDiv.appendChild(errP1);
+            errDiv.appendChild(errP2);
+            latestList.appendChild(errDiv);
+          }
+          latest.forEach(function(a, i) {
+            latestList.appendChild(buildArticlePreview(a, i === 0));
           });
         }
 
-        /* ── Lead story: update from first article ── */
-        if (leadArticle) {
-          var leadImg = document.querySelector('.lead-story__img');
-          var leadTitle = document.querySelector('.lead-story__title');
-          var leadSub = document.querySelector('.lead-story__subhead');
-          var leadKicker = document.querySelector('.lead-story .kicker');
-          if (leadImg && leadArticle.image) leadImg.src = articleBase + 'articles/' + leadArticle.image;
-          if (leadTitle) { leadTitle.href = leadArticle.url; leadTitle.textContent = leadArticle.title; }
-          if (leadSub) leadSub.textContent = leadArticle.sub;
-          if (leadKicker) leadKicker.textContent = 'The Lead \u00A0·\u00A0 ' + leadArticle.cat;
+        /* ── Lead story: render entirely from JS ── */
+        var leadStory = document.getElementById('leadStory');
+        if (leadStory && leadArticle) {
+          leadStory.innerHTML = '';
+
+          if (leadArticle.image) {
+            var imgWrap = document.createElement('div');
+            imgWrap.className = 'lead-story__img-wrap';
+            var img = document.createElement('img');
+            img.className = 'lead-story__img';
+            img.src = articleBase + 'articles/' + leadArticle.image;
+            img.alt = leadArticle.title;
+            imgWrap.appendChild(img);
+            leadStory.appendChild(imgWrap);
+          }
+
+          var kicker = document.createElement('span');
+          kicker.className = 'kicker';
+          kicker.textContent = 'The Lead \u00A0\u00B7\u00A0 ' + leadArticle.cat;
+          leadStory.appendChild(kicker);
+
+          var titleLink = document.createElement('a');
+          titleLink.className = 'lead-story__title';
+          titleLink.href = leadArticle.url;
+          titleLink.textContent = leadArticle.title;
+          leadStory.appendChild(titleLink);
+
+          if (leadArticle.sub) {
+            var subP = document.createElement('p');
+            subP.className = 'lead-story__subhead';
+            subP.textContent = leadArticle.sub;
+            leadStory.appendChild(subP);
+          }
+        }
+
+        /* ── Research section: filter and render research articles ── */
+        var researchCards = document.getElementById('researchCards');
+        var researchSection = document.getElementById('research-section');
+        if (researchCards) {
+          var research = articles.filter(function(a) { return a.cat === 'Research'; });
+          if (research.length === 0) {
+            researchSection.style.display = 'none';
+          } else {
+            research.forEach(function(a) {
+              var card = document.createElement('a');
+              card.className = 'economy-card';
+              card.href = a.url;
+
+              var cardTitle = document.createElement('p');
+              cardTitle.className = 'economy-card__title';
+              cardTitle.textContent = a.title;
+              card.appendChild(cardTitle);
+
+              if (a.sub) {
+                var cardExcerpt = document.createElement('p');
+                cardExcerpt.className = 'economy-card__excerpt';
+                cardExcerpt.textContent = a.sub;
+                card.appendChild(cardExcerpt);
+              }
+
+              researchCards.appendChild(card);
+            });
+          }
         }
       }
 
+      function showArticleError() {
+        var latestList = document.getElementById('latestList');
+        if (latestList) {
+          latestList.innerHTML = '';
+          var errDiv = document.createElement('div');
+          errDiv.className = 'news-error';
+          var errP1 = document.createElement('p');
+          errP1.textContent = 'Unable to load articles.';
+          var errP2 = document.createElement('p');
+          errP2.textContent = 'Please try refreshing the page.';
+          errDiv.appendChild(errP1);
+          errDiv.appendChild(errP2);
+          latestList.appendChild(errDiv);
+        }
+        var researchSection = document.getElementById('research-section');
+        if (researchSection) researchSection.style.display = 'none';
+      }
+
       fetch((articleBase || '') + 'articles.json?v=' + Date.now())
-        .then(function(r) { return r.json(); })
+        .then(function(r) {
+          if (!r.ok) throw new Error('fetch failed');
+          return r.json();
+        })
         .then(initArticles)
-        .catch(function() { initArticles([]); });
+        .catch(function() { showArticleError(); });
 
       /* ── Signals: fetch signals.json and render dynamically ── */
       function buildSignalItem(item) {
@@ -807,6 +1089,12 @@
         });
 
     })();
+  </script>
+  <script>
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 10);
+    }, { passive: true });
   </script>
 </body>
 </html>

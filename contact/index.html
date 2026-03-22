@@ -33,6 +33,13 @@
       padding: 0 40px;
       height: 64px;
       background: transparent;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+    .header.is-scrolled {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
     }
 
     .header__brand {
@@ -160,7 +167,9 @@
       }
       .contact-left { max-width: none; }
       .contact-right { padding-left: 0; }
-      .site-footer { padding: 48px 24px 32px !important; }
+      .site-footer { padding: 48px 24px 0; }
+      .footer__top { flex-direction: column; gap: 40px; }
+      .footer__columns { gap: 48px; }
     }
     @media (min-width: 769px) {
       .header__nav-backdrop { display: none !important; }
@@ -302,6 +311,65 @@
       background: #0a1f44;
       color: #fff;
     }
+
+    /* ── Footer ── */
+    .site-footer {
+      background: #0a1f44;
+      width: 100%;
+      padding: 64px 48px 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+    }
+    .footer__top {
+      display: flex;
+      justify-content: space-between;
+      gap: 64px;
+      padding-bottom: 48px;
+    }
+    .footer__brand { max-width: 300px; }
+    .footer__logo {
+      height: 48px;
+      width: auto;
+      filter: brightness(0) invert(1);
+    }
+    .footer__tagline {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.6;
+      opacity: 0.7;
+      letter-spacing: -0.01em;
+    }
+    .footer__columns { display: flex; gap: 80px; }
+    .footer__col { display: flex; flex-direction: column; gap: 12px; }
+    .footer__col-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.5;
+      margin-bottom: 4px;
+    }
+    .footer__col a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 400;
+      opacity: 0.85;
+      transition: opacity 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+    .footer__col a:hover { opacity: 1; }
+    .footer__bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 24px 0;
+    }
+    .footer__bottom p {
+      font-size: 13px;
+      font-weight: 300;
+      opacity: 0.4;
+      letter-spacing: -0.01em;
+    }
   </style>
 </head>
 <body>
@@ -334,7 +402,7 @@
         <p class="contact-sub">Get in touch with Delphi</p>
       </div>
 
-      <form class="contact-right" action="https://formsubmit.co/armon@delphiterminal.co" method="POST">
+      <form class="contact-right" action="https://formsubmit.co/shay@delphimarkets.com" method="POST">
         <input type="hidden" name="_subject" value="Delphi Contact Form" />
         <input type="hidden" name="_template" value="table" />
         <div class="contact-field">
@@ -352,14 +420,29 @@
     </div>
   </main>
 
-  <footer class="site-footer" style="background:#0a1f44;width:100%;padding:64px 72px 48px">
-    <div style="display:flex;flex-direction:column;gap:24px;margin-bottom:80px">
-      <a href="/news/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">News</a>
-      <a href="/about/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">About</a>
-      <a href="/data/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Data</a>
-      <a href="/contact/" style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:20px;font-weight:400;color:#fff;text-decoration:none;letter-spacing:-0.01em;opacity:0.85">Contact</a>
+  <footer class="site-footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="/"><img src="/logo-Photoroom.png" alt="Delphi" class="footer__logo" /></a>
+        <p class="footer__tagline">The data infrastructure<br>for the prediction economy.</p>
+      </div>
+      <div class="footer__columns">
+        <div class="footer__col">
+          <p class="footer__col-title">Product</p>
+          <a href="/data/">Data</a>
+          <a href="/news/">Delphi News</a>
+          <a href="/markets/">Markets</a>
+        </div>
+        <div class="footer__col">
+          <p class="footer__col-title">Company</p>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+        </div>
+      </div>
     </div>
-    <p style="font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;font-weight:300;color:#fff;opacity:0.5;letter-spacing:-0.01em;text-align:center">© Delphi Markets Inc. 2026</p>
+    <div class="footer__bottom">
+      <p>&copy; Delphi Markets Inc. 2026</p>
+    </div>
   </footer>
 
   <script>
@@ -393,6 +476,12 @@
         if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
       }
     })();
+  </script>
+  <script>
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('is-scrolled', window.scrollY > 10);
+    }, { passive: true });
   </script>
 </body>
 </html>
