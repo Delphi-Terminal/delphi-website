@@ -9,7 +9,7 @@ You need a local HTTP server so that paths like `/markets/` and `/news/` resolve
 **Option A – Python (no install if you have Python):**
 
 ```bash
-cd /Users/prakashshekhar/development/delphi/delphi-website
+cd delphi-website
 python3 -m http.server 8000
 ```
 
@@ -23,6 +23,8 @@ npx serve -l 8000
 ```
 
 Then open **http://localhost:8000**.
+
+**Troubleshooting:** If the news page shows an empty "Latest" list or the CNN article doesn't appear, (1) make sure you're running the server from the folder that contains `articles.json`, and (2) use `http://localhost:8000/news/` — don't open the HTML file directly (file:// won't load articles).
 
 To test mobile layout: use Chrome DevTools (F12 → device toolbar) or resize the window below 768px width.
 
