@@ -24,23 +24,29 @@ The New York Post frames an immediate and personal threat directly at American v
 
 
 
-![](images/us_air_passengers_chart.png)
+```
+<figure class="article__figure">
+  <img src="images/us_air_passengers_chart" alt="Description" class="article__figure-img" />
+  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+</figure>
+```
 
 The chart above is simple. Americans domestically, travel to New York, Miami, Los Angeles, Atlanta and San Francisco during spring break. Internationally, Londer leads, followed by Cancun and Toronto. Not one of which are in the Middle East. The actual places data shows Iran will target.
 
 
 
-
-![](images/graph_iran_targets.png)
-
+```
+<figure class="article__figure">
+  <img src="images/graph_iran_targets.png" alt="Description" class="article__figure-img" />
+  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+</figure>
+```
 
 Prediction markets reinforce the picture. The odds of the US officially declaring war on Iran sit at just 9% by year-end, with a full invasion priced at 19%. Traders aren't betting on a global terror campaign reaching Florida resorts or Mexican beach towns. They're pricing a contained regional conflict that most American spring breakers will watch on their phone by the pool.
 
 The Post’s framing isn’t wrong that Iran made a threat. It’s wrong about who that threat is realistically aimed at. And who should actually be worried.
 
-### 
 **The Center: Actually, Kind of Right**
-
 
 The Hill played it much straighter. "Iran on Friday threatened to target recreational and tourist sites globally," it reported, "as the nation continues building missiles nearly three weeks after the U.S. and Israel launched joint strikes on the Middle Eastern country." It also noted that "the military operation in Iran has killed a number of top officials since the initial attack on Feb. 28, including Supreme Leader Khamenei, and targeted the nation's energy infrastructure and its weapons program."
 
@@ -52,9 +58,14 @@ However, it falls short in what it doesn’t ask: missiles are being built, offi
 
 Delphi Markets fills that gap. Yes, military action continues through March at 79%, but zoom out and the picture shifts. Traders price a 62% chance of a US-Iran ceasefire by June 30, rising to 74% by December 31. The crowd isn't betting on forever. It's betting on a grinding spring followed by a deal.
 
-
-
 ![](images/graph2_ceasefire.png)
+
+```
+<figure class="article__figure">
+  <img src="images/graph2_ceasefire.png" alt="Description" class="article__figure-img" />
+  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+</figure>
+```
 
 The data isn’t depicting endless war but it isn’t a clean resolution either. It is a conflict that grinds through spring before money starts betting heavily on a deal by summer.
 
@@ -68,7 +79,12 @@ This is the one section where Delphi Markets doesn't push back — it piles on. 
 
 
 
-![](images/graph3_invasion-2.png)
+```
+<figure class="article__figure">
+  <img src="images/graph3_invasion-2" alt="Description" class="article__figure-img" />
+  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+</figure>
+```
 
 The nuance is in what "entry" actually means. Crossing a border and conquering a country are two different bets. The dedicated invasion market, which requires a full military offensive intended to establish territorial control, sits at just 14% by March 31. Stretch the timeline to year-end and it climbs to 54%. The first outcome traders consider likely. The second, no longer unthinkable.
 
