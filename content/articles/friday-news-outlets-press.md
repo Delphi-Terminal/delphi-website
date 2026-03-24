@@ -41,7 +41,10 @@ The chart above is simple. Americans domestically, travel to New York, Miami, Lo
 ```
 <figure class="article__figure">
   <img src="images/graph_iran_targets.png" alt="Description" class="article__figure-img" />
-  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+  <figcaption class="article__figure-caption">
+    <span class="article__figure-credit">
+    </span>
+  </figcaption>
 </figure>
 ```
 
@@ -68,7 +71,9 @@ Delphi Markets fills that gap. Yes, military action continues through March at 7
   <img src="images/graph2_ceasefire.png" 
        alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
-    Caption. <span class="article__figure-credit">Credit</span></figcaption>
+    <span class="article__figure-credit">
+    </span>
+  </figcaption>
 </figure>
 ```
 
@@ -87,7 +92,10 @@ This is the one section where Delphi Markets doesn't push back — it piles on. 
 ```
 <figure class="article__figure">
   <img src="images/graph3_invasion-2" alt="Description" class="article__figure-img" />
-  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+  <figcaption class="article__figure-caption">
+    <span class="article__figure-credit">
+    </span>
+  </figcaption>
 </figure>
 ```
 
