@@ -27,7 +27,10 @@ The New York Post frames an immediate and personal threat directly at American v
 ```
 <figure class="article__figure">
   <img src="images/us_air_passengers_chart" alt="Description" class="article__figure-img" />
-  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+  <figcaption class="article__figure-caption">
+    <span class="article__figure-credit">
+    </span>
+  </figcaption>
 </figure>
 ```
 
