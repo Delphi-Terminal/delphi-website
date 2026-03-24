@@ -1,10 +1,10 @@
 {
-  "updated": "2026-03-24T12:40:59.503410Z",
+  "updated": "2026-03-24T18:45:10.395999Z",
   "search_trends": [
     {
       "term": "Federal Reserve rate cut",
-      "value": 1,
-      "change": "+14%",
+      "value": 0,
+      "change": "+17%",
       "direction": "up"
     },
     {
@@ -15,20 +15,20 @@
     },
     {
       "term": "gold price forecast",
-      "value": 23,
-      "change": "+53%",
+      "value": 19,
+      "change": "+46%",
       "direction": "up"
     },
     {
       "term": "recession 2026",
-      "value": 11,
-      "change": "+21%",
+      "value": 10,
+      "change": "+22%",
       "direction": "up"
     },
     {
       "term": "S&P 500 earnings",
       "value": 2,
-      "change": "\u221217%",
+      "change": "\u221216%",
       "direction": "dn"
     }
   ],
