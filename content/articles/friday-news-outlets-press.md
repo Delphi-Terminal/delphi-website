@@ -58,12 +58,14 @@ However, it falls short in what it doesn’t ask: missiles are being built, offi
 
 Delphi Markets fills that gap. Yes, military action continues through March at 79%, but zoom out and the picture shifts. Traders price a 62% chance of a US-Iran ceasefire by June 30, rising to 74% by December 31. The crowd isn't betting on forever. It's betting on a grinding spring followed by a deal.
 
-![](images/graph2_ceasefire.png)
+
 
 ```
 <figure class="article__figure">
-  <img src="images/graph2_ceasefire.png" alt="Description" class="article__figure-img" />
-  <figcaption class="article__figure-caption">Caption. <span class="article__figure-credit">Credit</span></figcaption>
+  <img src="images/graph2_ceasefire.png" 
+       alt="Description" class="article__figure-img" />
+  <figcaption class="article__figure-caption">
+    Caption. <span class="article__figure-credit">Credit</span></figcaption>
 </figure>
 ```
 
