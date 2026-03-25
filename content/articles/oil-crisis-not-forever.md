@@ -25,21 +25,19 @@ According to Delphi, there are now 230 active prediction markets related to the 
 The US-Iran ceasefire contract, currently the most liquid market with over $43.2 million in volume, priced a 68% chance that a ceasefire is reached by June 30 and 78% by the end of year. A separate contract prices Trump announcing the end of military operations against Iran by June 30 at 77%, with $5.8 million traded. Even the April 30 outcome sits at 56%
 
 <figure class="article__figure">
-  <img src="images/us_air_passengers_chart.png" alt="Description" class="article__figure-img" />
+  <img src="images/graph1_ceasefire-2.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
   </figcaption>
 </figure>
 
-![]()
-
 On the question that matters the most for oil prices, the Strait of Hormuz, traders have put the odds of traffic returning to normal before June 1 at 67%. Before July 1, that rises to 77%.
 
 Kozhanov's thesis depends on the word "sustained." He writes that "the longer the war continues and the longer the free transit through the strait remains disrupted, the longer the prices of oil and gas will remain high." That's true by definition. The question is whether the disruption is sustained. The market's central estimate says it isn't.
 
 <figure class="article__figure">
-  <img src="images/us_air_passengers_chart.png" alt="Description" class="article__figure-img" />
+  <img src="graph2_hormuz.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
@@ -55,7 +53,7 @@ One of the accounts had history. It had previously bet that the US would strike 
 The Guardian reported the bets were likely made with insider knowledge. The Times of Israel confirmed the suspicious pattern. Polymarket rewrote its rules. Two senators introduced legislation to regulate prediction markets. Kalshi banned two traders.
 
 <figure class="article__figure">
-  <img src="images/us_air_passengers_chart.png" alt="Description" class="article__figure-img" />
+  <img src="graph3_spike.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
@@ -73,7 +71,7 @@ Although reserves don’t reopen a strait, the market doesn't think reserves are
 The NYMEX crude oil futures contract on whether crude hits $90 per barrel by the end of June is priced at 76% with $55 million in volume. For June, a separate contract gives an 84% chance that crude drops to $85 or below by the end of June, with $2 million traded. 
 
 <figure class="article__figure">
-  <img src="images/us_air_passengers_chart.png" alt="Description" class="article__figure-img" />
+  <img src="images/graph4_crude.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
