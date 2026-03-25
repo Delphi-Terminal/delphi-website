@@ -16,13 +16,13 @@ On March 23, Nikolay Kozhanov, a research associate professor at Qatar Universit
 
 The 2022 Russia-Ukraine oil shock was driven by sanctions. Oil kept flowing through alternate channels. Traders rerouted. Governments released reserves. Prices spiked and then came back down. But 2026, he argued, is fundamentally different. The Strait of Hormuz is physically closed. Twenty percent of the world's oil isn't being rerouted but is simply offline. The tools that worked in 2022 can't fix a blockade.
 
-It sounds right. It might even be right for the next few weeks. But $270 million in prediction market trades say it's wrong about what happens after that.
+It sounds right. It might even be right for the next few weeks. But $270 million in prediction market volume say it's wrong about what happens after that.
 
 ## **What the Money Says**
 
-According to Delphi, there are now 230 active prediction markets related to the Middle East conflict with a combined trading volume north of $270. The contracts prices real outcomes and tell a story nothing like the one Kozhanov is selling.
+According to Delphi, there are now 230 active prediction markets related to the Middle East conflict with a combined trading volume north of $270 million. These contracts prices real outcomes and tell a story nothing like the one Kozhanov is selling.
 
-The US-Iran ceasefire contract, currently the most liquid market with over $43.2 million in volume, priced a 68% chance that a ceasefire is reached by June 30 and 78% by the end of year. A separate contract prices Trump announcing the end of military operations against Iran by June 30 at 77%, with $5.8 million traded. Even the April 30 outcome sits at 56%
+The US-Iran ceasefire contract, currently the most liquid market with over $43.2 million in volume, priced a 68% chance that a ceasefire is reached by June 30, and 78% by the end of year. A separate contract prices Trump announcing the end of military operations against Iran by June 30 at 77%, with $5.8 million traded. Even the April 30 outcome sits at 56%
 
 <figure class="article__figure">
   <img src="images/graph1_ceasefire-2.png" alt="Description" class="article__figure-img" />
@@ -40,9 +40,9 @@ The US-Iran ceasefire contract, currently the most liquid market with over $43.2
   </figcaption>
 </figure>
 
-On the question that matters the most for oil prices, the Strait of Hormuz, traders have put the odds of traffic returning to normal before June 1 at 67%. Before July 1, that rises to 77%.
+On the question that matters the most for oil prices, the Strait of Hormuz. Traders have put the odds of traffic returning to normal before June 1 at 67%. Before July 1, that rises to 77%.
 
-Kozhanov's thesis depends on the word "sustained." He writes that "the longer the war continues and the longer the free transit through the strait remains disrupted, the longer the prices of oil and gas will remain high." That's true by definition. The question is whether the disruption is sustained. The market's central estimate says it isn't.
+Kozhanov's thesis depends on the word "sustained." He writes that "the longer the war continues and the longer the free transit through the strait remains disrupted, the longer the prices of oil and gas will remain high." Though true, the question is whether the disruption is sustained. The market's shows it isn't.
 
 <figure class="article__figure">
   <img src="graph2_hormuz.png" alt="Description" class="article__figure-img" />
@@ -68,7 +68,7 @@ The Guardian reported the bets were likely made with insider knowledge. The Time
   </figcaption>
 </figure>
 
-Whether these wallets reflect genuine insider knowledge the signal itself cuts against Kozhanov’s thesis. Someone with money and apparent information was betting on resolution at the exact moment Al Jazeera was publishing permanence.
+Whether these wallets reflect genuine insider knowledge or not, the signal itself cuts against Kozhanov’s thesis. Someone with money and apparent information was betting on resolution at the exact moment Al Jazeera was publishing permanence.
 
 ## **Where Money Sees Oil Going**
 
@@ -88,7 +88,7 @@ The NYMEX crude oil futures contract on whether crude hits $90 per barrel by the
 
 These contracts together show a simple trajectory. Oil at roughly $90 today, declining to $85 or below by summer, where tens of millions of dollars are priced.
 
-Goldman Sachs landed on essentially the same number. One day after Kozhanov's piece, the bank projected a full-year Brent average of $85. The EIA went further, forecasting crude falling to around $70 by December.. The Dallas Fed modeled a one-quarter Hormuz closure and projected prices declining rapidly once the strait reopens. 
+Goldman Sachs landed on essentially the same number. One day after Kozhanov's piece, the bank projected a full-year Brent average of $85. The EIA went further, forecasting crude falling to around $70 by December.. The Dallas Fed projected prices declining rapidly once the strait reopens. 
 
 Three institutions, three models, one direction: down.
 
@@ -98,7 +98,7 @@ The Al Jazeera piece says the 2022 playbook won't work but prediction markets ar
 
 ## **Slow is not permanent**
 
-Kozhanov isn't wrong about everything. You can't reroute 20 million barrels a day through a 21-mile waterway under active military attack. The LNG market has no reserve equivalent. Israel struck South Pars. Iranian missiles hit refineries across the Gulf. The recovery will be slow and painful.
+Kozhanov isn't wrong about everything. You can't reroute 20 million barrels a day through a 21-mile waterway under active military attack. The LNG market has no reserve equivalent. Iranian missiles hit refineries across the Gulf. The recovery will be slow and painful.
 
 But markets have priced in “slow and painful” explaining the April Hormuz contract at 39%. The market doesn’t expect the strait to get back to normal next month but neither does it price the damage as permanent. 
 
