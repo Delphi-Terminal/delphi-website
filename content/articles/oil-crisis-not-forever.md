@@ -12,7 +12,7 @@ excerpt: >-
 ---
 On March 23, Nikolay Kozhanov, a research associate professor at Qatar University, published a piece in Al Jazeera with a strong claim about the global energy crisis. The headline: "Why the oil and gas price shock from the Iran war won't just fade away."
 
-His argument was clean. "Unlike sanctions-driven disruptions," Kozhanov wrote, "a sustained blocking of the Strait of Hormuz obstructs not only trade routes, but the very ability of producers to export, pushing markets beyond adjustment mechanisms into forced demand destruction and structural reconfiguration." 
+"Unlike sanctions-driven disruptions," Kozhanov wrote, "a sustained blocking of the Strait of Hormuz obstructs not only trade routes, but the very ability of producers to export, pushing markets beyond adjustment mechanisms into forced demand destruction and structural reconfiguration." 
 
 The 2022 Russia-Ukraine oil shock was driven by sanctions. Oil kept flowing through alternate channels. Traders rerouted. Governments released reserves. Prices spiked and then came back down. But 2026, he argued, is fundamentally different. The Strait of Hormuz is physically closed. Twenty percent of the world's oil isn't being rerouted but is simply offline. The tools that worked in 2022 can't fix a blockade.
 
