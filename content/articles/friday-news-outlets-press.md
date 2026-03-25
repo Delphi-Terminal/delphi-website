@@ -24,7 +24,7 @@ The New York Post frames an immediate and personal threat directly at American v
 
 
 
-```
+
 <figure class="article__figure">
   <img src="images/us_air_passengers_chart" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
@@ -32,13 +32,13 @@ The New York Post frames an immediate and personal threat directly at American v
     </span>
   </figcaption>
 </figure>
-```
+
 
 The chart above is simple. Americans domestically, travel to New York, Miami, Los Angeles, Atlanta and San Francisco during spring break. Internationally, Londer leads, followed by Cancun and Toronto. Not one of which are in the Middle East. The actual places data shows Iran will target.
 
 
 
-```
+
 <figure class="article__figure">
   <img src="images/graph_iran_targets.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
@@ -46,7 +46,7 @@ The chart above is simple. Americans domestically, travel to New York, Miami, Lo
     </span>
   </figcaption>
 </figure>
-```
+
 
 Prediction markets reinforce the picture. The odds of the US officially declaring war on Iran sit at just 9% by year-end, with a full invasion priced at 19%. Traders aren't betting on a global terror campaign reaching Florida resorts or Mexican beach towns. They're pricing a contained regional conflict that most American spring breakers will watch on their phone by the pool.
 
@@ -66,7 +66,7 @@ Delphi Markets fills that gap. Yes, military action continues through March at 7
 
 
 
-```
+
 <figure class="article__figure">
   <img src="images/graph2_ceasefire.png" 
        alt="Description" class="article__figure-img" />
@@ -75,7 +75,7 @@ Delphi Markets fills that gap. Yes, military action continues through March at 7
     </span>
   </figcaption>
 </figure>
-```
+
 
 The data isn’t depicting endless war but it isn’t a clean resolution either. It is a conflict that grinds through spring before money starts betting heavily on a deal by summer.
 
@@ -89,7 +89,7 @@ This is the one section where Delphi Markets doesn't push back — it piles on. 
 
 
 
-```
+
 <figure class="article__figure">
   <img src="images/graph3_invasion-2" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
@@ -97,7 +97,7 @@ This is the one section where Delphi Markets doesn't push back — it piles on. 
     </span>
   </figcaption>
 </figure>
-```
+
 
 The nuance is in what "entry" actually means. Crossing a border and conquering a country are two different bets. The dedicated invasion market, which requires a full military offensive intended to establish territorial control, sits at just 14% by March 31. Stretch the timeline to year-end and it climbs to 54%. The first outcome traders consider likely. The second, no longer unthinkable.
 
