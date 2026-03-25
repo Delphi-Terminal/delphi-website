@@ -34,7 +34,7 @@ The US-Iran ceasefire contract, currently the most liquid market with over $43.2
 
 On the question that matters the most for oil prices, the Strait of Hormuz. Traders have put the odds of traffic returning to normal before June 1 at 67%. Before July 1, that rises to 77%.
 
-Kozhanov's thesis depends on the word "sustained." He writes that "the longer the war continues and the longer the free transit through the strait remains disrupted, the longer the prices of oil and gas will remain high." Though true, the question is whether the disruption is sustained. The market's shows it isn't.
+Kozhanov's thesis depends on the word "sustained." He writes that "the longer the war continues and the longer the free transit through the strait remains disrupted, the longer the prices of oil and gas will remain high." Though true, the question is whether the disruption is sustained. The market shows it isn't.
 
 <figure class="article__figure">
   <img src="graph2_hormuz.png" alt="Description" class="article__figure-img" />
