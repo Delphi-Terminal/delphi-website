@@ -26,9 +26,7 @@ Let’s debunk this. TLDR: The market isn’t aggressively pricing towards a rec
 
 \[[IMAGE]]
 
-![Source: Delphi Markets](images/screenshot-2026-03-24-230516.png)
-
-![Market ID: kxrecssnber-26](images/screenshot-2026-03-24-230234.png)
+![Source: Delphi Markets](images/untitled-design-1-.png)
 
 In addition, Polymarket puts “negative U.S. GDP in 2026” at only 17%, so traders expect slower growth but not a full-on contraction. Traders on Kalshi are almost sure the Fed will keep rates unchanged at the March meeting, and they expect the first cut to come later in 2026, not a series of surprise rate hikes. The crowd is betting on a slowdown plus gradual easing, not a 2026 crash plus stagflation plus Fed policy disaster.
 
@@ -38,7 +36,8 @@ In addition, Polymarket puts “negative U.S. GDP in 2026” at only 17%, so tra
 \
 Earlier today, I called my dad regarding how Trump stated there will be negotiations, Iran rejected negotiations being made, and on top of that, Trump said he has received a “very significant gift” from Iran. My dad’s read is that, politics aside, both sides are probably starting to tire of the fighting and will eventually look for a way out (i.e. a deal). And I agree from a realistic standpoint. If Dephi Markets show that the midpoint moves from 30.5 to 40 or 50, then I’d suspect markets will start taking a potential crash more seriously. 
 
-I also suspect the Strait will not resume to normal until the war is over. Which also means I think Polymarket’s “Strait of Hormuz traffic returns to normal by the end of April?” could be priced even lower than their current 39%. However, I wouldn’t expect oil prices to come down immediately. Overall, the NYT narrative is not completely off, but the news is definitely overstating it and are much more fearful of a recession than the markets. On the BS METER, New York Times? I give you a 4/10.\
+I also suspect the Strait will not resume to normal until the war is over. Which also means I think Polymarket’s “Strait of Hormuz traffic returns to normal by the end of April?” could be priced even lower than their current 39%. However, I wouldn’t expect oil prices to come down immediately. Overall, the NYT narrative is not completely off, but the news is definitely overstating it and are much more fearful of a recession than the markets. On the BS METER, New York Times? I give you a 4/10.
+
 \
 Til next time,
 
