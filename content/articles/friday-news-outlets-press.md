@@ -26,7 +26,7 @@ The New York Post frames an immediate and personal threat directly at American v
 
 
 <figure class="article__figure">
-  <img src="images/us_air_passengers_chart" alt="Description" class="article__figure-img" />
+  <img src="images/us_air_passengers_chart.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
@@ -91,7 +91,7 @@ This is the one section where Delphi Markets doesn't push back — it piles on. 
 
 
 <figure class="article__figure">
-  <img src="images/graph3_invasion-2" alt="Description" class="article__figure-img" />
+  <img src="images/graph3_invasion-2.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
