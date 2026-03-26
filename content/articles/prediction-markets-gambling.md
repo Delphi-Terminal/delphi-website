@@ -13,7 +13,7 @@ BS METER: 8/10
 
 Along with every other financial derivative governed by the CFTC (Commodities Futures Trading Commission), prediction markets have faced accusations of gambling since the start.
 
-Okay by definition, gambling is the act of playing games for the chance of money, or betting on the outcomes of future events. I have to say, prediction markets do fall into the Oxford definition, but society is just x1003895837458324 times more unproductive than it should be if people are claiming that it is JUST gambling. I'll prove to you it's more than that. Traders get real information to act on from the orderbook details, the depth in volume, the live probabilities, and etc. Plus, with tools like Delphi, the prediction market infrastructure layer, benchmarking elections, macro-outcomes, and financial markets becomes easier and easier.
+Okay by definition, gambling is the act of playing games for the chance of money, or betting on the outcomes of future events. I have to say, prediction markets do fall into the Oxford definition, but society is just x100389583758324 times more unproductive than it should be if people are claiming that it is JUST gambling. I'll prove to you it's more than that. Traders get real information to act on from the orderbook details, the depth in volume, the live probabilities, and etc. Plus, with tools like Delphi, the prediction market infrastructure layer, benchmarking elections, macro-outcomes, and financial markets becomes easier and easier.
 
 **What mainstream narratives say**
 
