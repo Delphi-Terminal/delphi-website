@@ -9,8 +9,7 @@ excerpt: If you are reading this right now, I know you’re tapped into predicti
 image: images/screenshot-2026-03-25-132151.png
 imageAlt: "Source: Delphi Markets"
 ---
-BS METER: 8/10\
-\
+BS METER: 8/10
 
 Along with every other financial derivative governed by the CFTC (Commodities Futures Trading Commission), prediction markets have faced accusations of gambling since the start. \
 \
