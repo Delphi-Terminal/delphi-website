@@ -31,7 +31,9 @@ Still think prediction markets are just gambling? Zoom in at and we get even mor
 
 \[[IMAGE]]
 
-Delphi Markets can further bring prediction markets closer to real signals in the macro world. Delphi Markets shows that the yes‑side, no‑side, and midprice all cluster around the mid‑50s over time in the price convergence panel, which is a sign that the market’s slowly agreeing on a fair price, not random swings. The microprice delta stays small and steady instead of spiking all over the place, which is what you expect when people are trading around a shared forecast. The Bid‑Ask Spread is flat and tight the entire time. In a casino/sports-betting, the house gives you a huge built‑in edge against you. Here, the gap between the best bid and best ask is just a few ticks. Most importantly, the market reacts to headlines and data, not to spur‑of‑the‑moment adrenaline like poker or sports-betting.
+Delphi Markets can further bring prediction markets closer to real signals in the macro world. Delphi Markets shows that the yes‑side, no‑side, and midprice all cluster around the mid‑50s over time in the price convergence panel, which is a sign that the market’s slowly agreeing on a fair price, not random swings. 
+
+The microprice delta stays small and steady instead of spiking all over the place, which is what you expect when people are trading around a shared forecast. The Bid‑Ask Spread is flat and tight the entire time. In a casino/sports-betting, the house gives you a huge built‑in edge against you. Here, the gap between the best bid and best ask is just a few ticks. Most importantly, the market reacts to headlines and data, not to spur‑of‑the‑moment adrenaline like poker or sports-betting.
 
 **My thoughts**
 
