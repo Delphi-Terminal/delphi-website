@@ -11,10 +11,9 @@ imageAlt: "Source: Delphi Markets"
 ---
 BS METER: 8/10
 
-Along with every other financial derivative governed by the CFTC (Commodities Futures Trading Commission), prediction markets have faced accusations of gambling since the start. \
-\
-Ok by definition, gambling is the act of playing games for the chance of money, or betting on the outcomes of future events. I have to say, prediction markets do fall into the Oxford definition, but society is just x1003895837458324 times more unproductive than it should be if people are claiming that it is JUST gambling. I'll prove to you it's more than that. Traders get real information to act on from the orderbook details, the depth in volume, the live probabilities, and etc. Plus, with tools like Delphi, the prediction market infrastructure layer, benchmarking elections, macro-outcomes, and financial markets becomes easier and easier.
+Along with every other financial derivative governed by the CFTC (Commodities Futures Trading Commission), prediction markets have faced accusations of gambling since the start.
 
+Okay by definition, gambling is the act of playing games for the chance of money, or betting on the outcomes of future events. I have to say, prediction markets do fall into the Oxford definition, but society is just x1003895837458324 times more unproductive than it should be if people are claiming that it is JUST gambling. I'll prove to you it's more than that. Traders get real information to act on from the orderbook details, the depth in volume, the live probabilities, and etc. Plus, with tools like Delphi, the prediction market infrastructure layer, benchmarking elections, macro-outcomes, and financial markets becomes easier and easier.
 
 **What mainstream narratives say**
 
@@ -30,7 +29,6 @@ Look at the April Fed decision market sitting at $6.5M in volume on Kalshi and $
 
 Still think prediction markets are just gambling? Zoom in at and we get even more “Bloomberg Terminal” than “DraftKings.”
 
-\
 \[[IMAGE]]
 
 Delphi Markets can further bring prediction markets closer to real signals in the macro world. Delphi Markets shows that the yes‑side, no‑side, and midprice all cluster around the mid‑50s over time in the price convergence panel, which is a sign that the market’s slowly agreeing on a fair price, not random swings. The microprice delta stays small and steady instead of spiking all over the place, which is what you expect when people are trading around a shared forecast. The Bid‑Ask Spread is flat and tight the entire time. In a casino/sports-betting, the house gives you a huge built‑in edge against you. Here, the gap between the best bid and best ask is just a few ticks. Most importantly, the market reacts to headlines and data, not to spur‑of‑the‑moment adrenaline like poker or sports-betting.
