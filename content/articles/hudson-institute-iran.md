@@ -28,7 +28,7 @@ This article breaks down what the Hudson Institute got right, what it got wrong,
 According to Delphi, multiple contracts that have collectively attracted over $120 million in trading volume price whether the Iranian regime will fall.
 
 <figure class="article__figure">
-  <img src="images/iran-regime-prediction-market-chart.png" alt="Description" class="article__figure-img" />
+  <img src="images/iran-regime-prediction-market-chart-2.png" alt="Description" class="article__figure-img" />
   <figcaption class="article__figure-caption">
     <span class="article__figure-credit">
     </span>
