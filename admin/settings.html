@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Account settings - Delphi Markets</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@600;700&family=Sixtyfour&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin">
+  <div class="admin__shell">
+    <header class="admin__masthead">
+      <div class="admin__masthead-copy">
+        <p class="admin__eyebrow">Delphi</p>
+        <h1 class="admin__display">Account settings.</h1>
+        <p class="admin__lead">
+          View your account details and update your password.
+        </p>
+      </div>
+      <div class="admin__masthead-actions">
+        <a href="/admin/dashboard.html" class="admin__logout">Dashboard</a>
+        <button type="button" class="admin__logout" id="btn-logout">Log out</button>
+      </div>
+    </header>
+
+    <section class="admin__section">
+      <div class="admin__section-head">
+        <div>
+          <p class="admin__section-kicker">Profile</p>
+          <h2 class="admin__section-title">Your account</h2>
+        </div>
+      </div>
+
+      <div class="admin__settings-info">
+        <div class="admin__settings-row">
+          <span class="admin__settings-label">Email</span>
+          <span class="admin__settings-value" id="user-email"></span>
+        </div>
+        <div class="admin__settings-row">
+          <span class="admin__settings-label">Role</span>
+          <span class="admin__settings-value"><span class="admin__badge" id="user-role"></span></span>
+        </div>
+        <div class="admin__settings-row">
+          <span class="admin__settings-label">Member since</span>
+          <span class="admin__settings-value" id="user-created"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin__section">
+      <div class="admin__section-head">
+        <div>
+          <p class="admin__section-kicker">Security</p>
+          <h2 class="admin__section-title">Change password</h2>
+          <p class="admin__section-copy">
+            Your new password must be at least 12 characters.
+          </p>
+        </div>
+      </div>
+
+      <form id="password-form" class="admin__form admin__form--compact">
+        <div class="admin__row">
+          <div class="admin__field">
+            <label for="current-password">Current password</label>
+            <input id="current-password" type="password" required autocomplete="current-password" maxlength="512">
+          </div>
+          <div class="admin__field">
+            <label for="new-password">New password</label>
+            <input id="new-password" type="password" required minlength="12" autocomplete="new-password" maxlength="512">
+          </div>
+        </div>
+        <div class="admin__actions">
+          <button type="submit" class="admin__btn" id="btn-save-pw">Update password</button>
+        </div>
+      </form>
+
+      <p id="pw-feedback" class="admin__status admin__hidden" role="status"></p>
+    </section>
+  </div>
+
+  <script type="module" src="/js/admin-settings.js"></script>
+</body>
+</html>

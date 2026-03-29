@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Login | Delphi Markets</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&family=Sixtyfour&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-page">
+  <main class="auth">
+    <section class="auth__visual">
+      <div class="auth__visual-copy">
+        <span class="auth__eyebrow">Customer access</span>
+        <h1 class="auth__headline">Welcome back to Delphi.</h1>
+        <p class="auth__lede">Sign in to continue reading premium Delphi News coverage and access your account across the platform.</p>
+      </div>
+      <div class="auth__visual-brand" aria-hidden="true">
+        <p class="auth__wordmark">
+          <span class="auth__wordmark-line">Delphi</span>
+          <span class="auth__wordmark-line auth__wordmark-line--sub">markets</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="auth__panel">
+      <div class="auth__card">
+        <div class="auth__logo">Delphi</div>
+        <div>
+          <h2 class="auth__title">Login</h2>
+          <p class="auth__sub">Use your email and password to open your Delphi account.</p>
+        </div>
+
+        <p id="auth-error" class="auth__error auth__hidden" role="alert"></p>
+        <p id="auth-success" class="auth__success auth__hidden" role="status"></p>
+
+        <form id="auth-form" class="auth__form" autocomplete="on">
+          <div class="auth__field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required autocomplete="username" maxlength="254">
+          </div>
+          <div class="auth__field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" required autocomplete="current-password" maxlength="512">
+          </div>
+          <button id="auth-submit" class="auth__submit" type="submit">Sign in</button>
+        </form>
+
+        <div class="auth__links">
+          <a href="/create-account">Create account</a>
+          <span class="auth__divider" aria-hidden="true"></span>
+          <a href="/forgot-password">Forgot password</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/login.js"></script>
+</body>
+</html>

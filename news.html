@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delphi News | Prediction Market News &amp; Analysis</title>
+  <meta name="description" content="Prediction market news backed by data. Coverage of Kalshi, Polymarket, and the broader prediction economy - analysis, research, and market signals from Delphi Markets.">
+  <meta name="keywords" content="Delphi News, prediction market news, Kalshi news, Polymarket news, prediction market analysis, prediction market research">
+  <link rel="canonical" href="https://delphimarkets.com/news">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Delphi Markets, Inc.">
+  <meta http-equiv="content-language" content="en-US">
+  <meta name="theme-color" content="#0f1f33">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <meta name="geo.region" content="US">
+  <link rel="alternate" hreflang="en-US" href="https://delphimarkets.com/news">
+  <link rel="alternate" hreflang="x-default" href="https://delphimarkets.com/news">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Delphi Markets">
+  <meta property="og:url" content="https://delphimarkets.com/news">
+  <meta property="og:title" content="Delphi News | Prediction Market News &amp; Analysis">
+  <meta property="og:description" content="Prediction market news backed by data. Coverage, analysis, and research from Delphi Markets.">
+  <meta property="og:image" content="https://delphimarkets.com/favicon.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="Delphi News - prediction market news and analysis">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Delphi News | Prediction Market News &amp; Analysis">
+  <meta name="twitter:description" content="Prediction market news backed by data. Analysis and research from Delphi Markets.">
+  <meta name="twitter:image" content="https://delphimarkets.com/favicon.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[{"@type":"CollectionPage","@id":"https://delphimarkets.com/news#webpage","url":"https://delphimarkets.com/news","name":"Delphi News","isPartOf":{"@type":"WebSite","url":"https://delphimarkets.com/","name":"Delphi Markets"},"description":"Prediction market news backed by data - coverage, analysis, and research from Delphi Markets.","publisher":{"@id":"https://delphimarkets.com/#organization"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://delphimarkets.com/"},{"@type":"ListItem","position":2,"name":"News","item":"https://delphimarkets.com/news"}]}]}
+  </script>
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sixtyfour&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sixtyfour&display=swap" rel="stylesheet"></noscript>
+
+  
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/news-page.css">
+
+  
+  <script type="module" src="/js/app.js"></script>
+</head>
+<body>
+
+  
+  <div class="cursor" id="cursor"></div>
+
+  
+  <div class="preloader" id="preloader">
+    <div class="preloader__content">
+      <div class="preloader__brand" id="preloader-brand" aria-hidden="true">
+        <span class="preloader__letter">D</span><span class="preloader__letter">e</span><span class="preloader__letter">l</span><span class="preloader__letter">p</span><span class="preloader__letter">h</span><span class="preloader__letter">i</span>
+      </div>
+      <div class="preloader__counter">
+        <span class="preloader__number" id="preloader-number">0</span>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  
+  <nav class="nav nav--dark" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <span class="nav__logo-letter">D</span><span class="nav__logo-letter">e</span><span class="nav__logo-letter">l</span><span class="nav__logo-letter">p</span><span class="nav__logo-letter">h</span><span class="nav__logo-letter">i</span>
+      </a>
+
+      <div class="nav__links">
+        <a href="/about" class="nav__link">About</a>
+        <a href="/data" class="nav__link">Data</a>
+        <a href="/news" class="nav__link nav__link--active">News</a>
+        <a href="https://docs.delphimarkets.com/introduction" class="nav__link" target="_blank" rel="noopener">Docs</a>
+        <a href="#contact" class="nav__link nav__link--cta" data-barba-prevent>Contact</a>
+        <a href="/login" class="nav__link" data-barba-prevent>Login</a>
+      </div>
+      <button class="nav__burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="page-transition" id="page-transition" aria-hidden="true">
+    <div class="page-transition__content">
+      <div class="page-transition__brand">
+        <span class="page-transition__letter">D</span><span class="page-transition__letter">e</span><span class="page-transition__letter">l</span><span class="page-transition__letter">p</span><span class="page-transition__letter">h</span><span class="page-transition__letter">i</span>
+      </div>
+      <div class="page-transition__counter">
+        <span class="page-transition__number" aria-hidden="true">·</span>
+      </div>
+    </div>
+  </div>
+
+  <div data-barba="wrapper">
+  <div data-barba="container" data-barba-namespace="news">
+
+  
+  <section class="np-hero">
+    <div class="np-hero__container">
+      <span class="np-hero__eyebrow"><span class="np-hero__eyebrow-brand">Delphi</span> News</span>
+      <h1 class="np-hero__headline">News backed<br><span class="np-hero__dim">by data.</span></h1>
+      <p class="np-hero__sub">Prediction Markets · Data · Research</p>
+    </div>
+  </section>
+
+  
+  <!-- Ticker tape — live data via Finnhub + CoinGecko -->
+  <section class="np-ticker" aria-label="Market data ticker">
+    <div class="np-ticker__viewport">
+      <div class="np-ticker__track" aria-hidden="true">
+        <!-- copy 1 -->
+        <span class="np-ticker__item" data-ticker="SPY"><span class="np-ticker__label">S&amp;P 500</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="QQQ"><span class="np-ticker__label">Nasdaq</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="DIA"><span class="np-ticker__label">Dow</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="bitcoin"><span class="np-ticker__label">BTC/USD</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="ethereum"><span class="np-ticker__label">ETH/USD</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="GLD"><span class="np-ticker__label">Gold</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="USO"><span class="np-ticker__label">Oil WTI</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="EUR_USD"><span class="np-ticker__label">EUR/USD</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="TLT"><span class="np-ticker__label">20Y Bond</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <!-- copy 2 (seamless loop) -->
+        <span class="np-ticker__item" data-ticker="SPY"><span class="np-ticker__label">S&amp;P 500</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="QQQ"><span class="np-ticker__label">Nasdaq</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="DIA"><span class="np-ticker__label">Dow</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="bitcoin"><span class="np-ticker__label">BTC/USD</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="ethereum"><span class="np-ticker__label">ETH/USD</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="GLD"><span class="np-ticker__label">Gold</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="USO"><span class="np-ticker__label">Oil WTI</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="EUR_USD"><span class="np-ticker__label">EUR/USD</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+        <span class="np-ticker__item" data-ticker="TLT"><span class="np-ticker__label">20Y Bond</span><span class="np-ticker__price" data-ticker-price>—</span><span class="np-ticker__change" data-ticker-change></span></span>
+        <span class="np-ticker__sep">·</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="np-feed">
+    <div class="np-feed__container">
+
+      <div class="np-feed__filters" id="news-filters">
+        <button class="np-feed__filter is-active" data-filter="all">All</button>
+        <button class="np-feed__filter" data-filter="economy">Economy</button>
+        <button class="np-feed__filter" data-filter="world">World</button>
+        <button class="np-feed__filter" data-filter="tech">Tech</button>
+        <button class="np-feed__filter" data-filter="research">Research</button>
+        <span class="np-feed__filter-line" id="filter-line"></span>
+      </div>
+
+      <div class="np-feed__lead" id="news-lead"></div>
+
+      <div class="np-feed__featured" id="news-featured"></div>
+
+      <div class="np-feed__stream" id="news-stream"></div>
+
+      <p class="np-feed__empty" id="news-empty" hidden>No articles found.</p>
+
+    </div>
+  </section>
+
+  <!-- Signals / Trending section -->
+  <section class="np-signals">
+    <div class="np-signals__container">
+      <div class="np-signals__header">
+        <span class="np-signals__eyebrow">( signals from search )</span>
+        <span class="np-signals__updated">Updated 5h ago</span>
+      </div>
+      <div class="np-signals__grid">
+
+        <div class="np-signals__panel">
+          <h3 class="np-signals__panel-title">Trending Search Terms <span class="np-signals__panel-sub">— Finance</span></h3>
+          <ul class="np-signals__list" id="signals-search">
+            <li class="np-signals__row">
+              <span class="np-signals__term">Federal Reserve rate cut</span>
+              <span class="np-signals__delta np-signals__delta--down">−33%</span>
+            </li>
+            <li class="np-signals__row">
+              <span class="np-signals__term">Bitcoin ETF</span>
+              <span class="np-signals__delta np-signals__delta--down">−28%</span>
+            </li>
+            <li class="np-signals__row">
+              <span class="np-signals__term">Gold price forecast</span>
+              <span class="np-signals__delta np-signals__delta--flat">flat</span>
+            </li>
+            <li class="np-signals__row">
+              <span class="np-signals__term">Recession 2026</span>
+              <span class="np-signals__delta np-signals__delta--down">−6%</span>
+            </li>
+            <li class="np-signals__row">
+              <span class="np-signals__term">S&amp;P 500 earnings</span>
+              <span class="np-signals__delta np-signals__delta--down">−26%</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="np-signals__panel np-signals__panel--dark">
+          <h3 class="np-signals__panel-title">Market Conversations <span class="np-signals__panel-sub">— Reddit &amp; Social</span></h3>
+          <ul class="np-signals__list" id="signals-social">
+            <li class="np-signals__row np-signals__row--social">
+              <span class="np-signals__term">Inflation / CPI narrative</span>
+              <span class="np-signals__bar"><span class="np-signals__bar-fill" style="width:82%"></span></span>
+            </li>
+            <li class="np-signals__row np-signals__row--social">
+              <span class="np-signals__term">Bitcoin price action</span>
+              <span class="np-signals__bar"><span class="np-signals__bar-fill" style="width:74%"></span></span>
+            </li>
+            <li class="np-signals__row np-signals__row--social">
+              <span class="np-signals__term">SEC crypto regulation</span>
+              <span class="np-signals__bar"><span class="np-signals__bar-fill" style="width:61%"></span></span>
+            </li>
+            <li class="np-signals__row np-signals__row--social">
+              <span class="np-signals__term">AI stocks &amp; semiconductors</span>
+              <span class="np-signals__bar"><span class="np-signals__bar-fill" style="width:55%"></span></span>
+            </li>
+            <li class="np-signals__row np-signals__row--social">
+              <span class="np-signals__term">Geopolitical risk premium</span>
+              <span class="np-signals__bar"><span class="np-signals__bar-fill" style="width:43%"></span></span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  
+  <footer class="footer" id="contact">
+    <div class="footer__container">
+
+      <div class="footer__top">
+        <div class="footer__cta">
+          <span class="footer__eyebrow">Get in touch</span>
+          <h2 class="footer__headline">Benchmark anything.<br><span class="footer__dim">Price everything.</span></h2>
+          <p class="footer__text">Ready to tap into the prediction economy?</p>
+          <a href="#contact" class="footer__btn" data-barba-prevent>
+            Talk to our Team
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" stroke-width="1.2"/></svg>
+          </a>
+        </div>
+        <div class="footer__nav">
+          <div class="footer__nav-col">
+            <span class="footer__nav-label">Navigate</span>
+            <a href="/" class="footer__link">Home</a>
+            <a href="/about" class="footer__link">About</a>
+            <a href="/data" class="footer__link">Data</a>
+            <a href="/news" class="footer__link">News</a>
+          </div>
+          <div class="footer__nav-col">
+            <span class="footer__nav-label">Official</span>
+            <a href="https://docs.delphimarkets.com/introduction" class="footer__link" target="_blank" rel="noopener">Docs</a>
+            <a href="/login" class="footer__link" data-barba-prevent>Login</a>
+            <a href="#contact" class="footer__link" data-barba-prevent>Contact</a>
+            <a href="/terms" class="footer__link">Terms</a>
+            <a href="/privacy" class="footer__link">Privacy</a>
+          </div>
+          <div class="footer__nav-col">
+            <span class="footer__nav-label">Social</span>
+            <div class="footer__social-group">
+              <span class="footer__social-brand">Terminal</span>
+              <div class="footer__social-links">
+                <a href="https://x.com/Delphi_Terminal" class="footer__link" target="_blank">X</a>
+                <a href="https://instagram.com/delphimarkets" class="footer__link" target="_blank">IG</a>
+              </div>
+            </div>
+            <div class="footer__social-group">
+              <span class="footer__social-brand">News</span>
+              <div class="footer__social-links">
+                <a href="https://x.com/Delphi_News" class="footer__link" target="_blank">X</a>
+                <a href="https://instagram.com/delphi_news" class="footer__link" target="_blank">IG</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer__brand" aria-hidden="true">
+        <span class="footer__letter">D</span><span class="footer__letter">e</span><span class="footer__letter">l</span><span class="footer__letter">p</span><span class="footer__letter">h</span><span class="footer__letter">i</span>
+      </div>
+
+      <div class="footer__bottom">
+        <span class="footer__copy">© 2026 <span class="footer__copy-brand">Delphi</span></span>
+        <span class="footer__copy">All rights reserved.</span>
+        <span class="footer__copy">Website by <a href="https://zerasoftwarestudio.com" target="_blank" rel="noopener">Zera Software Studio</a></span>
+      </div>
+
+    </div>
+  </footer>
+
+  </div>
+  </div>
+
+</body>
+</html>

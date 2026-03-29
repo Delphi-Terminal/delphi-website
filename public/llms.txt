@@ -1,0 +1,29 @@
+# Delphi Markets - context for AI assistants and search systems
+# /llms.txt (same host as the site)
+
+## Entity
+Delphi Markets, Inc. builds infrastructure for the prediction economy: aggregated prediction market data across 10+ exchanges (including Kalshi and Polymarket), cross-exchange indices, Delphi News (news informed by prediction market data), and APIs for developers and institutions.
+
+## Primary topics
+- Prediction markets and prediction market data
+- Unified API for prediction markets (REST; institutional tiers available)
+- Kalshi, Polymarket, and multi-exchange coverage
+- Prediction market indices and benchmarks
+- Delphi News (Kalshi / Polymarket / prediction market news ecosystem)
+
+## Canonical URLs (paths on this site)
+- Website: /
+- About: /about
+- Data & access: /data
+- API documentation: https://docs.delphimarkets.com/introduction
+- Contact / enterprise: #contact (in-site contact dialog; enterprise tier uses the featured CTA on /data)
+
+## Common queries this site answers
+- Delphi prediction markets data and API access
+- Prediction market news (Kalshi, Polymarket, Delphi News)
+- Prediction market indices and cross-exchange analytics
+- How teams access unified prediction market data at scale
+
+## Social (official)
+- X (Delphi Terminal): https://x.com/Delphi_Terminal
+- Instagram: https://instagram.com/delphimarkets

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>News CMS - Delphi Markets</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@600;700&family=Sixtyfour&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+</head>
+<body class="admin">
+  <div class="admin__shell">
+    <header class="admin__masthead">
+      <div class="admin__masthead-copy">
+        <p class="admin__eyebrow">Delphi</p>
+        <h1 class="admin__display">News editor and user control.</h1>
+        <p class="admin__lead">
+          Manage editorial output and account access from one dashboard designed to feel like the rest of the site.
+        </p>
+      </div>
+      <div class="admin__masthead-actions">
+        <a href="/admin/settings.html" class="admin__logout">Account</a>
+        <button type="button" class="admin__logout" id="btn-logout">Log out</button>
+      </div>
+    </header>
+
+    <p id="dash-error" class="admin__error admin__hidden" role="alert"></p>
+
+    <div class="admin__tabs" role="tablist" aria-label="Admin sections">
+      <button
+        type="button"
+        class="admin__tab is-active"
+        id="tab-editor"
+        role="tab"
+        aria-selected="true"
+        aria-controls="panel-editor"
+        data-tab-target="editor"
+      >
+        Editorial
+        <span class="admin__tab-count" id="tab-editor-count">0</span>
+      </button>
+      <button
+        type="button"
+        class="admin__tab"
+        id="tab-users"
+        role="tab"
+        aria-selected="false"
+        aria-controls="panel-users"
+        data-tab-target="users"
+      >
+        Users
+        <span class="admin__tab-count" id="tab-users-count">0</span>
+      </button>
+    </div>
+
+    <div class="admin__tab-panels">
+      <section
+        class="admin__section admin__section--editor"
+        id="panel-editor"
+        role="tabpanel"
+        aria-labelledby="tab-editor"
+        data-tab-panel="editor"
+      >
+        <div class="admin__section-head">
+          <div>
+            <p class="admin__section-kicker">Editorial</p>
+            <h2 class="admin__section-title" id="editor-heading">News editor</h2>
+            <p class="admin__section-copy">
+              Review article ordering, update metadata, and jump into the editor without losing context on smaller screens.
+            </p>
+          </div>
+          <div class="admin__section-meta">
+            <button type="button" class="admin__btn" id="btn-new">New article</button>
+            <span class="admin__metric-chip" id="articles-count">0 articles</span>
+          </div>
+        </div>
+
+        <div class="admin__table-wrap">
+          <table class="admin__table" id="articles-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Updated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="articles-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section
+        class="admin__section admin__section--users admin__hidden"
+        id="panel-users"
+        role="tabpanel"
+        aria-labelledby="tab-users"
+        data-tab-panel="users"
+      >
+        <div class="admin__section-head">
+          <div>
+            <p class="admin__section-kicker">Accounts</p>
+            <h2 class="admin__section-title" id="users-heading">Users list</h2>
+            <p class="admin__section-copy">
+              Create new customer or admin accounts, review who already has access, and remove users when needed.
+            </p>
+          </div>
+          <div class="admin__section-meta">
+            <span class="admin__metric-chip" id="users-count">0 users</span>
+          </div>
+        </div>
+
+        <form id="user-form" class="admin__form admin__form--compact">
+          <div class="admin__row admin__row--triple">
+            <div class="admin__field">
+              <label for="user-email">Email</label>
+              <input id="user-email" type="email" required maxlength="254" autocomplete="email">
+            </div>
+            <div class="admin__field">
+              <label for="user-password">Temporary password</label>
+              <input id="user-password" type="password" required minlength="12" maxlength="512" autocomplete="new-password">
+            </div>
+            <div class="admin__field">
+              <label for="user-role">Role</label>
+              <select id="user-role">
+                <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="admin__actions">
+            <button type="submit" class="admin__btn" id="btn-create-user">Create user</button>
+            <p class="admin__helper">Admin-created users are marked verified immediately so they can sign in right away.</p>
+          </div>
+        </form>
+
+        <p id="user-feedback" class="admin__status admin__hidden" role="status"></p>
+        <div class="admin__user-list" id="users-list"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="modal" class="admin__modal admin__hidden" aria-modal="true" role="dialog">
+    <div class="admin__modal-inner">
+      <h2 class="admin__modal-title" id="modal-title">Article</h2>
+      <p id="modal-error" class="admin__error admin__hidden" role="alert"></p>
+      <form id="article-form" class="admin__form admin__form--modal">
+        <input type="hidden" id="edit-id" value="">
+        <input type="hidden" id="f-cover-image" value="">
+
+        <div class="admin__field">
+          <label for="f-title">Title</label>
+          <input id="f-title" required maxlength="500">
+        </div>
+
+        <div class="admin__field">
+          <label for="f-excerpt">Excerpt / Summary</label>
+          <textarea id="f-excerpt" required maxlength="2000" rows="3"></textarea>
+        </div>
+
+        <div class="admin__field">
+          <label>Cover Image</label>
+          <div class="admin__cover-upload" id="cover-upload-zone">
+            <img class="admin__cover-preview admin__hidden" id="cover-preview" alt="Cover preview">
+            <div class="admin__cover-placeholder" id="cover-placeholder">
+              <span>Click or drag to upload cover image</span>
+            </div>
+            <input type="file" id="cover-file-input" accept="image/*" hidden>
+          </div>
+          <button type="button" class="admin__btn admin__btn--ghost admin__btn--small admin__hidden" id="btn-remove-cover">Remove cover</button>
+        </div>
+
+        <div class="admin__field">
+          <label>Body</label>
+          <div id="f-body"></div>
+        </div>
+
+        <div class="admin__row">
+          <div class="admin__field">
+            <label for="f-category">Category</label>
+            <select id="f-category" required>
+              <option value="world">World</option>
+              <option value="economy">Economy</option>
+              <option value="tech">Tech</option>
+              <option value="research">Research</option>
+            </select>
+          </div>
+          <div class="admin__field">
+            <label for="f-author">Author</label>
+            <input id="f-author" required maxlength="200">
+          </div>
+        </div>
+
+        <div class="admin__row">
+          <div class="admin__field">
+            <label for="f-variant">Card layout</label>
+            <select id="f-variant">
+              <option value="default">Default</option>
+              <option value="hero">Hero</option>
+              <option value="tall">Tall</option>
+              <option value="wide">Wide</option>
+            </select>
+          </div>
+          <div class="admin__field">
+            <label for="f-order">Sort order (lower first)</label>
+            <input id="f-order" type="number" min="0" max="9999" value="0">
+          </div>
+        </div>
+
+        <div class="admin__actions">
+          <button type="submit" class="admin__btn" id="btn-save">Save</button>
+          <button type="button" class="admin__btn admin__btn--ghost" id="btn-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+  <script type="module" src="/js/admin-dashboard.js"></script>
+</body>
+</html>

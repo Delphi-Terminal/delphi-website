@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PRISMA_DATABASE_URL")
+}
+
+model User {
+  id                  Int            @id @default(autoincrement())
+  email               String         @unique @db.VarChar(254)
+  passwordHash        String         @map("password_hash")
+  role                String         @default("customer")
+  emailVerifiedAt     DateTime?      @map("email_verified_at")
+  verificationCodeHash String?       @map("verification_code_hash")
+  verificationCodeExpiresAt Int?     @map("verification_code_expires_at")
+  passwordResetCodeHash String?      @map("password_reset_code_hash")
+  passwordResetCodeExpiresAt Int?    @map("password_reset_code_expires_at")
+  failedLoginAttempts Int            @default(0) @map("failed_login_attempts")
+  lockedUntil         Int?           @map("locked_until")
+  createdAt           DateTime       @default(now()) @map("created_at")
+  refreshTokens       RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  tokenHash String   @unique @map("token_hash")
+  expiresAt Int      @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+model NewsArticle {
+  id          Int      @id @default(autoincrement())
+  title       String
+  excerpt     String
+  body        String   @default("")
+  coverImage  String?  @map("cover_image")
+  category    String
+  author      String
+  cardVariant String   @default("default") @map("card_variant")
+  sortOrder   Int      @default(0) @map("sort_order")
+  publishedAt Int      @map("published_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([sortOrder, publishedAt(sort: Desc)])
+  @@map("news_articles")
+}

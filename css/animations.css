@@ -1,0 +1,64 @@
+.nav {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.hero__brand-letter {
+  opacity: 0;
+}
+
+.about__closing {
+  opacity: 0;
+  transform: translateY(24px);
+  will-change: transform, opacity;
+}
+
+.timeline {
+  will-change: clip-path;
+}
+
+.timeline__eyebrow,
+.timeline__headline,
+.timeline__detail {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: transform, opacity;
+}
+
+.news__eyebrow,
+.news__headline,
+.news__intro,
+.news__view-all {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: transform, opacity;
+}
+
+.news__card {
+  will-change: transform, opacity;
+}
+
+.footer__eyebrow,
+.footer__headline,
+.footer__text,
+.footer__btn {
+  opacity: 0;
+  transform: translateY(25px);
+  will-change: transform, opacity;
+}
+
+.footer__nav-col {
+  opacity: 0;
+  transform: translateY(20px);
+  will-change: transform, opacity;
+}
+
+.footer__letter {
+  opacity: 0;
+  transform: translateY(30px);
+  will-change: transform, opacity;
+}
+
+.footer__bottom {
+  opacity: 0;
+}

@@ -1,1200 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Delphi Markets – Prediction Market Data & Infrastructure</title>
-  <meta name="description" content="Delphi Markets is the infrastructure layer for prediction markets. Unified data across 9+ exchanges. Real-time APIs, benchmarks, and Delphi News backed by prediction market signals." />
-  <link rel="canonical" href="https://delphimarkets.com/" />
-  <meta property="og:title" content="Delphi Markets – Prediction Market Data & Infrastructure" />
-  <meta property="og:description" content="Unified prediction market data across Kalshi, Polymarket, and 9+ exchanges. APIs, benchmarks, and news backed by the wisdom of the crowds." />
-  <meta property="og:url" content="https://delphimarkets.com/" />
-  <meta property="og:type" content="website" />
-  
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800;900&family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html, body {
-      height: 100%;
-      background: #fff;
-      scroll-behavior: smooth;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body.intro-active { overflow: hidden; }
-
-    /* ── Preloader ── */
-    /*
-      Two independent fixed panels, no parent clipping.
-      Each is its own GPU compositor layer — zero jank.
-    */
-
-    /* White background + centered logo — slides right on exit */
-    .preloader__bg {
-      position: fixed;
-      inset: 0;
-      z-index: 101;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #fff;
-      transform: translateZ(0);
-      will-change: transform;
-    }
-
-    .preloader__logo {
-      width: clamp(280px, 36vw, 500px);
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-
-    /* White curtain — starts covering logo, slides right to reveal */
-    .preloader__curtain {
-      position: fixed;
-      inset: 0;
-      z-index: 102;
-      background: #fff;
-      transform: translateZ(0);
-      will-change: transform;
-    }
-
-    .preloader__curtain.is-open {
-      animation: slide-right 0.7s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-    }
-
-    .preloader__curtain.is-exit {
-      transform: translate3d(100%, 0, 0);
-      animation: slide-in-from-left 0.7s cubic-bezier(0.76, 0, 0.24, 1) forwards;
-    }
-
-    .preloader__bg.is-exit {
-      animation: fade-out 0.15s ease 0.6s forwards;
-    }
-
-    @keyframes fade-out {
-      to { opacity: 0; }
-    }
-
-    @keyframes slide-right {
-      from { transform: translate3d(0, 0, 0); }
-      to   { transform: translate3d(100%, 0, 0); }
-    }
-
-    @keyframes slide-in-from-left {
-      from { transform: translate3d(-100%, 0, 0); }
-      to   { transform: translate3d(0, 0, 0); }
-    }
-
-    /* ── Header ── */
-    .header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 28px;
-      height: 64px;
-      background: rgba(255, 255, 255, 0);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-    .header.is-scrolled {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
-    }
-
-    .header__brand {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .header__brand-icon {
-      height: 64px;
-      width: auto;
-      mix-blend-mode: multiply;
-    }
-
-    .header__nav {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-      list-style: none;
-    }
-
-    .header__nav a {
-      color: #0a1f44;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 500;
-      letter-spacing: -0.01em;
-      padding: 6px 14px;
-      border-radius: 20px;
-      transition: all 0.2s ease;
-    }
-
-    .header__nav a:hover {
-      opacity: 0.7;
-    }
-
-    .header__nav a.is-active {
-      background: #0a1f44;
-      color: #fff;
-    }
-
-    .header__row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-    }
-
-    /* ── Hero (full image, text in corner) ── */
-    .hero {
-      position: relative;
-      height: 100vh;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .hero__text-zone {
-      position: absolute;
-      top: 0;
-      left: 0;
-      max-width: min(420px, 38vw);
-      padding: 96px 44px 44px 44px;
-      background: #fff;
-      z-index: 2;
-    }
-
-    .hero__text {
-      position: static;
-      max-width: 100%;
-      padding-right: 0;
-      pointer-events: auto;
-    }
-
-    .hero__tagline {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(36px, 4.5vw, 64px);
-      font-weight: 500;
-      color: #0a1f44;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      padding-bottom: 20px;
-      border-bottom: 0.5px solid #0a1f44;
-    }
-    .hero__tagline-line {
-      display: block;
-      white-space: nowrap;
-    }
-    @media (min-width: 1200px) {
-      .hero__text-zone { max-width: min(460px, 40vw); }
-    }
-    @media (max-width: 1024px) {
-      .hero__tagline-line { white-space: normal; }
-    }
-
-    .hero__subtitle {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(15px, 1.4vw, 20px);
-      font-weight: 300;
-      color: #0a1f44;
-      letter-spacing: -0.01em;
-      line-height: 1.5;
-      margin-top: 16px;
-    }
-
-    .hero__cta {
-      display: inline-block;
-      margin-top: 24px;
-      background: #0a1f44;
-      color: #fff;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-      border-radius: 999px;
-      letter-spacing: -0.01em;
-      overflow: hidden;
-      height: 42px;
-      line-height: 42px;
-      padding: 0 28px;
-      text-align: center;
-    }
-    .hero__cta-inner {
-      display: block;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .hero__cta-inner span {
-      display: block;
-      height: 42px;
-      line-height: 42px;
-    }
-    .hero__cta:hover .hero__cta-inner {
-      transform: translateY(-42px);
-    }
-
-    /* ── Scroll-down indicator ── */
-    .hero__scroll-hint {
-      position: absolute;
-      bottom: 36px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(10, 31, 68, 0.15);
-      border-radius: 999px;
-      padding: 10px 28px;
-      color: #0a1f44;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-    }
-    .hero__scroll-hint:hover {
-      background: rgba(255, 255, 255, 1);
-      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.18);
-      transform: translateX(-50%) translateY(-4px);
-    }
-
-    .hero__image-zone {
-      position: absolute;
-      inset: 0;
-    }
-
-    .hero__tiles {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-    .hero__tiles canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .hero__shimmer {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      z-index: 1;
-      background: radial-gradient(
-        ellipse 35% 35% at 50% 50%,
-        rgba(100, 150, 255, 1) 0%,
-        rgba(80, 130, 230, 0.9) 20%,
-        rgba(60, 110, 200, 0.5) 45%,
-        rgba(40, 90, 180, 0.15) 65%,
-        transparent 80%
-      );
-      mix-blend-mode: screen;
-      pointer-events: none;
-      will-change: transform;
-    }
-
-    /* ── Below hero ── */
-    .below-hero {
-      position: relative;
-      background: #0a1f44;
-      z-index: 1;
-      padding: 60px 0 48px;
-    }
-
-    .section-row {
-      display: flex;
-      align-items: stretch;
-      gap: 40px;
-    }
-
-    .section-statement {
-      border-top: 0.5px solid rgba(255, 255, 255, 0.3);
-      border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
-      padding: 24px 32px 48px 32px;
-    }
-
-    .section-statement__text {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(22px, 3vw, 42px);
-      font-weight: 500;
-      color: #fff;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-    }
-
-    /* ── Mobile menu button (hidden on desktop) ── */
-    .header__menu-btn {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 5px;
-      width: 48px;
-      height: 48px;
-      padding: 12px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 60;
-      -webkit-tap-highlight-color: transparent;
-      margin-right: -8px;
-    }
-    .header__menu-btn span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: #0a1f44;
-      border-radius: 1px;
-      transition: transform 0.2s ease, opacity 0.2s ease;
-    }
-    .header__menu-btn.is-open span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    .header__menu-btn.is-open span:nth-child(2) { opacity: 0; }
-    .header__menu-btn.is-open span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-
-    /* ── Mobile breakpoints ── */
-    @media (max-width: 768px) {
-      .header {
-        padding: 0 20px;
-        height: 56px;
-      }
-      .header__brand-icon { height: 48px; }
-      .header__menu-btn { display: flex; }
-      .header nav { position: fixed; }
-      .header__nav {
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: min(320px, 85vw);
-        max-width: 100%;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
-        gap: 0;
-        padding: 80px 24px 32px;
-        background: #fff;
-        z-index: 55;
-        box-shadow: -4px 0 24px rgba(10, 31, 68, 0.08);
-        transform: translateX(100%);
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        overflow-y: auto;
-      }
-      .header__nav.is-open {
-        transform: translateX(0);
-      }
-      .header__nav li {
-        border-bottom: 1px solid rgba(10, 31, 68, 0.08);
-      }
-      .header__nav li:last-child { border-bottom: none; }
-      .header__nav a {
-        display: block;
-        font-size: 18px;
-        padding: 18px 0;
-        border-radius: 0;
-      }
-      .header__nav-backdrop {
-        display: none;
-        position: fixed !important;
-        inset: 0;
-        width: 100% !important;
-        height: 100% !important;
-        background: rgba(10, 31, 68, 0.15);
-        z-index: 54;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-      }
-      .header__nav-backdrop.is-visible {
-        display: block;
-        opacity: 1;
-        pointer-events: auto;
-        inset: auto;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        right: min(320px, 85vw);
-        width: auto !important;
-        height: auto !important;
-      }
-      .hero {
-        display: flex;
-        flex-direction: column;
-      }
-      .hero__text-zone {
-        position: static;
-        top: auto;
-        left: auto;
-        max-width: none;
-        flex: 0 0 auto;
-        padding: 48px 24px 56px;
-        order: 2;
-      }
-      .hero__image-zone {
-        position: relative;
-        flex: 0 0 70vh;
-        min-height: 400px;
-        order: 1;
-      }
-      .hero__tagline {
-        font-size: clamp(28px, 7vw, 40px);
-        padding-bottom: 14px;
-      }
-      .hero__subtitle {
-        font-size: clamp(13px, 3.5vw, 16px);
-        margin-top: 14px;
-      }
-
-      .below-hero { padding: 60px 0 80px; }
-      .section-row {
-        flex-direction: column;
-        gap: 0;
-      }
-      .section-statement {
-        padding: 20px 20px 48px;
-        border-bottom: 0.5px solid rgba(255, 255, 255, 0.3);
-      }
-      .section-statement:first-child { border-top: 0.5px solid rgba(255, 255, 255, 0.3); }
-      .block-news-intro {
-        grid-template-columns: 1fr !important;
-        gap: 32px;
-        padding: 32px 20px 40px !important;
-      }
-      .block-news-intro__cols {
-        grid-template-columns: 1fr;
-        min-height: 0;
-        border-radius: 4px;
-      }
-      .block-news-intro__col {
-        padding: 28px 24px 32px;
-        border-right: none !important;
-        border-bottom: 1px solid rgba(10, 31, 68, 0.08);
-      }
-      .block-news-intro__col--research {
-        border-bottom: none;
-        background: rgba(32, 87, 167, 0.04);
-      }
-      .block-news-intro__view-all { display: none; }
-      .block-news-intro__section-label {
-        margin-bottom: 20px;
-      }
-      .home-article {
-        padding: 20px 0;
-      }
-      .site-footer { padding: 48px 24px 32px !important; }
-    }
-
-    @media (min-width: 769px) {
-      .header__nav-backdrop { display: none !important; }
-    }
-
-    @media (min-width: 769px) and (max-width: 1024px) {
-      .hero {
-        display: flex;
-        flex-direction: column;
-      }
-      .hero__text-zone {
-        position: static;
-        max-width: none;
-        flex: 0 0 auto;
-        padding: 48px 40px 56px;
-        order: 2;
-      }
-      .hero__image-zone {
-        position: relative;
-        flex: 0 0 70vh;
-        min-height: 400px;
-        order: 1;
-      }
-      .block-news-intro {
-        padding: 36px 32px 40px;
-        gap: 40px;
-      }
-      .block-news-intro__col {
-        padding: 24px 24px 28px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header { padding: 0 16px; }
-      .hero__text-zone { padding: 40px 20px 48px; }
-      .hero__tagline { font-size: 26px; }
-      .block-news-intro { padding: 32px 16px 40px !important; gap: 32px; }
-      .block-news-intro__col { padding: 24px 20px 28px; }
-      .site-footer { padding: 40px 16px 24px !important; }
-    }
-
-    /* ── News / Research block (editorial layout) ── */
-    .block-news-intro {
-      display: grid;
-      grid-template-columns: minmax(260px, 0.65fr) minmax(560px, 2.35fr);
-      gap: 48px;
-      padding: 40px clamp(24px, 3vw, 48px) 40px;
-      max-width: 100%;
-      width: 100%;
-    }
-    .block-news-intro__header {
-      padding-top: 4px;
-    }
-    .block-news-intro__title {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(28px, 2.8vw, 40px);
-      font-weight: 700;
-      color: #0a1f44;
-      letter-spacing: -0.03em;
-      text-decoration: none;
-      display: block;
-      transition: opacity 0.2s ease;
-    }
-    .block-news-intro__title:hover { opacity: 0.65; }
-    .block-news-intro__tagline-main {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(20px, 2vw, 28px);
-      font-weight: 500;
-      color: #0a1f44;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-top: 16px;
-    }
-    .block-news-intro__tagline-main + .block-news-intro__tagline-main {
-      margin-top: 0;
-    }
-    .block-news-intro__tagline-sub {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(13px, 1.2vw, 16px);
-      font-weight: 300;
-      color: rgba(10, 31, 68, 0.65);
-      letter-spacing: -0.01em;
-      line-height: 1.5;
-      margin-top: 8px;
-      max-width: 380px;
-    }
-    .block-news-intro__cols {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 0;
-      border: 1px solid rgba(10, 31, 68, 0.08);
-      border-radius: 4px;
-      overflow: hidden;
-      min-width: 0;
-      min-height: 420px;
-    }
-    .block-news-intro__col {
-      min-width: 0;
-      padding: 24px 28px 28px;
-      background: #fff;
-    }
-    .block-news-intro__col--news {
-      border-right: 1px solid rgba(10, 31, 68, 0.08);
-    }
-    .block-news-intro__col--research {
-      background: rgba(32, 87, 167, 0.03);
-      display: flex;
-      flex-direction: column;
-    }
-    .block-news-intro__col--research .block-news-intro__list {
-      flex: 1;
-    }
-    .block-news-intro__view-all {
-      margin-top: auto;
-      padding-top: 20px;
-      padding-bottom: 4px;
-    }
-    .block-news-intro__view-all a {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #2057a7;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      transition: opacity 0.2s ease;
-    }
-    .block-news-intro__view-all a:hover { opacity: 0.7; }
-    .block-news-intro__view-all a::after {
-      content: '→';
-      font-size: 16px;
-      font-weight: 500;
-    }
-    .block-news-intro__section-label {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #2057a7;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 24px;
-      transition: opacity 0.2s ease;
-    }
-    .block-news-intro__section-label:hover { opacity: 0.7; }
-    .block-news-intro__list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    /* ── Home: Article previews (under News / Research) ── */
-    .home-article {
-      padding: 18px 0;
-      border-bottom: 1px solid rgba(10, 31, 68, 0.06);
-    }
-    .home-article:last-child { border-bottom: none; }
-    .home-article__kicker {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #2057a7;
-      display: block;
-      margin-bottom: 8px;
-    }
-    .home-article__title {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(15px, 1.4vw, 18px);
-      font-weight: 600;
-      line-height: 1.4;
-      letter-spacing: -0.02em;
-      color: #0a1f44;
-      text-decoration: none;
-      display: block;
-      margin-bottom: 10px;
-      transition: opacity 0.2s ease;
-    }
-    .home-article__title:hover { opacity: 0.6; }
-    .home-article__excerpt {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: clamp(12px, 1.15vw, 15px);
-      font-weight: 400;
-      line-height: 1.55;
-      color: rgba(10, 31, 68, 0.55);
-    }
-    .home-article__meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    .home-article__meta span {
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 11px;
-      font-weight: 400;
-      color: rgba(10, 31, 68, 0.42);
-      letter-spacing: 0.01em;
-    }
-    .home-article__meta .dot {
-      display: inline-block;
-      width: 2px;
-      height: 2px;
-      border-radius: 50%;
-      background: rgba(10, 31, 68, 0.25);
-    }
-    .block-news-intro__spacer {
-      height: 32px;
-    }
-
-    /* ── Footer ── */
-    .site-footer {
-      background: #0a1f44;
-      width: 100%;
-      padding: 64px 48px 0;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: #fff;
-    }
-    .footer__top {
-      display: flex;
-      justify-content: space-between;
-      gap: 64px;
-      padding-bottom: 48px;
-    }
-    .footer__brand {
-      max-width: 300px;
-    }
-    .footer__logo {
-      height: 48px;
-      width: auto;
-      filter: brightness(0) invert(1);
-    }
-    .footer__tagline {
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 300;
-      line-height: 1.6;
-      opacity: 0.7;
-      letter-spacing: -0.01em;
-    }
-    .footer__columns {
-      display: flex;
-      gap: 80px;
-    }
-    .footer__col {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .footer__col-title {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      opacity: 0.5;
-      margin-bottom: 4px;
-    }
-    .footer__col a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 400;
-      opacity: 0.85;
-      transition: opacity 0.2s ease;
-      letter-spacing: -0.01em;
-    }
-    .footer__col a:hover {
-      opacity: 1;
-    }
-    .footer__bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 24px 0;
-    }
-    .footer__bottom p {
-      font-size: 13px;
-      font-weight: 300;
-      opacity: 0.4;
-      letter-spacing: -0.01em;
-    }
-
-    @media (max-width: 600px) {
-      .site-footer { padding: 48px 24px 0; }
-      .footer__top { flex-direction: column; gap: 40px; }
-      .footer__columns { gap: 48px; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delphi Markets | Prediction Market Data, API &amp; News - Kalshi, Polymarket &amp; More</title>
+  <meta name="description" content="Delphi Markets: unified prediction market data and API across Kalshi, Polymarket &amp; 10+ exchanges. Indices, Delphi News, and institution-grade infrastructure for the prediction economy.">
+  <meta name="keywords" content="Delphi Markets, prediction markets, prediction market data, Kalshi, Polymarket, prediction market API, unified API for prediction markets, prediction market indices, Delphi News, prediction market news">
+  <link rel="canonical" href="https://delphimarkets.com/">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Delphi Markets, Inc.">
+  <meta name="publisher" content="Delphi Markets, Inc.">
+  <meta http-equiv="content-language" content="en-US">
+  <meta name="theme-color" content="#f4f5f8">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <meta name="geo.region" content="US">
+  <meta name="apple-mobile-web-app-title" content="Delphi Markets">
+  <link rel="alternate" hreflang="en-US" href="https://delphimarkets.com/">
+  <link rel="alternate" hreflang="x-default" href="https://delphimarkets.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Delphi Markets">
+  <meta property="og:url" content="https://delphimarkets.com/">
+  <meta property="og:title" content="Delphi Markets | Prediction Market Data, API &amp; News">
+  <meta property="og:description" content="Unified prediction market data across Kalshi, Polymarket &amp; 10+ exchanges. API, indices, and Delphi News - infrastructure for prediction markets.">
+  <meta property="og:image" content="https://delphimarkets.com/favicon.png">
+  <meta property="og:image:width" content="1024">
+  <meta property="og:image:height" content="1024">
+  <meta property="og:image:alt" content="Delphi Markets - prediction market data infrastructure">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Delphi Markets | Prediction Market Data, API &amp; News">
+  <meta name="twitter:description" content="Unified prediction market data across Kalshi, Polymarket &amp; 10+ exchanges. API, indices, and Delphi News.">
+  <meta name="twitter:image" content="https://delphimarkets.com/favicon.png">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"Delphi Markets","url":"https://delphimarkets.com","logo":"https://delphimarkets.com/logo-Photoroom.png","description":"Infrastructure layer for prediction markets. Unified data across 9+ exchanges including Kalshi and Polymarket."}
+  {"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://delphimarkets.com/#organization","name":"Delphi Markets","legalName":"Delphi Markets, Inc.","url":"https://delphimarkets.com/","logo":{"@type":"ImageObject","url":"https://delphimarkets.com/favicon.png"},"description":"Infrastructure for prediction markets: aggregated data across 10+ exchanges (including Kalshi and Polymarket), indices, Delphi News, and APIs for developers and institutions.","sameAs":["https://x.com/Delphi_Terminal","https://instagram.com/delphimarkets"],"knowsAbout":["Prediction markets","Kalshi","Polymarket","Prediction market API","Prediction market indices","Market data"]},{"@type":"WebSite","@id":"https://delphimarkets.com/#website","url":"https://delphimarkets.com/","name":"Delphi Markets","publisher":{"@id":"https://delphimarkets.com/#organization"},"inLanguage":"en-US","description":"Prediction market data, unified API, indices, and Delphi News - the data layer for the prediction economy."},{"@type":"WebPage","@id":"https://delphimarkets.com/#webpage","url":"https://delphimarkets.com/","name":"Delphi Markets | Prediction Market Data, API \u0026 News","isPartOf":{"@id":"https://delphimarkets.com/#website"},"about":{"@id":"https://delphimarkets.com/#organization"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://delphimarkets.com/favicon.png"},"description":"Unified prediction market data across Kalshi, Polymarket and 10+ exchanges. API, indices, and Delphi News."},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is Delphi Markets?","acceptedAnswer":{"@type":"Answer","text":"Delphi Markets, Inc. provides unified prediction market data infrastructure: aggregated pricing and liquidity across 10+ exchanges, cross-exchange indices, Delphi News, and APIs for developers and institutions."}},{"@type":"Question","name":"Does Delphi offer a unified API for prediction markets including Kalshi and Polymarket?","acceptedAnswer":{"@type":"Answer","text":"Yes. Delphi exposes a unified prediction market data API with coverage across major venues including Kalshi and Polymarket, designed for builders and enterprise workflows. See the official documentation for endpoints and access tiers."}},{"@type":"Question","name":"Does Delphi offer prediction market indices?","acceptedAnswer":{"@type":"Answer","text":"Delphi builds structured indices and analytics on top of aggregated prediction market data to benchmark events and markets across exchanges."}},{"@type":"Question","name":"Does Delphi offer prediction market news?","acceptedAnswer":{"@type":"Answer","text":"Delphi News is Delphi’s news layer informed by prediction market data - covering Kalshi, Polymarket, and the broader prediction market ecosystem."}},{"@type":"Question","name":"How do you trade on prediction markets?","acceptedAnswer":{"@type":"Answer","text":"Trading rules and onboarding differ by venue (for example Kalshi versus Polymarket). Delphi provides aggregated data and APIs across exchanges; for account access and trading, follow each venue’s official documentation and applicable regulations in your jurisdiction."}}]}]}
   </script>
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"Delphi Markets","url":"https://delphimarkets.com","description":"Prediction market data, APIs, and Delphi News backed by the wisdom of the crowds."}
-  </script>
+
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sixtyfour&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Sixtyfour&display=swap" rel="stylesheet"></noscript>
+
+  <link rel="preload" href="assets/hero.mp4" as="video" type="video/mp4" fetchpriority="high">
+  <link rel="preload" href="assets/hero-poster.jpg" as="image" fetchpriority="high">
+
+  
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/about-page.css">
+
+  
+  <script type="module" src="js/app.js"></script>
 </head>
-<body class="intro-active">
+<body>
 
-  <div class="preloader__bg" id="preloaderBg">
-    <img class="preloader__logo" src="logo.png" alt="Delphi" />
+  
+  <div class="cursor" id="cursor"></div>
+
+  
+  <div class="preloader" id="preloader">
+    <div class="preloader__bg" id="preloader-bg"></div>
+    <div class="preloader__veil" id="preloader-veil"></div>
+    <div class="preloader__content">
+      <div class="preloader__brand" id="preloader-brand" aria-hidden="true">
+        <span class="preloader__letter">D</span><span class="preloader__letter">e</span><span class="preloader__letter">l</span><span class="preloader__letter">p</span><span class="preloader__letter">h</span><span class="preloader__letter">i</span>
+      </div>
+      <div class="preloader__counter">
+        <span class="preloader__number" id="preloader-number">0</span>
+      </div>
+    </div>
   </div>
-  <div class="preloader__curtain" id="preloaderCurtain"></div>
 
-  <header class="header">
-    <div class="header__row">
-      <a href="/" class="header__brand">
-        <img class="header__brand-icon" src="logo-Photoroom.png" alt="Delphi" />
+
+  
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <span class="nav__logo-letter">D</span><span class="nav__logo-letter">e</span><span class="nav__logo-letter">l</span><span class="nav__logo-letter">p</span><span class="nav__logo-letter">h</span><span class="nav__logo-letter">i</span>
       </a>
-      <button type="button" class="header__menu-btn" id="menuBtn" aria-label="Toggle menu">
+
+      <div class="nav__links">
+        <a href="/about" class="nav__link">About</a>
+        <a href="/data" class="nav__link">Data</a>
+        <a href="/news" class="nav__link">News</a>
+        <a href="https://docs.delphimarkets.com/introduction" class="nav__link" target="_blank" rel="noopener">Docs</a>
+        <a href="#contact" class="nav__link nav__link--cta" data-barba-prevent>Contact</a>
+        <a href="/login" class="nav__link" data-barba-prevent>Login</a>
+      </div>
+      <button class="nav__burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="header__nav-backdrop" id="navBackdrop" aria-hidden="true"></div>
-    <nav>
-      <ul class="header__nav" id="headerNav">
-        <li><a href="/news/">News</a></li>
-        <li><a href="/about/">About</a></li>
-        <li><a href="/data/">Data</a></li>
-        <li><a href="https://docs.delphimarkets.com/" target="_blank" rel="noopener noreferrer">Docs</a></li>
-        <li><a href="/contact/">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  </nav>
 
-  <main>
-    <section class="hero">
-      <div class="hero__text-zone">
-        <div class="hero__text">
-          <p class="hero__tagline"><span class="hero__tagline-line">The Data Infrastructure</span><span class="hero__tagline-line">for the Prediction Economy</span></p>
-          <p class="hero__subtitle">Benchmark anything. Price everything.<br>Aggregated data across 10+ prediction market exchanges, in real-time.</p>
-          <a href="/contact/" class="hero__cta"><span class="hero__cta-inner"><span>Talk to our Team</span><span>Talk to our Team</span></span></a>
+  <div class="page-transition" id="page-transition" aria-hidden="true">
+    <div class="page-transition__content">
+      <div class="page-transition__brand">
+        <span class="page-transition__letter">D</span><span class="page-transition__letter">e</span><span class="page-transition__letter">l</span><span class="page-transition__letter">p</span><span class="page-transition__letter">h</span><span class="page-transition__letter">i</span>
+      </div>
+      <div class="page-transition__counter">
+        <span class="page-transition__number" aria-hidden="true">·</span>
+      </div>
+    </div>
+  </div>
+
+  <div data-barba="wrapper">
+  <div data-barba="container" data-barba-namespace="home">
+
+  
+  <section class="hero" id="hero">
+    <canvas class="hero__canvas" id="hero-canvas"></canvas>
+    <div class="hero__veil" id="hero-veil"></div>
+
+
+    
+    <div class="hero__brand" id="hero-brand" aria-hidden="true">
+      <span class="hero__brand-letter">D</span><span class="hero__brand-letter">e</span><span class="hero__brand-letter">l</span><span class="hero__brand-letter">p</span><span class="hero__brand-letter">h</span><span class="hero__brand-letter">i</span>
+    </div>
+
+    
+    <div class="hero__phase" id="hero-p1">
+      <span class="hero__p1-label">The</span>
+      <div class="hero__p1-display">
+        <span class="hero__p1-char">D</span><span class="hero__p1-char">a</span><span class="hero__p1-char">t</span><span class="hero__p1-char">a</span>
+      </div>
+      <span class="hero__p1-sub">Infrastructure</span>
+    </div>
+
+    
+    <div class="hero__phase hero__phase--split" id="hero-p2">
+      <span class="hero__p2-label">for the</span>
+      <span class="hero__p2-rule"></span>
+      <div class="hero__p2-main">
+        <em>Prediction</em>
+        <strong>Economy</strong>
+      </div>
+    </div>
+
+    
+    <div class="hero__phase" id="hero-p3">
+      <div class="hero__p3-duo">
+        <span class="hero__p3-col">Benchmark anything.</span>
+        <span class="hero__p3-divider"></span>
+        <span class="hero__p3-col">Price everything.</span>
+      </div>
+    </div>
+
+    
+    <div class="hero__phase hero__phase--cta" id="hero-p4">
+      <span class="hero__p4-eyebrow">Aggregated data across</span>
+      <div class="hero__p4-hero-text">
+        <span class="hero__p4-num">10+</span>
+        <div class="hero__p4-stack">
+          <span class="hero__p4-word">Prediction</span>
+          <span class="hero__p4-word">Market</span>
+          <span class="hero__p4-word">Exchanges</span>
         </div>
       </div>
-      <div class="hero__image-zone">
-        <div class="hero__tiles" id="heroTiles"></div>
-        <div class="hero__shimmer" id="shimmer1"></div>
-        <div class="hero__shimmer" id="shimmer2"></div>
-      </div>
-      <button class="hero__scroll-hint" onclick="document.querySelector('.below-hero').scrollIntoView({behavior:'smooth'})" aria-label="Scroll down to learn more">
-        Discover More
-      </button>
-    </section>
+      <span class="hero__p4-sub">in real-time.</span>
+      <div class="hero__p4-rule"></div>
+      <a href="#contact" class="hero__cta-btn" data-barba-prevent>
+        Talk to our Team
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" stroke-width="1.2"/></svg>
+      </a>
+    </div>
 
-    <section class="below-hero">
-      <div class="section-row">
-        <div class="section-statement">
-          <p class="section-statement__text">Prediction markets<br>are juvenile</p>
+    <div class="hero__mobile" id="hero-mobile">
+      <span class="hero__mobile-eyebrow">The Data Infrastructure</span>
+      <h1 class="hero__mobile-headline">for the <em>Prediction</em> Economy</h1>
+      <p class="hero__mobile-sub">Benchmark anything. Price everything.</p>
+      <a href="#contact" class="hero__cta-btn" data-barba-prevent>
+        Talk to our Team
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" stroke-width="1.2"/></svg>
+      </a>
+    </div>
+
+    <div class="hero__fade" id="hero-fade"></div>
+  </section>
+
+  
+  <div class="hero__pulse" id="hero-scroll-hint" aria-hidden="true">
+    <div class="hero__pulse-track">
+      <span class="hero__pulse-dot"></span>
+    </div>
+    <span class="hero__pulse-label">Scroll</span>
+  </div>
+
+  <div class="marquee-sticky-region" id="marquee-sticky-region">
+  
+  <section class="marquee" id="marquee">
+    <div class="marquee__inner" id="marquee-inner">
+    <div class="marquee__row">
+      <div class="marquee__track marquee__track--left">
+        <span class="marquee__item">Polymarket</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Kalshi</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Metaculus</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">PredictIt</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Manifold</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Betfair</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Insight</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Smarkets</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Polymarket</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Kalshi</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Metaculus</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">PredictIt</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Manifold</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Betfair</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Insight</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Smarkets</span>
+        <span class="marquee__sep">·</span>
+      </div>
+    </div>
+    <div class="marquee__row">
+      <div class="marquee__track marquee__track--right">
+        <span class="marquee__item">Real-Time Data</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Price Discovery</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Structured Products</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item"><span class="marquee__item-brand">Delphi</span> News</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Unified Liquidity</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Discrepancy Detection</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">10+ Exchanges</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Signal Over Noise</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Real-Time Data</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Price Discovery</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Structured Products</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item"><span class="marquee__item-brand">Delphi</span> News</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Unified Liquidity</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Discrepancy Detection</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">10+ Exchanges</span>
+        <span class="marquee__sep">·</span>
+        <span class="marquee__item">Signal Over Noise</span>
+        <span class="marquee__sep">·</span>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  
+  <section class="about" id="about">
+    <div class="about__container">
+
+      <div class="about__header">
+        <span class="about__eyebrow">About <span class="about__eyebrow-brand">Delphi</span></span>
+        <h2 class="about__headline">
+          <span class="about__dim">Prediction markets</span><br>are juvenile
+        </h2>
+      </div>
+
+      <div class="about__body">
+        <div class="about__text" id="about-text">
+          <p>Delphi Markets, Inc is the infrastructure layer for prediction markets. We currently own and operate the largest and most granular aggregated dataset across prediction markets.</p>
+          <p>Our approach across 10+ exchanges creates a unified view of fragmented liquidity and price discrepancies in real-time. Our structured products reveal latent connections between global events and the macro world; these are used to hedge exposures across every asset class or to express standalone speculative views.</p>
+          <p>Delphi News is the first news platform backed by prediction market data.</p>
         </div>
-        <div class="section-statement" style="flex:1">
-          <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em">Delphi Markets, Inc is the <strong style="font-weight:800">infrastructure layer for prediction markets</strong>. We currently own and operate the largest and most granular aggregated dataset across prediction markets. Our approach across 10+ exchanges creates a unified view of fragmented liquidity and price discrepancies in real-time. Our <strong style="font-weight:800">structured products</strong> reveal latent connections between global events and the macro world; these are used to hedge exposures across every asset class or to express standalone speculative views. <strong style="font-weight:800">Delphi News</strong> is the first news platform backed by prediction market data.</p>
-          <p class="section-statement__text" style="font-size:clamp(18px,1.7vw,26px);font-weight:300;line-height:1.9;letter-spacing:-0.01em;margin-top:2em"><strong style="font-weight:800">We turn noise into signal.</strong></p>
+
+        <div class="about__closing">
+          <div class="about__rule"></div>
+          <p class="about__signal">We turn noise into signal<span class="about__periods">.<span class="about__period" id="about-period">.</span>.</span></p>
         </div>
       </div>
-    </section>
 
-    <section style="background:#fff;position:relative;z-index:1">
-      <div class="block-news-intro">
-        <div class="block-news-intro__header">
-          <a href="/news/" class="block-news-intro__title">Delphi News</a>
-          <p class="block-news-intro__tagline-main">News backed by you.</p>
-          <p class="block-news-intro__tagline-main">Unfiltered News, Sourced From The Crowd.</p>
+    </div>
+  </section>
+  </div>
+
+  
+  <section class="timeline" id="timeline">
+    <div class="timeline__bg" id="timeline-bg"></div>
+    <div class="timeline__container">
+
+      <div class="timeline__header">
+        <span class="timeline__eyebrow">History of Asset Classes</span>
+        <h2 class="timeline__headline">230 years in<br><span class="timeline__dim">the making.</span></h2>
+      </div>
+
+      <div class="timeline__stage" id="timeline-stage">
+        <div class="timeline__stage-year" id="timeline-stage-year" aria-hidden="true"></div>
+        <div class="timeline__stage-divider"></div>
+        <div class="timeline__stage-body">
+          <span class="timeline__stage-label" id="timeline-stage-label"></span>
+          <p class="timeline__stage-text" id="timeline-stage-text"></p>
         </div>
-        <div class="block-news-intro__cols">
-          <div class="block-news-intro__col block-news-intro__col--news">
-            <a href="/news/" class="block-news-intro__section-label">News</a>
-            <div id="homeLatestNews" class="block-news-intro__list"></div>
+      </div>
+
+      <div class="timeline__controls">
+        <div class="timeline__pips" id="timeline-pips"></div>
+        <div class="timeline__nav">
+          <button class="timeline__arrow timeline__arrow--prev" id="timeline-prev" aria-label="Previous milestone">
+            <svg width="22" height="14" viewBox="0 0 18 12" fill="none"><path d="M6 1L1 6m0 0l5 5M1 6h16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="timeline__counter" id="timeline-counter">10 / 10</span>
+          <button class="timeline__arrow timeline__arrow--next" id="timeline-next" aria-label="Next milestone">
+            <svg width="22" height="14" viewBox="0 0 18 12" fill="none"><path d="M12 1l5 5m0 0l-5 5m5-5H1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="timeline__data" hidden>
+        <div data-year="1790" data-title="Bond Markets (1790)" data-detail="Modern U.S. bond markets trace back to the federal government's 1790 funding plan, when Alexander Hamilton helped consolidate Revolutionary War debts into new federal securities. That move established U.S. public credit and created a tradable market for government debt, giving investors a benchmark 'risk' asset long before modern equities became dominant. In that sense, bond markets were one of the first large-scale systems for pricing state credibility and future cash flows."></div>
+        <div data-year="1792" data-title="Equity Exchanges (1792)" data-detail="U.S. equity exchanges are commonly dated to the 1792 Buttonwood Agreement, when 24 New York brokers agreed to trade securities with one another under shared rules and commissions. That agreement is the foundation of what became the New York Stock Exchange and marks the shift from informal dealing to organized secondary markets. The key innovation was not just trading stocks, but building trusted market structure around them."></div>
+        <div data-year="1860" data-title="S&amp;P Global (1860)" data-detail="S&amp;P Global traces its roots to 1860, when Henry Varnum Poor began publishing detailed financial information on U.S. railroads and canals. His work helped create a new layer of market infrastructure by giving investors standardized data to compare companies, industries, and creditworthiness across a rapidly expanding economy. Over time, that informational role evolved into the broader ratings, benchmarks, and analytics framework that became central to modern capital markets."></div>
+        <div data-year="1909" data-title="Moody's Analytics (1909)" data-detail="Moody's was founded in 1909, and the modern bond-rating industry is generally traced to John Moody's publication on railroad investments that same year. What Moody's added was standardized credit opinion: a way to compress messy issuer information into a usable signal about default risk. That made fixed-income markets more legible and scalable, just as exchanges had earlier made equity trading more organized."></div>
+        <div data-year="1988" data-title="Iowa Electronic Markets (1988)" data-detail="The Iowa Electronic Markets, launched in 1988 by the University of Iowa, are widely regarded as the first modern real-money prediction market. They were run as an educational and research project, but they became influential because they showed that markets could aggregate beliefs about elections and other future events, not just prices of traditional assets. Research on IEM found that, across multiple presidential cycles, its forecasts were often more accurate than polls, helping legitimize prediction markets as an information tool."></div>
+        <div data-year="2001" data-title="Intrade (2001)" data-detail="Intrade, founded in Dublin in 2001, brought prediction markets from academia and niche experimentation into a much more visible public format. It became especially well known during U.S. election cycles because traders, journalists, and analysts used its prices as live probabilities on politics, geopolitics, and current events. Even though it shut down in 2013, Intrade proved there was broad demand for liquid, always-on markets in future outcomes."></div>
+        <div data-year="2010" data-title="Box Office Futures (2010)" data-detail="Box office futures were an important 2010 test of whether U.S. derivatives law could support event contracts on cultural outcomes, not just commodities or financial benchmarks. The CFTC initially approved contracts tied to opening-weekend movie revenue, suggesting event-based markets might expand into new domains. But Congress quickly shut that path down in Dodd-Frank by banning futures on motion-picture box office receipts, making this episode a pivotal reminder that regulatory design can determine which prediction markets survive."></div>
+        <div data-year="2014" data-title="PredictIt (2014)" data-detail="PredictIt launched in 2014 as an academic project operating under a CFTC no-action letter granted to Victoria University of Wellington. It became the best-known U.S. political prediction market of the 2010s by offering retail traders a legal, real-money venue for election and policy forecasting under specific limits. PredictIt mattered because it kept event trading alive in the U.S. between the Intrade era and the newer wave of more institutionalized prediction platforms."></div>
+        <div data-year="2020" data-title="Kalshi &amp; Polymarket (2020s)" data-detail="Kalshi and Polymarket represent the current phase of prediction markets, but they do so through two very different models. Kalshi operates as a CFTC-regulated designated contract market in the U.S., while Polymarket grew as a crypto-native platform launched in 2020 and expanded rapidly through offshore, blockchain-based trading. Together, they show that prediction markets are moving from fringe experiments toward a serious global fight over who gets to price future events, under what rules, and for which users."></div>
+        <div data-year="2025" data-title="Delphi (2025)" data-detail="Delphi aggregates data from 10+ prediction market exchanges into a unified API, builds indices that benchmark real-world events, and powers the first unbiased news platform backed by market data. Every asset class that came before followed the same path: exchanges first, then infrastructure. We're that next layer." data-active></div>
+      </div>
+
+    </div>
+  </section>
+
+  
+  <section class="news" id="news">
+    <div class="news__container">
+
+      <div class="news__header">
+        <div class="news__header-left">
+          <span class="news__eyebrow"><span class="news__eyebrow-brand">Delphi</span> News</span>
+          <h2 class="news__headline">News backed<br><span class="news__dim">by you.</span></h2>
+        </div>
+        <div class="news__header-bar">
+          <p class="news__intro">Unfiltered News, Sourced From The Crowd.</p>
+          <a href="/news" class="news__view-all">
+            View all articles
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" stroke-width="1.2"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="news__gallery" id="news-gallery"></div>
+    </div>
+  </section>
+
+  
+  <footer class="footer" id="contact">
+    <div class="footer__container">
+
+      <div class="footer__top">
+        <div class="footer__cta">
+          <span class="footer__eyebrow">Get in touch</span>
+          <h2 class="footer__headline">Benchmark anything.<br><span class="footer__dim">Price everything.</span></h2>
+          <p class="footer__text">Ready to tap into the prediction economy?</p>
+          <a href="#contact" class="footer__btn" data-barba-prevent>
+            Talk to our Team
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" stroke-width="1.2"/></svg>
+          </a>
+        </div>
+        <div class="footer__nav">
+          <div class="footer__nav-col">
+            <span class="footer__nav-label">Navigate</span>
+            <a href="/data" class="footer__link">Data</a>
+            <a href="/about" class="footer__link">About</a>
+            <a href="/news" class="footer__link">News</a>
+            <a href="#contact" class="footer__link" data-barba-prevent>Contact</a>
           </div>
-          <div class="block-news-intro__col block-news-intro__col--research">
-            <a href="/news/" class="block-news-intro__section-label">Research</a>
-            <div id="homeLatestResearch" class="block-news-intro__list"></div>
-            <div class="block-news-intro__view-all">
-              <a href="/news/">View all</a>
+          <div class="footer__nav-col">
+            <span class="footer__nav-label">Official</span>
+            <a href="https://docs.delphimarkets.com/introduction" class="footer__link" target="_blank" rel="noopener">Docs</a>
+            <a href="/login" class="footer__link" data-barba-prevent>Login</a>
+            <a href="#contact" class="footer__link" data-barba-prevent>Contact</a>
+            <a href="/terms" class="footer__link">Terms</a>
+            <a href="/privacy" class="footer__link">Privacy</a>
+          </div>
+          <div class="footer__nav-col">
+            <span class="footer__nav-label">Social</span>
+            <div class="footer__social-group">
+              <span class="footer__social-brand">Terminal</span>
+              <div class="footer__social-links">
+                <a href="https://x.com/Delphi_Terminal" class="footer__link" target="_blank">X</a>
+                <a href="https://instagram.com/delphimarkets" class="footer__link" target="_blank">IG</a>
+              </div>
+            </div>
+            <div class="footer__social-group">
+              <span class="footer__social-brand">News</span>
+              <div class="footer__social-links">
+                <a href="https://x.com/Delphi_News" class="footer__link" target="_blank">X</a>
+                <a href="https://instagram.com/delphi_news" class="footer__link" target="_blank">IG</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="block-news-intro__spacer"></div>
-    </section>
 
-    <footer class="site-footer">
-      <div class="footer__top">
-        <div class="footer__brand">
-          <a href="/">
-            <img src="logo-Photoroom.png" alt="Delphi" class="footer__logo" />
-          </a>
-          <p class="footer__tagline">The data infrastructure<br>for the prediction economy.</p>
-        </div>
-        <div class="footer__columns">
-          <div class="footer__col">
-            <p class="footer__col-title">Product</p>
-            <a href="/data/">Data</a>
-            <a href="/news/">Delphi News</a>
-            <a href="/markets/">Markets</a>
-          </div>
-          <div class="footer__col">
-            <p class="footer__col-title">Company</p>
-            <a href="/about/">About</a>
-            <a href="/contact/">Contact</a>
-          </div>
-        </div>
+      <div class="footer__brand" aria-hidden="true">
+        <span class="footer__letter">D</span><span class="footer__letter">e</span><span class="footer__letter">l</span><span class="footer__letter">p</span><span class="footer__letter">h</span><span class="footer__letter">i</span>
       </div>
+
       <div class="footer__bottom">
-        <p>&copy; Delphi Markets Inc. 2026</p>
+        <span class="footer__copy">© 2026 <span class="footer__copy-brand">Delphi</span></span>
+        <span class="footer__copy">All rights reserved.</span>
+        <span class="footer__copy">Website by <a href="https://zerasoftwarestudio.com" target="_blank" rel="noopener">Zera Software Studio</a></span>
       </div>
-    </footer>
-  </main>
 
-  <script>
-    // ── Sticky header background ──
-    const header = document.querySelector('.header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('is-scrolled', window.scrollY > 10);
-    }, { passive: true });
+    </div>
+  </footer>
 
-    // ── Preloader ──
-    const bg = document.getElementById('preloaderBg');
-    const curtain = document.getElementById('preloaderCurtain');
-    setTimeout(() => curtain.classList.add('is-open'), 90);
-    setTimeout(() => {
-      curtain.classList.add('is-exit');
-      bg.classList.add('is-exit');
-    }, 1050);
-    setTimeout(() => {
-      bg.remove();
-      curtain.remove();
-      document.body.classList.remove('intro-active');
-    }, 1900);
+  </div>
+  </div>
 
-    // ── Shimmer bounce (DVD-style, time-based) ──
-    function makeShimmer(el, startX, startY, angleDeg) {
-      const speed = 0.05;
-      const angle = angleDeg * Math.PI / 180;
-      let x = startX, y = startY;
-      let vx = Math.cos(angle) * speed;
-      let vy = Math.sin(angle) * speed;
-      let last = null;
-
-      function tick(ts) {
-        if (!last) last = ts;
-        const dt = Math.min((ts - last) / 1000, 0.05);
-        last = ts;
-
-        x += vx * dt;
-        y += vy * dt;
-
-        if (x <= 0) { vx = Math.abs(vx);  x = 0; }
-        if (x >= 1) { vx = -Math.abs(vx); x = 1; }
-        if (y <= 0) { vy = Math.abs(vy);  y = 0; }
-        if (y >= 1) { vy = -Math.abs(vy); y = 1; }
-
-        el.style.transform = `translate(${(x - 0.5) * 50}%, ${(y - 0.5) * 50}%)`;
-        requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-
-    makeShimmer(document.getElementById('shimmer1'), 0.05, 0.15, 42);
-    makeShimmer(document.getElementById('shimmer2'), 0.95, 0.85, 220);
-
-    // ── Latest News & Research (synced with news page via articles.json) ──
-    (function() {
-      var articleBase = location.pathname.indexOf('/news/') !== -1 ? '../' : '';
-      function normArticle(a) {
-        return { cat: a.category, title: a.title, sub: a.excerpt, url: articleBase + a.url, date: a.dateShort || a.date, author: a.author };
-      }
-      function renderList(articles, containerId, filter) {
-        var container = document.getElementById(containerId);
-        if (!container) return;
-        var filtered = articles.filter(filter);
-        filtered.forEach(function(a) {
-          var div = document.createElement('article');
-          div.className = 'home-article';
-          div.innerHTML =
-            '<span class="home-article__kicker">' + a.cat + '</span>' +
-            '<a href="' + a.url + '" class="home-article__title">' + a.title + '</a>' +
-            (a.sub ? '<p class="home-article__excerpt">' + a.sub + '</p>' : '') +
-            '<div class="home-article__meta">' +
-              '<span>' + a.author + '</span>' +
-              '<span class="dot"></span>' +
-              '<span>' + a.date + '</span>' +
-            '</div>';
-          container.appendChild(div);
-        });
-      }
-      function initArticles(data) {
-        var articles = (data || []).map(normArticle);
-        renderList(articles, 'homeLatestNews', function(a) { return a.cat !== 'Research'; });
-        renderList(articles, 'homeLatestResearch', function(a) { return a.cat === 'Research'; });
-      }
-      fetch('articles.json?v=' + Date.now())
-        .then(function(r) { return r.json(); })
-        .then(initArticles)
-        .catch(function() { initArticles([]); });
-    })();
-
-    // ── Mobile menu ──
-    var menuBtn = document.getElementById('menuBtn');
-    var headerNav = document.getElementById('headerNav');
-    var navBackdrop = document.getElementById('navBackdrop');
-    function closeMenu() {
-      if (menuBtn) menuBtn.classList.remove('is-open');
-      if (headerNav) headerNav.classList.remove('is-open');
-      if (navBackdrop) navBackdrop.classList.remove('is-visible');
-      document.body.style.overflow = '';
-    }
-    function openMenu() {
-      if (menuBtn) menuBtn.classList.add('is-open');
-      if (headerNav) headerNav.classList.add('is-open');
-      if (navBackdrop) navBackdrop.classList.add('is-visible');
-      document.body.style.overflow = 'hidden';
-    }
-    if (menuBtn && headerNav) {
-      menuBtn.addEventListener('click', function () {
-        if (headerNav.classList.contains('is-open')) closeMenu();
-        else openMenu();
-      });
-      if (navBackdrop) navBackdrop.addEventListener('click', closeMenu);
-    }
-
-    // ── Hero sketch disassembly effect ──
-    (function() {
-      var container = document.getElementById('heroTiles');
-      if (!container) return;
-
-      if ('ontouchstart' in window && window.innerWidth < 768) {
-        var fi = document.createElement('img');
-        fi.src = 'flip sketc nyc.png';
-        fi.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%';
-        container.appendChild(fi);
-        return;
-      }
-
-      var canvas = document.createElement('canvas');
-      container.appendChild(canvas);
-      var ctx = canvas.getContext('2d');
-
-      var heroImg = new Image();
-      heroImg.src = 'flip sketc nyc.png';
-
-      var particles = [];
-      var origData, workImg;
-      var PX = 3;
-      var RADIUS = 60;
-      var mouseX = -9999, mouseY = -9999;
-      var isHovering = false;
-      var cw, ch, running = false, needsRender = true;
-
-      function coverDims() {
-        var iw = heroImg.naturalWidth, ih = heroImg.naturalHeight;
-        var s = Math.max(cw / iw, ch / ih);
-        return { w: iw * s, h: ih * s, x: (cw - iw * s) / 2, y: (ch - ih * s) * 0.2 };
-      }
-
-      function init() {
-        var rect = container.getBoundingClientRect();
-        cw = Math.round(rect.width);
-        ch = Math.round(rect.height);
-        canvas.width = cw;
-        canvas.height = ch;
-
-        var cd = coverDims();
-        ctx.fillStyle = '#fff';
-        ctx.fillRect(0, 0, cw, ch);
-        ctx.drawImage(heroImg, cd.x, cd.y, cd.w, cd.h);
-
-        var imgData = ctx.getImageData(0, 0, cw, ch);
-        origData = new Uint8ClampedArray(imgData.data);
-        workImg = ctx.createImageData(cw, ch);
-
-        var d = imgData.data;
-        particles = [];
-
-        for (var y = 0; y < ch; y += PX) {
-          for (var x = 0; x < cw; x += PX) {
-            var i = (y * cw + x) * 4;
-            var r = d[i], g = d[i + 1], b = d[i + 2], a = d[i + 3];
-            if (a < 10) continue;
-            var lum = 0.299 * r + 0.587 * g + 0.114 * b;
-            if (lum > 252) continue;
-
-            particles.push({
-              hx: x, hy: y, x: x, y: y, vx: 0, vy: 0,
-              r: r, g: g, b: b, a: a,
-              strength: Math.max(0.12, Math.pow(1 - lum / 255, 0.35)),
-              damp: 0.88 + Math.random() * 0.06,
-              angOff: (Math.random() - 0.5) * 0.8
-            });
-          }
-        }
-
-        needsRender = true;
-        if (!running) { running = true; tick(); }
-      }
-
-      function tick() {
-        var rect = container.getBoundingClientRect();
-        var mx = mouseX - rect.left;
-        var my = mouseY - rect.top;
-        var RB = RADIUS + 60;
-
-        var displaced = [];
-
-        for (var i = 0; i < particles.length; i++) {
-          var p = particles[i];
-          var atHome = p.x === p.hx && p.y === p.hy && p.vx === 0;
-
-          if (atHome) {
-            var bx = p.hx - mx, by = p.hy - my;
-            if (bx > RB || bx < -RB || by > RB || by < -RB) continue;
-          }
-
-          var dx = p.x - mx, dy = p.y - my;
-          var dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (isHovering && dist < RADIUS) {
-            var f = (1 - dist / RADIUS);
-            f = f * f * p.strength;
-            var ang = Math.random() * Math.PI * 2;
-            p.vx += Math.cos(ang) * f * 80;
-            p.vy += Math.sin(ang) * f * 80;
-          }
-
-          p.vx += (p.hx - p.x) * 0.018;
-          p.vy += (p.hy - p.y) * 0.018;
-          p.vx *= p.damp;
-          p.vy *= p.damp;
-          p.x += p.vx;
-          p.y += p.vy;
-
-          if (Math.abs(p.x - p.hx) + Math.abs(p.y - p.hy) > 0.5) {
-            displaced.push(p);
-          } else {
-            p.x = p.hx; p.y = p.hy;
-            p.vx = 0; p.vy = 0;
-          }
-        }
-
-        if (displaced.length > 0 || needsRender) {
-          workImg.data.set(origData);
-          var wd = workImg.data;
-
-          for (var i = 0; i < displaced.length; i++) {
-            var p = displaced[i];
-            var px = Math.round(p.x), py = Math.round(p.y);
-            var dOff = Math.sqrt((p.x - p.hx) * (p.x - p.hx) + (p.y - p.hy) * (p.y - p.hy));
-            var sz = Math.max(1, Math.round(PX * Math.max(0.45, 1 - dOff / 500)));
-
-            for (var sy = 0; sy < sz; sy++) {
-              for (var sx = 0; sx < sz; sx++) {
-                var ox = px + sx, oy = py + sy;
-                if (ox >= 0 && ox < cw && oy >= 0 && oy < ch) {
-                  var oi = (oy * cw + ox) * 4;
-                  wd[oi] = p.r; wd[oi + 1] = p.g; wd[oi + 2] = p.b; wd[oi + 3] = p.a;
-                }
-              }
-            }
-          }
-
-          ctx.putImageData(workImg, 0, 0);
-          needsRender = displaced.length > 0;
-        }
-
-        requestAnimationFrame(tick);
-      }
-
-      heroImg.onload = function() { init(); };
-
-      var hero = document.querySelector('.hero');
-      hero.addEventListener('mousemove', function(e) {
-        mouseX = e.clientX; mouseY = e.clientY;
-        isHovering = true;
-      });
-      hero.addEventListener('mouseleave', function() {
-        isHovering = false;
-      });
-
-      var rt;
-      window.addEventListener('resize', function() {
-        clearTimeout(rt);
-        rt = setTimeout(function() { if (heroImg.naturalWidth) init(); }, 250);
-      });
-    })();
-  </script>
 </body>
 </html>

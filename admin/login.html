@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Staff login - Delphi Markets</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@600;700&family=Sixtyfour&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin">
+  <div class="admin__panel">
+    <div class="admin__logo">Delphi</div>
+    <h1 class="admin__title">Staff login</h1>
+    <p class="admin__sub">Sign in to manage news articles. Sessions use secure cookies and CSRF protection.</p>
+
+    <p id="login-error" class="admin__error admin__hidden" role="alert"></p>
+
+    <form id="login-form" class="admin__form" autocomplete="on">
+      <div class="admin__field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="username" maxlength="254">
+      </div>
+      <div class="admin__field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required autocomplete="current-password" maxlength="512">
+      </div>
+      <button type="submit" class="admin__btn" id="login-submit">Sign in</button>
+    </form>
+  </div>
+  <script type="module" src="/js/admin-login.js"></script>
+</body>
+</html>

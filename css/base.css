@@ -1,0 +1,109 @@
+:root {
+  --color-bg: #f4f5f8;
+  --color-bg-elevated: #e6e9ef;
+  --color-bg-card: #fafbfd;
+  --color-text-primary: #152c4a;
+  --color-text-secondary: #5c6578;
+  --color-text-dim: #8b93a3;
+  --color-accent: #1a3d66;
+  --color-accent-dim: rgba(21, 44, 74, 0.07);
+  --color-accent-glow: rgba(21, 44, 74, 0.16);
+  --color-border: rgba(21, 44, 74, 0.11);
+  --color-border-hover: rgba(21, 44, 74, 0.28);
+
+  --color-surface-dark: #0f1f33;
+  --color-surface-dark-deep: #0a1524;
+  --color-surface-dark-mid: #152c4a;
+
+  --color-category-world: #4a6578;
+  --color-category-tech: #2e5578;
+  --color-category-economy: #5f7384;
+  --color-category-research: #4f6880;
+
+  --nav-h: 72px;
+  --marquee-h: 0px;
+
+  --font-heading: 'Playfair Display', serif;
+  --font-brand: 'Sixtyfour', sans-serif;
+  --brand-wordmark-spacing: 0.06em;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-nav: 'Inter', sans-serif;
+
+  --fs-display: clamp(3.2rem, 7vw, 6.5rem);
+  --fs-h1: clamp(2.5rem, 5vw, 5rem);
+  --fs-h2: clamp(2rem, 4vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 2.5vw, 2rem);
+  --fs-body: clamp(1rem, 1.2vw, 1.125rem);
+  --fs-small: clamp(0.8rem, 1vw, 0.875rem);
+  --fs-label: clamp(0.7rem, 0.8vw, 0.75rem);
+
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-black: 900;
+
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 2rem;
+  --spacing-lg: 4rem;
+  --spacing-xl: 8rem;
+  --spacing-2xl: 12rem;
+
+  --container-width: min(90vw, 1400px);
+  --container-narrow: min(85vw, 900px);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: 1s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: initial;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  overflow-x: hidden;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--color-text-primary);
+  color: var(--color-bg);
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
