@@ -1,0 +1,24 @@
+{
+  "buildCommand": "npx prisma generate && npm run build",
+  "outputDirectory": "dist",
+  "framework": null,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/data", "destination": "/data.html" },
+    { "source": "/news", "destination": "/news.html" },
+    { "source": "/news/article", "destination": "/article.html" },
+    { "source": "/terms", "destination": "/terms.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/create-account", "destination": "/create-account.html" },
+    { "source": "/verify", "destination": "/verify.html" },
+    { "source": "/forgot-password", "destination": "/forgot-password.html" },
+    { "source": "/reset-password", "destination": "/reset-password.html" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 30
+    }
+  }
+}

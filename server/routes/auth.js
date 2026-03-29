@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
 import rateLimit from 'express-rate-limit';
 import { body, param, validationResult } from 'express-validator';
 import { signAccessToken } from '../lib/jwt.js';
@@ -148,7 +148,7 @@ export function createAuthRouter({ jwtAccessSecret }) {
 
       const email = req.body.email;
       const password = req.body.password;
-      const passwordHash = await argon2.hash(password, { type: argon2.argon2id });
+      const passwordHash = await bcrypt.hash(password, 12);
       const code = makeCode();
       const expiresAt = codeDeadline();
       const verificationCodeHash = hashToken(code);
@@ -301,7 +301,7 @@ export function createAuthRouter({ jwtAccessSecret }) {
 
       let ok = false;
       try {
-        ok = await argon2.verify(user.passwordHash, password);
+        ok = await bcrypt.compare(password, user.passwordHash);
       } catch {
         ok = false;
       }
@@ -401,7 +401,7 @@ export function createAuthRouter({ jwtAccessSecret }) {
         return res.status(400).json({ error: 'Invalid or expired reset code.' });
       }
 
-      const passwordHash = await argon2.hash(req.body.password, { type: argon2.argon2id });
+      const passwordHash = await bcrypt.hash(req.body.password, 12);
       await prisma.user.update({
         where: { id: user.id },
         data: {
@@ -520,10 +520,10 @@ export function createAuthRouter({ jwtAccessSecret }) {
         const user = await prisma.user.findUnique({ where: { id: req.user.id } });
         if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
-        const valid = await argon2.verify(user.passwordHash, req.body.currentPassword);
+        const valid = await bcrypt.compare(req.body.currentPassword, user.passwordHash);
         if (!valid) return res.status(403).json({ error: 'Current password is incorrect.' });
 
-        const passwordHash = await argon2.hash(req.body.newPassword, { type: argon2.argon2id });
+        const passwordHash = await bcrypt.hash(req.body.newPassword, 12);
         await prisma.user.update({ where: { id: user.id }, data: { passwordHash } });
 
         res.json({ ok: true });
@@ -574,7 +574,7 @@ export function createAuthRouter({ jwtAccessSecret }) {
         return res.status(409).json({ error: 'A user with this email already exists.' });
       }
 
-      const passwordHash = await argon2.hash(req.body.password, { type: argon2.argon2id });
+      const passwordHash = await bcrypt.hash(req.body.password, 12);
       const user = await prisma.user.create({
         data: {
           email,

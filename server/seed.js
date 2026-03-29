@@ -1,4 +1,4 @@
-import argon2 from 'argon2';
+import bcrypt from 'bcryptjs';
 import { prisma } from './prisma.js';
 
 function articleRows() {
@@ -99,7 +99,7 @@ export async function ensureAdminUser(email, password) {
     return;
   }
 
-  const hash = await argon2.hash(password, { type: argon2.argon2id });
+  const hash = await bcrypt.hash(password, 12);
   await prisma.user.create({
     data: {
       email: email.toLowerCase().trim(),

@@ -31,7 +31,7 @@ function devJwtSecret() {
   return gen;
 }
 
-async function createApp() {
+export async function createApp() {
   const isProd = process.env.NODE_ENV === 'production';
   const useDb = Boolean(process.env.PRISMA_DATABASE_URL || process.env.DATABASE_URL);
 
@@ -60,10 +60,6 @@ async function createApp() {
       dbConnected = true;
 
       purgeExpiredRefreshTokens().catch((e) => console.error('[cms] purge refresh tokens', e));
-      setInterval(
-        () => purgeExpiredRefreshTokens().catch((e) => console.error('[cms] purge', e)),
-        6 * 60 * 60 * 1000
-      );
 
       await ensureAdminUser(process.env.INITIAL_ADMIN_EMAIL, process.env.INITIAL_ADMIN_PASSWORD);
       await seedNewsIfEmpty();
@@ -169,30 +165,37 @@ async function createApp() {
   return { app };
 }
 
-const port = Number(process.env.PORT) || 3000;
+/* ── Local dev / Heroku: start the server when run directly ── */
+const isDirectRun =
+  process.argv[1] &&
+  fileURLToPath(import.meta.url).endsWith(process.argv[1].replace(/.*(?=server)/, ''));
 
-async function shutdown(signal) {
-  console.log(`[cms] ${signal} - shutting down`);
-  if (dbConnected) {
-    await prisma.$disconnect().catch(() => {});
+if (isDirectRun) {
+  const port = Number(process.env.PORT) || 3000;
+
+  async function shutdown(signal) {
+    console.log(`[cms] ${signal} - shutting down`);
+    if (dbConnected) {
+      await prisma.$disconnect().catch(() => {});
+    }
+    process.exit(0);
   }
-  process.exit(0);
-}
 
-process.once('SIGINT', () => void shutdown('SIGINT'));
-process.once('SIGTERM', () => void shutdown('SIGTERM'));
+  process.once('SIGINT', () => void shutdown('SIGINT'));
+  process.once('SIGTERM', () => void shutdown('SIGTERM'));
 
-createApp()
-  .then(({ app }) => {
-    app.listen(port, () => {
-      console.log(`[dev] Site http://localhost:${port}`);
-      if (process.env.NODE_ENV !== 'production' && dbConnected) {
-        console.log('[auth] Login http://localhost:' + port + '/login');
-        console.log('[cms] Dashboard http://localhost:' + port + '/admin/dashboard.html');
-      }
+  createApp()
+    .then(({ app }) => {
+      app.listen(port, () => {
+        console.log(`[dev] Site http://localhost:${port}`);
+        if (process.env.NODE_ENV !== 'production' && dbConnected) {
+          console.log('[auth] Login http://localhost:' + port + '/login');
+          console.log('[cms] Dashboard http://localhost:' + port + '/admin/dashboard.html');
+        }
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
     });
-  })
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
+}
