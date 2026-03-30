@@ -1,5 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { API_BASE } from './auth-helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -59,7 +60,7 @@ export async function loadNewsGallery() {
   if (!gallery) return;
 
   try {
-    const res = await fetch('/api/news/public', { credentials: 'same-origin' });
+    const res = await fetch(`${API_BASE}/api/v1/news`);
     if (!res.ok) throw new Error('bad status');
     const data = await res.json();
     const articles = data.articles || [];

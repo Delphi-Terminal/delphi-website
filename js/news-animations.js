@@ -1,6 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initTicker } from './ticker.js';
+import { API_BASE, getToken, authHeaders } from './auth-helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -127,7 +128,7 @@ export class NewsPageAnimations {
     if (!this.containers.stream) return;
 
     try {
-      const res = await fetch('/api/news/public', { credentials: 'same-origin' });
+      const res = await fetch(`${API_BASE}/api/v1/news`);
       if (!res.ok) throw new Error('bad status');
       const data = await res.json();
       this.articles = data.articles || [];
@@ -360,14 +361,17 @@ export class ArticlePageAnimations {
     if (!id) return;
 
     try {
-      const res = await fetch(`/api/news/public/${id}`, { credentials: 'same-origin' });
+      const res = await fetch(`${API_BASE}/api/v1/news/${id}`);
       if (!res.ok) throw new Error('not found');
       const data = await res.json();
       const a = data.article;
       if (!a) throw new Error('empty');
-      const authRes = await fetch('/api/auth/me', { credentials: 'same-origin' }).catch(() => null);
-      const authData = authRes?.ok ? await authRes.json().catch(() => ({})) : null;
-      const isUnlocked = Boolean(authData?.user);
+      let isUnlocked = false;
+      const token = getToken();
+      if (token) {
+        const authRes = await fetch(`${API_BASE}/api/v1/auth/me`, { headers: authHeaders() }).catch(() => null);
+        isUnlocked = authRes?.ok ?? false;
+      }
 
       document.title = `${a.title} - Delphi News`;
 

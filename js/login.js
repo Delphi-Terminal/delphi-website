@@ -1,13 +1,15 @@
-import { disableButton, getCsrf, redirectForUser, showMessage } from './auth-helpers.js';
+import { API_BASE, authHeaders, setToken, getToken, disableButton, redirectForUser, showMessage } from './auth-helpers.js';
 
 const form = document.getElementById('auth-form');
 const submitBtn = document.getElementById('auth-submit');
 
 (async () => {
   try {
-    const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+    const token = getToken();
+    if (!token) return;
+    const res = await fetch(`${API_BASE}/api/v1/auth/me`, { headers: authHeaders() });
     if (res.ok) {
-      const { user } = await res.json();
+      const user = await res.json();
       redirectForUser(user);
       return;
     }
@@ -28,15 +30,13 @@ form?.addEventListener('submit', async (e) => {
   showMessage('error', '');
 
   try {
-    const csrfToken = await getCsrf();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
       method: 'POST',
-      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, csrfToken }),
+      body: JSON.stringify({ email, password }),
     });
     const data = await res.json().catch(() => ({}));
 
@@ -50,7 +50,13 @@ form?.addEventListener('submit', async (e) => {
       return;
     }
 
-    redirectForUser(data.user);
+    setToken(data.token);
+
+    const meRes = await fetch(`${API_BASE}/api/v1/auth/me`, {
+      headers: { Authorization: `Bearer ${data.token}` },
+    });
+    const user = meRes.ok ? await meRes.json() : {};
+    redirectForUser(user);
   } catch {
     showMessage('error', 'Network error. Try again.');
     disableButton(submitBtn, false);

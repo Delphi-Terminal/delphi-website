@@ -1,12 +1,16 @@
+import { API_BASE, authHeaders, setToken, getToken, clearToken } from './auth-helpers.js';
+
 const form = document.getElementById('login-form');
 const errEl = document.getElementById('login-error');
 const submitBtn = document.getElementById('login-submit');
 
 (async () => {
   try {
-    const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+    const token = getToken();
+    if (!token) return;
+    const res = await fetch(`${API_BASE}/api/v1/auth/me`, { headers: authHeaders() });
     if (res.ok) {
-      const { user } = await res.json();
+      const user = await res.json();
       if (user?.role === 'admin') {
         window.location.href = '/admin/dashboard.html';
         return;
@@ -15,13 +19,6 @@ const submitBtn = document.getElementById('login-submit');
     }
   } catch { /* not logged in */ }
 })();
-
-async function getCsrf() {
-  const r = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
-  if (!r.ok) throw new Error('CSRF unavailable');
-  const data = await r.json();
-  return data.csrfToken;
-}
 
 function showError(msg) {
   errEl.textContent = msg;
@@ -34,15 +31,13 @@ form.addEventListener('submit', async (e) => {
   submitBtn.disabled = true;
 
   try {
-    const csrfToken = await getCsrf();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
 
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_BASE}/api/v1/auth/login`, {
       method: 'POST',
-      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password, csrfToken }),
+      body: JSON.stringify({ email, password }),
     });
 
     const data = await res.json().catch(() => ({}));
@@ -52,6 +47,7 @@ form.addEventListener('submit', async (e) => {
       return;
     }
 
+    setToken(data.token);
     window.location.href = '/admin/dashboard.html';
   } catch {
     showError('Network error. Try again.');

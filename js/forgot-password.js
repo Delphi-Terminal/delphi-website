@@ -1,4 +1,4 @@
-import { disableButton, getCsrf, showMessage } from './auth-helpers.js';
+import { API_BASE, disableButton, showMessage } from './auth-helpers.js';
 
 const form = document.getElementById('auth-form');
 const submitBtn = document.getElementById('auth-submit');
@@ -9,12 +9,10 @@ form?.addEventListener('submit', async (e) => {
 
   try {
     const email = document.getElementById('email').value.trim();
-    const csrfToken = await getCsrf();
-    const res = await fetch('/api/auth/forgot-password', {
+    const res = await fetch(`${API_BASE}/api/v1/auth/forgot-password`, {
       method: 'POST',
-      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, csrfToken }),
+      body: JSON.stringify({ email }),
     });
     const data = await res.json().catch(() => ({}));
 

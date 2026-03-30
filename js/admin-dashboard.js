@@ -1,3 +1,5 @@
+import { API_BASE, authHeaders, getToken, clearToken } from './auth-helpers.js';
+
 const ADMIN_LOGIN_URL = '/admin/login';
 
 const tbody = document.getElementById('articles-body');
@@ -23,7 +25,6 @@ const coverFileInput = document.getElementById('cover-file-input');
 const coverField = document.getElementById('f-cover-image');
 const btnRemoveCover = document.getElementById('btn-remove-cover');
 
-let csrfToken = null;
 let cachedArticles = [];
 let cachedUsers = [];
 let currentUser = null;
@@ -44,12 +45,14 @@ function escapeHtml(s) {
 }
 
 function redirectToLogin() {
+  clearToken();
   window.location.href = ADMIN_LOGIN_URL;
 }
 
 function formatDate(ts) {
   if (!ts) return 'Just now';
-  return dateTimeFormatter.format(new Date(ts * 1000));
+  const d = typeof ts === 'number' ? new Date(ts * 1000) : new Date(ts);
+  return dateTimeFormatter.format(d);
 }
 
 function showError(msg) {
@@ -137,51 +140,20 @@ async function imageHandler() {
   input.click();
 }
 
-async function getCsrf() {
-  const res = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
-  if (!res.ok) throw new Error('CSRF');
-  const data = await res.json();
-  csrfToken = data.csrfToken;
-  return csrfToken;
-}
-
-async function refreshSession() {
-  await getCsrf();
-  const res = await fetch('/api/auth/refresh', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ csrfToken }),
-  });
-  return res.ok;
-}
-
 async function api(path, opts = {}) {
-  const headers = { ...opts.headers };
-  const method = opts.method || 'GET';
-  const mutating = !['GET', 'HEAD'].includes(method);
+  const token = getToken();
+  if (!token) {
+    redirectToLogin();
+    return null;
+  }
+
+  const headers = { ...authHeaders(), ...opts.headers };
 
   if (opts.body && typeof opts.body === 'string') {
     headers['Content-Type'] = 'application/json';
   }
 
-  if (mutating) {
-    await getCsrf();
-    headers['X-CSRF-Token'] = csrfToken;
-  }
-
-  let res = await fetch(path, { ...opts, credentials: 'same-origin', headers });
-
-  if (res.status === 401 && path.startsWith('/api/')) {
-    const refreshed = await refreshSession();
-    if (refreshed) {
-      if (mutating) {
-        await getCsrf();
-        headers['X-CSRF-Token'] = csrfToken;
-      }
-      res = await fetch(path, { ...opts, credentials: 'same-origin', headers });
-    }
-  }
+  const res = await fetch(`${API_BASE}${path}`, { ...opts, headers });
 
   if (res.status === 401 || res.status === 403) {
     redirectToLogin();
@@ -194,12 +166,10 @@ async function api(path, opts = {}) {
 async function uploadImage(file) {
   const fd = new FormData();
   fd.append('file', file);
-  await getCsrf();
   try {
-    const res = await fetch('/api/images/upload', {
+    const res = await fetch(`${API_BASE}/api/v1/admin/images/upload`, {
       method: 'POST',
-      credentials: 'same-origin',
-      headers: { 'X-CSRF-Token': csrfToken },
+      headers: authHeaders(),
       body: fd,
     });
     if (!res.ok) {
@@ -215,20 +185,25 @@ async function uploadImage(file) {
 }
 
 async function requireAuthCheck() {
-  const res = await api('/api/auth/me');
-  if (!res) return false;
-  if (!res.ok) {
+  const token = getToken();
+  if (!token) {
+    redirectToLogin();
+    return false;
+  }
+
+  const res = await fetch(`${API_BASE}/api/v1/auth/me`, { headers: authHeaders() });
+  if (!res || !res.ok) {
     redirectToLogin();
     return false;
   }
 
   const data = await res.json().catch(() => ({}));
-  if (data.user?.role !== 'admin') {
+  if (data?.role !== 'admin') {
     redirectToLogin();
     return false;
   }
 
-  currentUser = data.user;
+  currentUser = data;
   return true;
 }
 
@@ -314,14 +289,14 @@ function renderUsers(users) {
 }
 
 async function loadArticles() {
-  const res = await api('/api/news/admin');
+  const res = await api('/api/v1/admin/news');
   if (!res) return;
   const data = await res.json().catch(() => ({ articles: [] }));
   renderRows(data.articles || []);
 }
 
 async function loadUsers() {
-  const res = await api('/api/auth/admin/users');
+  const res = await api('/api/v1/admin/users');
   if (!res) return;
   if (!res.ok) {
     console.error('[dashboard] loadUsers failed', res.status);
@@ -385,13 +360,13 @@ tabButtons.forEach((button) => {
 });
 
 document.getElementById('btn-logout').addEventListener('click', async () => {
-  await getCsrf();
-  await fetch('/api/auth/logout', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ csrfToken }),
-  });
+  try {
+    await fetch(`${API_BASE}/api/v1/auth/logout`, {
+      method: 'POST',
+      headers: authHeaders(),
+    });
+  } catch { /* ignore logout errors */ }
+  clearToken();
   redirectToLogin();
 });
 
@@ -410,7 +385,7 @@ tbody.addEventListener('click', async (e) => {
 
   if (action === 'del') {
     if (!confirm('Delete this article?')) return;
-    const res = await api(`/api/news/${id}`, { method: 'DELETE' });
+    const res = await api(`/api/v1/admin/news/${id}`, { method: 'DELETE' });
     if (res?.ok) await loadArticles();
   }
 });
@@ -425,7 +400,7 @@ userForm.addEventListener('submit', async (e) => {
     role: document.getElementById('user-role').value,
   };
 
-  const res = await api('/api/auth/admin/users', {
+  const res = await api('/api/v1/admin/users', {
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -452,7 +427,7 @@ usersList.addEventListener('click', async (e) => {
 
   if (!confirm(`Delete ${user.email}?`)) return;
 
-  const res = await api(`/api/auth/admin/users/${id}`, { method: 'DELETE' });
+  const res = await api(`/api/v1/admin/users/${id}`, { method: 'DELETE' });
   if (!res) return;
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
@@ -484,7 +459,7 @@ articleForm.addEventListener('submit', async (e) => {
   };
 
   const res = await api(
-    editId ? `/api/news/${editId}` : '/api/news',
+    editId ? `/api/v1/admin/news/${editId}` : '/api/v1/admin/news',
     {
       method: editId ? 'PUT' : 'POST',
       body: JSON.stringify(payload),

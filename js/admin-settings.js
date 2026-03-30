@@ -1,3 +1,5 @@
+import { API_BASE, authHeaders, getToken, clearToken } from './auth-helpers.js';
+
 const ADMIN_LOGIN_URL = '/admin/login';
 
 const emailEl = document.getElementById('user-email');
@@ -7,8 +9,6 @@ const pwForm = document.getElementById('password-form');
 const pwFeedback = document.getElementById('pw-feedback');
 const savePwBtn = document.getElementById('btn-save-pw');
 
-let csrfToken = null;
-
 const dateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'short',
@@ -16,15 +16,8 @@ const dateFormatter = new Intl.DateTimeFormat('en-GB', {
 });
 
 function redirectToLogin() {
+  clearToken();
   window.location.href = ADMIN_LOGIN_URL;
-}
-
-async function getCsrf() {
-  const r = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
-  if (!r.ok) throw new Error('CSRF unavailable');
-  const data = await r.json();
-  csrfToken = data.csrfToken;
-  return csrfToken;
 }
 
 function showFeedback(msg, tone = 'default') {
@@ -36,20 +29,29 @@ function showFeedback(msg, tone = 'default') {
   pwFeedback.classList.remove('admin__hidden');
 }
 
+function formatDate(ts) {
+  if (!ts) return '';
+  const d = typeof ts === 'number' ? new Date(ts * 1000) : new Date(ts);
+  return dateFormatter.format(d);
+}
+
 async function loadUser() {
   try {
-    const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+    const token = getToken();
+    if (!token) { redirectToLogin(); return; }
+
+    const res = await fetch(`${API_BASE}/api/v1/auth/me`, { headers: authHeaders() });
     if (!res.ok) { redirectToLogin(); return; }
-    const { user } = await res.json();
+    const user = await res.json();
     if (!user) { redirectToLogin(); return; }
 
     emailEl.textContent = user.email;
     roleEl.textContent = user.role;
 
     if (user.created_at) {
-      createdEl.textContent = dateFormatter.format(new Date(user.created_at * 1000));
+      createdEl.textContent = formatDate(user.created_at);
     } else if (user.email_verified_at) {
-      createdEl.textContent = dateFormatter.format(new Date(user.email_verified_at * 1000));
+      createdEl.textContent = formatDate(user.email_verified_at);
     }
   } catch {
     redirectToLogin();
@@ -71,15 +73,13 @@ pwForm.addEventListener('submit', async (e) => {
   }
 
   try {
-    await getCsrf();
-    const res = await fetch('/api/auth/me/password', {
-      method: 'PUT',
-      credentials: 'same-origin',
+    const res = await fetch(`${API_BASE}/api/v1/auth/change-password`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken,
+        ...authHeaders(),
       },
-      body: JSON.stringify({ currentPassword, newPassword }),
+      body: JSON.stringify({ current_password: currentPassword, new_password: newPassword }),
     });
 
     const data = await res.json().catch(() => ({}));
@@ -100,13 +100,13 @@ pwForm.addEventListener('submit', async (e) => {
 });
 
 document.getElementById('btn-logout').addEventListener('click', async () => {
-  await getCsrf();
-  await fetch('/api/auth/logout', {
-    method: 'POST',
-    credentials: 'same-origin',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ csrfToken }),
-  });
+  try {
+    await fetch(`${API_BASE}/api/v1/auth/logout`, {
+      method: 'POST',
+      headers: authHeaders(),
+    });
+  } catch { /* ignore logout errors */ }
+  clearToken();
   redirectToLogin();
 });
 

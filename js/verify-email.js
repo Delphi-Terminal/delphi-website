@@ -1,4 +1,4 @@
-import { disableButton, getCsrf, getParam, showMessage, setText } from './auth-helpers.js';
+import { API_BASE, disableButton, getParam, showMessage, setText } from './auth-helpers.js';
 
 const form = document.getElementById('auth-form');
 const submitBtn = document.getElementById('auth-submit');
@@ -14,14 +14,12 @@ form?.addEventListener('submit', async (e) => {
   disableButton(submitBtn, true);
 
   try {
-    const csrfToken = await getCsrf();
     const email = emailInput.value.trim();
     const code = document.getElementById('code').value.trim();
-    const res = await fetch('/api/auth/verify-email', {
+    const res = await fetch(`${API_BASE}/api/v1/auth/verify-email`, {
       method: 'POST',
-      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, code, csrfToken }),
+      body: JSON.stringify({ email, code }),
     });
     const data = await res.json().catch(() => ({}));
 
@@ -41,13 +39,11 @@ form?.addEventListener('submit', async (e) => {
 resendBtn?.addEventListener('click', async () => {
   disableButton(resendBtn, true);
   try {
-    const csrfToken = await getCsrf();
     const email = emailInput.value.trim();
-    const res = await fetch('/api/auth/resend-verification', {
+    const res = await fetch(`${API_BASE}/api/v1/auth/resend-verification`, {
       method: 'POST',
-      credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, csrfToken }),
+      body: JSON.stringify({ email }),
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {

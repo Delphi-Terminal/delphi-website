@@ -1,8 +1,22 @@
-export async function getCsrf() {
-  const r = await fetch('/api/auth/csrf', { credentials: 'same-origin' });
-  if (!r.ok) throw new Error('CSRF unavailable');
-  const data = await r.json();
-  return data.csrfToken;
+export const API_BASE = 'https://api.delphiterminal.co';
+
+const TOKEN_KEY = 'dm_token';
+
+export function getToken() {
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setToken(token) {
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function clearToken() {
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+export function authHeaders() {
+  const token = getToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
 export function getParam(name) {
