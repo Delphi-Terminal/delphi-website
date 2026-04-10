@@ -421,8 +421,8 @@ usersList.addEventListener('click', async (e) => {
   const btn = e.target.closest('button[data-user-action="delete"]');
   if (!btn || btn.disabled) return;
 
-  const id = Number(btn.dataset.id);
-  const user = cachedUsers.find((row) => row.id === id);
+  const id = btn.dataset.id;
+  const user = cachedUsers.find((row) => String(row.id) === id);
   if (!user) return;
 
   if (!confirm(`Delete ${user.email}?`)) return;
