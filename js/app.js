@@ -11,8 +11,21 @@ import { DataPageAnimations } from './data-animations.js';
 import { NewsPageAnimations, ArticlePageAnimations } from './news-animations.js';
 import { loadNewsGallery } from './news-feed.js';
 import { ContactDialog } from './contact-dialog.js';
+import { getToken } from './auth-helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function syncLoginLink() {
+  const link = document.querySelector('.nav__link[href="/login"]');
+  if (!link) return;
+  if (getToken()) {
+    link.href = '/account';
+    link.textContent = 'Account';
+  } else {
+    link.href = '/login';
+    link.textContent = 'Login';
+  }
+}
 
 let smoothScroll = null;
 let animationsInstance = null;
@@ -261,6 +274,7 @@ function bootBarba() {
           const ns = data.next.namespace;
           if (nav) nav.classList.toggle('nav--dark', ns === 'about' || ns === 'news' || ns === 'article');
           syncNavActive(ns);
+          syncLoginLink();
 
           smoothScroll = new SmoothScroll();
           smoothScroll.init();
@@ -350,6 +364,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     initPageAnimations(namespace, false);
     syncNavActive(namespace);
+    syncLoginLink();
     bindMagnetic();
     bindHashLinks();
     bootBarba();

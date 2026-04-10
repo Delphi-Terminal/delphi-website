@@ -36,6 +36,7 @@ export async function createApp() {
     app.get('/verify', (_req, res) => res.sendFile(path.join(dist, 'verify.html')));
     app.get('/forgot-password', (_req, res) => res.sendFile(path.join(dist, 'forgot-password.html')));
     app.get('/reset-password', (_req, res) => res.sendFile(path.join(dist, 'reset-password.html')));
+    app.get('/account', (_req, res) => res.sendFile(path.join(dist, 'account.html')));
     app.use(express.static(dist));
   } else {
     const { createServer: createViteServer } = await import('vite');
@@ -79,6 +80,7 @@ export async function createApp() {
     app.get('/verify', (req, res, next) => devHtmlRoute(req, res, next, 'verify.html'));
     app.get('/forgot-password', (req, res, next) => devHtmlRoute(req, res, next, 'forgot-password.html'));
     app.get('/reset-password', (req, res, next) => devHtmlRoute(req, res, next, 'reset-password.html'));
+    app.get('/account', (req, res, next) => devHtmlRoute(req, res, next, 'account.html'));
     app.get('/admin/dashboard.html', (req, res, next) =>
       devHtmlRoute(req, res, next, 'admin/dashboard.html')
     );

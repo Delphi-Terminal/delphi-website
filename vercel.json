@@ -16,6 +16,7 @@
     { "source": "/reset-password", "destination": "/reset-password.html" },
     { "source": "/admin/login", "destination": "/admin/login.html" },
     { "source": "/admin/dashboard", "destination": "/admin/dashboard.html" },
-    { "source": "/admin/settings", "destination": "/admin/settings.html" }
+    { "source": "/admin/settings", "destination": "/admin/settings.html" },
+    { "source": "/account", "destination": "/account.html" }
   ]
 }

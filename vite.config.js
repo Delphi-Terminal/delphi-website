@@ -24,6 +24,7 @@ export default defineConfig({
         adminLogin: resolve(__dirname, 'admin/login.html'),
         adminDashboard: resolve(__dirname, 'admin/dashboard.html'),
         adminSettings: resolve(__dirname, 'admin/settings.html'),
+        account: resolve(__dirname, 'account.html'),
       },
     },
   },

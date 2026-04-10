@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Account | Delphi Markets</title>
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&family=Sixtyfour&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body class="auth-page">
+  <main class="auth">
+    <section class="auth__visual">
+      <div class="auth__visual-copy">
+        <span class="auth__eyebrow">Your account</span>
+        <h1 class="auth__headline">Manage your Delphi account.</h1>
+        <p class="auth__lede">View your profile, manage your subscription, and update your account settings.</p>
+      </div>
+      <div class="auth__visual-brand" aria-hidden="true">
+        <p class="auth__wordmark">
+          <span class="auth__wordmark-line">Delphi</span>
+          <span class="auth__wordmark-line auth__wordmark-line--sub">markets</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="auth__panel">
+      <div class="auth__card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div class="auth__logo">Delphi</div>
+            <h2 class="auth__title">Account</h2>
+            <p class="auth__sub">Your profile and subscription details.</p>
+          </div>
+          <button id="btn-edit-toggle" type="button" style="margin-top:0.5rem; padding:0.4rem 0.85rem; background:transparent; border:1px solid rgba(21,44,74,0.15); font-family:inherit; font-size:0.75rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--color-text-secondary,#5c6578); cursor:pointer; white-space:nowrap;">Edit Account</button>
+        </div>
+
+        <p id="auth-error" class="auth__error auth__hidden" role="alert"></p>
+        <p id="auth-success" class="auth__success auth__hidden" role="status"></p>
+
+        <div id="account-info" style="display:none;">
+          <div class="auth__field">
+            <label>Email</label>
+            <p id="account-email" class="auth__value"></p>
+          </div>
+          <div class="auth__field">
+            <label>Name</label>
+            <p id="account-name-display" class="auth__value"></p>
+          </div>
+          <div class="auth__field">
+            <label>Member since</label>
+            <p id="account-created" class="auth__value"></p>
+          </div>
+
+          <!-- Edit section (hidden by default) -->
+          <div id="edit-section" class="auth__hidden" style="margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid rgba(21,44,74,0.08);">
+            <p style="font-size:0.68rem; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:rgba(21,44,74,0.42); margin-bottom:1rem;">Edit Profile</p>
+
+            <div class="auth__field">
+              <label for="edit-name">Name</label>
+              <input id="edit-name" type="text" maxlength="200" placeholder="Enter your name" style="width:100%; padding:0.6rem 0.75rem; border:1px solid rgba(21,44,74,0.12); background:rgba(255,255,255,0.6); font-family:inherit; font-size:0.95rem; color:var(--color-text-primary,#152c4a);">
+            </div>
+            <button id="btn-save-name" type="button" class="auth__submit" style="margin-top:0.5rem;">Save Name</button>
+            <p id="name-feedback" class="auth__hidden" style="margin-top:0.4rem; font-size:0.85rem; text-align:center;"></p>
+
+            <p style="font-size:0.68rem; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:rgba(21,44,74,0.42); margin-top:1.5rem; margin-bottom:1rem;">Change Password</p>
+
+            <div class="auth__field">
+              <label for="current-password">Current password</label>
+              <input id="current-password" type="password" required autocomplete="current-password" maxlength="512" style="width:100%; padding:0.6rem 0.75rem; border:1px solid rgba(21,44,74,0.12); background:rgba(255,255,255,0.6); font-family:inherit; font-size:0.95rem; color:var(--color-text-primary,#152c4a);">
+            </div>
+            <div class="auth__field">
+              <label for="new-password">New password</label>
+              <input id="new-password" type="password" required minlength="8" autocomplete="new-password" maxlength="512" style="width:100%; padding:0.6rem 0.75rem; border:1px solid rgba(21,44,74,0.12); background:rgba(255,255,255,0.6); font-family:inherit; font-size:0.95rem; color:var(--color-text-primary,#152c4a);">
+            </div>
+            <button id="btn-change-pw" type="button" class="auth__submit" style="margin-top:0.5rem;">Update Password</button>
+            <p id="pw-feedback" class="auth__hidden" style="margin-top:0.4rem; font-size:0.85rem; text-align:center;"></p>
+          </div>
+
+          <div id="subscription-section" style="margin-top:1.5rem;">
+            <button id="btn-manage-sub" class="auth__submit" type="button">Manage Subscription</button>
+            <p id="sub-status" class="auth__hidden" style="margin-top:1rem; font-size:0.95rem; color:rgba(244,245,248,0.6); text-align:center;"></p>
+          </div>
+
+          <button id="btn-logout" class="auth__submit" type="button" style="margin-top:0.75rem; background:transparent; border:1px solid rgba(244,245,248,0.18); color:rgba(244,245,248,0.7);">Log out</button>
+        </div>
+
+        <div class="auth__links">
+          <a href="/news">Back to News</a>
+          <span class="auth__divider" aria-hidden="true"></span>
+          <a href="/data">View Plans</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/js/account.js"></script>
+</body>
+</html>
