@@ -11,19 +11,32 @@ import { DataPageAnimations } from './data-animations.js';
 import { NewsPageAnimations, ArticlePageAnimations } from './news-animations.js';
 import { loadNewsGallery } from './news-feed.js';
 import { ContactDialog } from './contact-dialog.js';
-import { getToken } from './auth-helpers.js';
+import { getToken, getRole } from './auth-helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function syncLoginLink() {
-  const link = document.querySelector('.nav__link[href="/login"]');
+  const link = document.querySelector('.nav__link[href="/login"], .nav__link[href="/account"]');
   if (!link) return;
+
+  const existing = document.querySelector('.nav__link[href="/admin/dashboard.html"]');
+
   if (getToken()) {
     link.href = '/account';
     link.textContent = 'Account';
+
+    if (getRole() === 'admin' && !existing) {
+      const adminLink = document.createElement('a');
+      adminLink.href = '/admin/dashboard.html';
+      adminLink.className = 'nav__link';
+      adminLink.textContent = 'Admin';
+      adminLink.setAttribute('data-barba-prevent', '');
+      link.parentElement.insertBefore(adminLink, link);
+    }
   } else {
     link.href = '/login';
     link.textContent = 'Login';
+    if (existing) existing.remove();
   }
 }
 

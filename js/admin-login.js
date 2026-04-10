@@ -1,4 +1,4 @@
-import { API_BASE, authHeaders, setToken, getToken, clearToken } from './auth-helpers.js';
+import { API_BASE, authHeaders, setToken, setRole, getToken, clearToken } from './auth-helpers.js';
 
 const form = document.getElementById('login-form');
 const errEl = document.getElementById('login-error');
@@ -48,6 +48,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     setToken(data.token);
+    setRole('admin');
     window.location.href = '/admin/dashboard.html';
   } catch {
     showError('Network error. Try again.');

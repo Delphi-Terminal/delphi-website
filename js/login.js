@@ -1,4 +1,4 @@
-import { API_BASE, authHeaders, setToken, getToken, disableButton, redirectForUser, showMessage } from './auth-helpers.js';
+import { API_BASE, authHeaders, setToken, setRole, getToken, disableButton, redirectForUser, showMessage } from './auth-helpers.js';
 
 const form = document.getElementById('auth-form');
 const submitBtn = document.getElementById('auth-submit');
@@ -56,6 +56,7 @@ form?.addEventListener('submit', async (e) => {
       headers: { Authorization: `Bearer ${data.token}` },
     });
     const user = meRes.ok ? await meRes.json() : {};
+    if (user.role) setRole(user.role);
     redirectForUser(user);
   } catch {
     showMessage('error', 'Network error. Try again.');

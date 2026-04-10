@@ -279,6 +279,9 @@ function renderUsers(users) {
             </p>
           </div>
           <div class="admin__actions">
+            <button type="button" class="admin__btn admin__btn--ghost" data-user-action="toggle-role" data-id="${user.id}" data-current-role="${user.role}" ${isSelf ? 'disabled' : ''}>
+              ${isSelf ? 'You' : user.role === 'admin' ? 'Make Customer' : 'Make Admin'}
+            </button>
             <button type="button" class="admin__btn admin__btn--ghost admin__btn--danger" data-user-action="delete" data-id="${user.id}" ${isSelf ? 'disabled' : ''}>
               ${isSelf ? 'Current admin' : 'Delete'}
             </button>
@@ -436,6 +439,33 @@ usersList.addEventListener('click', async (e) => {
   }
 
   showUserFeedback('User deleted.');
+  await loadUsers();
+});
+
+usersList.addEventListener('click', async (e) => {
+  const btn = e.target.closest('button[data-user-action="toggle-role"]');
+  if (!btn || btn.disabled) return;
+
+  const id = btn.dataset.id;
+  const currentRole = btn.dataset.currentRole;
+  const user = cachedUsers.find((row) => String(row.id) === id);
+  if (!user) return;
+
+  const newRole = currentRole === 'admin' ? 'customer' : 'admin';
+  if (!confirm(`Change ${user.email} from ${currentRole} to ${newRole}?`)) return;
+
+  const res = await api(`/api/v1/admin/users/${id}/role`, {
+    method: 'PUT',
+    body: JSON.stringify({ role: newRole }),
+  });
+  if (!res) return;
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    showUserFeedback(err.error || 'Could not update role.', 'error');
+    return;
+  }
+
+  showUserFeedback(`${user.email} is now ${newRole}.`);
   await loadUsers();
 });
 
