@@ -2,6 +2,9 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": null,
+  "redirects": [
+    { "source": "/delphi-news", "destination": "https://delphinews.substack.com/", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/about", "destination": "/about.html" },
     { "source": "/data", "destination": "/data.html" },
