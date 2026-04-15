@@ -1,7 +1,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import barba from '@barba/core';
-import { CustomCursor } from './cursor.js';
 import { MagneticButton } from './magnetic.js';
 import { Loader } from './loader.js';
 import { SmoothScroll } from './smooth-scroll.js';
@@ -355,7 +354,6 @@ function initBurgerMenu() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new CustomCursor();
   contactDialog = new ContactDialog();
   contactDialog.init();
   initBurgerMenu();

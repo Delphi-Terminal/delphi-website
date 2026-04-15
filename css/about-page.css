@@ -48,10 +48,10 @@
 }
 
 .ab-hero__name {
-  font-family: var(--font-body);
-  font-size: clamp(1.35rem, 3.2vw, 2.35rem);
-  font-weight: var(--fw-medium);
-  letter-spacing: 0.14em;
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: var(--fw-regular);
+  letter-spacing: -0.035em;
   color: rgba(244, 245, 248, 0.52);
   margin: 0;
   /* one line gap below the statement (matches statement line-height) */
@@ -140,11 +140,7 @@
 }
 
 .ab-story__bodygrid {
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.ab-story__bodyspacer {
-  min-height: 1px;
+  grid-template-columns: 1fr 1fr;
 }
 
 .ab-story__bodycol p {
@@ -163,10 +159,6 @@
 
   .ab-story__bodygrid {
     grid-template-columns: 1fr;
-  }
-
-  .ab-story__bodyspacer {
-    display: none;
   }
 }
 
