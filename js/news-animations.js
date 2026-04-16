@@ -1,7 +1,7 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initTicker } from './ticker.js';
-import { API_BASE, getToken, authHeaders } from './auth-helpers.js';
+import { API_BASE } from './auth-helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -366,12 +366,6 @@ export class ArticlePageAnimations {
       const data = await res.json();
       const a = data.article;
       if (!a) throw new Error('empty');
-      let isUnlocked = false;
-      const token = getToken();
-      if (token) {
-        const authRes = await fetch(`${API_BASE}/api/v1/auth/me`, { headers: authHeaders() }).catch(() => null);
-        isUnlocked = authRes?.ok ?? false;
-      }
 
       document.title = `${a.title} - Delphi News`;
 
@@ -399,31 +393,15 @@ export class ArticlePageAnimations {
       }
 
       if (contentEl && a.body) {
-        if (isUnlocked) {
-          contentEl.innerHTML = a.body;
-        } else {
-          const tmp = document.createElement('div');
-          tmp.innerHTML = a.body;
-          const blocks = Array.from(tmp.children);
-          const firstBlock = blocks[0];
-          const secondBlock = blocks[1];
-          let previewHtml = firstBlock ? firstBlock.outerHTML : '';
-          if (secondBlock) previewHtml += secondBlock.outerHTML;
-          contentEl.innerHTML = previewHtml;
-        }
+        contentEl.innerHTML = a.body;
       }
 
-      if (previewEl && isUnlocked) {
+      if (previewEl) {
         previewEl.style.maxHeight = 'none';
         previewEl.style.overflow = 'visible';
       }
-      if (fadeEl) fadeEl.style.display = isUnlocked ? 'none' : '';
-      if (gateEl) {
-        gateEl.style.display = isUnlocked ? 'none' : '';
-        if (!isUnlocked) {
-          gateEl.href = `/login?next=${encodeURIComponent(window.location.pathname + window.location.search)}`;
-        }
-      }
+      if (fadeEl) fadeEl.style.display = 'none';
+      if (gateEl) gateEl.style.display = 'none';
 
       this.revealContent(!!a.cover_image);
     } catch {
