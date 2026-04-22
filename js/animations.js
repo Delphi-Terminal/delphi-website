@@ -64,7 +64,7 @@ export class ScrollAnimations {
     if (!canvas || !hero) return;
 
     const ctx = canvas.getContext('2d', { alpha: false });
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    const DPR = 1;
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
 

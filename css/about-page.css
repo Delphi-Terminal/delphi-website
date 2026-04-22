@@ -117,7 +117,7 @@
 .ab-story__headgrid {
   grid-template-columns: 1fr 1fr;
   margin-bottom: clamp(3rem, 6vh, 4.5rem);
-  align-items: start;
+  align-items: center;
 }
 
 .ab-story__eyebrow {
@@ -127,6 +127,17 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-text-dim);
+}
+
+.ab-story__figure {
+  margin: 0 0 1.25rem;
+}
+
+.ab-story__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
 }
 
 .ab-story__headline {
@@ -491,7 +502,12 @@
 .ab-lux__badges-grid {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.45rem;
+}
+
+.ab-lux__badges-link {
+  margin-left: auto;
 }
 
 .ab-lux__badge {
