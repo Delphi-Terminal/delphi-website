@@ -137,7 +137,7 @@ export class ScrollAnimations {
     function seekTo(time, force = false) {
       if (!videoReady) return;
       const t = Math.max(0, Math.min(time, videoDuration));
-      if (!force && Math.abs(t - lastSeekTime) < 0.005) return;
+      if (!force && Math.abs(t - lastSeekTime) < 1 / 24) return;
       lastSeekTime = t;
       video.currentTime = t;
     }
