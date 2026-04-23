@@ -7,6 +7,7 @@ import { SmoothScroll } from './smooth-scroll.js';
 import { ScrollAnimations } from './animations.js';
 import { AboutPageAnimations } from './about-animations.js';
 import { DataPageAnimations } from './data-animations.js';
+import { AgentsPageAnimations } from './agents.js';
 import { NewsPageAnimations, ArticlePageAnimations } from './news-animations.js';
 import { loadNewsGallery } from './news-feed.js';
 import { ContactDialog } from './contact-dialog.js';
@@ -95,6 +96,9 @@ function initPageAnimations(namespace, barbaEnter) {
   } else if (namespace === 'data') {
     animationsInstance = new DataPageAnimations();
     animationsInstance.init({ barbaEnter });
+  } else if (namespace === 'agents') {
+    animationsInstance = new AgentsPageAnimations();
+    animationsInstance.init({ barbaEnter });
   } else if (namespace === 'news') {
     animationsInstance = new NewsPageAnimations();
     animationsInstance.init({ barbaEnter });
@@ -110,6 +114,7 @@ function syncNavActive(namespace) {
   const aboutLink = document.querySelector('.nav__links a[href="/about"]');
   const dataLink = document.querySelector('.nav__links a[href="/data"]');
   const newsLink = document.querySelector('.nav__links a[href="/news"]');
+  const agentsLink = document.querySelector('.nav__links a[href="/agents"]');
   if (aboutLink) {
     if (namespace === 'about') aboutLink.classList.add('nav__link--active');
     else aboutLink.classList.remove('nav__link--active');
@@ -121,6 +126,10 @@ function syncNavActive(namespace) {
   if (newsLink) {
     if (namespace === 'news' || namespace === 'article') newsLink.classList.add('nav__link--active');
     else newsLink.classList.remove('nav__link--active');
+  }
+  if (agentsLink) {
+    if (namespace === 'agents') agentsLink.classList.add('nav__link--active');
+    else agentsLink.classList.remove('nav__link--active');
   }
 }
 

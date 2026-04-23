@@ -27,6 +27,7 @@ export async function createApp() {
     app.get('/admin/login.html', (_req, res) => res.redirect(302, '/login'));
     app.get('/about', (_req, res) => res.sendFile(path.join(dist, 'about.html')));
     app.get('/data', (_req, res) => res.sendFile(path.join(dist, 'data.html')));
+    app.get('/agents', (_req, res) => res.sendFile(path.join(dist, 'agents.html')));
     app.get('/news', (_req, res) => res.sendFile(path.join(dist, 'news.html')));
     app.get('/news/article', (_req, res) => res.sendFile(path.join(dist, 'article.html')));
     app.get('/terms', (_req, res) => res.sendFile(path.join(dist, 'terms.html')));
@@ -71,6 +72,7 @@ export async function createApp() {
     app.get('/admin/login.html', (_req, res) => res.redirect(302, '/login'));
     app.get('/about', (req, res, next) => devHtmlRoute(req, res, next, 'about.html'));
     app.get('/data', (req, res, next) => devHtmlRoute(req, res, next, 'data.html'));
+    app.get('/agents', (req, res, next) => devHtmlRoute(req, res, next, 'agents.html'));
     app.get('/news', (req, res, next) => devHtmlRoute(req, res, next, 'news.html'));
     app.get('/news/article', (req, res, next) => devHtmlRoute(req, res, next, 'article.html'));
     app.get('/terms', (req, res, next) => devHtmlRoute(req, res, next, 'terms.html'));
