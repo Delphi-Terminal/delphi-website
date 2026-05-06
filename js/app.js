@@ -144,7 +144,7 @@ function initPageAnimations(namespace, barbaEnter) {
 function syncNavActive(namespace) {
   const aboutLink = document.querySelector('.nav__links a[href="/about"]');
   const dataLink = document.querySelector('.nav__links a[href="/data"]');
-  const newsLink = document.querySelector('.nav__links a[href="/news"]');
+  const newsLink = document.querySelector('.nav__links a[href="https://news.delphimarkets.com/"]');
   const agentsLink = document.querySelector('.nav__links a[href="/agents"]');
   if (aboutLink) {
     if (namespace === 'about') aboutLink.classList.add('nav__link--active');
