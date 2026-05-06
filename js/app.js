@@ -20,10 +20,39 @@ function syncLoginLink() {
   if (!link) return;
 
   const existing = document.querySelector('.nav__link[href="/admin/dashboard.html"]');
+  const existingDocsNav = document.querySelector('.nav__link[data-docs-link]');
+  const existingDocsFooter = document.querySelector('.footer__link[data-docs-link]');
 
   if (getToken()) {
     link.href = '/account';
     link.textContent = 'Account';
+
+    if (!existingDocsNav) {
+      const docsNav = document.createElement('a');
+      docsNav.href = 'https://docs.delphimarkets.com/introduction';
+      docsNav.className = 'nav__link';
+      docsNav.target = '_blank';
+      docsNav.rel = 'noopener';
+      docsNav.textContent = 'Docs';
+      docsNav.setAttribute('data-docs-link', '');
+      docsNav.setAttribute('data-barba-prevent', '');
+      const contactLink = link.parentElement.querySelector('.nav__link--cta');
+      link.parentElement.insertBefore(docsNav, contactLink || link);
+    }
+
+    if (!existingDocsFooter) {
+      const footerLoginLink = document.querySelector('.footer__link[href="/login"]');
+      if (footerLoginLink) {
+        const docsFooter = document.createElement('a');
+        docsFooter.href = 'https://docs.delphimarkets.com/introduction';
+        docsFooter.className = 'footer__link';
+        docsFooter.target = '_blank';
+        docsFooter.rel = 'noopener';
+        docsFooter.textContent = 'Docs';
+        docsFooter.setAttribute('data-docs-link', '');
+        footerLoginLink.parentElement.insertBefore(docsFooter, footerLoginLink);
+      }
+    }
 
     if (getRole() === 'admin' && !existing) {
       const adminLink = document.createElement('a');
@@ -37,6 +66,8 @@ function syncLoginLink() {
     link.href = '/login';
     link.textContent = 'Login';
     if (existing) existing.remove();
+    if (existingDocsNav) existingDocsNav.remove();
+    if (existingDocsFooter) existingDocsFooter.remove();
   }
 }
 
