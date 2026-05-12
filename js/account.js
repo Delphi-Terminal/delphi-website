@@ -155,7 +155,7 @@ manageBtn.addEventListener('click', async () => {
         subStatus.classList.remove('auth__hidden');
         manageBtn.textContent = 'View Plans';
         manageBtn.disabled = false;
-        manageBtn.onclick = () => { window.location.href = '/data'; };
+        manageBtn.onclick = () => { window.location.href = '/exchange'; };
         return;
       }
       showError(data.error || 'Unable to open billing portal.');

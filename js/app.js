@@ -6,7 +6,6 @@ import { Loader } from './loader.js';
 import { SmoothScroll } from './smooth-scroll.js';
 import { ScrollAnimations } from './animations.js';
 import { AboutPageAnimations } from './about-animations.js';
-import { DataPageAnimations } from './data-animations.js';
 import { AgentsPageAnimations } from './agents.js';
 import { NewsPageAnimations, ArticlePageAnimations } from './news-animations.js';
 import { loadNewsGallery } from './news-feed.js';
@@ -124,9 +123,6 @@ function initPageAnimations(namespace, barbaEnter) {
   } else if (namespace === 'about') {
     animationsInstance = new AboutPageAnimations();
     animationsInstance.init({ barbaEnter });
-  } else if (namespace === 'data') {
-    animationsInstance = new DataPageAnimations();
-    animationsInstance.init({ barbaEnter });
   } else if (namespace === 'agents') {
     animationsInstance = new AgentsPageAnimations();
     animationsInstance.init({ barbaEnter });
@@ -143,16 +139,16 @@ function initPageAnimations(namespace, barbaEnter) {
 
 function syncNavActive(namespace) {
   const aboutLink = document.querySelector('.nav__links a[href="/about"]');
-  const dataLink = document.querySelector('.nav__links a[href="/data"]');
+  const exchangeLink = document.querySelector('.nav__links a[href="/exchange"]');
   const newsLink = document.querySelector('.nav__links a[href="https://news.delphimarkets.com/"]');
   const agentsLink = document.querySelector('.nav__links a[href="/agents"]');
   if (aboutLink) {
     if (namespace === 'about') aboutLink.classList.add('nav__link--active');
     else aboutLink.classList.remove('nav__link--active');
   }
-  if (dataLink) {
-    if (namespace === 'data') dataLink.classList.add('nav__link--active');
-    else dataLink.classList.remove('nav__link--active');
+  if (exchangeLink) {
+    if (namespace === 'exchange') exchangeLink.classList.add('nav__link--active');
+    else exchangeLink.classList.remove('nav__link--active');
   }
   if (newsLink) {
     if (namespace === 'news' || namespace === 'article') newsLink.classList.add('nav__link--active');

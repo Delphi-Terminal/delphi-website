@@ -3,11 +3,12 @@
   "outputDirectory": "dist",
   "framework": null,
   "redirects": [
-    { "source": "/delphi-news", "destination": "https://delphinews.substack.com/", "permanent": false }
+    { "source": "/delphi-news", "destination": "https://delphinews.substack.com/", "permanent": false },
+    { "source": "/data", "destination": "/exchange", "permanent": true }
   ],
   "rewrites": [
     { "source": "/about", "destination": "/about.html" },
-    { "source": "/data", "destination": "/data.html" },
+    { "source": "/exchange", "destination": "/exchange.html" },
     { "source": "/agents", "destination": "/agents.html" },
     { "source": "/news", "destination": "/news.html" },
     { "source": "/news/article", "destination": "/article.html" },

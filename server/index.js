@@ -22,11 +22,13 @@ export async function createApp() {
       process.exit(1);
     }
     app.get('/about.html', (_req, res) => res.redirect(301, '/about'));
-    app.get('/data.html', (_req, res) => res.redirect(301, '/data'));
+    app.get('/data.html', (_req, res) => res.redirect(301, '/exchange'));
+    app.get('/data', (_req, res) => res.redirect(301, '/exchange'));
+    app.get('/exchange.html', (_req, res) => res.redirect(301, '/exchange'));
     app.get('/news.html', (_req, res) => res.redirect(301, '/news'));
     app.get('/admin/login.html', (_req, res) => res.redirect(302, '/login'));
     app.get('/about', (_req, res) => res.sendFile(path.join(dist, 'about.html')));
-    app.get('/data', (_req, res) => res.sendFile(path.join(dist, 'data.html')));
+    app.get('/exchange', (_req, res) => res.sendFile(path.join(dist, 'exchange.html')));
     app.get('/agents', (_req, res) => res.sendFile(path.join(dist, 'agents.html')));
     app.get('/news', (_req, res) => res.sendFile(path.join(dist, 'news.html')));
     app.get('/news/article', (_req, res) => res.sendFile(path.join(dist, 'article.html')));
@@ -67,11 +69,13 @@ export async function createApp() {
     app.get('/', (req, res, next) => devHtmlRoute(req, res, next, 'index.html'));
     app.get('/index.html', (req, res, next) => devHtmlRoute(req, res, next, 'index.html'));
     app.get('/about.html', (_req, res) => res.redirect(301, '/about'));
-    app.get('/data.html', (_req, res) => res.redirect(301, '/data'));
+    app.get('/data.html', (_req, res) => res.redirect(301, '/exchange'));
+    app.get('/data', (_req, res) => res.redirect(301, '/exchange'));
+    app.get('/exchange.html', (_req, res) => res.redirect(301, '/exchange'));
     app.get('/news.html', (_req, res) => res.redirect(301, '/news'));
     app.get('/admin/login.html', (_req, res) => res.redirect(302, '/login'));
     app.get('/about', (req, res, next) => devHtmlRoute(req, res, next, 'about.html'));
-    app.get('/data', (req, res, next) => devHtmlRoute(req, res, next, 'data.html'));
+    app.get('/exchange', (req, res, next) => devHtmlRoute(req, res, next, 'exchange.html'));
     app.get('/agents', (req, res, next) => devHtmlRoute(req, res, next, 'agents.html'));
     app.get('/news', (req, res, next) => devHtmlRoute(req, res, next, 'news.html'));
     app.get('/news/article', (req, res, next) => devHtmlRoute(req, res, next, 'article.html'));
