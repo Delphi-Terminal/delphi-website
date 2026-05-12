@@ -10,6 +10,7 @@ import { AgentsPageAnimations } from './agents.js';
 import { NewsPageAnimations, ArticlePageAnimations } from './news-animations.js';
 import { loadNewsGallery } from './news-feed.js';
 import { ContactDialog } from './contact-dialog.js';
+import { WaitlistDialog } from './waitlist-dialog.js';
 import { getToken, getRole } from './auth-helpers.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -392,6 +393,7 @@ function initBurgerMenu() {
 document.addEventListener('DOMContentLoaded', () => {
   contactDialog = new ContactDialog();
   contactDialog.init();
+  new WaitlistDialog().init();
   initBurgerMenu();
 
   const namespace = document.querySelector('[data-barba="container"]')?.dataset.barbaNamespace;
