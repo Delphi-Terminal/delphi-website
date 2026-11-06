@@ -1,28 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "framework": null,
-  "redirects": [
-    { "source": "/delphi-news", "destination": "https://delphinews.substack.com/", "permanent": false },
-    { "source": "/data", "destination": "/exchange", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/about", "destination": "/about.html" },
-    { "source": "/exchange", "destination": "/exchange.html" },
-    { "source": "/agents", "destination": "/agents.html" },
-    { "source": "/news", "destination": "/news.html" },
-    { "source": "/news/article", "destination": "/article.html" },
-    { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/privacy", "destination": "/privacy.html" },
-    { "source": "/login", "destination": "/login.html" },
-    { "source": "/create-account", "destination": "/create-account.html" },
-    { "source": "/verify", "destination": "/verify.html" },
-    { "source": "/forgot-password", "destination": "/forgot-password.html" },
-    { "source": "/reset-password", "destination": "/reset-password.html" },
-    { "source": "/admin", "destination": "/admin/login.html" },
-    { "source": "/admin/login", "destination": "/admin/login.html" },
-    { "source": "/admin/dashboard", "destination": "/admin/dashboard.html" },
-    { "source": "/admin/settings", "destination": "/admin/settings.html" },
-    { "source": "/account", "destination": "/account.html" }
-  ]
+  "framework": null
 }
