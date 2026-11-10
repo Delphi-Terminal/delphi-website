@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>US ZIP Code Tabulation Areas</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+      }
+
+      body {
+        font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif;
+        color: #111;
+        background: #f4f6f8;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 0.25rem 1rem;
+        padding: 0.75rem 1rem;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      header p,
+      footer {
+        margin: 0;
+        color: #5b636c;
+        font-size: 0.8rem;
+      }
+
+      footer {
+        padding: 0.5rem 1rem 1rem;
+      }
+
+      #map {
+        position: relative;
+        width: 100%;
+      }
+
+      #map canvas {
+        display: block;
+        width: 100%;
+        touch-action: none;
+        cursor: grab;
+      }
+
+      #map canvas.is-panning {
+        cursor: grabbing;
+      }
+
+      #status {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: #5b636c;
+        pointer-events: none;
+      }
+
+      #tooltip {
+        position: fixed;
+        z-index: 2;
+        padding: 2px 6px;
+        border-radius: 3px;
+        background: #111;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        transform: translate(12px, -50%);
+      }
+
+      #tooltip.is-visible {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>US ZIP Code Tabulation Areas</h1>
+      <p>Scroll or pinch to zoom, drag to pan, hover a ZIP to see its code.</p>
+    </header>
+
+    <div id="map">
+      <canvas role="img" aria-label="Map of US ZIP Code Tabulation Areas"></canvas>
+      <div id="status">Loading ZIP boundaries…</div>
+    </div>
+    <div id="tooltip" role="status" aria-live="polite"></div>
+
+    <footer>
+      ZCTAs are U.S. Census Bureau approximations of USPS ZIP Code service areas, not official ZIP
+      boundaries. Data: Census 2020 ZCTA and state 1:500k cartographic boundary files, Albers USA
+      projection.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+    <script>
+      (async () => {
+        const container = document.getElementById("map");
+        const canvas = container.querySelector("canvas");
+        const ctx = canvas.getContext("2d");
+        const tooltip = document.getElementById("tooltip");
+        const status = document.getElementById("status");
+
+        const COLORS = {
+          land: "#e3e7eb",
+          zip: "#ffffff",
+          border: "#9ba3ac",
+          hoverFill: "#ffd84d",
+          hoverStroke: "#111111",
+          outline: "#1b1f24",
+        };
+        // Screen pixels at every zoom level (the canvas equivalent of non-scaling-stroke).
+        const WIDTHS = { border: 0.5, hover: 1.5, outline: 1.25 };
+        const PADDING = 8;
+        const CELL = 16;
+
+        let zctaTopo;
+        let nationTopo;
+        try {
+          [zctaTopo, nationTopo] = await Promise.all([d3.json("zcta.json"), d3.json("nation.json")]);
+        } catch (error) {
+          status.textContent = "Could not load zcta.json / nation.json — run the data build first.";
+          throw error;
+        }
+
+        const zctaObject = zctaTopo.objects.zcta;
+        const nation = topojson.feature(nationTopo, nationTopo.objects.nation);
+        const parts = topojson.feature(zctaTopo, zctaObject).features;
+
+        // Each polygon part is its own feature, so seams between parts of the
+        // same ZIP are skipped by comparing zips rather than features.
+        const interior = topojson.mesh(zctaTopo, zctaObject, (a, b) => a.properties.zip !== b.properties.zip);
+        // ZCTA edges with no neighbor (coasts, islands, unpopulated land).
+        const exterior = topojson.mesh(zctaTopo, zctaObject, (a, b) => a === b);
+
+        const zips = Array.from(d3.group(parts, (f) => f.properties.zip), ([zip, features]) => ({
+          zip,
+          collection: { type: "FeatureCollection", features },
+          path: null,
+          bounds: null,
+          area: 0,
+        }));
+        const byZip = new Map(zips.map((item) => [item.zip, item]));
+
+        const [[nx0, ny0], [nx1, ny1]] = d3.geoPath(d3.geoIdentity().reflectY(true)).bounds(nation);
+        const aspect = (ny1 - ny0) / (nx1 - nx0);
+
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+        let geoPath;
+        let layers;
+        let grid;
+        let transform = d3.zoomIdentity;
+        let hovered = null;
+        let frame = 0;
+
+        function buildGrid() {
+          const cols = Math.ceil(width / CELL) + 1;
+          const rows = Math.ceil(height / CELL) + 1;
+          const cells = new Array(cols * rows);
+          zips.forEach((item, i) => {
+            const [[x0, y0], [x1, y1]] = item.bounds;
+            const c0 = Math.max(0, Math.floor(x0 / CELL));
+            const c1 = Math.min(cols - 1, Math.floor(x1 / CELL));
+            const r0 = Math.max(0, Math.floor(y0 / CELL));
+            const r1 = Math.min(rows - 1, Math.floor(y1 / CELL));
+            for (let r = r0; r <= r1; r += 1) {
+              for (let c = c0; c <= c1; c += 1) {
+                (cells[r * cols + c] ??= []).push(i);
+              }
+            }
+          });
+          return { cols, rows, cells };
+        }
+
+        function build() {
+          width = container.clientWidth;
+          height = Math.round(width * aspect);
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(width * dpr);
+          canvas.height = Math.round(height * dpr);
+          canvas.style.height = `${height}px`;
+
+          const projection = d3
+            .geoIdentity()
+            .reflectY(true)
+            .fitExtent(
+              [
+                [PADDING, PADDING],
+                [width - PADDING, height - PADDING],
+              ],
+              nation
+            );
+          geoPath = d3.geoPath(projection);
+
+          const fills = new Path2D();
+          for (const item of zips) {
+            item.path = new Path2D(geoPath(item.collection));
+            item.bounds = geoPath.bounds(item.collection);
+            const [[x0, y0], [x1, y1]] = item.bounds;
+            item.area = (x1 - x0) * (y1 - y0);
+            fills.addPath(item.path);
+          }
+
+          layers = {
+            nation: new Path2D(geoPath(nation)),
+            fills,
+            interior: new Path2D(geoPath(interior)),
+            exterior: new Path2D(geoPath(exterior)),
+          };
+          grid = buildGrid();
+        }
+
+        function draw() {
+          frame = 0;
+          const { k, x, y } = transform;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          ctx.clearRect(0, 0, width, height);
+          ctx.setTransform(dpr * k, 0, 0, dpr * k, dpr * x, dpr * y);
+          ctx.lineJoin = "round";
+          ctx.lineCap = "round";
+
+          ctx.fillStyle = COLORS.land;
+          ctx.fill(layers.nation);
+          ctx.fillStyle = COLORS.zip;
+          ctx.fill(layers.fills, "evenodd");
+
+          if (hovered) {
+            ctx.fillStyle = COLORS.hoverFill;
+            ctx.fill(hovered.path, "evenodd");
+          }
+
+          ctx.strokeStyle = COLORS.border;
+          ctx.lineWidth = WIDTHS.border / k;
+          ctx.stroke(layers.interior);
+          ctx.stroke(layers.exterior);
+
+          if (hovered) {
+            ctx.strokeStyle = COLORS.hoverStroke;
+            ctx.lineWidth = WIDTHS.hover / k;
+            ctx.stroke(hovered.path);
+          }
+
+          ctx.strokeStyle = COLORS.outline;
+          ctx.lineWidth = WIDTHS.outline / k;
+          ctx.stroke(layers.nation);
+        }
+
+        const schedule = () => {
+          if (!frame) frame = requestAnimationFrame(draw);
+        };
+
+        // Point in map coordinates (before zoom) → the ZIP containing it.
+        function zipAt(px, py) {
+          const c = Math.floor(px / CELL);
+          const r = Math.floor(py / CELL);
+          if (c < 0 || r < 0 || c >= grid.cols || r >= grid.rows) return null;
+          const candidates = grid.cells[r * grid.cols + c];
+          if (!candidates) return null;
+
+          ctx.save();
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          let best = null;
+          for (const i of candidates) {
+            const item = zips[i];
+            const [[x0, y0], [x1, y1]] = item.bounds;
+            if (px < x0 || px > x1 || py < y0 || py > y1) continue;
+            if (best && item.area >= best.area) continue;
+            if (ctx.isPointInPath(item.path, px, py, "evenodd")) best = item;
+          }
+          ctx.restore();
+          return best;
+        }
+
+        function setHover(item, clientX, clientY) {
+          if (item) {
+            tooltip.textContent = `ZIP ${item.zip}`;
+            tooltip.style.left = `${clientX}px`;
+            tooltip.style.top = `${clientY}px`;
+            tooltip.classList.add("is-visible");
+          } else {
+            tooltip.classList.remove("is-visible");
+          }
+          if (item !== hovered) {
+            hovered = item;
+            schedule();
+          }
+        }
+
+        function hoverAtClient(clientX, clientY) {
+          const rect = canvas.getBoundingClientRect();
+          const [px, py] = transform.invert([clientX - rect.left, clientY - rect.top]);
+          const item = zipAt(px, py);
+          setHover(item, clientX, clientY);
+          return item;
+        }
+
+        build();
+
+        const zoom = d3
+          .zoom()
+          .scaleExtent([1, 500])
+          .on("start", (event) => {
+            if (event.sourceEvent?.type === "mousedown" || event.sourceEvent?.type === "pointerdown") {
+              canvas.classList.add("is-panning");
+            }
+          })
+          .on("zoom", (event) => {
+            transform = event.transform;
+            const source = event.sourceEvent;
+            if (source && "clientX" in source) hoverAtClient(source.clientX, source.clientY);
+            else setHover(null);
+            schedule();
+          })
+          .on("end", () => canvas.classList.remove("is-panning"));
+
+        const applyExtent = () =>
+          zoom.extent([
+            [0, 0],
+            [width, height],
+          ]).translateExtent([
+            [0, 0],
+            [width, height],
+          ]);
+
+        applyExtent();
+        d3.select(canvas).call(zoom);
+
+        canvas.addEventListener("pointermove", (event) => hoverAtClient(event.clientX, event.clientY));
+        canvas.addEventListener("pointerleave", () => setHover(null));
+
+        let resizeTimer = 0;
+        let lastWidth = width;
+        new ResizeObserver(() => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(() => {
+            if (container.clientWidth === lastWidth) return;
+            const ratio = container.clientWidth / lastWidth;
+            build();
+            lastWidth = width;
+            applyExtent();
+            const next = d3.zoomIdentity.translate(transform.x * ratio, transform.y * ratio).scale(transform.k);
+            d3.select(canvas).call(zoom.transform, next);
+            schedule();
+          }, 150);
+        }).observe(container);
+
+        status.remove();
+        schedule();
+
+        // Hooks for automated checks: focus a ZIP and probe hover at a point.
+        function interiorPoint(item) {
+          const largest = d3.greatest(item.collection.features, (f) => geoPath.area(f));
+          const [cx, cy] = geoPath.centroid(largest);
+          ctx.save();
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
+          const inside = (x, y) => ctx.isPointInPath(item.path, x, y, "evenodd");
+          let point = inside(cx, cy) ? [cx, cy] : null;
+          const [[x0, y0], [x1, y1]] = geoPath.bounds(largest);
+          for (let n = 8; !point && n <= 64; n *= 2) {
+            for (let i = 1; i < n && !point; i += 1) {
+              for (let j = 1; j < n && !point; j += 1) {
+                const x = x0 + ((x1 - x0) * i) / n;
+                const y = y0 + ((y1 - y0) * j) / n;
+                if (inside(x, y)) point = [x, y];
+              }
+            }
+          }
+          ctx.restore();
+          return point;
+        }
+
+        window.zipMap = {
+          zipCount: zips.length,
+          zoomTo(zip, k = 40) {
+            const item = byZip.get(zip);
+            if (!item) return false;
+            const [cx, cy] = interiorPoint(item) ?? geoPath.centroid(item.collection);
+            const next = d3.zoomIdentity.translate(width / 2 - k * cx, height / 2 - k * cy).scale(k);
+            d3.select(canvas).call(zoom.transform, next);
+            draw();
+            return true;
+          },
+          reset() {
+            d3.select(canvas).call(zoom.transform, d3.zoomIdentity);
+            setHover(null);
+            draw();
+          },
+          // Albers USA (EPSG-style meters, as written by mapshaper) → client px.
+          projectedToClient([x, y]) {
+            const projection = d3
+              .geoIdentity()
+              .reflectY(true)
+              .fitExtent(
+                [
+                  [PADDING, PADDING],
+                  [width - PADDING, height - PADDING],
+                ],
+                nation
+              );
+            const [px, py] = transform.apply(projection([x, y]));
+            const rect = canvas.getBoundingClientRect();
+            return [rect.left + px, rect.top + py];
+          },
+          hoverAtClient(clientX, clientY) {
+            const item = hoverAtClient(clientX, clientY);
+            draw();
+            return item?.zip ?? null;
+          },
+          locateClient(zip) {
+            const item = byZip.get(zip);
+            const point = item && interiorPoint(item);
+            if (!point) return null;
+            const [px, py] = transform.apply(point);
+            const rect = canvas.getBoundingClientRect();
+            return [rect.left + px, rect.top + py];
+          },
+        };
+      })();
+    </script>
+  </body>
+</html>

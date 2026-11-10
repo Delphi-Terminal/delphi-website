@@ -1,0 +1,20 @@
+{
+  "name": "zip-map",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build:data": "bash scripts/build-data.sh",
+    "build:hero": "node scripts/build-hero.js",
+    "check": "node scripts/check-data.js",
+    "serve": "serve public"
+  },
+  "devDependencies": {
+    "d3-geo": "^3.1.2",
+    "mapshaper": "^0.7.101",
+    "serve": "^14.2.4",
+    "topojson-client": "^3.1.0"
+  }
+}
