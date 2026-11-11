@@ -992,7 +992,7 @@ function initServicesScroll() {
   if (!track || !stage || !pin || !view || !rows) return;
   const wide = window.matchMedia("(min-width: 901px)");
   const buttons = [...band.querySelectorAll(".services-nav__btn")];
-  const BELOW_ROWS = 48; // blue left showing beneath the second row while held
+  const BELOW_ROWS_REM = 3; // blue left showing beneath the second row while held
   let travel = 0;
   let startY = 0; // page scroll where the stage sticks and the slide begins
 
@@ -1006,10 +1006,11 @@ function initServicesScroll() {
       return;
     }
     travel = Math.max(0, rows.scrollWidth - view.clientWidth + 12);
-    // Stick with the pin's bottom padding, less BELOW_ROWS, hanging below the
+    // Stick with the pin's bottom padding, less BELOW_ROWS_REM, hanging below the
     // window, so the hold starts as soon as the second row is fully in view.
     const padBottom = parseFloat(getComputedStyle(pin).paddingBottom) || 0;
-    const stageTop = window.innerHeight - stage.offsetHeight + Math.max(0, padBottom - BELOW_ROWS);
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const stageTop = window.innerHeight - stage.offsetHeight + Math.max(0, padBottom - BELOW_ROWS_REM * rem);
     stage.style.setProperty("--stage-top", `${stageTop}px`);
     track.style.height = `${stage.offsetHeight + travel}px`;
     startY = track.getBoundingClientRect().top + window.scrollY - stageTop;
@@ -2043,6 +2044,31 @@ function initShipHeader() {
 }
 
 initShipHeader();
+
+// Shippers "Look us up": the search demo waits, MC typed, until it's on
+// screen, then plays from there; leaving rewinds it for the next visit.
+function initShipLookup() {
+  const demo = document.querySelector(".ship-lookup__demo");
+  if (!demo) return;
+  const animations = demo.getAnimations({ subtree: true });
+  if (!animations.length) return;
+  const rewind = () => {
+    for (const a of animations) {
+      a.pause();
+      a.currentTime = 0;
+    }
+  };
+  rewind();
+  new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) for (const a of animations) a.play();
+      else rewind();
+    },
+    { threshold: 0.75 }
+  ).observe(demo);
+}
+
+initShipLookup();
 
 // The homepage grid stops at the black carrier bar.
 for (const grid of DOT_GRIDS) {

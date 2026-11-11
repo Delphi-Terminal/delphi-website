@@ -8,10 +8,27 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  --vw: 1vw;
+  --vh: 1vh;
+}
+
+/* Desktop is designed at 1728×1000 (a 16" MacBook Pro, full screen), where
+   1rem is 16px, and scales as a whole to fit any window: rem follows whichever
+   of width or height runs out first. --vw and --vh stand in for the design's
+   1vw and 1vh, so sizes written in them keep their proportions too. */
+@media (min-width: 901px) {
+  html {
+    font-size: min(100vw / 108, 100vh / 62.5);
+    --vw: 1.08rem;
+    --vh: 0.625rem;
+  }
 }
 
 body {
-  --page-pad-right: 4.5rem;
+  /* Windows wider than the design's proportions center it rather than stretch. */
+  --frame: max(0px, (100vw - 108rem) / 2);
+  --gutter-left: calc(var(--frame) + 12.5rem);
+  --page-pad-right: calc(var(--frame) + 4.5rem);
   /* How far the blue hero runs past the bottom of the window, then the black
      bar beneath it; the shell's tail below the window is both together. */
   --blue-overhang: 8rem;
@@ -36,7 +53,7 @@ body {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 8vh 4rem 6rem;
+  padding: calc(8 * var(--vh)) 4rem 6rem;
   background: #fff;
 }
 
@@ -49,7 +66,7 @@ body {
 .modes-title {
   margin-bottom: 2rem;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+  font-size: clamp(2.2rem, calc(3.6 * var(--vw)), 3.4rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -105,7 +122,7 @@ body {
 }
 
 .modes__abbr {
-  font-size: clamp(1.8rem, 2.8vw, 2.8rem);
+  font-size: clamp(1.8rem, calc(2.8 * var(--vw)), 2.8rem);
   line-height: 1;
 }
 
@@ -115,7 +132,7 @@ body {
   position: absolute;
   right: 6%;
   bottom: 7.5%;
-  width: clamp(1.4rem, 2vw, 1.9rem);
+  width: clamp(1.4rem, calc(2 * var(--vw)), 1.9rem);
   height: auto;
   fill: none;
   stroke: currentColor;
@@ -148,7 +165,7 @@ a.modes__box:focus-visible {
 }
 
 .modes__name {
-  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  font-size: clamp(0.85rem, calc(1.1 * var(--vw)), 1.05rem);
   font-weight: 600;
   letter-spacing: 0;
   color: rgba(255, 255, 255, 0.88);
@@ -212,7 +229,7 @@ a.modes__box:focus-visible {
 .blue-band__pin {
   display: flex;
   justify-content: center;
-  padding: 12vh 4rem 6rem;
+  padding: calc(12 * var(--vh)) 4rem 6rem;
 }
 
 /* Shows three columns; the other two sit off to the right until scrolled in.
@@ -282,7 +299,7 @@ a.modes__box:focus-visible {
 
 .services-title {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(2.2rem, 3.6vw, 3.4rem);
+  font-size: clamp(2.2rem, calc(3.6 * var(--vw)), 3.4rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -360,7 +377,7 @@ a.modes__box:focus-visible {
 }
 
 .services__name {
-  font-size: clamp(1.25rem, 1.7vw, 1.6rem);
+  font-size: clamp(1.25rem, calc(1.7 * var(--vw)), 1.6rem);
   font-weight: 800;
   line-height: 1.1;
 }
@@ -389,7 +406,7 @@ a.modes__box:focus-visible {
 }
 
 .site-footer {
-  padding: 4.5rem calc(var(--page-pad-right) + 3.5rem) 2.5rem 200px;
+  padding: 4.5rem calc(var(--page-pad-right) + 3.5rem) 2.5rem var(--gutter-left);
   background: #000;
   color: #fff;
   font-family: "Cabinet Grotesk", sans-serif;
@@ -406,7 +423,7 @@ a.modes__box:focus-visible {
 }
 
 .site-footer__headline {
-  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-size: clamp(2.4rem, calc(4 * var(--vw)), 3.6rem);
   font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1;
@@ -618,7 +635,7 @@ input {
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  padding: 1.5rem calc(var(--page-pad-right) + 3.5rem) 1.5rem 200px;
+  padding: 1.5rem calc(var(--page-pad-right) + 3.5rem) 1.5rem var(--gutter-left);
   background: #fff;
   z-index: 2;
   position: relative;
@@ -812,7 +829,7 @@ input {
   /* The negative margin lets the blue run past the window; the extra bottom
      padding keeps the hero content laid out within the window. */
   margin-bottom: calc(-1 * var(--shell-tail));
-  padding: 1rem var(--page-pad-right) calc(3rem + var(--shell-tail)) 200px;
+  padding: 1rem var(--page-pad-right) calc(3rem + var(--shell-tail)) var(--gutter-left);
   background: #fff;
   overflow: hidden;
   will-change: transform;
@@ -867,7 +884,7 @@ input {
   justify-content: space-between;
   gap: 1.5rem;
   height: var(--black-bar);
-  padding: 0 calc(var(--page-pad-right) + 3.5rem) 0 200px;
+  padding: 0 calc(var(--page-pad-right) + 3.5rem) 0 var(--gutter-left);
   background: #000;
   color: #fff;
 }
@@ -875,14 +892,14 @@ input {
 .carriers__copy {
   display: flex;
   flex-direction: column;
-  gap: min(1.1rem, 1.6vh);
+  gap: min(1.1rem, calc(1.6 * var(--vh)));
 }
 
 .carriers__title {
   display: flex;
   flex-direction: column;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: min(5.8vw, 6.6vh);
+  font-size: min(calc(5.8 * var(--vw)), calc(6.6 * var(--vh)));
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.92;
@@ -897,10 +914,10 @@ input {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  width: min(21rem, 34vw);
+  width: min(21rem, calc(34 * var(--vw)));
   flex: none;
   margin-right: 7rem;
-  transform: translateY(1.5vh);
+  transform: translateY(calc(1.5 * var(--vh)));
 }
 
 .carriers__lede {
@@ -944,7 +961,7 @@ input {
   top: 100%;
   left: 0;
   right: 0;
-  height: 10vh;
+  height: calc(10 * var(--vh));
   pointer-events: none;
   background:
     linear-gradient(
@@ -1008,7 +1025,7 @@ input {
   top: 1rem;
   right: var(--page-pad-right);
   bottom: 0;
-  width: min(36rem, calc(58vw - 200px - 3rem));
+  width: min(36rem, calc(58 * var(--vw) - 12.5rem - 3rem));
   padding-bottom: calc(3rem + var(--shell-tail));
   opacity: 0;
   transform: translateY(18%);
@@ -1035,7 +1052,7 @@ input {
 
 .hero__lede {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(2.2rem, 3.2vw, 3rem);
+  font-size: clamp(2.2rem, calc(3.2 * var(--vw)), 3rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.15;
@@ -1044,7 +1061,7 @@ input {
 
 .hero__support {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(1.3rem, 1.95vw, 1.65rem);
+  font-size: clamp(1.3rem, calc(1.95 * var(--vw)), 1.65rem);
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.35;
@@ -1169,7 +1186,7 @@ input {
 .hero__sub {
   max-width: 30rem;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(1.15rem, 1.65vw, 1.35rem);
+  font-size: clamp(1.15rem, calc(1.65 * var(--vw)), 1.35rem);
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.35;
@@ -1180,7 +1197,7 @@ input {
   font-family: "Cabinet Grotesk", sans-serif;
   /* Sized from the width beside the 200px left gutter, so the longest word,
      "Accountability", always fits on one line. */
-  font-size: clamp(2.85rem, calc((100vw - 200px - var(--page-pad-right) - 3.5rem) / 14.2), 5rem);
+  font-size: clamp(2.85rem, calc((100 * var(--vw) - 12.5rem - 4.5rem - 3.5rem) / 14.2), 5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -1355,9 +1372,9 @@ input {
 
 .map-section {
   position: absolute;
-  right: 0.5rem;
+  right: calc(var(--frame) + 0.5rem);
   bottom: calc(4rem + var(--shell-tail));
-  width: min(46vw, 760px);
+  width: min(46 * var(--vw), 47.5rem);
   max-width: none;
   flex: none;
   margin: 0;
@@ -1761,7 +1778,7 @@ input {
 .ship-detail {
   position: absolute;
   top: 50%;
-  left: 200px;
+  left: var(--gutter-left);
   right: calc(var(--page-pad-right) + 3.5rem);
   max-width: 52rem;
   opacity: 0;
@@ -1788,7 +1805,7 @@ input {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-size: clamp(1rem, calc(1.25 * var(--vw)), 1.2rem);
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.86);
 }
@@ -1876,7 +1893,7 @@ input {
 .ship-box__text {
   position: absolute;
   bottom: 1.75rem;
-  left: 200px;
+  left: var(--gutter-left);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1895,7 +1912,7 @@ input {
 
 .ship-zone {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(3rem, 6vw, 5.25rem);
+  font-size: clamp(3rem, calc(6 * var(--vw)), 5.25rem);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.95;
@@ -1956,7 +1973,7 @@ input {
   display: flex;
   align-items: center;
   min-height: calc(100vh - 5.25rem);
-  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem 200px;
+  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem var(--gutter-left);
   overflow: hidden;
   background: transparent;
   color: #000;
@@ -2046,8 +2063,8 @@ input {
   flex-direction: column;
   align-items: center;
   min-height: 0;
-  padding: 7rem calc(var(--page-pad-right) + 3.5rem) 6rem 200px;
-  background: #000 radial-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1.3px) 0 0 / 24px 24px;
+  padding: 7rem calc(var(--page-pad-right) + 3.5rem) 6rem var(--gutter-left);
+  background: #000 radial-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1.3px) 0 0 / 1.5rem 1.5rem;
   color: #fff;
   text-align: center;
 }
@@ -2055,7 +2072,7 @@ input {
 .ship-lookup__title {
   margin: 0;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(3.4rem, 6vw, 5rem);
+  font-size: clamp(3.4rem, calc(6 * var(--vw)), 5rem);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 0.95;
@@ -2075,7 +2092,7 @@ input {
   border: 2px solid #fff;
   background: #0a0a0a;
   font-family: var(--lookup-mono);
-  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-size: clamp(1.25rem, calc(2 * var(--vw)), 1.6rem);
 }
 
 .ship-lookup__search svg {
@@ -2096,16 +2113,19 @@ input {
   animation: lookup-type 20s infinite;
 }
 
-/* The two numbers take turns: MC on one loop, USDOT on the next. */
+/* The two numbers take turns: MC on one loop, USDOT on the next. Everything
+   starts 7.5s in, with MC typed and its record up, so the first delete comes
+   2s after js/main.js starts the demo on reaching it. */
 .ship-lookup__typed--mc {
   --lookup-chars: 11;
   animation-timing-function: steps(11);
+  animation-delay: -7.5s;
 }
 
 .ship-lookup__typed--dot {
   --lookup-chars: 13;
   animation-timing-function: steps(13);
-  animation-delay: -10s;
+  animation-delay: -17.5s;
 }
 
 .ship-lookup__caret {
@@ -2121,7 +2141,7 @@ input {
   border: 2px solid #fff;
   border-top: 0;
   background: #0a0a0a;
-  animation: lookup-result 10s infinite;
+  animation: lookup-result 10s -7.5s infinite;
 }
 
 .ship-lookup__result dt {
@@ -2289,8 +2309,8 @@ input {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 6rem calc(var(--page-pad-right) + 3.5rem) 6rem 200px;
-  background: #0b3a8c radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.5px) 0 0 / 22px 22px;
+  padding: 6rem calc(var(--page-pad-right) + 3.5rem) 6rem var(--gutter-left);
+  background: #0b3a8c radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.5px) 0 0 / 1.375rem 1.375rem;
   color: #fff;
   /* A picked date can wrap the sentence onto another line; without this the
      browser scrolls to follow the re-centred content. */
@@ -2312,7 +2332,7 @@ input {
 .ship-rate__sentence {
   margin: 0 0 2.5rem;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(2.4rem, 4.6vw, 4.25rem);
+  font-size: clamp(2.4rem, calc(4.6 * var(--vw)), 4.25rem);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.3;
@@ -2706,12 +2726,12 @@ input {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  transform: translateY(-4vh);
+  transform: translateY(calc(-4 * var(--vh)));
   /* The quotes used to stack three lines of --gripe-was type; on one line of
      --gripe type they free up the difference, which goes under the headline
      so the buttons stay put while the quotes and headline move up. */
-  --gripe-was: clamp(1.4rem, 2.2vw, 1.9rem);
-  --gripe: clamp(1.25rem, 1.9vw, 1.9rem);
+  --gripe-was: clamp(1.4rem, calc(2.2 * var(--vw)), 1.9rem);
+  --gripe: clamp(1.25rem, calc(1.9 * var(--vw)), 1.9rem);
   --title-gap: calc(1.5rem + 3.6 * var(--gripe-was) + 0.7rem - 1.2 * var(--gripe));
   /* One hero button: 1.4rem type, 1.3rem padding and a 1.5px border each side. */
   --ship-btn-h: calc(1.4rem + 2.6rem + 3px);
@@ -2869,7 +2889,7 @@ input {
   max-width: 10.5em;
   margin: 0 0 var(--title-gap);
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(3.4rem, 7.4vw, 7rem);
+  font-size: clamp(3.4rem, calc(7.4 * var(--vw)), 7rem);
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 0.95;
@@ -2886,7 +2906,7 @@ input {
   top: calc(100% - 2 * var(--ship-btn-h) - 0.75rem + 3px - var(--title-gap));
   right: -3.5rem;
   /* Narrows rather than run into the buttons, which end 496px in. */
-  width: min(52rem, calc(100vw - 620px));
+  width: min(52rem, calc(100 * var(--vw) - 38.75rem));
   background: #fff;
   border: 1px solid rgba(0, 0, 0, 0.12);
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
@@ -2981,8 +3001,8 @@ input {
   transform: translateY(6px);
 }
 
-/* Too narrow or short to hang beside the buttons: it sits under them. */
-@media (max-width: 1100px), (max-height: 820px) {
+/* Too narrow to hang beside the buttons: it sits under them. */
+@media (max-width: 900px) {
   .ship-feed {
     position: static;
     width: min(42rem, 100%);
@@ -3013,7 +3033,7 @@ input {
 .mission-hero {
   display: flex;
   align-items: center;
-  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem 200px;
+  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem var(--gutter-left);
   background: #000;
   color: #fff;
 }
@@ -3037,7 +3057,7 @@ input {
 .mission-hero__title {
   margin: 0;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(3.4rem, calc((100vw - 200px - var(--page-pad-right) - 3.5rem) / 6.6), 9.4rem);
+  font-size: clamp(3.4rem, calc((100 * var(--vw) - 12.5rem - 4.5rem - 3.5rem) / 6.6), 9.4rem);
   font-weight: 800;
   letter-spacing: -0.05em;
   line-height: 0.9;
@@ -3114,7 +3134,7 @@ input {
 .mission-hero__lede {
   max-width: 40rem;
   margin: 0;
-  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  font-size: clamp(1.1rem, calc(1.5 * var(--vw)), 1.4rem);
   line-height: 1.55;
   color: #c4c4c4;
 }
@@ -3123,17 +3143,15 @@ input {
   flex-shrink: 0;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 900px) {
+  .mission-hero {
+    padding: 3rem 1.5rem;
+  }
+
   .mission-hero__foot {
     flex-direction: column;
     align-items: flex-start;
     gap: 2rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .mission-hero {
-    padding: 3rem 1.5rem;
   }
 
   .mission-hero__title {
@@ -3171,7 +3189,7 @@ input {
 .mission-essay {
   max-width: 62rem;
   font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(0.95rem, min(1.4vw, 1.75vh), 1.2rem);
+  font-size: clamp(0.95rem, min(calc(1.4 * var(--vw)), calc(1.75 * var(--vh))), 1.2rem);
   line-height: 1.55;
   color: #000;
 }
@@ -3198,7 +3216,7 @@ input {
 .mission-quote__text {
   margin: 0;
   font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  font-size: clamp(1.15rem, min(1.9vw, 2.4vh), 1.9rem);
+  font-size: clamp(1.15rem, min(calc(1.9 * var(--vw)), calc(2.4 * var(--vh))), 1.9rem);
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.4;
@@ -3292,7 +3310,7 @@ input {
   grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
   gap: 4rem;
   align-items: center;
-  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem 200px;
+  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem var(--gutter-left);
   background: #0b3a8c;
   color: #fff;
 }
@@ -3318,7 +3336,7 @@ input {
 .carriers-hero__title {
   margin: 0;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(3.2rem, 6.25vw, 5.6rem);
+  font-size: clamp(3.2rem, calc(6.25 * var(--vw)), 5.6rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -3378,7 +3396,7 @@ input {
   display: block;
   margin-bottom: 0.35rem;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(2.2rem, 3.3vw, 3rem);
+  font-size: clamp(2.2rem, calc(3.3 * var(--vw)), 3rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -3454,20 +3472,15 @@ input {
   font-weight: 700;
 }
 
-@media (max-width: 1280px) {
+@media (max-width: 900px) {
   .carriers-hero {
     grid-template-columns: minmax(0, 1fr);
     gap: 3rem;
+    padding: 3rem 1.5rem;
   }
 
   .carriers-qualify {
     max-width: 30rem;
-  }
-}
-
-@media (max-width: 900px) {
-  .carriers-hero {
-    padding: 3rem 1.5rem;
   }
 
   .carriers-hero__stats {
