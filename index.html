@@ -10,9 +10,13 @@
       rel="stylesheet"
     />
     <link href="https://fonts.cdnfonts.com/css/canela" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/style.css?v=171" />
+    <link rel="stylesheet" href="/css/style.css?v=257" />
   </head>
   <body>
+    <div class="intro" aria-hidden="true">
+      <span class="intro__logo"></span>
+      <canvas class="intro__dots"></canvas>
+    </div>
     <div class="page-top">
     <header class="site-header">
       <a class="brand" href="/">
@@ -20,7 +24,6 @@
         <span class="brand__name">Theseus</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
-        <a href="/about">About</a>
         <a href="/shippers">Shippers</a>
         <a href="/carriers">Carriers</a>
         <a href="/mission">Mission</a>
@@ -57,6 +60,7 @@
       </nav>
     </header>
     <main class="shell">
+      <canvas class="shell__dots" aria-hidden="true"></canvas>
       <section class="hero" aria-label="Tagline">
         <div class="hero__stage" data-stage="0">
           <div class="hero__copy">
@@ -69,7 +73,7 @@
           <div class="hero__panel">
           <dl class="hero__facts">
             <div class="hero__fact"><dt>Company</dt><dd>Freight Brokerage</dd></div>
-            <div class="hero__fact"><dt>Based in</dt><dd>Pittsburgh, PA</dd></div>
+            <div class="hero__fact"><dt>Based in</dt><dd>New Jersey</dd></div>
             <div class="hero__fact"><dt>DOT</dt><dd>9479842</dd></div>
             <div class="hero__fact"><dt>MC</dt><dd>93518203</dd></div>
           </dl>
@@ -340,7 +344,7 @@
             <span class="site-footer__mark" aria-hidden="true"></span>
             <span>Theseus</span>
           </a>
-          <p class="site-footer__about">A licensed and bonded freight brokerage based in Pittsburgh, PA.</p>
+          <p class="site-footer__about">A licensed and bonded freight brokerage based in New Jersey.</p>
           <a class="site-footer__phone" href="tel:+19083004784">(908) 300-4784</a>
           <ul class="site-footer__facts">
             <li>USDOT 9479842</li>
@@ -351,7 +355,6 @@
           <div class="site-footer__col">
             <h3>Company</h3>
             <ul>
-              <li><a href="/about">About</a></li>
               <li><a href="/mission">Mission</a></li>
               <li><a href="/contact">Contact us</a></li>
               <li><a href="/signin">Sign in</a></li>
@@ -386,6 +389,6 @@
         </ul>
       </div>
     </footer>
-    <script src="/js/main.js?v=51" defer></script>
+    <script src="/js/main.js?v=115" defer></script>
   </body>
 </html>

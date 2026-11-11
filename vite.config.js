@@ -10,6 +10,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
+        shippers: resolve(__dirname, 'shippers.html'),
+        carriers: resolve(__dirname, 'carriers.html'),
+        mission: resolve(__dirname, 'mission.html'),
       },
     },
   },

@@ -801,8 +801,6 @@ input {
 }
 
 .shell {
-  --pixel: 12px;
-  --dot: 0.75px;
   position: relative;
   /* Its tail overlaps the top of the next section; stay above that. */
   z-index: 1;
@@ -828,11 +826,6 @@ input {
   pointer-events: none;
   background-color: #0b3a8c;
   background-image:
-    radial-gradient(circle at calc(var(--pixel) * 0.5) calc(var(--pixel) * 0.5), rgba(255, 255, 255, 0.3) var(--dot), transparent calc(var(--dot) + 0.05px)),
-    radial-gradient(circle at calc(var(--pixel) * 1.5) calc(var(--pixel) * 0.5), rgba(255, 255, 255, 0.3) var(--dot), transparent calc(var(--dot) + 0.05px)),
-    radial-gradient(circle at calc(var(--pixel) * 0.5) calc(var(--pixel) * 1.5), rgba(255, 255, 255, 0.3) var(--dot), transparent calc(var(--dot) + 0.05px)),
-    radial-gradient(circle at calc(var(--pixel) * 1.5) calc(var(--pixel) * 1.5), rgba(255, 255, 255, 0.3) var(--dot), transparent calc(var(--dot) + 0.05px)),
-    radial-gradient(circle, rgba(255, 255, 255, 0.1) var(--dot), transparent calc(var(--dot) + 0.05px)),
     radial-gradient(ellipse 42% 38% at 9% 78%, #072a6b 0%, transparent 70%),
     radial-gradient(ellipse 28% 34% at 22% 52%, #1247a3 0%, transparent 65%),
     radial-gradient(ellipse 36% 30% at 6% 28%, #08307a 0%, transparent 68%),
@@ -846,11 +839,6 @@ input {
     radial-gradient(ellipse 22% 34% at 58% 88%, #092f78 0%, transparent 58%),
     radial-gradient(ellipse 16% 20% at 4% 48%, #0f429d 0%, transparent 50%);
   background-size:
-    calc(var(--pixel) * 3) calc(var(--pixel) * 3),
-    calc(var(--pixel) * 3) calc(var(--pixel) * 3),
-    calc(var(--pixel) * 3) calc(var(--pixel) * 3),
-    calc(var(--pixel) * 3) calc(var(--pixel) * 3),
-    var(--pixel) var(--pixel),
     auto,
     auto,
     auto,
@@ -973,6 +961,16 @@ input {
 .shell > * {
   position: relative;
   z-index: 1;
+}
+
+/* The white dot grid over the blue, drawn by js/main.js so the dots can scatter
+   away from the mouse and settle back. Covers the same area as the blue. */
+.shell > .shell__dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .hero {
@@ -1180,7 +1178,9 @@ input {
 
 .hero__line {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: clamp(2.85rem, 4.4vw, 4.25rem);
+  /* Sized from the width beside the 200px left gutter, so the longest word,
+     "Accountability", always fits on one line. */
+  font-size: clamp(2.85rem, calc((100vw - 200px - var(--page-pad-right) - 3.5rem) / 14.2), 5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1;
@@ -1566,5 +1566,1981 @@ input {
     width: 100%;
     max-width: none;
     align-self: stretch;
+  }
+}
+
+/* Shippers page: five full-window heroes between the header and footer. */
+.ship-hero {
+  min-height: 100vh;
+  background: #fff;
+}
+
+/* Hero 1 and hero 2 share one dot field. It sticks to the window while hero 1
+   scrolls away, and the dots gather into the logo as hero 2 arrives. */
+.ship-fold {
+  position: relative;
+  background: #fff;
+  --ship-ring: 14rem;
+  --ship-type: 2.6rem;
+  --ship-reveal: 0;
+  /* Where the dividers cross, in percent of the window. js/main.js springs it
+     toward the hovered box every frame, so these values are never transitioned. */
+  --ship-x: 50;
+  --ship-y: 50;
+}
+
+
+/* Scroll distance for the pinned sequence. The words, circle, lines, and
+   titles are spread across it, so the motion stays readable. */
+.ship-fold__run {
+  height: 330vh;
+}
+
+.ship-fold__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  pointer-events: none;
+}
+
+/* A horizontal line through the middle and a vertical line up from the circle.
+   That leaves a top-left box, a top-right box, and one full-width rectangle below. */
+.ship-split {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ship-fold__pin .ship-split {
+  opacity: var(--ship-reveal);
+}
+
+.ship-split__ray {
+  position: absolute;
+  top: calc(var(--ship-y) * 1%);
+  left: calc(var(--ship-x) * 1%);
+  width: 0;
+  height: 0;
+}
+
+.ship-split__ray--up {
+  transform: rotate(180deg);
+}
+
+.ship-split__ray--left {
+  transform: rotate(90deg);
+}
+
+.ship-split__ray--right {
+  transform: rotate(-90deg);
+}
+
+/* The line starts on the circle and runs to the edge of the window. */
+.ship-split__stem {
+  position: absolute;
+  top: calc(var(--ship-ring) / 2);
+  left: 0;
+  width: 1px;
+  height: 140vmax;
+  background: #111;
+  transform: translateX(-50%);
+}
+
+.ship-split__ring {
+  position: absolute;
+  top: calc(var(--ship-y) * 1%);
+  left: calc(var(--ship-x) * 1%);
+  width: var(--ship-ring);
+  height: var(--ship-ring);
+  border: 2.5px solid #111;
+  border-radius: 50%;
+  background: #111;
+  transform: translate(-50%, -50%);
+}
+
+.ship-split__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--ship-type);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  text-align: center;
+  color: #fff;
+}
+
+/* Two boxes on top and one full-width rectangle below, each a link. They meet
+   where the dividers cross, so hovering one grows it and slides the circle. */
+.ship-boxes {
+  position: absolute;
+  inset: 0;
+}
+
+.ship-fold__pin .ship-boxes {
+  opacity: var(--ship-reveal);
+}
+
+.ship-box {
+  position: absolute;
+  display: block;
+  color: #000;
+  text-decoration: none;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Dims the photo behind an open box's details. */
+.ship-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.62);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.ship-box.is-active::before {
+  opacity: 1;
+}
+
+.ship-box__open {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ship-box.is-active {
+  cursor: pointer;
+}
+
+/* The other boxes shrink while one is open, so their titles step down too. */
+.ship-box__open .ship-zone {
+  transform-origin: 0 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 0.75, 0.2, 1);
+}
+
+.ship-box--move .ship-box__open .ship-zone {
+  transform-origin: 100% 100%;
+}
+
+.ship-fold.has-active .ship-box:not(.is-active) .ship-zone {
+  transform: scale(0.72);
+}
+
+.ship-box__open .ship-box__text {
+  transition: opacity 0.3s ease, left 0.6s cubic-bezier(0.22, 0.75, 0.2, 1),
+    right 0.6s cubic-bezier(0.22, 0.75, 0.2, 1);
+}
+
+.ship-fold.has-active .ship-box--book:not(.is-active) .ship-box__text {
+  left: 3.5rem;
+}
+
+.ship-fold.has-active .ship-box--move:not(.is-active) .ship-box__text {
+  right: 3.5rem;
+}
+
+.ship-box.is-active .ship-box__open .ship-box__text {
+  opacity: 0;
+}
+
+.ship-detail {
+  position: absolute;
+  top: 50%;
+  left: 200px;
+  right: calc(var(--page-pad-right) + 3.5rem);
+  max-width: 52rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(calc(-50% + 1.25rem));
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s;
+}
+
+.ship-box.is-active .ship-detail {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%);
+  transition: opacity 0.5s ease 0.35s, transform 0.6s cubic-bezier(0.22, 0.75, 0.2, 1) 0.35s,
+    visibility 0s;
+}
+
+.ship-detail .ship-zone {
+  margin: 0 0 2.25rem;
+}
+
+.ship-detail__list {
+  display: grid;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.ship-detail__list li {
+  padding-left: 1.1rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+.ship-detail__list strong {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 800;
+  color: #fff;
+}
+
+.ship-box__open:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -6px;
+}
+
+.ship-fold.is-open .ship-box,
+.ship-split--still .ship-box {
+  pointer-events: auto;
+}
+
+.ship-box--book {
+  top: 0;
+  left: 0;
+  width: calc(var(--ship-x) * 1%);
+  height: calc(var(--ship-y) * 1%);
+  background: #111 url("/book-it.png") center / cover no-repeat;
+  color: #fff;
+  /* The circle bites the inner corner so Our Process stays clear. */
+  -webkit-mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--ship-ring) / 2 - 1px),
+    #000 calc(var(--ship-ring) / 2)
+  );
+  mask-image: radial-gradient(
+    circle at 100% 100%,
+    transparent calc(var(--ship-ring) / 2 - 1px),
+    #000 calc(var(--ship-ring) / 2)
+  );
+}
+
+.ship-box--move {
+  top: 0;
+  left: calc(var(--ship-x) * 1%);
+  width: calc(100% - var(--ship-x) * 1%);
+  height: calc(var(--ship-y) * 1%);
+  background: #111 url("/move-it.jpg") center / cover no-repeat;
+  color: #fff;
+  -webkit-mask-image: radial-gradient(
+    circle at 0% 100%,
+    transparent calc(var(--ship-ring) / 2 - 1px),
+    #000 calc(var(--ship-ring) / 2)
+  );
+  mask-image: radial-gradient(
+    circle at 0% 100%,
+    transparent calc(var(--ship-ring) / 2 - 1px),
+    #000 calc(var(--ship-ring) / 2)
+  );
+}
+
+.ship-box--forget {
+  top: calc(var(--ship-y) * 1%);
+  left: 0;
+  width: 100%;
+  height: calc(100% - var(--ship-y) * 1%);
+  background: #111 url("/forget-it.jpg") center / cover no-repeat;
+  color: #fff;
+  -webkit-mask-image: radial-gradient(
+    circle at calc(var(--ship-x) * 1%) 0%,
+    transparent calc(var(--ship-ring) / 2 - 1px),
+    #000 calc(var(--ship-ring) / 2)
+  );
+  mask-image: radial-gradient(
+    circle at calc(var(--ship-x) * 1%) 0%,
+    transparent calc(var(--ship-ring) / 2 - 1px),
+    #000 calc(var(--ship-ring) / 2)
+  );
+}
+
+/* Book It sits bottom-left of its box, Move It bottom-right, Forget It bottom-left. */
+.ship-box__text {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.ship-box--move .ship-box__text {
+  right: calc(var(--page-pad-right) + 3.5rem);
+  left: auto;
+  align-items: flex-end;
+}
+
+.ship-box--forget .ship-box__text {
+  bottom: 2.25rem;
+}
+
+.ship-zone {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(3rem, 6vw, 5.25rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.ship-box__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.ship-box__more::before {
+  content: "";
+  width: 0.42em;
+  height: 0.42em;
+  margin-right: 0.15em;
+  border-top: 1.5px solid currentColor;
+  border-right: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.ship-box:hover .ship-box__more,
+.ship-box:focus-visible .ship-box__more {
+  opacity: 1;
+}
+
+.ship-box:hover .ship-box__more::before,
+.ship-box:focus-visible .ship-box__more::before {
+  transform: translateX(3px) rotate(45deg);
+}
+
+.ship-box:focus-visible {
+  outline: 2px solid #0b3a8c;
+  outline-offset: -6px;
+}
+
+/* The canvas circle follows the crossing point once the dots have gathered. */
+.ship-fold__pin .ship-hero__dots {
+  transform: translate(calc((var(--ship-x) - 50) * 1%), calc((var(--ship-y) - 50) * 1%));
+}
+
+.ship-split--still {
+  display: none;
+}
+
+/* Fills the window under the header. */
+.ship-hero--1 {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: calc(100vh - 5.25rem);
+  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem 200px;
+  overflow: hidden;
+  background: transparent;
+  color: #000;
+}
+
+.ship-fold .ship-hero--2 {
+  position: relative;
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ship-fold__pin {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: calc(100vh - 5.25rem);
+    margin-bottom: 0;
+  }
+
+  .ship-fold__pin .ship-split {
+    display: none;
+  }
+
+  .ship-split--still {
+    display: block;
+  }
+
+  .ship-split--still .ship-split__stem {
+    height: 140vmax;
+  }
+
+  .ship-split--still .ship-box,
+  .ship-split--still .ship-split__ray,
+  .ship-split--still .ship-split__ring {
+    transition: none;
+  }
+
+  .ship-fold__pin .ship-boxes,
+  .ship-fold__run {
+    display: none;
+  }
+}
+
+/* The dot grid, drawn by js/main.js so the dots can scatter from the mouse. */
+.ship-hero__dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Shippers: past hero 2 the header docks to the top of the window. js/main.js
+   pads the body by the header's height so nothing shifts when it leaves the flow. */
+.page-shippers .site-header.is-docked {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 20;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  animation: header-dock 0.45s cubic-bezier(0.22, 0.75, 0.2, 1);
+}
+
+.page-shippers .site-header.is-docked::after {
+  display: none;
+}
+
+@keyframes header-dock {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-shippers .site-header.is-docked {
+    animation: none;
+  }
+}
+
+/* Hero 4: an example authority lookup on black. It sizes to its content
+   instead of filling the window. */
+.ship-lookup {
+  --lookup-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+  padding: 7rem calc(var(--page-pad-right) + 3.5rem) 6rem 200px;
+  background: #000 radial-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1.3px) 0 0 / 24px 24px;
+  color: #fff;
+  text-align: center;
+}
+
+.ship-lookup__title {
+  margin: 0;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(3.4rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+.ship-lookup__demo {
+  width: min(100%, 51rem);
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.ship-lookup__search {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.25rem 1.5rem;
+  border: 2px solid #fff;
+  background: #0a0a0a;
+  font-family: var(--lookup-mono);
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+}
+
+.ship-lookup__search svg {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.4;
+}
+
+.ship-lookup__typed {
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  animation: lookup-type 20s infinite;
+}
+
+/* The two numbers take turns: MC on one loop, USDOT on the next. */
+.ship-lookup__typed--mc {
+  --lookup-chars: 11;
+  animation-timing-function: steps(11);
+}
+
+.ship-lookup__typed--dot {
+  --lookup-chars: 13;
+  animation-timing-function: steps(13);
+  animation-delay: -10s;
+}
+
+.ship-lookup__caret {
+  animation: lookup-caret 0.9s steps(1) infinite;
+}
+
+.ship-lookup__result {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem 2.5rem;
+  margin: 0;
+  padding: 1.75rem 1.9rem;
+  border: 2px solid #fff;
+  border-top: 0;
+  background: #0a0a0a;
+  animation: lookup-result 10s infinite;
+}
+
+.ship-lookup__result dt {
+  font-family: var(--lookup-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.ship-lookup__result dd {
+  margin: 0.25rem 0 0;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.ship-lookup__result .ship-lookup__note {
+  margin-top: 0.15rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.ship-lookup__ok {
+  color: #5fd08a;
+}
+
+.ship-lookup__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 2.75rem;
+}
+
+.ship-lookup__btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 1.1rem 1.75rem;
+  border: 1.5px solid transparent;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.ship-lookup__btn--primary {
+  background: #0b3a8c;
+  color: #fff;
+}
+
+.ship-lookup__btn--primary:hover {
+  background: #082c6b;
+}
+
+.ship-lookup__btn--secondary {
+  border-color: #fff;
+  background: #fff;
+  color: #000;
+}
+
+.ship-lookup__btn--secondary:hover {
+  background: transparent;
+  color: #fff;
+}
+
+.ship-lookup__btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.ship-lookup__backed {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 2.25rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--lookup-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ship-lookup__backed .ship-lookup__backed-label {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.ship-lookup__place {
+  margin: 0.6rem 0 0;
+  font-family: var(--lookup-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* One loop: type the MC number, show the record, hold, then clear. */
+@keyframes lookup-type {
+  0%,
+  2% {
+    width: 0;
+  }
+  11%,
+  47.5% {
+    width: calc(var(--lookup-chars) * 1ch);
+  }
+  50%,
+  100% {
+    width: 0;
+  }
+}
+
+@keyframes lookup-result {
+  0%,
+  26% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  32%,
+  95% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes lookup-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ship-lookup__typed--mc {
+    width: auto;
+  }
+
+  .ship-lookup__typed,
+  .ship-lookup__caret,
+  .ship-lookup__result {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .ship-lookup__result {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Hero 3: a quote request written as one sentence, on the brand blue. */
+.ship-rate {
+  /* Positioned so it slides up over the pinned hero 2 layer, which stays stuck
+     for one more window height past the end of .ship-fold. */
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6rem calc(var(--page-pad-right) + 3.5rem) 6rem 200px;
+  background: #0b3a8c radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.5px) 0 0 / 22px 22px;
+  color: #fff;
+  /* A picked date can wrap the sentence onto another line; without this the
+     browser scrolls to follow the re-centred content. */
+  overflow-anchor: none;
+}
+
+.ship-rate__form {
+  max-width: 60rem;
+}
+
+.ship-rate__eyebrow {
+  margin: 0 0 1.75rem;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ship-rate__sentence {
+  margin: 0 0 2.5rem;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(2.4rem, 4.6vw, 4.25rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.3;
+}
+
+.ship-rate__field {
+  position: relative;
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.ship-rate__field input,
+.ship-rate__pick {
+  width: 100%;
+  margin: 0;
+  padding: 0 0.15em 0.08em;
+  border: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  letter-spacing: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 160ms ease;
+}
+
+.ship-rate__field input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  opacity: 1;
+}
+
+.ship-rate__field input:focus,
+.ship-rate__pick:focus-visible,
+.ship-rate__pick[aria-expanded="true"] {
+  outline: none;
+  border-bottom-color: #fff;
+}
+
+.ship-rate__field--load {
+  width: 7.6em;
+}
+
+/* The two pickers open a popup instead of taking typing. */
+.ship-rate__pick {
+  position: relative;
+  display: block;
+  padding-right: 0.9em;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ship-rate__value.is-empty {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Small chevron at the end of each picker's underline. */
+.ship-rate__pick::after {
+  content: "";
+  position: absolute;
+  right: 0.2em;
+  bottom: 0.55em;
+  width: 0.16em;
+  height: 0.16em;
+  border-right: 2px solid rgba(255, 255, 255, 0.7);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+  pointer-events: none;
+}
+
+.ship-rate__pick[aria-expanded="true"]::after {
+  transform: translateY(0.08em) rotate(225deg);
+}
+
+.ship-rate__field--zip {
+  width: 3.15em;
+}
+
+.ship-rate__field--date {
+  min-width: 5em;
+}
+
+/* Popups for the pickers: white, square, and set in the site's type. */
+.ship-pop {
+  position: absolute;
+  top: calc(100% + 0.75rem);
+  left: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 0.4rem;
+  border: 1.5px solid #000;
+  background: #fff;
+  color: #000;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.3;
+  white-space: normal;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+.ship-pop[hidden] {
+  display: none;
+}
+
+.ship-pop:focus {
+  outline: none;
+}
+
+.ship-pop--list {
+  min-width: 100%;
+  list-style: none;
+}
+
+.ship-pop--list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0.85rem 1rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ship-pop--list li:hover,
+.ship-pop--list li.is-current {
+  background: #eef2fa;
+}
+
+.ship-pop--list li[aria-selected="true"] {
+  color: #0b3a8c;
+}
+
+.ship-pop--list li[aria-selected="true"]::after {
+  content: "";
+  width: 0.3em;
+  height: 0.6em;
+  margin-bottom: 0.15em;
+  border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.ship-pop--cal {
+  right: 0;
+  left: auto;
+  display: grid;
+  grid-template-columns: 18rem 12rem;
+  column-gap: 1.5rem;
+  padding: 1.25rem;
+}
+
+.ship-cal__time {
+  padding-left: 1.5rem;
+  border-left: 1px solid #e3e3e3;
+}
+
+.ship-cal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.ship-cal__month {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.ship-cal__nav {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1.5px solid #000;
+  background: #fff;
+  cursor: pointer;
+}
+
+.ship-cal__nav::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-bottom: 2px solid #000;
+  border-left: 2px solid #000;
+  transform: translate(-35%, -50%) rotate(45deg);
+}
+
+.ship-cal__nav--next::before {
+  transform: translate(-65%, -50%) rotate(-135deg);
+}
+
+.ship-cal__nav:hover:not(:disabled) {
+  background: #eef2fa;
+}
+
+.ship-cal__nav:disabled {
+  border-color: #ccc;
+  cursor: default;
+}
+
+.ship-cal__nav:disabled::before {
+  border-color: #ccc;
+}
+
+.ship-cal__week,
+.ship-cal__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+}
+
+.ship-cal__week {
+  margin-bottom: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.ship-cal__days button {
+  height: 2.35rem;
+  padding: 0;
+  border: 1.5px solid transparent;
+  background: none;
+  color: #000;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ship-cal__days button:hover:not(:disabled) {
+  border-color: #000;
+}
+
+.ship-cal__days button.is-today {
+  color: #0b3a8c;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.ship-cal__days button[aria-pressed="true"] {
+  border-color: #0b3a8c;
+  background: #0b3a8c;
+  color: #fff;
+  text-decoration: none;
+}
+
+.ship-cal__days button:disabled {
+  color: #c4c4c4;
+  cursor: default;
+}
+
+.ship-cal__label {
+  margin: 0.6rem 0 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #777;
+}
+
+.ship-cal__times {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.35rem;
+}
+
+.ship-cal__times button {
+  padding: 0.55rem 0;
+  border: 1.5px solid #000;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ship-cal__times button:hover {
+  background: #eef2fa;
+}
+
+.ship-cal__times button[aria-pressed="true"] {
+  border-color: #0b3a8c;
+  background: #0b3a8c;
+  color: #fff;
+}
+
+.ship-cal__done {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: 0.9rem;
+  border: 0;
+  background: #0b3a8c;
+  color: #fff;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ship-cal__done:hover:not(:disabled) {
+  background: #082c6b;
+}
+
+.ship-cal__done:disabled {
+  background: #c4c4c4;
+  cursor: default;
+}
+
+.ship-pop button:focus-visible,
+.ship-pop--list li.is-current:focus-visible {
+  outline: 2px solid #0b3a8c;
+  outline-offset: 2px;
+}
+
+.ship-rate .hero__actions {
+  margin: 0 0 3rem;
+}
+
+.ship-rate__special {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ship-rate__special legend {
+  margin-bottom: 0.9rem;
+  padding: 0;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ship-rate__special label {
+  position: relative;
+  cursor: pointer;
+}
+
+.ship-rate__special input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ship-rate__special span {
+  display: inline-block;
+  padding: 0.85rem 0.95rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.ship-rate__special label:hover span {
+  border-color: #fff;
+}
+
+.ship-rate__special input:checked + span {
+  border-color: #fff;
+  background: #fff;
+  color: #0b3a8c;
+}
+
+.ship-rate__special input:focus-visible + span {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.ship-intro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  transform: translateY(-4vh);
+  /* The quotes used to stack three lines of --gripe-was type; on one line of
+     --gripe type they free up the difference, which goes under the headline
+     so the buttons stay put while the quotes and headline move up. */
+  --gripe-was: clamp(1.4rem, 2.2vw, 1.9rem);
+  --gripe: clamp(1.25rem, 1.9vw, 1.9rem);
+  --title-gap: calc(1.5rem + 3.6 * var(--gripe-was) + 0.7rem - 1.2 * var(--gripe));
+  /* One hero button: 1.4rem type, 1.3rem padding and a 1.5px border each side. */
+  --ship-btn-h: calc(1.4rem + 2.6rem + 3px);
+}
+
+/* One quote at a time, stacked in the same spot: each fades in, gets struck
+   through, then gives way to the next. Starts once the page-load intro clears. */
+.ship-intro__gripes {
+  display: grid;
+  margin: 0 0 1.6rem;
+  padding: 0;
+  list-style: none;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: var(--gripe);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.2;
+  color: #000;
+}
+
+.ship-intro__gripes li {
+  grid-area: 1 / 1;
+  justify-self: start;
+  opacity: 0;
+}
+
+.ship-intro__gripes li:first-child {
+  opacity: 1;
+}
+
+.ship-intro__gripes s {
+  position: relative;
+  text-decoration: none;
+}
+
+.ship-intro__gripes s::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 54%;
+  height: 1.5px;
+  background: #000;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+[data-intro-done] .ship-intro__gripes li {
+  animation: gripe-show 9s infinite both;
+}
+
+[data-intro-done] .ship-intro__gripes s::after {
+  animation: gripe-strike 9s cubic-bezier(0.65, 0, 0.35, 1) infinite both;
+}
+
+[data-intro-done] .ship-intro__gripes li:nth-child(2),
+[data-intro-done] .ship-intro__gripes li:nth-child(2) s::after {
+  animation-delay: 3s;
+}
+
+[data-intro-done] .ship-intro__gripes li:nth-child(3),
+[data-intro-done] .ship-intro__gripes li:nth-child(3) s::after {
+  animation-delay: 6s;
+}
+
+@keyframes gripe-show {
+  0% {
+    opacity: 0;
+    transform: translateY(0.35em);
+  }
+  4%,
+  30% {
+    opacity: 1;
+    transform: none;
+  }
+  33.3%,
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+
+@keyframes gripe-strike {
+  0%,
+  12% {
+    transform: scaleX(0);
+  }
+  19%,
+  33.3% {
+    transform: scaleX(1);
+  }
+  33.4%,
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ship-intro__gripes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.4rem;
+  }
+
+  .ship-intro__gripes li,
+  [data-intro-done] .ship-intro__gripes li {
+    opacity: 1;
+    animation: none;
+  }
+
+  .ship-intro__gripes s::after,
+  [data-intro-done] .ship-intro__gripes s::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+.ship-intro .hero__actions {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: min(18.5rem, 100%);
+}
+
+/* The hero buttons are styled for the blue homepage; on white they go black. */
+.ship-intro .hero__btn {
+  padding: 1.3rem 1.5rem;
+  font-size: 1.4rem;
+  border-color: #000;
+}
+
+.ship-intro .hero__btn--primary {
+  border-color: #0b3a8c;
+  background: #0b3a8c;
+  color: #fff;
+}
+
+.ship-intro .hero__btn--primary:hover {
+  opacity: 1;
+  border-color: #082c6b;
+  background: #082c6b;
+}
+
+.ship-intro .hero__btn--secondary {
+  background: #000;
+  color: #fff;
+}
+
+.ship-intro .hero__btn--secondary:hover {
+  background: #222;
+  color: #fff;
+}
+
+.ship-intro__title {
+  max-width: 10.5em;
+  margin: 0 0 var(--title-gap);
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(3.4rem, 7.4vw, 7rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  color: #000;
+}
+
+/* Example load's update feed. It hangs from the top of the hero buttons on
+   the right, reaching the header's right edge, out of the intro's flow so the
+   headline and buttons keep their place. */
+.ship-feed {
+  position: absolute;
+  /* Just under the headline: from the top of the two stacked buttons, down
+     3px and up by the headline's bottom margin. */
+  top: calc(100% - 2 * var(--ship-btn-h) - 0.75rem + 3px - var(--title-gap));
+  right: -3.5rem;
+  /* Narrows rather than run into the buttons, which end 496px in. */
+  width: min(52rem, calc(100vw - 620px));
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+
+.ship-feed__head,
+.ship-feed__item time {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0.02em;
+}
+
+.ship-feed__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.4rem;
+  background: #0b3a8c;
+  font-size: 0.86rem;
+  color: #fff;
+}
+
+.ship-feed__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ship-feed__item {
+  display: flex;
+  align-items: baseline;
+  gap: 1.4rem;
+  padding: 0.55rem 1.4rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  transition:
+    opacity 400ms ease,
+    transform 400ms ease;
+}
+
+.ship-feed__item:first-child {
+  border-top: 0;
+}
+
+.ship-feed__item time {
+  flex: none;
+  width: 5.6em;
+  font-size: 0.8rem;
+  color: #000;
+}
+
+.ship-feed__item p {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.1rem;
+  margin: 0;
+}
+
+.ship-feed__item strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: #000;
+}
+
+.ship-feed__item p span,
+.ship-feed__place {
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #000;
+}
+
+.ship-feed__place {
+  flex: none;
+  text-align: right;
+}
+
+.ship-feed__item--alert {
+  background: #fdf1d8;
+}
+
+.ship-feed__item--alert time,
+.ship-feed__item--alert strong {
+  color: #b07a12;
+}
+
+/* Rows wait their turn; their space stays reserved so the panel holds still. */
+.ship-feed.is-sequenced .ship-feed__item:not(.is-in) {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+/* Too narrow or short to hang beside the buttons: it sits under them. */
+@media (max-width: 1100px), (max-height: 820px) {
+  .ship-feed {
+    position: static;
+    width: min(42rem, 100%);
+    margin-top: 2.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .ship-hero--1 {
+    padding: 3rem 1.5rem;
+  }
+}
+
+/* Carriers and mission pages: five full-window heroes between the header and
+   footer, the first one filling the window under the header with a dot grid
+   drawn by js/main.js. */
+.page-hero {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.page-hero--first {
+  position: relative;
+  min-height: calc(100vh - 5.25rem);
+  overflow: hidden;
+}
+
+.mission-hero {
+  display: flex;
+  align-items: center;
+  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem 200px;
+  background: #000;
+  color: #fff;
+}
+
+.mission-hero__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2.1rem;
+  width: 100%;
+}
+
+.mission-hero__eyebrow {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #8fa8e8;
+}
+
+/* Sized so "Freight without" fits beside the 200px left gutter. */
+.mission-hero__title {
+  margin: 0;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(3.4rem, calc((100vw - 200px - var(--page-pad-right) - 3.5rem) / 6.6), 9.4rem);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+/* "friction." starts as a grey outline and fills in the site blue while the
+   line beneath runs out, then resets; the loop starts once the intro clears. */
+.mission-hero__friction {
+  position: relative;
+  top: 0.08em;
+  color: transparent;
+  -webkit-text-stroke: 2px #888;
+}
+
+[data-intro-done] .mission-hero__friction {
+  animation: mission-fill 9s infinite;
+}
+
+.mission-hero__line {
+  width: min(47.5rem, 100%);
+  height: 2px;
+  background: #222;
+}
+
+.mission-hero__line span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #0b3a8c;
+}
+
+[data-intro-done] .mission-hero__line span {
+  animation: mission-line 9s ease-out infinite;
+}
+
+@keyframes mission-fill {
+  0%,
+  32% {
+    color: transparent;
+    -webkit-text-stroke: 2px #888;
+  }
+  42%,
+  95% {
+    color: #0b3a8c;
+    -webkit-text-stroke: 0 transparent;
+  }
+  100% {
+    color: transparent;
+    -webkit-text-stroke: 2px #888;
+  }
+}
+
+@keyframes mission-line {
+  0%,
+  40% {
+    width: 0;
+  }
+  55%,
+  95% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+.mission-hero__foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.mission-hero__lede {
+  max-width: 40rem;
+  margin: 0;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  line-height: 1.55;
+  color: #c4c4c4;
+}
+
+.mission-hero .hero__actions {
+  flex-shrink: 0;
+}
+
+@media (max-width: 1100px) {
+  .mission-hero__foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .mission-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .mission-hero__title {
+    font-size: clamp(2.6rem, 12vw, 4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mission-hero__friction,
+  [data-intro-done] .mission-hero__friction {
+    animation: none;
+    color: #0b3a8c;
+    -webkit-text-stroke: 0 transparent;
+  }
+
+  .mission-hero__line span,
+  [data-intro-done] .mission-hero__line span {
+    animation: none;
+    width: 100%;
+  }
+}
+
+.mission-quote-hero {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2.75rem;
+  padding: 3.5rem 3rem;
+  background: #fff;
+  color: #0b3a8c;
+}
+
+/* Sized from the window's width and height, so the quote through "Welcome to
+   Theseus." fits in one window. */
+.mission-essay {
+  max-width: 62rem;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(0.95rem, min(1.4vw, 1.75vh), 1.2rem);
+  line-height: 1.55;
+  color: #000;
+}
+
+.mission-essay p {
+  margin: 0 0 0.85em;
+}
+
+.mission-essay__end {
+  margin: 1.3em 0 0;
+  font-size: 1.25em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.mission-quote {
+  position: relative;
+  max-width: 76rem;
+  margin: 0;
+  text-align: center;
+}
+
+.mission-quote__text {
+  margin: 0;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(1.15rem, min(1.9vw, 2.4vh), 1.9rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+}
+
+.mission-quote__text p {
+  margin: 0;
+}
+
+.mission-quote__by {
+  margin-top: 1.25rem;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #4a6fb5;
+}
+
+.mission-quote__text,
+.mission-quote__by {
+  text-shadow: 0 0 12px rgba(11, 58, 140, 0.18);
+}
+
+/* js/main.js wraps each word; words hold their place hidden until their turn,
+   then show scrambled glyphs over the real word before settling. */
+.type-word {
+  position: relative;
+}
+
+.is-typing .type-word:not(.is-on) {
+  visibility: hidden;
+}
+
+.type-word.is-on {
+  animation: type-flicker 0.32s steps(1) both;
+}
+
+.type-word.is-decoding {
+  color: transparent;
+  text-shadow: none;
+}
+
+.type-word__noise {
+  position: absolute;
+  left: 0;
+  top: 0;
+  white-space: nowrap;
+  color: #6f8fd0;
+  text-shadow: 0 0 10px rgba(11, 58, 140, 0.3);
+}
+
+.type-cursor {
+  position: absolute;
+  left: 100%;
+  top: 0.12em;
+  width: 0.55em;
+  height: 1.05em;
+  margin-left: 0.15em;
+  background: #0b3a8c;
+  box-shadow: 0 0 10px rgba(11, 58, 140, 0.35);
+}
+
+.type-cursor.is-idle {
+  animation: type-blink 1s steps(1) infinite;
+}
+
+@keyframes type-flicker {
+  0% {
+    opacity: 0.35;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+  75%,
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes type-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.carriers-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+  gap: 4rem;
+  align-items: center;
+  padding: 4rem calc(var(--page-pad-right) + 3.5rem) 4rem 200px;
+  background: #0b3a8c;
+  color: #fff;
+}
+
+.carriers-hero__copy,
+.carriers-qualify {
+  position: relative;
+}
+
+.carriers-hero__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2.1rem;
+}
+
+.carriers-hero__eyebrow {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #b9cbf5;
+}
+
+.carriers-hero__title {
+  margin: 0;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(3.2rem, 6.25vw, 5.6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.carriers-hero__hours {
+  color: #b9cbf5;
+}
+
+/* Struck through once the page-load intro clears. */
+.carriers-hero__not {
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin-top: 0.3em;
+  font-size: 0.6em;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+}
+
+.carriers-hero__not::after {
+  content: "";
+  position: absolute;
+  left: -0.08em;
+  right: -0.08em;
+  top: 45%;
+  height: 0.12em;
+  background: #ff5a4f;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+[data-intro-done] .carriers-hero__not::after {
+  animation: carriers-strike 0.55s cubic-bezier(0.65, 0, 0.35, 1) 0.5s forwards;
+}
+
+@keyframes carriers-strike {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.carriers-hero__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.75rem;
+  margin: 0;
+  padding: 1.6rem 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+  color: #d3defa;
+}
+
+.carriers-hero__stats strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: clamp(2.2rem, 3.3vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: #fff;
+}
+
+.carriers-qualify {
+  background: #fff;
+  color: #111;
+}
+
+.carriers-qualify__title {
+  margin: 0;
+  padding: 1.75rem 1.4rem 1.25rem;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.carriers-qualify__item {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  gap: 1.1rem;
+  align-items: center;
+  padding: 1.25rem 1.4rem;
+  border-top: 1px solid #e3e3e3;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.carriers-qualify__item input {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0;
+  accent-color: #0b3a8c;
+  cursor: pointer;
+}
+
+.carriers-qualify__foot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.4rem;
+  border-top: 1px solid #e3e3e3;
+}
+
+.carriers-qualify__btn {
+  min-height: 3.5rem;
+  border: 0;
+  background: #0b3a8c;
+  color: #fff;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+}
+
+.carriers-qualify__btn:hover {
+  opacity: 0.88;
+}
+
+.carriers-qualify__signin {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #555;
+  text-align: center;
+}
+
+.carriers-qualify__signin a {
+  color: #0b3a8c;
+  font-weight: 700;
+}
+
+@media (max-width: 1280px) {
+  .carriers-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+  }
+
+  .carriers-qualify {
+    max-width: 30rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .carriers-hero {
+    padding: 3rem 1.5rem;
+  }
+
+  .carriers-hero__stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carriers-hero__not::after,
+  [data-intro-done] .carriers-hero__not::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
+
+.page-hero__dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* Page-load intro: a blue screen over everything with the white logo, which
+   js/main.js breaks into the dot grid before fading the screen away. Hides
+   itself after a while in case the script never runs. */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b3a8c;
+  transition: opacity 400ms ease;
+  animation: intro-failsafe 0s 7s forwards;
+}
+
+/* Shippers opens on a white hero, so its intro is white with a black logo;
+   mission opens on black; the other pages keep the blue. */
+.page-shippers .intro {
+  background: #fff;
+}
+
+.page-mission .intro {
+  background: #000;
+}
+
+.page-shippers .intro__logo {
+  background: #000;
+}
+
+.intro.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.intro__logo {
+  width: min(22rem, 70vw);
+  height: min(16.5rem, 52.5vw);
+  background: #fff;
+  -webkit-mask: url("/logo.png") center / contain no-repeat;
+  mask: url("/logo.png") center / contain no-repeat;
+}
+
+.intro__dots {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@keyframes intro-failsafe {
+  to {
+    visibility: hidden;
   }
 }

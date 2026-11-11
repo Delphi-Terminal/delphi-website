@@ -1,3 +1,173 @@
+// The dot grids behind the heroes. `rgb` is the dot colour (white unless
+// set) and `alphas` holds the dim and bright dot opacities; with `blocks`, the
+// top-left 2×2 of every 3×3 block is bright, otherwise every dot is dim.
+// Shared by the page-load intro so its dots land exactly on the hero's.
+const DOT_GRIDS = [
+  // Homepage hero blue.
+  { host: ".shell", canvas: ".shell__dots", pitch: 12, size: 1.5, alphas: [0.1, 0.37], blocks: true },
+  // Shippers hero 1, on white. `morph` gathers this grid into the logo on hero 2.
+  { host: ".ship-fold__pin", canvas: ".ship-hero__dots", pitch: 14, size: 2, alphas: [0.12], rgb: "0, 0, 0", morph: true },
+  // Carriers hero 1, blue with a sparse white grid.
+  { host: ".carriers-hero", canvas: ".page-hero__dots", pitch: 24, size: 2, alphas: [0.17] },
+  // Mission hero 1, black with a sparse white grid.
+  { host: ".mission-hero", canvas: ".page-hero__dots", pitch: 24, size: 2, alphas: [0.12] },
+];
+
+// Page-load intro: the white logo on blue, redrawn as dots that fly out to
+// the page's dot grid (continued across the whole window), then the blue
+// fades to reveal the page.
+function initIntro() {
+  const intro = document.querySelector(".intro");
+  const logo = intro?.querySelector(".intro__logo");
+  const canvas = intro?.querySelector(".intro__dots");
+  const ctx = canvas?.getContext("2d");
+  if (!intro || !logo || !ctx) return;
+  intro.style.animation = "none";
+
+  const grid = DOT_GRIDS.find((g) => document.querySelector(`${g.host} ${g.canvas}`)) || {
+    pitch: 12,
+    size: 1.5,
+    alphas: [0.3],
+  };
+  const gridCanvas = grid.canvas && document.querySelector(`${grid.host} ${grid.canvas}`);
+  const HOLD = 500; // logo on screen before it breaks apart, ms
+  const DISPERSE = 1000; // breaking apart, ms
+  const BEND = 0.35; // most a path bows sideways, as a fraction of its length
+  const SAMPLE = 5; // spacing of the dots the logo is redrawn from, px
+  // The dots look settled once the burst is this far along (the easing leaves
+  // only a hair of travel after it). They then rest on the blue for PAUSE
+  // before the page fades in.
+  const SETTLED_AT = 0.65;
+  const PAUSE = 200; // ms
+
+  let finished = false;
+  function finish() {
+    if (finished) return;
+    finished = true;
+    intro.classList.add("is-done");
+    document.documentElement.dataset.introDone = "";
+    document.dispatchEvent(new Event("intro:done"));
+    setTimeout(() => intro.remove(), 450);
+  }
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    finish();
+    return;
+  }
+  // If frames never run (e.g. the tab opened in the background), still get
+  // out of the way.
+  setTimeout(finish, HOLD + DISPERSE + 1200);
+
+  const img = new Image();
+  img.src = "/logo.png";
+  img
+    .decode()
+    .then(() => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Opaque spots of the logo, in window coordinates.
+      const box = logo.getBoundingClientRect();
+      const lw = Math.max(1, Math.round(box.width));
+      const lh = Math.max(1, Math.round(box.height));
+      const probe = document.createElement("canvas");
+      probe.width = lw;
+      probe.height = lh;
+      const pctx = probe.getContext("2d");
+      pctx.drawImage(img, 0, 0, lw, lh);
+      const alpha = pctx.getImageData(0, 0, lw, lh).data;
+      const srcX = [];
+      const srcY = [];
+      for (let y = 0; y < lh; y += SAMPLE) {
+        for (let x = 0; x < lw; x += SAMPLE) {
+          if (alpha[(y * lw + x) * 4 + 3] > 128) {
+            srcX.push(box.left + x);
+            srcY.push(box.top + y);
+          }
+        }
+      }
+      if (!srcX.length) return finish();
+
+      // The hero grid's origin; its rows and columns carry on past the hero.
+      const origin = gridCanvas?.getBoundingClientRect() || { left: 0, top: 0 };
+      const { pitch, size: dot, alphas, blocks } = grid;
+      const i0 = Math.floor(-origin.left / pitch) - 1;
+      const i1 = Math.ceil((width - origin.left) / pitch);
+      const j0 = Math.floor(-origin.top / pitch) - 1;
+      const j1 = Math.ceil((height - origin.top) / pitch);
+      const count = (i1 - i0) * (j1 - j0);
+      const fromX = new Float32Array(count);
+      const fromY = new Float32Array(count);
+      const toX = new Float32Array(count);
+      const toY = new Float32Array(count);
+      // Bow of each path: its sideways control point for a quadratic curve.
+      const midX = new Float32Array(count);
+      const midY = new Float32Array(count);
+      const endAlpha = new Float32Array(count);
+      const duration = new Float32Array(count);
+      const mod3 = (n) => ((n % 3) + 3) % 3;
+      for (let j = j0, k = 0; j < j1; j += 1) {
+        for (let i = i0; i < i1; i += 1, k += 1) {
+          const s = Math.floor(Math.random() * srcX.length);
+          fromX[k] = srcX[s];
+          fromY[k] = srcY[s];
+          toX[k] = origin.left + pitch / 2 + i * pitch;
+          toY[k] = origin.top + pitch / 2 + j * pitch;
+          const bend = (Math.random() * 2 - 1) * BEND;
+          midX[k] = (fromX[k] + toX[k]) / 2 - (toY[k] - fromY[k]) * bend;
+          midY[k] = (fromY[k] + toY[k]) / 2 + (toX[k] - fromX[k]) * bend;
+          endAlpha[k] = alphas[blocks && mod3(i) < 2 && mod3(j) < 2 ? 1 : 0];
+          duration[k] = DISPERSE * (0.55 + Math.random() * 0.45);
+        }
+      }
+
+      function draw(elapsed) {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = `rgb(${grid.rgb || "255, 255, 255"})`;
+        for (let k = 0; k < count; k += 1) {
+          const p = Math.min(1, elapsed / duration[k]);
+          const e = 1 - (1 - p) ** 4;
+          const f = 1 - e;
+          const x = f * f * fromX[k] + 2 * f * e * midX[k] + e * e * toX[k];
+          const y = f * f * fromY[k] + 2 * f * e * midY[k] + e * e * toY[k];
+          const size = SAMPLE + (dot - SAMPLE) * e;
+          ctx.globalAlpha = 1 + (endAlpha[k] - 1) * e;
+          ctx.fillRect(x - size / 2, y - size / 2, size, size);
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      // The solid logo stays up until the burst, then quickly gives way to
+      // the dots, which start out drawn over it.
+      let start = 0;
+      let burst = false;
+      function tick(now) {
+        if (!start) start = now + HOLD;
+        const elapsed = now - start;
+        if (elapsed >= 0) {
+          if (!burst) {
+            burst = true;
+            logo.style.transition = "opacity 120ms ease";
+            logo.style.opacity = "0";
+          }
+          draw(elapsed);
+          if (elapsed >= DISPERSE * SETTLED_AT + PAUSE) finish();
+        }
+        if (elapsed < DISPERSE) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    })
+    .catch(finish);
+}
+
+initIntro();
+
 const WORDS_MS = 1700;
 
 const rotate = document.querySelector(".hero__rotate");
@@ -633,8 +803,9 @@ function initHubNetwork() {
 
   function applyStage(value) {
     if (!stage) return;
-    // Hold still for the first half of neighbor wave 1, then exit by wave end.
-    const leave = Math.min(1, Math.max(0, (value - 0.5) / 0.5));
+    // Moves off from the first scroll, alongside neighbor wave 1, and is gone
+    // by the wave's end.
+    const leave = Math.min(1, Math.max(0, value));
     stage.style.transform = `translateY(${-leave * 115}%)`;
     stage.style.opacity = String(1 - leave);
     stage.classList.toggle("is-away", leave >= 0.98);
@@ -666,7 +837,7 @@ function initHubNetwork() {
       mapSection.style.transform = "";
       return;
     }
-    const t = Math.min(1, Math.max(0, (value - 0.5) / 0.7));
+    const t = Math.min(1, Math.max(0, value / 1.2));
     const eased = t * t * (3 - 2 * t);
     const shift = Math.max(0, mapSection.offsetLeft - heroEl.offsetLeft);
     mapSection.style.transform = `translate(${(-shift * eased).toFixed(1)}px, ${(-18 * eased).toFixed(2)}%)`;
@@ -952,3 +1123,933 @@ function initContactMenu() {
 }
 
 initContactMenu();
+
+// A white dot grid drawn on `canvas` over `host`. Dots near the mouse are
+// pushed away from it and ease back to their grid spots once it moves on or
+// leaves the canvas. `pitch`, `size`, `alphas`, `rgb` and `blocks` are as in
+// DOT_GRIDS. `excludeBottom` returns how much of the host's bottom to leave bare.
+function initDotField(host, canvas, { pitch, size, alphas, rgb = "255, 255, 255", blocks = false, excludeBottom = () => 0 }) {
+  const ctx = canvas?.getContext("2d");
+  if (!host || !canvas || !ctx) return;
+  const colors = alphas.map((a) => `rgba(${rgb}, ${a})`);
+
+  const PITCH = pitch;
+  const SIZE = size; // dot diameter, px
+  const RADIUS = 150; // how far from the mouse dots are disturbed
+  const PUSH = 42; // how far the nearest dots are pushed, px
+  const EASE = 0.12; // fraction of the way to its target a dot moves per frame
+  const still = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  let width = 0;
+  let height = 0;
+  let homeX = new Float32Array(0);
+  let homeY = new Float32Array(0);
+  let bright = new Uint8Array(0);
+  let offX = new Float32Array(0);
+  let offY = new Float32Array(0);
+  let mouse = null; // pointer position in canvas coordinates, or null when away
+  let client = null; // last mouse position in the window, to re-aim after scrolling
+  let raf = 0;
+
+  function layout() {
+    width = host.clientWidth;
+    height = Math.max(0, host.clientHeight - excludeBottom());
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const cols = Math.ceil(width / PITCH);
+    const rows = Math.ceil(height / PITCH);
+    const count = cols * rows;
+    homeX = new Float32Array(count);
+    homeY = new Float32Array(count);
+    bright = new Uint8Array(count);
+    offX = new Float32Array(count);
+    offY = new Float32Array(count);
+    for (let j = 0, k = 0; j < rows; j += 1) {
+      for (let i = 0; i < cols; i += 1, k += 1) {
+        homeX[k] = PITCH / 2 + i * PITCH;
+        homeY[k] = PITCH / 2 + j * PITCH;
+        bright[k] = blocks && i % 3 < 2 && j % 3 < 2 ? 1 : 0;
+      }
+    }
+    draw();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    const half = SIZE / 2;
+    for (let level = 0; level < colors.length; level += 1) {
+      ctx.fillStyle = colors[level];
+      ctx.beginPath();
+      for (let k = 0; k < homeX.length; k += 1) {
+        if (bright[k] === level) ctx.rect(homeX[k] + offX[k] - half, homeY[k] + offY[k] - half, SIZE, SIZE);
+      }
+      ctx.fill();
+    }
+  }
+
+  // Moves every dot a step toward its target (pushed away from the mouse, or
+  // home). Returns true while anything is still moving.
+  function step() {
+    let moving = false;
+    const r2 = RADIUS * RADIUS;
+    for (let k = 0; k < homeX.length; k += 1) {
+      let tx = 0;
+      let ty = 0;
+      if (mouse) {
+        const dx = homeX[k] - mouse.x;
+        const dy = homeY[k] - mouse.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < r2) {
+          const d = Math.sqrt(d2) || 1;
+          const falloff = 1 - d / RADIUS;
+          const push = PUSH * falloff * falloff;
+          tx = (dx / d) * push;
+          ty = (dy / d) * push;
+        }
+      }
+      const ex = tx - offX[k];
+      const ey = ty - offY[k];
+      if (Math.abs(ex) > 0.05 || Math.abs(ey) > 0.05) {
+        offX[k] += ex * EASE;
+        offY[k] += ey * EASE;
+        moving = true;
+      } else {
+        offX[k] = tx;
+        offY[k] = ty;
+      }
+    }
+    return moving;
+  }
+
+  function tick() {
+    raf = 0;
+    const moving = step();
+    draw();
+    if (moving) raf = requestAnimationFrame(tick);
+  }
+
+  function wake() {
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+
+  function aim() {
+    if (!client) return;
+    const r = canvas.getBoundingClientRect();
+    const x = client.x - r.left;
+    const y = client.y - r.top;
+    const inside = x >= 0 && y >= 0 && x <= r.width && y <= r.height;
+    if (!inside && !mouse) return;
+    mouse = inside ? { x, y } : null;
+    wake();
+  }
+
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+      if (event.pointerType !== "mouse" || still.matches) return;
+      client = { x: event.clientX, y: event.clientY };
+      aim();
+    },
+    { passive: true }
+  );
+  window.addEventListener("scroll", aim, { passive: true });
+  document.documentElement.addEventListener("mouseleave", () => {
+    client = null;
+    if (!mouse) return;
+    mouse = null;
+    wake();
+  });
+
+  if ("ResizeObserver" in window) new ResizeObserver(layout).observe(host);
+  else window.addEventListener("resize", layout);
+  layout();
+}
+
+// Shippers hero 1: the example load's updates come in one at a time, starting
+// once the page-load intro is out of the way.
+function initShipFeed() {
+  const feed = document.querySelector(".ship-feed");
+  const items = feed ? [...feed.querySelectorAll(".ship-feed__item")] : [];
+  if (!items.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const FIRST = 300; // ms after the intro
+  const EVERY = 900; // ms between updates
+  feed.classList.add("is-sequenced");
+  const run = () => items.forEach((item, i) => setTimeout(() => item.classList.add("is-in"), FIRST + i * EVERY));
+  if (!document.querySelector(".intro") || "introDone" in document.documentElement.dataset) run();
+  else document.addEventListener("intro:done", run, { once: true });
+}
+
+initShipFeed();
+
+// Words of [data-type-words] blocks come in one at a time like an old
+// terminal, once the page-load intro clears: each flickers through random
+// glyphs before settling, with a block cursor riding the newest word.
+// Blocks share one running order.
+function initTypeWords() {
+  const blocks = [...document.querySelectorAll("[data-type-words]")];
+  if (!blocks.length || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const EVERY = 110; // ms between words starting
+  const STEP = 45; // ms per scrambled frame
+  const STEPS = 5; // scrambled frames before a word settles
+  const GLYPHS = "!<>-_\\/[]{}=+*^?#01$%&";
+  const words = [];
+  for (const block of blocks) {
+    const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+    const texts = [];
+    while (walker.nextNode()) if (walker.currentNode.textContent.trim()) texts.push(walker.currentNode);
+    for (const text of texts) {
+      const frag = document.createDocumentFragment();
+      for (const part of text.textContent.split(/(\s+)/)) {
+        if (!part) continue;
+        if (/^\s+$/.test(part)) {
+          frag.append(part);
+          continue;
+        }
+        const word = document.createElement("span");
+        word.className = "type-word";
+        word.textContent = part;
+        words.push(word);
+        frag.append(word);
+      }
+      text.replaceWith(frag);
+    }
+    block.classList.add("is-typing");
+  }
+
+  // The scramble sits over the real word, which keeps the line's layout.
+  const scramble = (length) =>
+    Array.from({ length }, () => GLYPHS[Math.floor(Math.random() * GLYPHS.length)]).join("");
+  const cursor = document.createElement("span");
+  cursor.className = "type-cursor";
+  cursor.setAttribute("aria-hidden", "true");
+
+  // Each word's state follows from the time since the start, so a slow or
+  // paused frame never leaves a word stuck mid-scramble.
+  const state = words.map(() => ({ frame: -1, noise: null }));
+  let start = 0;
+  function frame(now) {
+    if (!start) start = now;
+    let done = true;
+    words.forEach((word, i) => {
+      const s = state[i];
+      const step = Math.floor((now - start - i * EVERY) / STEP);
+      if (step < 0) {
+        done = false;
+        return;
+      }
+      if (s.frame < 0) {
+        s.noise = document.createElement("span");
+        s.noise.className = "type-word__noise";
+        s.noise.setAttribute("aria-hidden", "true");
+        word.append(s.noise, cursor);
+        word.classList.add("is-on", "is-decoding");
+      }
+      if (step < STEPS) {
+        done = false;
+        if (step !== s.frame) s.noise.textContent = scramble(word.firstChild.textContent.length);
+      } else if (s.noise) {
+        s.noise.remove();
+        s.noise = null;
+        word.classList.remove("is-decoding");
+      }
+      s.frame = step;
+    });
+    if (done) cursor.classList.add("is-idle");
+    else requestAnimationFrame(frame);
+  }
+
+  // Starts once the first block is well into the window.
+  const run = () => {
+    const seen = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        seen.disconnect();
+        requestAnimationFrame(frame);
+      },
+      { threshold: 0.5 },
+    );
+    seen.observe(blocks[0]);
+  };
+  if (!document.querySelector(".intro") || "introDone" in document.documentElement.dataset) run();
+  else document.addEventListener("intro:done", run, { once: true });
+}
+
+initTypeWords();
+
+// Shippers: scrolling gathers the dots into the circle. "Our Process" is a hole
+// the dots never fill. More scrolling reveals Book It, then Move It, then Forget It.
+function initShipMark() {
+  const pin = document.querySelector(".ship-fold__pin");
+  const fold = document.querySelector(".ship-fold");
+  const canvas = pin?.querySelector(".ship-hero__dots");
+  const grid = DOT_GRIDS.find((g) => g.morph);
+  if (!pin || !fold || !canvas || !grid) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    initDotField(pin, canvas, grid);
+    return;
+  }
+
+  const ctx = canvas.getContext("2d");
+  const { pitch: PITCH, size: SIZE } = grid;
+  const LOGO_DOT = 2.15;
+  const RADIUS = 150;
+  const PUSH = 42;
+  const EASE = 0.12;
+  const WORDS = ["Our", "Process"];
+
+  let width = 0;
+  let height = 0;
+  let homeX = new Float32Array(0);
+  let homeY = new Float32Array(0);
+  let toX = new Float32Array(0);
+  let toY = new Float32Array(0);
+  let keep = new Uint8Array(0);
+  let kind = new Uint8Array(0); // 1 word, 0 stays in the grid and fades
+  let ang0 = new Float32Array(0);
+  let rad0 = new Float32Array(0);
+  let ang1 = new Float32Array(0);
+  let rad1 = new Float32Array(0);
+  let lag = new Float32Array(0);
+  let offX = new Float32Array(0);
+  let offY = new Float32Array(0);
+  let logoReady = false;
+  let logoBox = null; // crisp words, kept on top of the circle
+  let ringRadius = 0;
+  let circleDot = LOGO_DOT;
+  const boxes = pin.querySelectorAll(".ship-box");
+  let open = null;
+
+  // The crossing point springs toward the hovered box. A spring keeps its
+  // velocity when the target changes, so sweeping across boxes stays smooth.
+  const SPLIT = { book: [60, 60], move: [40, 60], forget: [50, 40] };
+  const split = { x: 50, y: 50, vx: 0, vy: 0, tx: 50, ty: 50, raf: 0, last: 0 };
+  function splitStep(now) {
+    const dt = Math.min(0.05, (now - (split.last || now)) / 1000) || 1 / 60;
+    split.last = now;
+    const k = 90;
+    const c = 2 * Math.sqrt(k) * 0.95;
+    split.vx += (k * (split.tx - split.x) - c * split.vx) * dt;
+    split.vy += (k * (split.ty - split.y) - c * split.vy) * dt;
+    split.x += split.vx * dt;
+    split.y += split.vy * dt;
+    const settled =
+      Math.abs(split.tx - split.x) < 0.01 &&
+      Math.abs(split.ty - split.y) < 0.01 &&
+      Math.abs(split.vx) < 0.01 &&
+      Math.abs(split.vy) < 0.01;
+    if (settled) {
+      split.x = split.tx;
+      split.y = split.ty;
+    }
+    fold.style.setProperty("--ship-x", split.x.toFixed(3));
+    fold.style.setProperty("--ship-y", split.y.toFixed(3));
+    split.raf = settled ? 0 : requestAnimationFrame(splitStep);
+    if (settled) split.last = 0;
+  }
+  function aimSplit(x, y) {
+    split.tx = x;
+    split.ty = y;
+    if (!split.raf) split.raf = requestAnimationFrame(splitStep);
+  }
+  // Clicking a box grows it a step past the hover size and shows its details.
+  const OPEN = { book: [68, 68], move: [32, 68], forget: [50, 30] };
+  let active = null;
+  function expand(box) {
+    if (active === box) return;
+    if (active) collapse(false);
+    active = box;
+    box.classList.add("is-active");
+    fold.classList.add("has-active");
+    box.querySelector(".ship-box__open").setAttribute("aria-expanded", "true");
+    aimSplit(...OPEN[box.dataset.zone]);
+  }
+  function collapse(refocus = true) {
+    if (!active) return;
+    const box = active;
+    active = null;
+    box.classList.remove("is-active");
+    fold.classList.remove("has-active");
+    const opener = box.querySelector(".ship-box__open");
+    opener.setAttribute("aria-expanded", "false");
+    if (refocus) opener.focus({ preventScroll: true });
+    const hovered = box.matches(":hover") || box.contains(document.activeElement);
+    aimSplit(...(hovered && open ? SPLIT[box.dataset.zone] : [50, 50]));
+  }
+  for (const box of boxes) {
+    const aim = () => {
+      if (open && !active) aimSplit(...SPLIT[box.dataset.zone]);
+    };
+    const rest = () => {
+      if (!active) aimSplit(50, 50);
+    };
+    box.addEventListener("pointerenter", aim);
+    box.addEventListener("focusin", aim);
+    box.addEventListener("focusout", rest);
+    // Clicking the open box again, anywhere on it, closes it.
+    box.addEventListener("click", () => {
+      if (active === box) collapse();
+      else if (open) expand(box);
+    });
+  }
+  pin.querySelector(".ship-boxes")?.addEventListener("pointerleave", () => {
+    if (!active) aimSplit(50, 50);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && active) collapse();
+  });
+  let mouse = null;
+  let client = null;
+  let raf = 0;
+
+  function clamp01(value) {
+    return Math.min(1, Math.max(0, value));
+  }
+
+  function smooth(value) {
+    const t = clamp01(value);
+    return t * t * (3 - 2 * t);
+  }
+
+  // Dots gather into the circle and leave the words as an unfilled cutout.
+  // The three sections then fade in together.
+  function phases() {
+    const hero1 = fold.querySelector(".ship-hero--1");
+    const hero1End = hero1.getBoundingClientRect().top + window.scrollY + hero1.offsetHeight;
+    const release = fold.getBoundingClientRect().top + window.scrollY + fold.offsetHeight - window.innerHeight;
+    const room = Math.max(window.innerHeight, release - hero1End);
+    const gatherEnd = hero1End + room * 0.52;
+    const wordT = smooth(clamp01(window.scrollY / Math.max(1, gatherEnd)));
+    const after = clamp01((window.scrollY - gatherEnd) / Math.max(1, release - gatherEnd));
+    const reveal = smooth(clamp01(after / 0.8));
+    return { wordT, reveal };
+  }
+
+  function layout() {
+    width = pin.clientWidth;
+    height = pin.clientHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const cols = Math.ceil(width / PITCH);
+    const rows = Math.ceil(height / PITCH);
+    const count = cols * rows;
+    homeX = new Float32Array(count);
+    homeY = new Float32Array(count);
+    toX = new Float32Array(count);
+    toY = new Float32Array(count);
+    keep = new Uint8Array(count);
+    kind = new Uint8Array(count);
+    ang0 = new Float32Array(count);
+    rad0 = new Float32Array(count);
+    ang1 = new Float32Array(count);
+    rad1 = new Float32Array(count);
+    lag = new Float32Array(count);
+    offX = new Float32Array(count);
+    offY = new Float32Array(count);
+    for (let j = 0, k = 0; j < rows; j += 1) {
+      for (let i = 0; i < cols; i += 1, k += 1) {
+        homeX[k] = PITCH / 2 + i * PITCH;
+        homeY[k] = PITCH / 2 + j * PITCH;
+        toX[k] = homeX[k];
+        toY[k] = homeY[k];
+      }
+    }
+    if (!logoReady) {
+      draw();
+      return;
+    }
+
+    const rem = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const fontSize = Math.round(Math.min(width * 0.045, 2.6 * rem));
+    const scratch = document.createElement("canvas").getContext("2d");
+    scratch.font = `800 ${fontSize}px "Cabinet Grotesk", sans-serif`;
+    const lineH = Math.round(fontSize * 1.02);
+    const lw = Math.ceil(Math.max(...WORDS.map((word) => scratch.measureText(word).width)));
+    const lh = lineH * WORDS.length;
+    const left = (width - lw) / 2;
+    const top = (height - lh) / 2;
+    const dprMark = window.devicePixelRatio || 1;
+    const mark = document.createElement("canvas");
+    mark.width = Math.max(1, Math.round(lw * dprMark));
+    mark.height = Math.max(1, Math.round(lh * dprMark));
+    const mctx = mark.getContext("2d");
+    mctx.scale(dprMark, dprMark);
+    mctx.font = `800 ${fontSize}px "Cabinet Grotesk", sans-serif`;
+    mctx.fillStyle = "#111";
+    mctx.textAlign = "center";
+    mctx.textBaseline = "middle";
+    WORDS.forEach((word, i) => mctx.fillText(word, lw / 2, lineH * i + lineH / 2));
+    logoBox = { left, top, lw, lh, mark };
+    const ring = Math.ceil(lw + fontSize * 0.55);
+    ringRadius = ring / 2;
+    fold.style.setProperty("--ship-type", `${fontSize}px`);
+    fold.style.setProperty("--ship-ring", `${ring}px`);
+    const cx = width / 2;
+    const cy = height / 2;
+    const gatherR = Math.min(width, height) * 0.5;
+    // The rim wobbles, so the cloud's edge is jagged instead of a clean circle.
+    const tooth = (angle) => {
+      const s = Math.sin(Math.floor(angle * 18) * 12.9898) * 43758.5453;
+      return s - Math.floor(s);
+    };
+    const rim = (angle) => {
+      const lobes = Math.sin(angle * 5 + 0.6) * 0.22 + Math.sin(angle * 9 + 2.1) * 0.14;
+      const teeth = (tooth(angle) - 0.5) * 0.55;
+      return Math.max(0.62, Math.min(1, 0.82 + lobes + teeth));
+    };
+    const pool = [];
+    for (let k = 0; k < count; k += 1) {
+      const dx = homeX[k] - cx;
+      const dy = homeY[k] - cy;
+      const dist = Math.hypot(dx, dy);
+      const limit = gatherR * rim(Math.atan2(dy, dx));
+      if (dist <= limit) pool.push(k);
+    }
+    const budget = Math.max(1, pool.length);
+    // Dots swell as they land until they merge into the solid circle, so each
+    // one has to land far enough inside the edge to stay within it.
+    // Sized so randomly placed dots cover about 99% of the circle once landed.
+    circleDot = Math.min(12, Math.max(4, (ringRadius * 4.4) / Math.sqrt(budget)));
+    const circleR = Math.max(1, ringRadius - circleDot / 2);
+    // Random spots inside the circle, so the landed dots never read as a grid.
+    const wordPts = [];
+    for (let n = 0; n < budget; n += 1) {
+      const r = circleR * Math.sqrt(Math.random());
+      const a = Math.random() * Math.PI * 2;
+      wordPts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r]);
+    }
+    if (!wordPts.length) {
+      draw();
+      return;
+    }
+    for (let i = pool.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const swap = pool[i];
+      pool[i] = pool[j];
+      pool[j] = swap;
+    }
+    const used = Math.min(wordPts.length, pool.length);
+    for (let n = 0; n < used; n += 1) {
+      const k = pool[n];
+      const point = wordPts[n];
+      kind[k] = 1;
+      keep[k] = 1;
+      toX[k] = point[0];
+      toY[k] = point[1];
+      const hx = homeX[k] - cx;
+      const hy = homeY[k] - cy;
+      const tx = point[0] - cx;
+      const ty = point[1] - cy;
+      ang0[k] = Math.atan2(hy, hx);
+      rad0[k] = Math.hypot(hx, hy);
+      ang1[k] = Math.atan2(ty, tx);
+      rad1[k] = Math.hypot(tx, ty);
+      lag[k] = Math.random();
+    }
+    draw();
+  }
+
+  function draw() {
+    const idle = { wordT: 0, reveal: 0 };
+    const { wordT, reveal } = logoReady ? phases() : idle;
+    fold.style.setProperty("--ship-reveal", reveal.toFixed(4));
+    // Boxes respond to hover and clicks a little before they finish fading in.
+    const isOpen = reveal >= 0.9;
+    if (isOpen !== open) {
+      open = isOpen;
+      fold.classList.toggle("is-open", isOpen);
+      for (const box of boxes) {
+        const opener = box.querySelector(".ship-box__open");
+        if (isOpen) opener.removeAttribute("tabindex");
+        else opener.setAttribute("tabindex", "-1");
+      }
+      if (isOpen) {
+        const hovered = [...boxes].find((box) => box.matches(":hover"));
+        hovered?.dispatchEvent(new Event("pointerenter"));
+      } else {
+        collapse(false);
+        aimSplit(50, 50);
+      }
+    }
+    // One motion: as the dots close in they swell until they cover the circle
+    // themselves. The solid fill only closes the last gaps at the very end.
+    const solid = smooth(clamp01((wordT - 0.9) / 0.1));
+    const dotsOut = wordT >= 1 ? 1 : 0;
+    ctx.clearRect(0, 0, width, height);
+    if (solid > 0 && ringRadius > 0) {
+      ctx.globalAlpha = solid;
+      ctx.fillStyle = "#111";
+      ctx.beginPath();
+      ctx.arc(width / 2, height / 2, ringRadius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.fillStyle = "#111";
+    const count = homeX.length;
+    for (let pass = 0; pass < 2; pass += 1) {
+      for (let k = 0; k < count; k += 1) {
+        const wordDot = kind[k] === 1;
+        if ((pass === 1) !== wordDot) continue;
+        // The spare grid fades early. The rest of the dots settle into the circle.
+        const fade = smooth(Math.min(1, wordT / 0.32));
+        const opacity = wordDot ? (0.12 + 0.88 * wordT) * (1 - dotsOut) : 0.12 * (1 - fade);
+        if (opacity < 0.015) continue;
+        const size = wordDot ? SIZE + (circleDot - SIZE) * wordT * wordT * wordT : SIZE;
+        const scatter = 1 - wordT;
+        let x;
+        let y;
+        if (wordDot) {
+          const settle = smooth(clamp01((wordT - lag[k] * 0.14) / 0.86));
+          x = homeX[k] + (toX[k] - homeX[k]) * settle + offX[k] * scatter;
+          y = homeY[k] + (toY[k] - homeY[k]) * settle + offY[k] * scatter;
+        } else {
+          x = homeX[k] + offX[k] * scatter;
+          y = homeY[k] + offY[k] * scatter;
+        }
+        ctx.globalAlpha = opacity;
+        ctx.beginPath();
+        ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    // The words are a cutout of the real letter shapes, not missing dots.
+    if (logoBox) {
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.globalAlpha = 1;
+      ctx.drawImage(logoBox.mark, logoBox.left, logoBox.top, logoBox.lw, logoBox.lh);
+      ctx.restore();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function step() {
+    let moving = false;
+    if (!mouse) {
+      for (let k = 0; k < offX.length; k += 1) {
+        if (Math.abs(offX[k]) > 0.05 || Math.abs(offY[k]) > 0.05) {
+          offX[k] *= 1 - EASE;
+          offY[k] *= 1 - EASE;
+          moving = true;
+        } else {
+          offX[k] = 0;
+          offY[k] = 0;
+        }
+      }
+      return moving;
+    }
+    const r2 = RADIUS * RADIUS;
+    for (let k = 0; k < homeX.length; k += 1) {
+      let tx = 0;
+      let ty = 0;
+      const dx = homeX[k] - mouse.x;
+      const dy = homeY[k] - mouse.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 < r2) {
+        const d = Math.sqrt(d2) || 1;
+        const falloff = 1 - d / RADIUS;
+        const push = PUSH * falloff * falloff;
+        tx = (dx / d) * push;
+        ty = (dy / d) * push;
+      }
+      const ex = tx - offX[k];
+      const ey = ty - offY[k];
+      if (Math.abs(ex) > 0.05 || Math.abs(ey) > 0.05) {
+        offX[k] += ex * EASE;
+        offY[k] += ey * EASE;
+        moving = true;
+      } else {
+        offX[k] = tx;
+        offY[k] = ty;
+      }
+    }
+    return moving;
+  }
+
+  function tick() {
+    raf = 0;
+    const moving = step();
+    draw();
+    if (moving) raf = requestAnimationFrame(tick);
+  }
+
+  function wake() {
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+
+  function aim() {
+    if (!client) return;
+    const r = canvas.getBoundingClientRect();
+    const x = client.x - r.left;
+    const y = client.y - r.top;
+    const inside = x >= 0 && y >= 0 && x <= r.width && y <= r.height;
+    if (!inside && !mouse) return;
+    mouse = inside ? { x, y } : null;
+    wake();
+  }
+
+  window.addEventListener(
+    "pointermove",
+    (event) => {
+      if (event.pointerType !== "mouse") return;
+      client = { x: event.clientX, y: event.clientY };
+      aim();
+    },
+    { passive: true }
+  );
+  window.addEventListener(
+    "scroll",
+    () => {
+      aim();
+      draw();
+    },
+    { passive: true }
+  );
+  document.documentElement.addEventListener("mouseleave", () => {
+    client = null;
+    if (!mouse) return;
+    mouse = null;
+    wake();
+  });
+
+  document.fonts
+    .load('800 64px "Cabinet Grotesk"')
+    .then(() => {
+      logoReady = true;
+      layout();
+    })
+    .catch(() => {
+      logoReady = true;
+      layout();
+    });
+
+  if ("ResizeObserver" in window) new ResizeObserver(layout).observe(pin);
+  else window.addEventListener("resize", layout);
+  layout();
+}
+
+initShipMark();
+
+// Shippers rate form: the load picker and the date and time picker open popups,
+// so the ZIP codes are the only typed fields.
+function initShipRate() {
+  const form = document.querySelector(".ship-rate__form");
+  if (!form) return;
+  let openPop = null;
+
+  function closePop(refocus = true) {
+    if (!openPop) return;
+    const { pop, pick } = openPop;
+    pop.hidden = true;
+    pick.setAttribute("aria-expanded", "false");
+    openPop = null;
+    if (refocus) pick.focus();
+  }
+
+  function showPop(entry) {
+    if (openPop === entry) return closePop();
+    closePop(false);
+    entry.pop.hidden = false;
+    entry.pick.setAttribute("aria-expanded", "true");
+    openPop = entry;
+    entry.onOpen();
+  }
+
+  document.addEventListener("click", (event) => {
+    if (openPop && !openPop.field.contains(event.target)) closePop(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && openPop) closePop();
+  });
+
+  // What you're shipping.
+  const loadField = form.querySelector(".ship-rate__field--load");
+  const loadPick = loadField.querySelector(".ship-rate__pick");
+  const loadList = loadField.querySelector(".ship-pop");
+  const loadInput = loadField.querySelector("input[name='load']");
+  const options = [...loadList.querySelectorAll("[role='option']")];
+  let current = 0;
+  options.forEach((option, i) => {
+    option.id = `ship-rate-load-${i}`;
+    option.addEventListener("click", () => choose(i));
+    option.addEventListener("mousemove", () => highlight(i));
+  });
+  function highlight(i) {
+    current = (i + options.length) % options.length;
+    options.forEach((option, k) => option.classList.toggle("is-current", k === current));
+    loadList.setAttribute("aria-activedescendant", options[current].id);
+  }
+  function choose(i) {
+    const text = options[i].textContent;
+    options.forEach((option, k) => option.setAttribute("aria-selected", String(k === i)));
+    loadInput.value = text;
+    loadPick.querySelector(".ship-rate__value").textContent = text;
+    loadPick.setAttribute("aria-label", `What you’re shipping: ${text}`);
+    closePop();
+  }
+  const load = {
+    field: loadField,
+    pick: loadPick,
+    pop: loadList,
+    onOpen() {
+      highlight(Math.max(0, options.findIndex((o) => o.getAttribute("aria-selected") === "true")));
+      loadList.focus();
+    },
+  };
+  loadList.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowDown") highlight(current + 1);
+    else if (event.key === "ArrowUp") highlight(current - 1);
+    else if (event.key === "Home") highlight(0);
+    else if (event.key === "End") highlight(options.length - 1);
+    else if (event.key === "Enter" || event.key === " ") choose(current);
+    else if (event.key === "Tab") closePop(false);
+    else return;
+    event.preventDefault();
+  });
+  loadPick.addEventListener("click", () => showPop(load));
+  loadPick.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    event.preventDefault();
+    if (openPop !== load) showPop(load);
+  });
+
+  // Pickup date and time.
+  const dateField = form.querySelector(".ship-rate__field--date");
+  const datePick = dateField.querySelector(".ship-rate__pick");
+  const cal = dateField.querySelector(".ship-pop");
+  const dateInput = dateField.querySelector("input[name='date']");
+  const timeInput = dateField.querySelector("input[name='time']");
+  const monthLabel = cal.querySelector(".ship-cal__month");
+  const daysEl = cal.querySelector(".ship-cal__days");
+  const timesEl = cal.querySelector(".ship-cal__times");
+  const done = cal.querySelector(".ship-cal__done");
+  const prev = cal.querySelector(".ship-cal__nav[data-step='-1']");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  let view = new Date(firstMonth);
+  let pickedDay = null;
+  let pickedTime = null;
+
+  const TIMES = [];
+  for (let minutes = 7 * 60; minutes <= 17 * 60; minutes += 60) TIMES.push(minutes);
+  const timeText = (minutes) => {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return `${h % 12 || 12}${m ? `:${String(m).padStart(2, "0")}` : ""} ${h < 12 ? "AM" : "PM"}`;
+  };
+  const sameDay = (a, b) => a && b && a.getTime() === b.getTime();
+  const iso = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+  for (const minutes of TIMES) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = timeText(minutes);
+    button.setAttribute("aria-pressed", "false");
+    button.addEventListener("click", () => {
+      pickedTime = minutes;
+      for (const b of timesEl.children) b.setAttribute("aria-pressed", String(b === button));
+      done.disabled = !pickedDay;
+    });
+    timesEl.append(button);
+  }
+
+  function renderMonth() {
+    monthLabel.textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    prev.disabled = view <= firstMonth;
+    daysEl.replaceChildren();
+    for (let i = 0; i < view.getDay(); i += 1) daysEl.append(document.createElement("span"));
+    const count = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    for (let n = 1; n <= count; n += 1) {
+      const day = new Date(view.getFullYear(), view.getMonth(), n);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = String(n);
+      button.setAttribute("aria-label", day.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }));
+      button.setAttribute("aria-pressed", String(sameDay(day, pickedDay)));
+      button.disabled = day < today;
+      if (sameDay(day, today)) button.classList.add("is-today");
+      button.addEventListener("click", () => {
+        pickedDay = day;
+        for (const b of daysEl.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b === button));
+        done.disabled = pickedTime === null;
+      });
+      daysEl.append(button);
+    }
+  }
+
+  for (const nav of cal.querySelectorAll(".ship-cal__nav")) {
+    nav.addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + Number(nav.dataset.step), 1);
+      renderMonth();
+    });
+  }
+
+  done.addEventListener("click", () => {
+    const weekday = pickedDay.toLocaleDateString("en-US", { weekday: "short" });
+    const text = `${weekday} ${pickedDay.getMonth() + 1}/${pickedDay.getDate()}, ${timeText(pickedTime)}`;
+    dateInput.value = iso(pickedDay);
+    timeInput.value = `${String(Math.floor(pickedTime / 60)).padStart(2, "0")}:${String(pickedTime % 60).padStart(2, "0")}`;
+    const value = datePick.querySelector(".ship-rate__value");
+    value.textContent = text;
+    value.classList.remove("is-empty");
+    datePick.setAttribute("aria-label", `Pickup date and time: ${text}`);
+    closePop();
+  });
+
+  const date = {
+    field: dateField,
+    pick: datePick,
+    pop: cal,
+    onOpen() {
+      if (pickedDay) view = new Date(pickedDay.getFullYear(), pickedDay.getMonth(), 1);
+      renderMonth();
+      (daysEl.querySelector("button[aria-pressed='true']") || daysEl.querySelector("button:not(:disabled)"))?.focus();
+    },
+  };
+  datePick.addEventListener("click", () => showPop(date));
+}
+
+initShipRate();
+
+// Shippers: the header scrolls away with hero 1 and comes back once hero 3
+// reaches the top of the window.
+function initShipHeader() {
+  const header = document.querySelector(".page-shippers .site-header");
+  const after = document.querySelector(".ship-rate");
+  if (!header || !after) return;
+  let docked = false;
+  function update() {
+    const dock = after.getBoundingClientRect().top < 1;
+    if (dock === docked) return;
+    docked = dock;
+    document.body.style.paddingTop = dock ? `${header.offsetHeight}px` : "";
+    header.classList.toggle("is-docked", dock);
+  }
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+}
+
+initShipHeader();
+
+// The homepage grid stops at the black carrier bar.
+for (const grid of DOT_GRIDS) {
+  if (grid.morph) continue;
+  const host = document.querySelector(grid.host);
+  initDotField(host, host?.querySelector(grid.canvas), {
+    ...grid,
+    excludeBottom: () => host.querySelector(".carriers")?.offsetHeight || 0,
+  });
+}
