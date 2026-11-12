@@ -2082,7 +2082,7 @@ function initQuoteForm() {
   for (const dd of form.querySelectorAll("[data-ticket]")) cells[dd.dataset.ticket] = dd;
   const field = (name) => form.elements[name];
   const ROAD_FACTOR = 1.2;
-  const MODES = { ftl: "FTL", ltl: "LTL", ptl: "PTL", unsure: "Not sure — we’ll recommend" };
+  const MODES = { ftl: "FTL", ltl: "LTL", ptl: "PTL", unsure: "Not sure, we'll recommend" };
   const places = {};
 
   const params = new URLSearchParams(window.location.search);
@@ -2220,7 +2220,127 @@ function initQuoteForm() {
   updateFreight();
 }
 
+// Swaps each quote-page <select> for a site-styled listbox. The native select
+// stays in the form (hidden) so its value is what gets submitted.
+function initQuoteSelects() {
+  let uid = 0;
+  for (const select of document.querySelectorAll(".quote-field select")) {
+    const id = `quote-select-${uid++}`;
+    const wrap = document.createElement("div");
+    wrap.className = "quote-select";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quote-select__btn";
+    button.setAttribute("aria-haspopup", "listbox");
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", id);
+    const labelledBy = select.getAttribute("aria-labelledby");
+    const valueSpan = document.createElement("span");
+    valueSpan.className = "quote-select__value";
+    valueSpan.id = `${id}-value`;
+    button.setAttribute("aria-labelledby", labelledBy ? `${labelledBy} ${valueSpan.id}` : valueSpan.id);
+    const chevron = document.createElement("span");
+    chevron.className = "quote-select__chevron";
+    chevron.setAttribute("aria-hidden", "true");
+    button.append(valueSpan, chevron);
+
+    const list = document.createElement("ul");
+    list.className = "quote-select__list";
+    list.id = id;
+    list.setAttribute("role", "listbox");
+    list.tabIndex = -1;
+    list.hidden = true;
+    if (labelledBy) list.setAttribute("aria-labelledby", labelledBy);
+    const items = Array.prototype.map.call(select.options, (option, index) => {
+      const li = document.createElement("li");
+      li.id = `${id}-opt-${index}`;
+      li.setAttribute("role", "option");
+      li.textContent = option.textContent;
+      li.addEventListener("click", () => choose(index));
+      li.addEventListener("mousemove", () => highlight(index));
+      list.appendChild(li);
+      return li;
+    });
+
+    select.hidden = true;
+    select.tabIndex = -1;
+    select.parentNode.insertBefore(wrap, select);
+    wrap.append(button, list, select);
+
+    let active = 0;
+    function sync() {
+      valueSpan.textContent = select.options[select.selectedIndex].textContent;
+      items.forEach((li, index) => li.setAttribute("aria-selected", String(index === select.selectedIndex)));
+    }
+    function highlight(index) {
+      active = Math.max(0, Math.min(items.length - 1, index));
+      items.forEach((li, i) => li.classList.toggle("is-active", i === active));
+      list.setAttribute("aria-activedescendant", items[active].id);
+      const li = items[active];
+      if (li.offsetTop < list.scrollTop) list.scrollTop = li.offsetTop;
+      else if (li.offsetTop + li.offsetHeight > list.scrollTop + list.clientHeight) list.scrollTop = li.offsetTop + li.offsetHeight - list.clientHeight;
+    }
+    function open() {
+      list.hidden = false;
+      wrap.classList.add("is-open");
+      button.setAttribute("aria-expanded", "true");
+      highlight(select.selectedIndex);
+      list.focus();
+    }
+    function close(refocus) {
+      if (list.hidden) return;
+      list.hidden = true;
+      wrap.classList.remove("is-open");
+      button.setAttribute("aria-expanded", "false");
+      if (refocus) button.focus();
+    }
+    function choose(index) {
+      if (index !== select.selectedIndex) {
+        select.selectedIndex = index;
+        select.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+      sync();
+      close(true);
+    }
+
+    button.addEventListener("mousedown", (event) => {
+      if (!list.hidden) event.preventDefault();
+    });
+    button.addEventListener("click", () => (list.hidden ? open() : close(true)));
+    button.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        open();
+      }
+    });
+    list.addEventListener("keydown", (event) => {
+      const keys = { ArrowDown: active + 1, ArrowUp: active - 1, Home: 0, End: items.length - 1 };
+      if (event.key in keys) {
+        event.preventDefault();
+        highlight(keys[event.key]);
+      } else if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        choose(active);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        close(true);
+      } else if (event.key === "Tab") {
+        close(false);
+      }
+    });
+    document.addEventListener("mousedown", (event) => {
+      if (!wrap.contains(event.target)) close(false);
+    });
+    list.addEventListener("blur", (event) => {
+      if (!wrap.contains(event.relatedTarget)) close(false);
+    });
+    select.addEventListener("change", sync);
+    sync();
+  }
+}
+
 initQuoteForm();
+initQuoteSelects();
 
 // The homepage grid stops at the black carrier bar.
 for (const grid of DOT_GRIDS) {

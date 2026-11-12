@@ -9,7 +9,7 @@
       href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/css/style.css?v=277" />
+    <link rel="stylesheet" href="/css/style.css?v=279" />
   </head>
   <body class="page-quote">
     <header class="quote-header">
@@ -64,9 +64,9 @@
                 <input name="weight" type="text" inputmode="numeric" placeholder="2,400" />
               </label>
             </div>
-            <label class="quote-field">
-              <span class="quote-field__label">Special handling</span>
-              <select name="handling">
+            <div class="quote-field">
+              <span class="quote-field__label" id="handling-label">Special handling</span>
+              <select name="handling" aria-labelledby="handling-label">
                 <option value="">None</option>
                 <option>Liftgate</option>
                 <option>Inside delivery</option>
@@ -75,7 +75,7 @@
                 <option>Hazmat</option>
                 <option>Oversized</option>
               </select>
-            </label>
+            </div>
           </fieldset>
 
           <fieldset class="quote-step">
@@ -121,6 +121,6 @@
         </aside>
       </form>
     </main>
-    <script src="/js/main.js?v=121" defer></script>
+    <script src="/js/main.js?v=123" defer></script>
   </body>
 </html>

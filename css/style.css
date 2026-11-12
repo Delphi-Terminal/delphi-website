@@ -3624,7 +3624,7 @@ input {
 }
 
 .quote-page {
-  padding: 1rem 0 1.25rem;
+  padding: 1rem 0 3rem;
 }
 
 .quote-page__title {
@@ -3768,6 +3768,114 @@ input {
 
 .quote-field input.is-invalid {
   border-color: #c62828;
+}
+
+.quote-select {
+  position: relative;
+}
+
+.quote-select__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  height: 3.1rem;
+  padding: 0 1.25rem 0 0.95rem;
+  border: 1px solid #bdbdbd;
+  border-radius: 0;
+  background: #f2f4f9;
+  font: inherit;
+  font-size: 1.1rem;
+  color: #111;
+  text-align: left;
+  cursor: pointer;
+}
+
+.quote-select__btn:focus-visible,
+.quote-select.is-open .quote-select__btn {
+  outline: 2px solid var(--quote-blue);
+  outline-offset: -1px;
+  border-color: var(--quote-blue);
+  background: #fff;
+}
+
+.quote-select__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quote-select__chevron {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  margin-top: -0.25rem;
+  border-right: 1.6px solid #111;
+  border-bottom: 1.6px solid #111;
+  transform: rotate(45deg);
+  transition: transform 160ms ease, margin 160ms ease;
+}
+
+.quote-select.is-open .quote-select__chevron {
+  margin-top: 0.25rem;
+  transform: rotate(-135deg);
+}
+
+.quote-select__list {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  max-height: 22rem;
+  margin: 0;
+  padding: 0.35rem;
+  overflow-y: auto;
+  border: 1.5px solid #111;
+  background: #fff;
+  list-style: none;
+  box-shadow: 0.35rem 0.35rem 0 rgba(17, 17, 17, 0.12);
+}
+
+.quote-select__list[hidden] {
+  display: none;
+}
+
+.quote-select__list:focus {
+  outline: none;
+}
+
+.quote-select__list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+  cursor: pointer;
+}
+
+.quote-select__list li.is-active {
+  background: #eef2fa;
+}
+
+.quote-select__list li[aria-selected="true"] {
+  color: var(--quote-blue);
+  font-weight: 700;
+}
+
+.quote-select__list li[aria-selected="true"]::after {
+  content: "";
+  flex: none;
+  width: 0.3em;
+  height: 0.6em;
+  margin-bottom: 0.15em;
+  border-right: 2.5px solid currentColor;
+  border-bottom: 2.5px solid currentColor;
+  transform: rotate(45deg);
 }
 
 .quote-modes {
