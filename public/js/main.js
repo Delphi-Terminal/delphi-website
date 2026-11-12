@@ -18,9 +18,9 @@ const DOT_GRIDS = [
 // fades to reveal the page.
 function initIntro() {
   const intro = document.querySelector(".intro");
-  const logo = intro?.querySelector(".intro__logo");
-  const canvas = intro?.querySelector(".intro__dots");
-  const ctx = canvas?.getContext("2d");
+  const logo = intro && intro.querySelector(".intro__logo");
+  const canvas = intro && intro.querySelector(".intro__dots");
+  const ctx = canvas && canvas.getContext("2d");
   if (!intro || !logo || !ctx) return;
   intro.style.animation = "none";
 
@@ -95,7 +95,7 @@ function initIntro() {
       if (!srcX.length) return finish();
 
       // The hero grid's origin; its rows and columns carry on past the hero.
-      const origin = gridCanvas?.getBoundingClientRect() || { left: 0, top: 0 };
+      const origin = (gridCanvas && gridCanvas.getBoundingClientRect()) || { left: 0, top: 0 };
       const { pitch, size: dot, alphas, blocks } = grid;
       const i0 = Math.floor(-origin.left / pitch) - 1;
       const i1 = Math.ceil((width - origin.left) / pitch);
@@ -284,7 +284,7 @@ function pickParent(candidates, treeDegree) {
   let bestDegree = Infinity;
 
   for (const from of candidates) {
-    const d = treeDegree.get(from) ?? 0;
+    const d = treeDegree.get(from) || 0;
     if (d < bestDegree) {
       bestDegree = d;
       best = [from];
@@ -322,8 +322,8 @@ function buildWaves(startId, adj, byId) {
   for (const [to, candidates] of wave1Claims) {
     const from = pickParent(candidates, treeDegree);
     wave1.push([from, to]);
-    treeDegree.set(from, (treeDegree.get(from) ?? 0) + 1);
-    treeDegree.set(to, (treeDegree.get(to) ?? 0) + 1);
+    treeDegree.set(from, (treeDegree.get(from) || 0) + 1);
+    treeDegree.set(to, (treeDegree.get(to) || 0) + 1);
     reached.add(to);
   }
   if (wave1.length) waves.push(wave1);
@@ -336,8 +336,8 @@ function buildWaves(startId, adj, byId) {
     for (const to of targets) {
       if (!byId.has(to) || reached.has(to)) continue;
       wave2.push([from, to]);
-      treeDegree.set(from, (treeDegree.get(from) ?? 0) + 1);
-      treeDegree.set(to, (treeDegree.get(to) ?? 0) + 1);
+      treeDegree.set(from, (treeDegree.get(from) || 0) + 1);
+      treeDegree.set(to, (treeDegree.get(to) || 0) + 1);
       reached.add(to);
     }
   }
@@ -349,8 +349,8 @@ function buildWaves(startId, adj, byId) {
     if (!candidates.length) continue;
     const from = pickParent(candidates, treeDegree);
     wave2.push([from, to]);
-    treeDegree.set(from, (treeDegree.get(from) ?? 0) + 1);
-    treeDegree.set(to, (treeDegree.get(to) ?? 0) + 1);
+    treeDegree.set(from, (treeDegree.get(from) || 0) + 1);
+    treeDegree.set(to, (treeDegree.get(to) || 0) + 1);
     reached.add(to);
   }
 
@@ -427,7 +427,8 @@ async function loadBaseMap(svg) {
   const doc = new DOMParser().parseFromString(await res.text(), "image/svg+xml");
   const d = (selector) => {
     const node = doc.querySelector(selector);
-    const value = node?.getAttribute("d") ?? node?.querySelector("path")?.getAttribute("d");
+    const path = node && (node.hasAttribute("d") ? node : node.querySelector("path"));
+    const value = path && path.getAttribute("d");
     if (!value) throw new Error(`Base map is missing ${selector}`);
     return value;
   };
@@ -663,7 +664,7 @@ async function loadRouteData() {
 
 function initHubNetwork() {
   const svg = document.querySelector(".map-frame svg");
-  const hubsGroup = svg?.querySelector(".hubs");
+  const hubsGroup = svg && svg.querySelector(".hubs");
   if (!svg || !hubsGroup) return;
 
   const frame = svg.closest(".map-frame");
@@ -674,7 +675,7 @@ function initHubNetwork() {
       initGlow(svg, frame, shapes, await glowData);
     })
     .catch((err) => console.warn(err))
-    .finally(() => frame?.classList.add("is-ready"));
+    .finally(() => frame && frame.classList.add("is-ready"));
 
   const hubNodes = [...hubsGroup.querySelectorAll(".hub")];
   hubNodes.forEach((node, i) => {
@@ -692,7 +693,8 @@ function initHubNetwork() {
   const stage = document.querySelector('.hero__stage:not(.hero__stage--story)');
   const storyStage = document.querySelector(".hero__stage--story");
   const backed = document.querySelector(".hero__backed");
-  hubsGroup.querySelector('[data-hub="chicago"]')?.classList.add("is-lit");
+  const chicago = hubsGroup.querySelector('[data-hub="chicago"]');
+  if (chicago) chicago.classList.add("is-lit");
 
   const wavePaths = waves.map((edges) =>
     edges
@@ -763,10 +765,11 @@ function initHubNetwork() {
 
   let bendSign = 1;
   function buildRoutes(data) {
-    cellPaths = (data?.zips ?? []).map((d) => new Path2D(d));
+    cellPaths = ((data && data.zips) || []).map((d) => new Path2D(d));
     for (const item of wavePaths.flat()) {
       const forward = item.fromId < item.toId;
-      const chain = data?.routes?.[forward ? `${item.fromId}|${item.toId}` : `${item.toId}|${item.fromId}`];
+      const chain =
+        data && data.routes && data.routes[forward ? `${item.fromId}|${item.toId}` : `${item.toId}|${item.fromId}`];
       if (chain) {
         item.cells = chain
           .map(([index, t]) => ({ index, at: (forward ? t : 1000 - t) / 1000, on: false, alpha: 0 }))
@@ -899,12 +902,11 @@ function initHubNetwork() {
           }
         }
 
-        if (local >= 0.92 && !item.lit) {
-          item.lit = true;
-          hubsGroup.querySelector(`[data-hub="${item.toId}"]`)?.classList.add("is-lit");
-        } else if (local < 0.5 && item.lit) {
-          item.lit = false;
-          hubsGroup.querySelector(`[data-hub="${item.toId}"]`)?.classList.remove("is-lit");
+        const lit = local >= 0.92 ? true : local < 0.5 ? false : item.lit;
+        if (lit !== !!item.lit) {
+          item.lit = lit;
+          const hub = hubsGroup.querySelector(`[data-hub="${item.toId}"]`);
+          if (hub) hub.classList.toggle("is-lit", lit);
         }
       }
     }
@@ -950,7 +952,7 @@ function initHubNetwork() {
   window.addEventListener(
     "touchstart",
     (event) => {
-      touchY = event.touches[0]?.clientY ?? null;
+      touchY = event.touches.length ? event.touches[0].clientY : null;
     },
     { passive: true }
   );
@@ -960,8 +962,8 @@ function initHubNetwork() {
     (event) => {
       // Two-finger gestures are pinch-zoom; don't hijack them.
       if (touchY == null || event.touches.length > 1) return;
-      const y = event.touches[0]?.clientY;
-      if (y == null) return;
+      if (!event.touches.length) return;
+      const y = event.touches[0].clientY;
       const dy = touchY - y;
       touchY = y;
       if (dy === 0) return;
@@ -984,11 +986,11 @@ initHubNetwork();
 // the scrollbar, and the keyboard behave the same as everywhere else.
 function initServicesScroll() {
   const track = document.querySelector(".services-track");
-  const stage = track?.querySelector(".services-stage");
-  const band = stage?.querySelector(".blue-band");
-  const pin = band?.querySelector(".blue-band__pin");
-  const view = band?.querySelector(".services-window");
-  const rows = band?.querySelector(".services");
+  const stage = track && track.querySelector(".services-stage");
+  const band = stage && stage.querySelector(".blue-band");
+  const pin = band && band.querySelector(".blue-band__pin");
+  const view = band && band.querySelector(".services-window");
+  const rows = band && band.querySelector(".services");
   if (!track || !stage || !pin || !view || !rows) return;
   const wide = window.matchMedia("(min-width: 901px)");
   const buttons = [...band.querySelectorAll(".services-nav__btn")];
@@ -1095,7 +1097,7 @@ initServicesScroll();
 // touch, and for anyone who clicks), and clicking elsewhere or Escape closes.
 function initContactMenu() {
   const menu = document.querySelector(".contact-menu");
-  const toggle = menu?.querySelector(".contact-menu__toggle");
+  const toggle = menu && menu.querySelector(".contact-menu__toggle");
   if (!menu || !toggle) return;
 
   function setOpen(open) {
@@ -1130,7 +1132,7 @@ initContactMenu();
 // leaves the canvas. `pitch`, `size`, `alphas`, `rgb` and `blocks` are as in
 // DOT_GRIDS. `excludeBottom` returns how much of the host's bottom to leave bare.
 function initDotField(host, canvas, { pitch, size, alphas, rgb = "255, 255, 255", blocks = false, excludeBottom = () => 0 }) {
-  const ctx = canvas?.getContext("2d");
+  const ctx = canvas && canvas.getContext("2d");
   if (!host || !canvas || !ctx) return;
   const colors = alphas.map((a) => `rgba(${rgb}, ${a})`);
 
@@ -1389,7 +1391,7 @@ initTypeWords();
 function initShipMark() {
   const pin = document.querySelector(".ship-fold__pin");
   const fold = document.querySelector(".ship-fold");
-  const canvas = pin?.querySelector(".ship-hero__dots");
+  const canvas = pin && pin.querySelector(".ship-hero__dots");
   const grid = DOT_GRIDS.find((g) => g.morph);
   if (!pin || !fold || !canvas || !grid) return;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -1499,7 +1501,8 @@ function initShipMark() {
       else if (open) expand(box);
     });
   }
-  pin.querySelector(".ship-boxes")?.addEventListener("pointerleave", () => {
+  const boxesEl = pin.querySelector(".ship-boxes");
+  if (boxesEl) boxesEl.addEventListener("pointerleave", () => {
     if (!active) aimSplit(50, 50);
   });
   document.addEventListener("keydown", (event) => {
@@ -1677,7 +1680,7 @@ function initShipMark() {
       }
       if (isOpen) {
         const hovered = [...boxes].find((box) => box.matches(":hover"));
-        hovered?.dispatchEvent(new Event("pointerenter"));
+        if (hovered) hovered.dispatchEvent(new Event("pointerenter"));
       } else {
         collapse(false);
         aimSplit(50, 50);
@@ -1969,7 +1972,7 @@ function initShipRate() {
   function renderMonth() {
     monthLabel.textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
     prev.disabled = view <= firstMonth;
-    daysEl.replaceChildren();
+    daysEl.textContent = "";
     for (let i = 0; i < view.getDay(); i += 1) daysEl.append(document.createElement("span"));
     const count = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
     for (let n = 1; n <= count; n += 1) {
@@ -2016,7 +2019,8 @@ function initShipRate() {
     onOpen() {
       if (pickedDay) view = new Date(pickedDay.getFullYear(), pickedDay.getMonth(), 1);
       renderMonth();
-      (daysEl.querySelector("button[aria-pressed='true']") || daysEl.querySelector("button:not(:disabled)"))?.focus();
+      const day = daysEl.querySelector("button[aria-pressed='true']") || daysEl.querySelector("button:not(:disabled)");
+      if (day) day.focus();
     },
   };
   datePick.addEventListener("click", () => showPop(date));
@@ -2049,7 +2053,7 @@ initShipHeader();
 // screen, then plays from there; leaving rewinds it for the next visit.
 function initShipLookup() {
   const demo = document.querySelector(".ship-lookup__demo");
-  if (!demo) return;
+  if (!demo || !demo.getAnimations) return;
   const animations = demo.getAnimations({ subtree: true });
   if (!animations.length) return;
   const rewind = () => {
@@ -2074,8 +2078,11 @@ initShipLookup();
 for (const grid of DOT_GRIDS) {
   if (grid.morph) continue;
   const host = document.querySelector(grid.host);
-  initDotField(host, host?.querySelector(grid.canvas), {
+  initDotField(host, host && host.querySelector(grid.canvas), {
     ...grid,
-    excludeBottom: () => host.querySelector(".carriers")?.offsetHeight || 0,
+    excludeBottom: () => {
+      const bar = host.querySelector(".carriers");
+      return bar ? bar.offsetHeight : 0;
+    },
   });
 }

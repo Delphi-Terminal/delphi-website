@@ -13,22 +13,29 @@ html {
 }
 
 /* Desktop is designed at 1728×1000 (a 16" MacBook Pro, full screen), where
-   1rem is 16px, and scales as a whole to fit any window: rem follows whichever
-   of width or height runs out first. --vw and --vh stand in for the design's
-   1vw and 1vh, so sizes written in them keep their proportions too. */
+   1rem is 16px. Bigger windows scale it up as a whole, by whichever of width
+   or height runs out first. Smaller ones shrink rem only two-thirds as fast,
+   so type stays readable, and the side gutters narrow to make up the width.
+   --vw and --vh stand in for the design's 1vw and 1vh, so sizes written in
+   them keep their proportions too. */
 @media (min-width: 901px) {
   html {
-    font-size: min(100vw / 108, 100vh / 62.5);
+    font-size: max(min(100vw / 108, 100vh / 62.5), 16px / 3 + min(100vw / 162, 100vh / 93.75));
     --vw: 1.08rem;
     --vh: 0.625rem;
   }
 }
 
 body {
-  /* Windows wider than the design's proportions center it rather than stretch. */
+  /* Windows wider than the design's proportions center it rather than stretch;
+     narrower ones (in rem) take the shortfall mostly out of the gutters. */
   --frame: max(0px, (100vw - 108rem) / 2);
-  --gutter-left: calc(var(--frame) + 12.5rem);
-  --page-pad-right: calc(var(--frame) + 4.5rem);
+  --shortfall: max(0px, 108rem - 100vw);
+  /* Likewise for height, where windows shorter than the design (in rem)
+     tighten the vertical spacing that would otherwise collide. */
+  --height-shortfall: max(0px, 62.5rem - 100vh);
+  --gutter-left: calc(var(--frame) + max(5rem, 12.5rem - 0.65 * var(--shortfall)));
+  --page-pad-right: calc(var(--frame) + max(2rem, 4.5rem - 0.25 * var(--shortfall)));
   /* How far the blue hero runs past the bottom of the window, then the black
      bar beneath it; the shell's tail below the window is both together. */
   --blue-overhang: 8rem;
@@ -635,7 +642,8 @@ input {
   display: flex;
   align-items: center;
   gap: 2.5rem;
-  padding: 1.5rem calc(var(--page-pad-right) + 3.5rem) 1.5rem var(--gutter-left);
+  /* 5.25rem tall in all, with the logo; heroes below subtract that height. */
+  padding: 1.325rem calc(var(--page-pad-right) + 3.5rem) 1.325rem var(--gutter-left);
   background: #fff;
   z-index: 2;
   position: relative;
@@ -649,14 +657,14 @@ input {
 }
 
 .brand__mark {
-  height: 2.25rem;
+  height: 2.6rem;
   width: auto;
   flex-shrink: 0;
 }
 
 .brand__name {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: 1.65rem;
+  font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1;
@@ -665,7 +673,7 @@ input {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: 2rem;
 }
 
 .site-nav--end {
@@ -674,7 +682,7 @@ input {
 
 .site-nav a {
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: #333;
@@ -691,11 +699,11 @@ input {
   align-items: center;
   gap: 0.45rem;
   border: 1.5px solid #111;
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 0.95rem;
   background: #111;
   color: #fff;
   font-family: "Cabinet Grotesk", sans-serif;
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   cursor: pointer;
@@ -1041,7 +1049,7 @@ input {
   flex-direction: column;
   align-items: flex-start;
   gap: 0.65rem;
-  transform: translateY(-11rem);
+  transform: translateY(calc(-11rem - 0.35 * var(--height-shortfall)));
 }
 
 .hero__copy--story {
@@ -1235,7 +1243,7 @@ input {
   bottom: 4.5rem;
   display: flex;
   flex-direction: column;
-  gap: 4.6rem;
+  gap: max(2rem, 4.6rem - 0.4 * var(--height-shortfall));
   width: min(38rem, 100%);
 }
 
@@ -1480,6 +1488,8 @@ input {
 
 @media (max-width: 900px) {
   body {
+    --shortfall: 0px;
+    --height-shortfall: 0px;
     --blue-overhang: 0px;
     --black-bar: 0px;
   }
