@@ -196,6 +196,41 @@ if (quote) {
       quote.elements.mode.value = mode.dataset.mode;
     });
   }
+
+  // "See rates" only goes to /quote once both ZIPs exist. A failed lookup
+  // (offline, API down) lets the ZIP through rather than blocking the visitor.
+  const zipExists = (zip) =>
+    fetch(`https://api.zippopotam.us/us/${zip}`)
+      .then((res) => res.status !== 404)
+      .catch(() => true);
+  const zipFields = ["from", "to"].map((name) => quote.elements[name]);
+  const showZipError = (input, show) => {
+    input.classList.toggle("is-invalid", show);
+    input.setAttribute("aria-invalid", show ? "true" : "false");
+    document.getElementById(input.getAttribute("aria-describedby")).hidden = !show;
+  };
+  for (const input of zipFields) {
+    input.addEventListener("input", () => {
+      input.value = input.value.replace(/\D/g, "").slice(0, 5);
+      showZipError(input, false);
+    });
+  }
+  let checking = false;
+  quote.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (checking) return;
+    checking = true;
+    const submit = quote.querySelector(".quote__submit");
+    submit.disabled = true;
+    Promise.all(zipFields.map((input) => (/^\d{5}$/.test(input.value) ? zipExists(input.value) : false))).then((ok) => {
+      checking = false;
+      submit.disabled = false;
+      zipFields.forEach((input, i) => showZipError(input, !ok[i]));
+      const bad = zipFields.filter((input, i) => !ok[i]);
+      if (bad.length) bad[0].focus();
+      else quote.submit();
+    });
+  });
 }
 
 // Projected positions from zip-map/scripts/build-hero.js (same frame as /us-zips.svg).
@@ -800,12 +835,14 @@ function initHubNetwork() {
   let progress = 0;
   let target = 0;
   let raf = 0;
+  const STAGE_LEAVE = 0.6;
+  const MAP_DELAY = 0.3;
 
   function applyStage(value) {
     if (!stage) return;
-    // Moves off from the first scroll, alongside neighbor wave 1, and is gone
-    // by the wave's end.
-    const leave = Math.min(1, Math.max(0, value));
+    // Moves off from the first scroll and is gone by mid-wave 1, clear of the
+    // map before it starts sliding left (applyMap).
+    const leave = Math.min(1, Math.max(0, value / STAGE_LEAVE));
     stage.style.transform = `translateY(${-leave * 115}%)`;
     stage.style.opacity = String(1 - leave);
     stage.classList.toggle("is-away", leave >= 0.98);
@@ -837,7 +874,7 @@ function initHubNetwork() {
       mapSection.style.transform = "";
       return;
     }
-    const t = Math.min(1, Math.max(0, value / 1.2));
+    const t = Math.min(1, Math.max(0, (value - MAP_DELAY) / (1.2 - MAP_DELAY)));
     const eased = t * t * (3 - 2 * t);
     const shift = Math.max(0, mapSection.offsetLeft - heroEl.offsetLeft);
     mapSection.style.transform = `translate(${(-shift * eased).toFixed(1)}px, ${(-18 * eased).toFixed(2)}%)`;

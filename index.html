@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link href="https://fonts.cdnfonts.com/css/canela" rel="stylesheet" />
-    <link rel="stylesheet" href="/css/style.css?v=279" />
+    <link rel="stylesheet" href="/css/style.css?v=280" />
   </head>
   <body>
     <div class="intro" aria-hidden="true">
@@ -87,11 +87,13 @@
             <div class="quote__row">
               <label class="quote__field">
                 <span class="visually-hidden">From ZIP</span>
-                <input type="text" name="from" inputmode="numeric" maxlength="5" placeholder="From ZIP" autocomplete="postal-code" />
+                <input type="text" name="from" inputmode="numeric" maxlength="5" placeholder="From ZIP" autocomplete="postal-code" aria-describedby="quote-from-error" />
+                <span class="quote__error" id="quote-from-error" hidden>Enter a valid ZIP code</span>
               </label>
               <label class="quote__field">
                 <span class="visually-hidden">To ZIP</span>
-                <input type="text" name="to" inputmode="numeric" maxlength="5" placeholder="To ZIP" autocomplete="postal-code" />
+                <input type="text" name="to" inputmode="numeric" maxlength="5" placeholder="To ZIP" autocomplete="postal-code" aria-describedby="quote-to-error" />
+                <span class="quote__error" id="quote-to-error" hidden>Enter a valid ZIP code</span>
               </label>
               <button type="submit" class="quote__submit">See rates</button>
             </div>
@@ -108,7 +110,7 @@
               Get a rate, lock in a truck, and follow every mile.
             </p>
             <div class="hero__actions">
-              <a class="hero__btn hero__btn--primary" href="/contact">Get a Quote</a>
+              <a class="hero__btn hero__btn--primary" href="/quote">Get a Quote</a>
               <a class="hero__btn hero__btn--secondary" href="/track">Track Your Shipment</a>
             </div>
           </div>
@@ -390,6 +392,6 @@
         </ul>
       </div>
     </footer>
-    <script src="/js/main.js?v=123" defer></script>
+    <script src="/js/main.js?v=124" defer></script>
   </body>
 </html>

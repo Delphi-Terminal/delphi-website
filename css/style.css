@@ -1333,8 +1333,35 @@ input {
 .quote__row {
   display: grid;
   grid-template-columns: 1fr 1fr auto;
+  align-items: start;
   gap: 1rem;
   padding: 0 1.1rem 1.1rem;
+}
+
+.quote__field {
+  display: block;
+}
+
+.quote__error {
+  display: block;
+  margin-top: 0.4rem;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #c62828;
+}
+
+.quote__error[hidden] {
+  display: none;
+}
+
+.quote__field input.is-invalid,
+.quote__field input.is-invalid:focus {
+  border-color: #c62828;
+}
+
+.quote__submit:disabled {
+  cursor: progress;
 }
 
 .quote__field input {
