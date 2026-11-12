@@ -193,12 +193,9 @@ if (quote) {
         other.classList.toggle("is-active", active);
         other.setAttribute("aria-selected", active ? "true" : "false");
       }
+      quote.elements.mode.value = mode.dataset.mode;
     });
   }
-
-  quote.addEventListener("submit", (event) => {
-    event.preventDefault();
-  });
 }
 
 // Projected positions from zip-map/scripts/build-hero.js (same frame as /us-zips.svg).
@@ -2073,6 +2070,157 @@ function initShipLookup() {
 }
 
 initShipLookup();
+
+// Instant quote: the load ticket fills in as the form is answered. ZIPs are
+// named through the free zippopotam.us lookup, which also gives the distance
+// (straight line, padded by a typical road detour). Query parameters from the
+// homepage quote box prefill the form.
+function initQuoteForm() {
+  const form = document.querySelector(".quote-form");
+  if (!form) return;
+  const cells = {};
+  for (const dd of form.querySelectorAll("[data-ticket]")) cells[dd.dataset.ticket] = dd;
+  const field = (name) => form.elements[name];
+  const ROAD_FACTOR = 1.2;
+  const MODES = { ftl: "FTL", ltl: "LTL", ptl: "PTL", unsure: "Not sure — we’ll recommend" };
+  const places = {};
+
+  const params = new URLSearchParams(window.location.search);
+  for (const name of ["from", "to", "pickup", "commodity", "pallets", "weight", "instructions", "email", "phone"]) {
+    if (params.get(name) && field(name)) field(name).value = params.get(name);
+  }
+  const mode = form.querySelector(`input[name="mode"][value="${params.get("mode")}"]`);
+  if (mode) mode.checked = true;
+  const today = new Date();
+  field("pickup").min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}T00:00`;
+
+  const digits = (value) => value.replace(/\D/g, "");
+  const withCommas = (value) => (value ? Number(value).toLocaleString("en-US") : "");
+
+  function lookup(zip) {
+    if (!places[zip]) {
+      places[zip] = fetch(`https://api.zippopotam.us/us/${zip}`)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          const place = data && data.places && data.places[0];
+          if (!place) return null;
+          return {
+            name: `${place["place name"]}, ${place["state abbreviation"]} ${zip}`,
+            lat: Number(place.latitude),
+            lon: Number(place.longitude),
+          };
+        })
+        .catch(() => undefined);
+    }
+    return places[zip];
+  }
+
+  function miles(a, b) {
+    const rad = Math.PI / 180;
+    const dLat = (b.lat - a.lat) * rad;
+    const dLon = (b.lon - a.lon) * rad;
+    const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLon / 2) ** 2;
+    return 3958.8 * 2 * Math.asin(Math.sqrt(h));
+  }
+
+  function set(name, text) {
+    const cell = cells[name];
+    cell.textContent = text || cell.dataset.empty;
+    cell.classList.toggle("is-empty", !text);
+  }
+
+  const resolved = { from: null, to: null };
+  let lane = 0;
+  function updateLane() {
+    const run = ++lane;
+    for (const name of ["from", "to"]) {
+      const zip = field(name).value;
+      resolved[name] = null;
+      field(name).classList.remove("is-invalid");
+      set(name, zip.length === 5 ? zip : "");
+    }
+    set("distance", "");
+    for (const name of ["from", "to"]) {
+      const zip = field(name).value;
+      if (zip.length !== 5) continue;
+      lookup(zip).then((place) => {
+        if (run !== lane) return;
+        if (place === null) {
+          resolved[name] = false;
+          set(name, `${zip} — ZIP not found`);
+          field(name).classList.add("is-invalid");
+        } else if (place) {
+          resolved[name] = place;
+          set(name, place.name);
+        }
+        if (resolved.from && resolved.to) {
+          set("distance", `≈ ${Math.round(miles(resolved.from, resolved.to) * ROAD_FACTOR).toLocaleString("en-US")} mi`);
+        }
+      });
+    }
+  }
+
+  function updateFreight() {
+    const checked = form.querySelector('input[name="mode"]:checked');
+    set("mode", checked ? MODES[checked.value] : "");
+    const pallets = Number(field("pallets").value);
+    const weight = field("weight").value;
+    const parts = [];
+    if (field("commodity").value.trim()) parts.push(field("commodity").value.trim());
+    if (pallets) parts.push(`${pallets} pallet${pallets === 1 ? "" : "s"}`);
+    if (weight) parts.push(`${weight} lbs`);
+    set("freight", parts.join(" · "));
+    const [date, time] = field("pickup").value.split("T");
+    let pickup = "";
+    if (date) {
+      const [y, m, d] = date.split("-").map(Number);
+      const [hh, mm] = (time || "").split(":").map(Number);
+      const at = new Date(y, m - 1, d, hh || 0, mm || 0);
+      pickup = at.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+      if (time) pickup += ` · ${at.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
+    }
+    set("pickup", pickup);
+    set("handling", field("handling").value);
+    const notes = field("instructions").value.trim().replace(/\s+/g, " ");
+    set("notes", notes.length > 60 ? `${notes.slice(0, 57)}…` : notes);
+  }
+
+  const emailOk = () => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field("email").value.trim());
+
+  for (const name of ["from", "to", "pallets"]) {
+    field(name).addEventListener("input", () => {
+      field(name).value = digits(field(name).value);
+      if (name === "pallets") updateFreight();
+      else updateLane();
+    });
+  }
+  field("weight").addEventListener("input", () => {
+    field("weight").value = withCommas(digits(field("weight").value).slice(0, 6));
+    updateFreight();
+  });
+  form.addEventListener("input", (event) => {
+    if (!["from", "to", "pallets", "weight"].includes(event.target.name)) updateFreight();
+    if (event.target.name === "email") field("email").classList.remove("is-invalid");
+  });
+  form.addEventListener("change", updateFreight);
+
+  form.addEventListener("submit", (event) => {
+    const missing = [];
+    for (const name of ["from", "to"]) if (field(name).value.length !== 5 || resolved[name] === false) missing.push(name);
+    if (!emailOk()) missing.push("email");
+    for (const name of missing) field(name).classList.add("is-invalid");
+    if (missing.length) {
+      event.preventDefault();
+      field(missing[0]).focus();
+    }
+  });
+
+  field("weight").value = withCommas(digits(field("weight").value));
+  updateLane();
+  updateFreight();
+}
+
+initQuoteForm();
 
 // The homepage grid stops at the black carrier bar.
 for (const grid of DOT_GRIDS) {

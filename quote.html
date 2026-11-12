@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get a quote · Theseus Global</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css?v=277" />
+  </head>
+  <body class="page-quote">
+    <header class="quote-header">
+      <a class="quote-header__back" href="/">← Back</a>
+      <a class="brand quote-header__brand" href="/" aria-label="Theseus home">
+        <img class="brand__mark" src="/logo.png" alt="" width="921" height="691" />
+        <span class="brand__name">Theseus</span>
+      </a>
+      <a class="quote-header__signin" href="/signin">Sign in</a>
+    </header>
+    <main class="quote-page">
+      <h1 class="quote-page__title">Get a quote</h1>
+      <form class="quote-form" action="/contact" method="get" novalidate>
+        <div class="quote-form__steps">
+          <fieldset class="quote-step">
+            <legend class="quote-step__label">Location &amp; time</legend>
+            <div class="quote-step__row quote-step__row--3">
+              <label class="quote-field">
+                <span class="quote-field__label">Pickup ZIP</span>
+                <input name="from" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="15213" autocomplete="postal-code" required />
+              </label>
+              <label class="quote-field">
+                <span class="quote-field__label">Delivery ZIP</span>
+                <input name="to" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="28202" autocomplete="off" required />
+              </label>
+              <label class="quote-field">
+                <span class="quote-field__label">Pickup date &amp; time</span>
+                <input name="pickup" type="datetime-local" step="900" />
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="quote-step">
+            <legend class="quote-step__label">Freight</legend>
+            <div class="quote-modes" role="radiogroup" aria-label="Mode">
+              <label class="quote-mode"><input type="radio" name="mode" value="ftl" /><span>FTL</span></label>
+              <label class="quote-mode"><input type="radio" name="mode" value="ltl" checked /><span>LTL</span></label>
+              <label class="quote-mode"><input type="radio" name="mode" value="ptl" /><span>PTL</span></label>
+              <label class="quote-mode"><input type="radio" name="mode" value="unsure" /><span>Not sure</span></label>
+            </div>
+            <div class="quote-step__row quote-step__row--freight">
+              <label class="quote-field">
+                <span class="quote-field__label">What are you shipping?</span>
+                <input name="commodity" type="text" placeholder="Light fixtures, boxed" />
+              </label>
+              <label class="quote-field">
+                <span class="quote-field__label">Pallets</span>
+                <input name="pallets" type="text" inputmode="numeric" placeholder="4" />
+              </label>
+              <label class="quote-field">
+                <span class="quote-field__label">Weight (lbs)</span>
+                <input name="weight" type="text" inputmode="numeric" placeholder="2,400" />
+              </label>
+            </div>
+            <label class="quote-field">
+              <span class="quote-field__label">Special handling</span>
+              <select name="handling">
+                <option value="">None</option>
+                <option>Liftgate</option>
+                <option>Inside delivery</option>
+                <option>Appointment required</option>
+                <option>Temperature-controlled</option>
+                <option>Hazmat</option>
+                <option>Oversized</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <fieldset class="quote-step">
+            <legend class="quote-step__label">Special instructions</legend>
+            <label class="quote-field">
+              <span class="visually-hidden">Special instructions</span>
+              <textarea name="instructions" rows="3" placeholder="Dock hours, appointment windows, access notes, anything the driver should know."></textarea>
+            </label>
+          </fieldset>
+        </div>
+
+        <aside class="quote-side">
+          <fieldset class="quote-step">
+            <legend class="quote-step__label">Contact</legend>
+            <div class="quote-step__row quote-step__row--2">
+              <label class="quote-field">
+                <span class="quote-field__label">Work email</span>
+                <input name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
+              </label>
+              <label class="quote-field">
+                <span class="quote-field__label">Phone</span>
+                <input name="phone" type="tel" placeholder="(412) 555-0100" autocomplete="tel" />
+              </label>
+            </div>
+            <p class="quote-step__note">We may email or call about your rate.</p>
+          </fieldset>
+          <div class="quote-ticket" aria-live="polite">
+            <div class="quote-ticket__head">
+              <span>Your load</span>
+            </div>
+            <dl class="quote-ticket__rows">
+              <div><dt>From</dt><dd data-ticket="from" data-empty="— add a ZIP"></dd></div>
+              <div><dt>To</dt><dd data-ticket="to" data-empty="— add a ZIP"></dd></div>
+              <div><dt>Distance</dt><dd data-ticket="distance" data-empty="—"></dd></div>
+              <div><dt>Mode</dt><dd data-ticket="mode" data-empty="—"></dd></div>
+              <div><dt>Freight</dt><dd data-ticket="freight" data-empty="— add pallets or weight"></dd></div>
+              <div><dt>Pickup</dt><dd data-ticket="pickup" data-empty="— add a date &amp; time"></dd></div>
+              <div><dt>Handling</dt><dd data-ticket="handling" data-empty="Standard"></dd></div>
+              <div><dt>Notes</dt><dd data-ticket="notes" data-empty="—"></dd></div>
+            </dl>
+          </div>
+          <button class="quote-submit" type="submit">Get my rate →</button>
+        </aside>
+      </form>
+    </main>
+    <script src="/js/main.js?v=121" defer></script>
+  </body>
+</html>

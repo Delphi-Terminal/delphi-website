@@ -13,6 +13,7 @@ export default defineConfig({
         shippers: resolve(__dirname, 'shippers.html'),
         carriers: resolve(__dirname, 'carriers.html'),
         mission: resolve(__dirname, 'mission.html'),
+        quote: resolve(__dirname, 'quote.html'),
       },
     },
   },
