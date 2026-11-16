@@ -197,13 +197,46 @@ if (quote) {
     });
   }
 
+  // Resolves to { name, lon, lat }, null when the ZIP doesn't exist, or
+  // undefined when the lookup itself failed (offline, API down).
+  const zipPlaces = {};
+  const lookupZip = (zip) => {
+    if (!zipPlaces[zip]) {
+      zipPlaces[zip] = fetch(`https://api.zippopotam.us/us/${zip}`)
+        .then((res) => (res.status === 404 ? null : res.ok ? res.json() : undefined))
+        .then((data) => {
+          if (!data) return data;
+          const place = data.places && data.places[0];
+          if (!place) return null;
+          return {
+            name: `${place["place name"]}, ${place["state abbreviation"]}`,
+            lon: Number(place.longitude),
+            lat: Number(place.latitude),
+          };
+        })
+        .catch(() => undefined);
+      zipPlaces[zip].then((place) => {
+        if (place === undefined) delete zipPlaces[zip];
+      });
+    }
+    return zipPlaces[zip];
+  };
+
   // "See rates" only goes to /quote once both ZIPs exist. A failed lookup
-  // (offline, API down) lets the ZIP through rather than blocking the visitor.
-  const zipExists = (zip) =>
-    fetch(`https://api.zippopotam.us/us/${zip}`)
-      .then((res) => res.status !== 404)
-      .catch(() => true);
+  // lets the ZIP through rather than blocking the visitor.
+  const zipExists = (zip) => lookupZip(zip).then((place) => place !== null);
   const zipFields = ["from", "to"].map((name) => quote.elements[name]);
+
+  // Each ZIP that resolves drops an orange pin on the hero map.
+  const pinZip = (input) => {
+    const zip = input.value;
+    const send = (place) =>
+      document.dispatchEvent(new CustomEvent("quote-pin", { detail: { name: input.name, place: place || null } }));
+    if (!/^\d{5}$/.test(zip)) return send(null);
+    lookupZip(zip).then((place) => {
+      if (input.value === zip) send(place);
+    });
+  };
   const showZipError = (input, show) => {
     input.classList.toggle("is-invalid", show);
     input.setAttribute("aria-invalid", show ? "true" : "false");
@@ -213,7 +246,9 @@ if (quote) {
     input.addEventListener("input", () => {
       input.value = input.value.replace(/\D/g, "").slice(0, 5);
       showZipError(input, false);
+      pinZip(input);
     });
+    if (input.value) pinZip(input);
   }
   let checking = false;
   quote.addEventListener("submit", (event) => {
@@ -232,6 +267,55 @@ if (quote) {
     });
   });
 }
+
+// Hero map pins for the quote ZIPs. The map is an Albers USA projection
+// (mapshaper's albersusa) scaled into the 960×600 viewBox; the scale and
+// offset are fitted to the HUBS positions below (within 1 viewBox unit).
+function initQuotePins() {
+  const frame = document.querySelector(".map-frame");
+  if (!frame) return;
+  const NS = "http://www.w3.org/2000/svg";
+  const rad = Math.PI / 180;
+  const n = (Math.sin(29.5 * rad) + Math.sin(45.5 * rad)) / 2;
+  const c = Math.cos(29.5 * rad) ** 2 + 2 * n * Math.sin(29.5 * rad);
+  const rho = (lat) => Math.sqrt(c - 2 * n * Math.sin(lat * rad)) / n;
+  const rho0 = rho(37.5);
+  const K = 1213.422;
+  const project = (lon, lat) => {
+    const theta = n * (lon + 96) * rad;
+    const r = rho(lat);
+    return [K * r * Math.sin(theta) + 489.493, -K * (rho0 - r * Math.cos(theta)) + 321.639];
+  };
+
+  const layer = document.createElementNS(NS, "svg");
+  layer.setAttribute("class", "map-pins");
+  layer.setAttribute("viewBox", "0 0 960 600");
+  layer.setAttribute("aria-hidden", "true");
+  frame.appendChild(layer);
+  const pins = {};
+
+  document.addEventListener("quote-pin", (event) => {
+    const { name, place } = event.detail;
+    if (pins[name]) {
+      pins[name].remove();
+      delete pins[name];
+    }
+    if (!place) return;
+    const [x, y] = project(place.lon, place.lat);
+    if (x < -20 || x > 980 || y < -20 || y > 620) return;
+    const pin = document.createElementNS(NS, "g");
+    pin.setAttribute("class", "map-pin");
+    pin.setAttribute("transform", `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+    pin.innerHTML =
+      '<g class="map-pin__body"><rect class="map-pin__dot" x="-8" y="-8" width="16" height="16" />' +
+      '<text class="map-pin__label" y="-19" text-anchor="middle"></text></g>';
+    pin.querySelector("text").textContent = place.name;
+    layer.appendChild(pin);
+    pins[name] = pin;
+  });
+}
+
+initQuotePins();
 
 // Projected positions from zip-map/scripts/build-hero.js (same frame as /us-zips.svg).
 const HUBS = [
@@ -2126,11 +2210,21 @@ function initQuoteForm() {
   for (const name of ["from", "to", "pickup", "commodity", "pallets", "weight", "instructions", "email", "phone"]) {
     if (params.get(name) && field(name)) field(name).value = params.get(name);
   }
-  const mode = form.querySelector(`input[name="mode"][value="${params.get("mode")}"]`);
+  // The shippers "Get a rate" sentence sends its picks as load, date and time.
+  if (!params.get("pickup") && /^\d{4}-\d{2}-\d{2}$/.test(params.get("date") || "")) {
+    const time = /^\d{2}:\d{2}$/.test(params.get("time") || "") ? params.get("time") : "09:00";
+    field("pickup").value = `${params.get("date")}T${time}`;
+  }
+  const LOADS = {
+    "a few pallets": { mode: "ltl" },
+    "one pallet": { mode: "ltl", pallets: "1" },
+    "a partial load": { mode: "ptl" },
+    "a full truckload": { mode: "ftl" },
+  };
+  const load = LOADS[params.get("load")] || {};
+  if (load.pallets && !field("pallets").value) field("pallets").value = load.pallets;
+  const mode = form.querySelector(`input[name="mode"][value="${params.get("mode") || load.mode}"]`);
   if (mode) mode.checked = true;
-  const today = new Date();
-  field("pickup").min = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}T00:00`;
-
   const digits = (value) => value.replace(/\D/g, "");
   const withCommas = (value) => (value ? Number(value).toLocaleString("en-US") : "");
 
@@ -2376,7 +2470,143 @@ function initQuoteSelects() {
   }
 }
 
+// Quote page pickup: a calendar and time popover (styled like the shippers
+// one) that writes YYYY-MM-DDTHH:MM into the hidden pickup input.
+function initQuoteDate() {
+  const wrap = document.querySelector(".quote-date");
+  if (!wrap) return;
+  const input = wrap.querySelector("input[name='pickup']");
+  const button = wrap.querySelector(".quote-date__btn");
+  const valueEl = wrap.querySelector(".quote-date__value");
+  const cal = wrap.querySelector(".quote-date__pop");
+  const monthLabel = cal.querySelector(".ship-cal__month");
+  const daysEl = cal.querySelector(".ship-cal__days");
+  const timesEl = cal.querySelector(".ship-cal__times");
+  const done = cal.querySelector(".ship-cal__done");
+  const prev = cal.querySelector(".ship-cal__nav[data-step='-1']");
+  const pad = (n) => String(n).padStart(2, "0");
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const firstMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  let view = new Date(firstMonth);
+  let pickedDay = null;
+  let pickedTime = null;
+
+  const TIMES = [];
+  for (let minutes = 6 * 60; minutes <= 18 * 60; minutes += 60) TIMES.push(minutes);
+  const timeText = (minutes) => {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return `${h % 12 || 12}:${pad(m)} ${h < 12 ? "AM" : "PM"}`;
+  };
+  const sameDay = (a, b) => a && b && a.getTime() === b.getTime();
+
+  function show() {
+    if (!pickedDay || pickedTime === null) {
+      valueEl.textContent = "Pick a date & time";
+      valueEl.classList.add("is-empty");
+      return;
+    }
+    const day = pickedDay.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    valueEl.textContent = `${day} · ${timeText(pickedTime)}`;
+    valueEl.classList.remove("is-empty");
+  }
+
+  const prefill = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(input.value);
+  if (prefill) {
+    const day = new Date(Number(prefill[1]), Number(prefill[2]) - 1, Number(prefill[3]));
+    if (day >= today) {
+      pickedDay = day;
+      pickedTime = Number(prefill[4]) * 60 + Number(prefill[5]);
+      if (TIMES.indexOf(pickedTime) < 0) TIMES.push(pickedTime);
+      TIMES.sort((a, b) => a - b);
+    } else {
+      input.value = "";
+    }
+  }
+
+  for (const minutes of TIMES) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = timeText(minutes);
+    b.setAttribute("aria-pressed", String(minutes === pickedTime));
+    b.addEventListener("click", () => {
+      pickedTime = minutes;
+      for (const other of timesEl.children) other.setAttribute("aria-pressed", String(other === b));
+      done.disabled = !pickedDay;
+    });
+    timesEl.append(b);
+  }
+
+  function renderMonth() {
+    monthLabel.textContent = view.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+    prev.disabled = view <= firstMonth;
+    daysEl.textContent = "";
+    for (let i = 0; i < view.getDay(); i += 1) daysEl.append(document.createElement("span"));
+    const count = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    for (let n = 1; n <= count; n += 1) {
+      const day = new Date(view.getFullYear(), view.getMonth(), n);
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = String(n);
+      b.setAttribute("aria-label", day.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }));
+      b.setAttribute("aria-pressed", String(sameDay(day, pickedDay)));
+      b.disabled = day < today;
+      if (sameDay(day, today)) b.classList.add("is-today");
+      b.addEventListener("click", () => {
+        pickedDay = day;
+        for (const other of daysEl.querySelectorAll("button")) other.setAttribute("aria-pressed", String(other === b));
+        done.disabled = pickedTime === null;
+      });
+      daysEl.append(b);
+    }
+  }
+
+  function open() {
+    if (pickedDay) view = new Date(pickedDay.getFullYear(), pickedDay.getMonth(), 1);
+    renderMonth();
+    done.disabled = !pickedDay || pickedTime === null;
+    cal.hidden = false;
+    wrap.classList.add("is-open");
+    button.setAttribute("aria-expanded", "true");
+    const day = daysEl.querySelector("button[aria-pressed='true']") || daysEl.querySelector("button:not(:disabled)");
+    if (day) day.focus();
+  }
+  function close(refocus) {
+    if (cal.hidden) return;
+    cal.hidden = true;
+    wrap.classList.remove("is-open");
+    button.setAttribute("aria-expanded", "false");
+    if (refocus) button.focus();
+  }
+
+  for (const nav of cal.querySelectorAll(".ship-cal__nav")) {
+    nav.addEventListener("click", () => {
+      view = new Date(view.getFullYear(), view.getMonth() + Number(nav.dataset.step), 1);
+      renderMonth();
+    });
+  }
+  done.addEventListener("click", () => {
+    input.value = `${pickedDay.getFullYear()}-${pad(pickedDay.getMonth() + 1)}-${pad(pickedDay.getDate())}T${pad(Math.floor(pickedTime / 60))}:${pad(pickedTime % 60)}`;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    show();
+    close(true);
+  });
+  button.addEventListener("click", () => (cal.hidden ? open() : close(true)));
+  document.addEventListener("mousedown", (event) => {
+    if (!wrap.contains(event.target)) close(false);
+  });
+  cal.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      close(true);
+    }
+  });
+  show();
+}
+
 initQuoteForm();
+initQuoteDate();
 initQuoteSelects();
 
 // The homepage grid stops at the black carrier bar.
