@@ -3,5 +3,13 @@
   "outputDirectory": "dist",
   "framework": null,
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "functions": {
+    "api/quote.py": {
+      "maxDuration": 30
+    },
+    "api/book.py": {
+      "maxDuration": 30
+    }
+  }
 }

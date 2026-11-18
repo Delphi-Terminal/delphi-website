@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book your load · Theseus Global</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css?v=300" />
+  </head>
+  <body class="page-quote">
+    <header class="quote-header">
+      <a class="quote-header__back" href="/rates" data-back-rates>← Back to rates</a>
+      <a class="brand quote-header__brand" href="/" aria-label="Theseus home">
+        <img class="brand__mark" src="/logo.png" alt="" width="921" height="691" />
+        <span class="brand__name">Theseus</span>
+      </a>
+      <a class="quote-header__signin" href="/signin">Sign in</a>
+    </header>
+    <div class="rates-bar">
+      <div class="rates-bar__inner">
+        <p class="rates-bar__lane"></p>
+        <a class="rates-bar__edit" href="/rates" data-back-rates>Change rate</a>
+      </div>
+    </div>
+    <main class="quote-page book-page">
+      <h1 class="rates-head__title book-page__title">Book your load</h1>
+      <p class="book-test" hidden>Test mode: pay with card 4242 4242 4242 4242, any future date and any CVC. No truck is booked and no money moves.</p>
+
+      <form class="book-form" novalidate>
+        <div class="quote-form__steps">
+          <fieldset class="quote-step" data-stop="pickup">
+            <legend class="quote-step__label">Pickup</legend>
+            <div class="quote-step__row quote-step__row--2">
+              <label class="quote-field"><span class="quote-field__label">Company</span><input name="pickup.company" autocomplete="organization" required /></label>
+              <label class="quote-field"><span class="quote-field__label">Contact name</span><input name="pickup.name" autocomplete="name" required /></label>
+            </div>
+            <div class="quote-step__row quote-step__row--2">
+              <label class="quote-field"><span class="quote-field__label">Phone</span><input name="pickup.phone" type="tel" inputmode="tel" placeholder="(412) 555-0100" autocomplete="tel" required /></label>
+              <label class="quote-field"><span class="quote-field__label">Email</span><input name="pickup.email" type="email" placeholder="you@company.com" autocomplete="email" required /></label>
+            </div>
+            <div class="quote-step__row book-row--address">
+              <label class="quote-field"><span class="quote-field__label">Street address</span><input name="pickup.street" autocomplete="address-line1" required /></label>
+              <label class="quote-field"><span class="quote-field__label">Suite or dock</span><input name="pickup.street2" autocomplete="address-line2" /></label>
+            </div>
+            <div class="quote-step__row book-row--city">
+              <label class="quote-field"><span class="quote-field__label">City</span><input name="pickup.city" required /></label>
+              <label class="quote-field"><span class="quote-field__label">State</span><input name="pickup.state" maxlength="2" required /></label>
+              <label class="quote-field"><span class="quote-field__label">ZIP</span><input name="pickup.zip" readonly /></label>
+            </div>
+            <div class="quote-step__row book-row--window">
+              <div class="quote-field"><span class="quote-field__label">Pickup date</span><p class="book-date" data-date="pickup"></p></div>
+              <div class="quote-field"><span class="quote-field__label" id="pickup-from-label">Ready from</span><select name="pickup.from" aria-labelledby="pickup-from-label" data-times></select></div>
+              <div class="quote-field"><span class="quote-field__label" id="pickup-to-label">Until</span><select name="pickup.to" aria-labelledby="pickup-to-label" data-times></select></div>
+            </div>
+            <div class="quote-step__row quote-step__row--2">
+              <label class="quote-field"><span class="quote-field__label">PO or reference #</span><input name="pickup.ref" /></label>
+              <label class="quote-field"><span class="quote-field__label">Pickup notes</span><input name="pickup.instructions" placeholder="Dock hours, gate codes" /></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="quote-step" data-stop="delivery">
+            <legend class="quote-step__label">Drop-off</legend>
+            <div class="quote-step__row quote-step__row--2">
+              <label class="quote-field"><span class="quote-field__label">Company</span><input name="delivery.company" required /></label>
+              <label class="quote-field"><span class="quote-field__label">Contact name</span><input name="delivery.name" required /></label>
+            </div>
+            <div class="quote-step__row quote-step__row--2">
+              <label class="quote-field"><span class="quote-field__label">Phone</span><input name="delivery.phone" type="tel" inputmode="tel" placeholder="(201) 555-0100" required /></label>
+              <label class="quote-field"><span class="quote-field__label">Email</span><input name="delivery.email" type="email" placeholder="receiving@company.com" required /></label>
+            </div>
+            <div class="quote-step__row book-row--address">
+              <label class="quote-field"><span class="quote-field__label">Street address</span><input name="delivery.street" required /></label>
+              <label class="quote-field"><span class="quote-field__label">Suite or dock</span><input name="delivery.street2" /></label>
+            </div>
+            <div class="quote-step__row book-row--city">
+              <label class="quote-field"><span class="quote-field__label">City</span><input name="delivery.city" required /></label>
+              <label class="quote-field"><span class="quote-field__label">State</span><input name="delivery.state" maxlength="2" required /></label>
+              <label class="quote-field"><span class="quote-field__label">ZIP</span><input name="delivery.zip" readonly /></label>
+            </div>
+            <div class="quote-step__row book-row--window">
+              <div class="quote-field"><span class="quote-field__label">Est. delivery</span><p class="book-date" data-date="delivery"></p></div>
+              <div class="quote-field"><span class="quote-field__label" id="delivery-from-label">Receiving from</span><select name="delivery.from" aria-labelledby="delivery-from-label" data-times></select></div>
+              <div class="quote-field"><span class="quote-field__label" id="delivery-to-label">Until</span><select name="delivery.to" aria-labelledby="delivery-to-label" data-times></select></div>
+            </div>
+            <label class="quote-field"><span class="quote-field__label">Drop-off notes</span><input name="delivery.instructions" placeholder="Receiving hours, appointment details" /></label>
+          </fieldset>
+        </div>
+
+        <aside class="quote-side book-side">
+          <div class="book-summary">
+            <p class="book-summary__carrier"></p>
+            <p class="book-summary__service"></p>
+            <dl class="book-summary__rows">
+              <div><dt>Pickup</dt><dd data-summary="pickup"></dd></div>
+              <div><dt>Est. delivery</dt><dd data-summary="delivery"></dd></div>
+              <div><dt>Freight</dt><dd data-summary="freight"></dd></div>
+            </dl>
+            <div class="book-summary__total"><span>Total</span><strong data-summary="total"></strong></div>
+          </div>
+          <fieldset class="quote-step book-pay">
+            <legend class="quote-step__label">Payment</legend>
+            <div class="book-pay__element"></div>
+          </fieldset>
+          <label class="book-agree"><input type="checkbox" name="agree" /> <span>I confirm the load details are accurate and agree to the booking terms.</span></label>
+          <p class="book-error" role="alert" hidden></p>
+          <button class="quote-submit book-submit" type="submit" disabled>Pay and book</button>
+          <p class="book-note">Your card is only charged once the carrier confirms the truck.</p>
+        </aside>
+      </form>
+
+      <section class="book-done" aria-live="polite" hidden>
+        <p class="quote-step__label book-done__label">Booked</p>
+        <h2 class="book-done__title">You’re booked.</h2>
+        <p class="book-done__text"></p>
+        <dl class="book-done__rows"></dl>
+        <p class="book-done__links"><a href="/quote">Get another quote</a></p>
+      </section>
+    </main>
+    <script src="https://js.stripe.com/v3/" defer></script>
+    <script src="/js/main.js?v=139" defer></script>
+  </body>
+</html>

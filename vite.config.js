@@ -14,6 +14,8 @@ export default defineConfig({
         carriers: resolve(__dirname, 'carriers.html'),
         mission: resolve(__dirname, 'mission.html'),
         quote: resolve(__dirname, 'quote.html'),
+        rates: resolve(__dirname, 'rates.html'),
+        book: resolve(__dirname, 'book.html'),
       },
     },
   },

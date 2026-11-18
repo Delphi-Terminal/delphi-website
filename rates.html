@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your rates · Theseus Global</title>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link
+      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css?v=300" />
+  </head>
+  <body class="page-quote">
+    <header class="quote-header">
+      <a class="quote-header__back" href="/quote" data-edit-load>← Back to quote</a>
+      <a class="brand quote-header__brand" href="/" aria-label="Theseus home">
+        <img class="brand__mark" src="/logo.png" alt="" width="921" height="691" />
+        <span class="brand__name">Theseus</span>
+      </a>
+      <a class="quote-header__signin" href="/signin">Sign in</a>
+    </header>
+    <div class="rates-bar">
+      <div class="rates-bar__inner">
+        <p class="rates-bar__lane"></p>
+        <a class="rates-bar__edit" href="/quote" data-edit-load>Edit load</a>
+      </div>
+    </div>
+    <main class="quote-page rates-page">
+      <div class="rates-head">
+        <div>
+          <h1 class="rates-head__title">Your rates</h1>
+          <p class="rates-head__sub"></p>
+        </div>
+        <div class="rates-incl">
+          <button class="rates-incl__btn" type="button" aria-expanded="false" aria-controls="rates-incl-list">See what’s included</button>
+          <ul class="rates-incl__list" id="rates-incl-list" hidden>
+            <li>Carrier vetted</li>
+            <li>BOL prepared for you</li>
+            <li>Live tracking link</li>
+          </ul>
+        </div>
+      </div>
+      <section class="rates is-loading" aria-live="polite" aria-labelledby="rates-status-title">
+        <div class="rates__cols" aria-hidden="true">
+          <span>Carrier</span><span>Service</span><span>Arrives</span><span class="rates__cols-price">All-in</span><span></span>
+        </div>
+        <ol class="rates__list"></ol>
+        <div class="rates__status">
+          <h2 class="rates__status-title" id="rates-status-title">Checking carriers…</h2>
+          <p class="rates__status-text">This usually takes about 10 seconds.</p>
+        </div>
+        <button class="rates__more" type="button" hidden></button>
+      </section>
+      <p class="rates__note" hidden></p>
+    </main>
+    <script src="/js/main.js?v=139" defer></script>
+  </body>
+</html>

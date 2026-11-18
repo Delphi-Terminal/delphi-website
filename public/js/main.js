@@ -2196,6 +2196,32 @@ initShipLookup();
 // named through the free zippopotam.us lookup, which also gives the distance
 // (straight line, padded by a typical road detour). Query parameters from the
 // homepage quote box prefill the form.
+const QUOTE_PRIVATE_KEY = "theseus-quote-private";
+const MODE_NAMES = { ftl: "FTL", ltl: "LTL", ptl: "PTL", unsure: "Not sure" };
+
+// Carrier transit times count business days.
+function businessDaysAfter(start, days) {
+  if (!start || !days) return null;
+  const date = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+  let left = days;
+  while (left > 0) {
+    date.setDate(date.getDate() + 1);
+    if (date.getDay() !== 0 && date.getDay() !== 6) left--;
+  }
+  return date;
+}
+
+function formatPickup(value) {
+  const [date, time] = (value || "").split("T");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date || "")) return "";
+  const [y, m, d] = date.split("-").map(Number);
+  const [hh, mm] = (time || "").split(":").map(Number);
+  const at = new Date(y, m - 1, d, hh || 0, mm || 0);
+  let text = at.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  if (time) text += ` · ${at.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
+  return text;
+}
+
 function initQuoteForm() {
   const form = document.querySelector(".quote-form");
   if (!form) return;
@@ -2207,8 +2233,15 @@ function initQuoteForm() {
   const places = {};
 
   const params = new URLSearchParams(window.location.search);
-  for (const name of ["from", "to", "pickup", "commodity", "pallets", "weight", "instructions", "email", "phone"]) {
-    if (params.get(name) && field(name)) field(name).value = params.get(name);
+  // Contact details and notes stay out of the /rates URL, so they come back
+  // from this tab's session when the shipper returns to edit the load.
+  let saved = {};
+  try {
+    saved = JSON.parse(sessionStorage.getItem(QUOTE_PRIVATE_KEY) || "{}");
+  } catch (err) {}
+  for (const name of ["from", "to", "pickup", "commodity", "pallets", "weight", "handling", "instructions", "email", "phone"]) {
+    const value = params.get(name) || saved[name];
+    if (value && field(name)) field(name).value = value;
   }
   // The shippers "Get a rate" sentence sends its picks as load, date and time.
   if (!params.get("pickup") && /^\d{4}-\d{2}-\d{2}$/.test(params.get("date") || "")) {
@@ -2301,16 +2334,7 @@ function initQuoteForm() {
     if (pallets) parts.push(`${pallets} pallet${pallets === 1 ? "" : "s"}`);
     if (weight) parts.push(`${weight} lbs`);
     set("freight", parts.join(" · "));
-    const [date, time] = field("pickup").value.split("T");
-    let pickup = "";
-    if (date) {
-      const [y, m, d] = date.split("-").map(Number);
-      const [hh, mm] = (time || "").split(":").map(Number);
-      const at = new Date(y, m - 1, d, hh || 0, mm || 0);
-      pickup = at.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-      if (time) pickup += ` · ${at.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`;
-    }
-    set("pickup", pickup);
+    set("pickup", formatPickup(field("pickup").value));
     set("handling", field("handling").value);
     const notes = field("instructions").value.trim().replace(/\s+/g, " ");
     set("notes", notes.length > 60 ? `${notes.slice(0, 57)}…` : notes);
@@ -2335,16 +2359,46 @@ function initQuoteForm() {
   });
   form.addEventListener("change", updateFreight);
 
+  const pickupButton = form.querySelector(".quote-date__btn");
+
   form.addEventListener("submit", (event) => {
+    event.preventDefault();
     const missing = [];
-    for (const name of ["from", "to"]) if (field(name).value.length !== 5 || resolved[name] === false) missing.push(name);
-    if (!emailOk()) missing.push("email");
-    for (const name of missing) field(name).classList.add("is-invalid");
+    for (const name of ["from", "to"]) if (field(name).value.length !== 5 || resolved[name] === false) missing.push(field(name));
+    if (!field("pickup").value) missing.push(pickupButton);
+    if (!Number(field("pallets").value)) missing.push(field("pallets"));
+    if (!Number(digits(field("weight").value))) missing.push(field("weight"));
+    if (!emailOk()) missing.push(field("email"));
+    for (const el of missing) el.classList.add("is-invalid");
     if (missing.length) {
-      event.preventDefault();
-      field(missing[0]).focus();
+      missing[0].focus();
+      return;
     }
+    const checked = form.querySelector("input[name='mode']:checked");
+    const load = new URLSearchParams({
+      from: field("from").value,
+      to: field("to").value,
+      pickup: field("pickup").value,
+      mode: checked ? checked.value : "unsure",
+      pallets: field("pallets").value,
+      weight: digits(field("weight").value),
+    });
+    if (field("handling").value) load.set("handling", field("handling").value);
+    if (field("commodity").value.trim()) load.set("commodity", field("commodity").value.trim());
+    try {
+      sessionStorage.setItem(
+        QUOTE_PRIVATE_KEY,
+        JSON.stringify({ email: field("email").value.trim(), phone: field("phone").value.trim(), instructions: field("instructions").value })
+      );
+    } catch (err) {}
+    window.location.href = `/rates?${load}`;
   });
+  for (const name of ["pallets", "weight", "pickup"]) {
+    field(name).addEventListener("input", () => {
+      field(name).classList.remove("is-invalid");
+      if (name === "pickup") pickupButton.classList.remove("is-invalid");
+    });
+  }
 
   field("weight").value = withCommas(digits(field("weight").value));
   updateLane();
@@ -2605,7 +2659,559 @@ function initQuoteDate() {
   show();
 }
 
+// /rates reads the load from its URL, asks /api/quote (api/quote.py) for
+// every carrier's rate on the lane and lists them cheapest first.
+function initQuoteRates() {
+  const section = document.querySelector(".rates");
+  if (!section) return;
+  const params = new URLSearchParams(window.location.search);
+  if (!/^\d{5}$/.test(params.get("from") || "") || !/^\d{5}$/.test(params.get("to") || "")) {
+    window.location.replace("/quote");
+    return;
+  }
+  const BOOK_CALL = "https://cal.com/shay-theseus/30min?user=shay-theseus&overlayCalendar=true";
+  const FIRST_ROWS = 9;
+  const DELIVER_BY = "5:00 PM";
+  const list = section.querySelector(".rates__list");
+  const statusTitle = section.querySelector(".rates__status-title");
+  const statusText = section.querySelector(".rates__status-text");
+  const more = section.querySelector(".rates__more");
+  const laneBar = document.querySelector(".rates-bar__lane");
+  const headSub = document.querySelector(".rates-head__sub");
+  const note = document.querySelector(".rates__note");
+  const editHref = `/quote?${params}`;
+  for (const link of document.querySelectorAll("[data-edit-load]")) link.href = editHref;
+
+  const inclButton = document.querySelector(".rates-incl__btn");
+  const inclList = document.querySelector(".rates-incl__list");
+  const setIncluded = (open) => {
+    inclButton.setAttribute("aria-expanded", String(open));
+    inclList.hidden = !open;
+  };
+  inclButton.addEventListener("click", () => setIncluded(inclList.hidden));
+
+  const money = (value) => `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const make = (tag, className, text) => {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  };
+
+  const [pickDate, pickTime] = (params.get("pickup") || "").split("T");
+  let pickupAt = null;
+  if (/^\d{4}-\d{2}-\d{2}$/.test(pickDate || "")) {
+    const [y, m, d] = pickDate.split("-").map(Number);
+    const [hh, mm] = (pickTime || "").split(":").map(Number);
+    pickupAt = new Date(y, m - 1, d, hh || 0, mm || 0);
+  }
+  const day = (date) => date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  const clock = (date) => date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  const arrival = (days) => businessDaysAfter(pickupAt, days);
+
+  const pallets = Number(params.get("pallets"));
+  const weight = Number(params.get("weight"));
+  const load = [];
+  if (MODE_NAMES[params.get("mode")]) load.push(MODE_NAMES[params.get("mode")]);
+  if (pallets) load.push(`${pallets} pallet${pallets === 1 ? "" : "s"}`);
+  if (weight) load.push(`${weight.toLocaleString("en-US")} lbs`);
+  if (params.get("handling")) load.push(params.get("handling"));
+  if (pickupAt) load.push(`Pickup ${day(pickupAt).replace(",", "")}${pickTime ? `, ${clock(pickupAt)}` : ""}`);
+  const setLane = (lane) => {
+    laneBar.textContent = "";
+    for (const text of lane ? [lane].concat(load) : load) laneBar.appendChild(make("span", "", text));
+  };
+  setLane("");
+
+  const place = (zip) =>
+    fetch(`https://api.zippopotam.us/us/${zip}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        const found = data && data.places && data.places[0];
+        return found ? `${found["place name"]}, ${found["state abbreviation"]}` : zip;
+      })
+      .catch(() => zip);
+  Promise.all([place(params.get("from")), place(params.get("to"))]).then(([from, to]) => setLane(`${from} → ${to}`));
+
+  function setStatus(state, title, text) {
+    section.className = `rates is-${state}`;
+    statusTitle.textContent = title;
+    statusText.textContent = text ? `${text} ` : "";
+    if (state === "manual" || state === "error") {
+      const edit = make("a", "", "Edit your load");
+      edit.href = editHref;
+      const call = make("a", "", "book a call with our team →");
+      call.href = BOOK_CALL;
+      call.target = "_blank";
+      call.rel = "noopener";
+      statusText.append(edit, " or ", call);
+    }
+  }
+
+  function detail(rate) {
+    const panel = make("div", "rate__detail");
+    const when = make("dl", "rate__when");
+    const arrives = arrival(rate.transitDays);
+    const rows = [
+      ["Pickup", pickupAt ? `${day(pickupAt)}${pickTime ? `, ${clock(pickupAt)}` : ""}` : "—"],
+      ["Delivery", arrives ? `${day(arrives)}, by ${DELIVER_BY}` : "—"],
+    ];
+    for (const [term, value] of rows) {
+      const wrap = make("div");
+      wrap.append(make("dt", "", term), make("dd", "", value));
+      when.appendChild(wrap);
+    }
+    const cost = make("dl", "rate__cost");
+    const charges = rate.charges || { linehaul: rate.price, fuel: 0, accessorials: [] };
+    const extras = charges.accessorials.length
+      ? charges.accessorials.map((item) => `${item.name} ${money(item.amount)}`).join(", ")
+      : "none";
+    for (const [term, value] of [
+      ["Linehaul", money(charges.linehaul)],
+      ["Fuel", charges.fuel ? money(charges.fuel) : "included"],
+      ["Accessorials", extras],
+    ]) {
+      const wrap = make("div");
+      wrap.append(make("dt", "", term), make("dd", "", value));
+      cost.appendChild(wrap);
+    }
+    const book = make("a", "rate__book", "Book this rate →");
+    if (rate.token) {
+      book.href = `/book?rate=${encodeURIComponent(rate.token)}`;
+    } else {
+      book.href = BOOK_CALL;
+      book.target = "_blank";
+      book.rel = "noopener";
+    }
+    panel.append(when, cost, book);
+    return panel;
+  }
+
+  function renderRates(data) {
+    const rates = data.rates;
+    const carriers = new Set(rates.map((rate) => rate.carrierCode || rate.carrier.toLowerCase())).size;
+    headSub.textContent = `${rates.length} rate${rates.length === 1 ? "" : "s"}, ${carriers} carrier${carriers === 1 ? "" : "s"}`;
+    setStatus("ready", "");
+    list.textContent = "";
+    const closers = [];
+    rates.forEach((rate, index) => {
+      const li = make("li", "rate");
+      if (index >= FIRST_ROWS) li.hidden = true;
+      const toggle = make("button", "rate__row");
+      toggle.type = "button";
+      const carrier = make("span", "rate__carrier", rate.carrier);
+      const arrives = arrival(rate.transitDays);
+      toggle.append(
+        carrier,
+        make("span", "rate__service", rate.service),
+        make("span", "rate__arrives", arrives ? `${day(arrives)}, ${DELIVER_BY}` : rate.transitDays ? `${rate.transitDays} days` : "—"),
+        make("span", "rate__price", money(rate.price)),
+        make("span", "rate__chev")
+      );
+      const panel = detail(rate);
+      panel.id = `rate-detail-${index}`;
+      toggle.setAttribute("aria-controls", panel.id);
+      const setOpen = (open) => {
+        li.classList.toggle("is-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        panel.hidden = !open;
+      };
+      setOpen(index === 0);
+      closers.push(() => setOpen(false));
+      li.addEventListener("click", (event) => {
+        if (event.target.closest("a") || String(window.getSelection())) return;
+        const open = !li.classList.contains("is-open");
+        for (const close of closers) close();
+        setOpen(open);
+      });
+      li.append(toggle, panel);
+      list.appendChild(li);
+    });
+    const hidden = rates.length - FIRST_ROWS;
+    more.hidden = hidden <= 0;
+    more.textContent = `Show ${hidden} more ↓`;
+    more.onclick = () => {
+      for (const li of list.children) li.hidden = false;
+      more.hidden = true;
+    };
+    note.hidden = false;
+    note.textContent = "All-in rates from each carrier. They can change until the load is booked.";
+  }
+
+  const body = {
+    from: params.get("from"),
+    to: params.get("to"),
+    pickup: params.get("pickup") || "",
+    mode: params.get("mode") || "unsure",
+    pallets: params.get("pallets") || "",
+    weight: params.get("weight") || "",
+    handling: params.get("handling") || "",
+    commodity: params.get("commodity") || "",
+  };
+  fetch("/api/quote", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
+    .then((res) =>
+      res
+        .json()
+        .catch(() => ({}))
+        .then((data) => ({ ok: res.ok, data }))
+    )
+    .then(({ ok, data }) => {
+      if (ok && data.manual) setStatus("manual", "Our team will price this one", data.reason);
+      else if (ok && data.rates && data.rates.length) renderRates(data);
+      else setStatus("error", "We couldn't get instant rates", data.error || "Rates are unavailable right now.");
+    })
+    .catch(() => setStatus("error", "We couldn't get instant rates", "Check your connection and try again."));
+}
+
+// /book checks out one rate from /rates. The signed rate token in the URL
+// carries the quote; api/book.py holds the card, books the truck with Warp,
+// then captures the payment.
+function initBook() {
+  const form = document.querySelector(".book-form");
+  if (!form) return;
+  const BOOK_CALL = "https://cal.com/shay-theseus/30min?user=shay-theseus&overlayCalendar=true";
+  const PENDING_KEY = "theseus-book-pending";
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("rate") || "";
+  const field = (name) => form.elements[name];
+  const errorEl = form.querySelector(".book-error");
+  const submit = form.querySelector(".book-submit");
+  const done = document.querySelector(".book-done");
+  const title = document.querySelector(".book-page__title");
+  const testNote = document.querySelector(".book-test");
+  const money = (value) => `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const day = (date) => date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  const make = (tag, className, text) => {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined) el.textContent = text;
+    return el;
+  };
+  const link = (text, href, external) => {
+    const a = make("a", "", text);
+    a.href = href;
+    if (external) {
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
+    return a;
+  };
+
+  let rate = null;
+  try {
+    const body = token.split(".")[0].replace(/-/g, "+").replace(/_/g, "/");
+    rate = JSON.parse(atob(body + "===".slice((body.length + 3) % 4)));
+  } catch (err) {}
+  function fail(text) {
+    form.hidden = true;
+    errorEl.hidden = true;
+    done.hidden = false;
+    done.querySelector(".book-done__label").textContent = "Can’t book";
+    done.querySelector(".book-done__title").textContent = "This rate can’t be booked";
+    done.querySelector(".book-done__text").textContent = text;
+  }
+  if (!rate || !rate.q || !rate.l || typeof rate.p !== "number") {
+    fail("The booking link is incomplete. Get fresh rates and pick one to book.");
+    return;
+  }
+  const load = rate.l;
+  const ratesParams = new URLSearchParams({
+    from: load.from,
+    to: load.to,
+    pickup: load.pickup || load.date,
+    mode: load.mode,
+    pallets: String(load.pallets),
+    weight: String(load.weight),
+  });
+  if (load.handling) ratesParams.set("handling", load.handling);
+  if (load.commodity && load.commodity !== "Pallet") ratesParams.set("commodity", load.commodity);
+  for (const a of document.querySelectorAll("[data-back-rates]")) a.href = `/rates?${ratesParams}`;
+
+  const [y, m, d] = load.date.split("-").map(Number);
+  const pickupTime = /T(\d{2}:\d{2})$/.test(load.pickup || "") ? load.pickup.slice(-5) : "";
+  const pickupDay = new Date(y, m - 1, d);
+  const deliveryDay = businessDaysAfter(pickupDay, rate.t) || businessDaysAfter(pickupDay, 1);
+  const ymd = (date) =>
+    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
+  const laneBar = document.querySelector(".rates-bar__lane");
+  const loadParts = [MODE_NAMES[load.mode] || "", `${load.pallets} pallet${load.pallets === 1 ? "" : "s"}`, `${load.weight.toLocaleString("en-US")} lbs`];
+  if (load.handling) loadParts.push(load.handling);
+  const setLane = (lane) => {
+    laneBar.textContent = "";
+    for (const text of [lane].concat(loadParts)) if (text) laneBar.appendChild(make("span", "", text));
+  };
+  setLane(`${load.from} → ${load.to}`);
+  const places = {};
+  for (const [stop, zip] of [["pickup", load.from], ["delivery", load.to]]) {
+    field(`${stop}.zip`).value = zip;
+    places[stop] = fetch(`https://api.zippopotam.us/us/${zip}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        const place = data && data.places && data.places[0];
+        if (!place) return zip;
+        if (!field(`${stop}.city`).value) field(`${stop}.city`).value = place["place name"];
+        if (!field(`${stop}.state`).value) field(`${stop}.state`).value = place["state abbreviation"];
+        return `${place["place name"]}, ${place["state abbreviation"]}`;
+      })
+      .catch(() => zip);
+  }
+  Promise.all([places.pickup, places.delivery]).then(([from, to]) => setLane(`${from} → ${to}`));
+
+  const TIMES = [];
+  for (let hour = 5; hour <= 21; hour++) TIMES.push(`${String(hour).padStart(2, "0")}:00`);
+  const timeLabel = (value) => {
+    const [hh, mm] = value.split(":").map(Number);
+    return new Date(2000, 0, 1, hh, mm).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  };
+  for (const select of form.querySelectorAll("select[data-times]")) {
+    for (const value of TIMES) {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = timeLabel(value);
+      select.appendChild(option);
+    }
+  }
+  field("pickup.from").value = TIMES.indexOf(pickupTime) >= 0 ? pickupTime : "08:00";
+  field("pickup.to").value = "17:00";
+  if (field("pickup.to").value <= field("pickup.from").value) field("pickup.to").value = TIMES[TIMES.length - 1];
+  field("delivery.from").value = "08:00";
+  field("delivery.to").value = "17:00";
+
+  form.querySelector('[data-date="pickup"]').textContent = day(pickupDay);
+  form.querySelector('[data-date="delivery"]').textContent = day(deliveryDay);
+  form.querySelector(".book-summary__carrier").textContent = rate.n;
+  form.querySelector(".book-summary__service").textContent = `${rate.s} · ${MODE_NAMES[load.mode] || "LTL"}`;
+  form.querySelector('[data-summary="pickup"]').textContent = day(pickupDay);
+  form.querySelector('[data-summary="delivery"]').textContent = day(deliveryDay);
+  form.querySelector('[data-summary="freight"]').textContent = money(rate.p);
+  form.querySelector('[data-summary="total"]').textContent = money(rate.p);
+  const payLabel = `Pay ${money(rate.p)} and book →`;
+  submit.textContent = payLabel;
+
+  let saved = {};
+  try {
+    saved = JSON.parse(sessionStorage.getItem(QUOTE_PRIVATE_KEY) || "{}");
+  } catch (err) {}
+  if (saved.email) field("pickup.email").value = saved.email;
+  if (saved.phone) field("pickup.phone").value = saved.phone;
+  if (saved.instructions) field("pickup.instructions").value = saved.instructions.trim().slice(0, 200);
+
+  if (typeof rate.x === "number" && rate.x < Date.now() + 60000) {
+    fail("This rate has expired. Carrier rates only hold for a short time.");
+    done.querySelector(".book-done__links").textContent = "";
+    done.querySelector(".book-done__links").appendChild(link("Get fresh rates →", `/rates?${ratesParams}`));
+    return;
+  }
+
+  function showError(text, withCall) {
+    errorEl.hidden = false;
+    errorEl.textContent = `${text} `;
+    if (withCall) errorEl.appendChild(link("Book a call with our team →", BOOK_CALL, true));
+  }
+  function busy(on) {
+    submit.disabled = on;
+    submit.textContent = on ? "Booking…" : payLabel;
+  }
+
+  const STOP_FIELDS = ["company", "name", "phone", "email", "street", "street2", "city", "state", "from", "to", "instructions", "ref"];
+  function details() {
+    const out = {};
+    for (const stop of ["pickup", "delivery"]) {
+      const info = {};
+      for (const name of STOP_FIELDS) {
+        const input = field(`${stop}.${name}`);
+        info[name] = input ? input.value.trim() : "";
+      }
+      const date = stop === "pickup" ? pickupDay : deliveryDay;
+      const at = (time) => {
+        const [hh, mm] = time.split(":").map(Number);
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hh, mm).toISOString();
+      };
+      info.from = at(info.from);
+      info.to = at(info.to);
+      info.state = info.state.toUpperCase();
+      out[stop] = info;
+    }
+    return out;
+  }
+  function validate() {
+    for (const el of form.querySelectorAll(".is-invalid")) el.classList.remove("is-invalid");
+    const bad = [];
+    for (const stop of ["pickup", "delivery"]) {
+      for (const name of ["company", "name", "street", "city"]) {
+        if (!field(`${stop}.${name}`).value.trim()) bad.push(field(`${stop}.${name}`));
+      }
+      if (!/^[A-Za-z]{2}$/.test(field(`${stop}.state`).value.trim())) bad.push(field(`${stop}.state`));
+      if (field(`${stop}.phone`).value.replace(/\D/g, "").length < 10) bad.push(field(`${stop}.phone`));
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field(`${stop}.email`).value.trim())) bad.push(field(`${stop}.email`));
+      if (field(`${stop}.to`).value <= field(`${stop}.from`).value) {
+        bad.push(field(`${stop}.to`).closest(".quote-field").querySelector(".quote-select__btn") || field(`${stop}.to`));
+      }
+    }
+    for (const el of bad) el.classList.add("is-invalid");
+    if (bad.length) {
+      bad[0].focus();
+      showError("Fill in the highlighted fields.");
+      return false;
+    }
+    if (!form.elements.agree.checked) {
+      form.elements.agree.focus();
+      showError("Confirm the load details to book.");
+      return false;
+    }
+    errorEl.hidden = true;
+    return true;
+  }
+  form.addEventListener("input", (event) => {
+    if (event.target.classList) event.target.classList.remove("is-invalid");
+    if (!form.querySelector(".is-invalid")) errorEl.hidden = true;
+  });
+
+  const api = (body) =>
+    fetch("/api/book", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).then((res) =>
+      res
+        .json()
+        .catch(() => ({}))
+        .then((data) => {
+          if (!res.ok) throw new Error(data.error || "Booking is unavailable right now.");
+          return data;
+        })
+    );
+
+  function showDone(booking, info) {
+    try {
+      sessionStorage.removeItem(PENDING_KEY);
+    } catch (err) {}
+    if (window.history.replaceState) window.history.replaceState(null, "", `/book?rate=${encodeURIComponent(token)}`);
+    form.hidden = true;
+    title.hidden = true;
+    testNote.hidden = true;
+    done.hidden = false;
+    for (const a of document.querySelectorAll("[data-back-rates]")) {
+      if (a.classList.contains("rates-bar__edit")) a.hidden = true;
+      else {
+        a.href = "/quote";
+        a.textContent = "← New quote";
+      }
+    }
+    done.querySelector(".book-done__text").textContent = booking.test
+      ? "Test booking: no truck was booked and no money moved."
+      : `${rate.n} has your load. We’ll email ${info.pickup.email} with updates.`;
+    const rows = done.querySelector(".book-done__rows");
+    rows.textContent = "";
+    const entries = [
+      ["Tracking #", booking.trackingNumber],
+      ["PRO #", booking.proNumber],
+      ["Carrier", `${rate.n} · ${rate.s}`],
+      ["Pickup", `${day(pickupDay)}, ${info.pickup.company}`],
+      ["Est. delivery", `${day(deliveryDay)}, ${info.delivery.company}`],
+      ["Paid", money(rate.p)],
+    ];
+    for (const [term, value] of entries) {
+      if (!value) continue;
+      const wrap = make("div");
+      wrap.append(make("dt", "", term), make("dd", "", value));
+      rows.appendChild(wrap);
+    }
+    window.scrollTo(0, 0);
+  }
+  function book(intentId, info) {
+    return api({ step: "book", token, intentId, pickup: info.pickup, delivery: info.delivery }).then((data) => showDone(data.booking, info));
+  }
+
+  let pending = null;
+  try {
+    pending = JSON.parse(sessionStorage.getItem(PENDING_KEY) || "null");
+  } catch (err) {}
+  const returning = params.get("payment_intent");
+  if (returning && pending && pending.token === token) {
+    busy(true);
+    book(returning, pending.info).catch((err) => {
+      busy(false);
+      showError(err.message, true);
+    });
+  }
+
+  fetch("/api/book")
+    .then((res) => res.json().then((data) => ({ ok: res.ok, data })))
+    .then(({ ok, data }) => {
+      if (!ok || !data.publishableKey || typeof window.Stripe !== "function") throw new Error(data.error);
+      if (data.testMode) testNote.hidden = false;
+      const stripe = window.Stripe(data.publishableKey);
+      const elements = stripe.elements({
+        mode: "payment",
+        amount: Math.round(rate.p * 100),
+        currency: String(rate.c || "USD").toLowerCase(),
+        captureMethod: "manual",
+        paymentMethodTypes: ["card", "link"],
+        appearance: {
+          theme: "stripe",
+          variables: {
+            colorPrimary: "#0b3a8c",
+            colorBackground: "#f2f4f9",
+            colorText: "#111111",
+            colorDanger: "#c62828",
+            fontFamily: 'system-ui, -apple-system, "Segoe UI", sans-serif',
+            fontSizeBase: "16px",
+            borderRadius: "0px",
+          },
+          rules: {
+            ".Input": { border: "1px solid #bdbdbd", boxShadow: "none" },
+            ".Input:focus": { border: "1px solid #0b3a8c", boxShadow: "0 0 0 1px #0b3a8c", backgroundColor: "#ffffff" },
+            ".Label": { fontWeight: "500", color: "#111111" },
+            ".Tab": { border: "1px solid #bdbdbd", boxShadow: "none" },
+          },
+        },
+      });
+      const payment = elements.create("payment", { layout: "tabs" });
+      payment.mount(form.querySelector(".book-pay__element"));
+      payment.on("ready", () => {
+        if (!returning) submit.disabled = false;
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (submit.disabled || !validate()) return;
+        const info = details();
+        busy(true);
+        elements
+          .submit()
+          .then((result) => {
+            if (result.error) throw new Error(result.error.message);
+            return api({ step: "intent", token, email: info.pickup.email });
+          })
+          .then((data) => {
+            try {
+              sessionStorage.setItem(PENDING_KEY, JSON.stringify({ token, info }));
+            } catch (err) {}
+            return stripe.confirmPayment({
+              elements,
+              clientSecret: data.clientSecret,
+              confirmParams: { return_url: window.location.href },
+              redirect: "if_required",
+            });
+          })
+          .then((result) => {
+            if (result.error) throw new Error(result.error.message);
+            if (result.paymentIntent.status !== "requires_capture") throw new Error("Your card wasn’t authorized. Try another card.");
+            return book(result.paymentIntent.id, info);
+          })
+          .catch((err) => {
+            busy(false);
+            showError(err.message || "Something went wrong.", true);
+          });
+      });
+    })
+    .catch((err) => {
+      submit.disabled = true;
+      showError((err && err.message) || "Online booking isn’t available right now.", true);
+    });
+}
+
 initQuoteForm();
+initQuoteRates();
+initBook();
 initQuoteDate();
 initQuoteSelects();
 
