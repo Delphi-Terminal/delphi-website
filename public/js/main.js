@@ -24,6 +24,34 @@ function initIntro() {
   if (!intro || !logo || !ctx) return;
   intro.style.animation = "none";
 
+  // The overlay has to match the screen the user sees. On a phone the page
+  // can be wider than that screen, and a fixed full-bleed layer would then
+  // center the logo in the wide page instead of on the screen.
+  function screenBox() {
+    const view = window.visualViewport;
+    return {
+      width: view ? view.width : window.innerWidth,
+      height: view ? view.height : window.innerHeight,
+      left: view ? view.offsetLeft : 0,
+      top: view ? view.offsetTop : 0,
+    };
+  }
+  function placeIntro() {
+    const box = screenBox();
+    intro.style.left = `${box.left}px`;
+    intro.style.top = `${box.top}px`;
+    intro.style.width = `${box.width}px`;
+    intro.style.height = `${box.height}px`;
+    intro.style.right = "auto";
+    intro.style.bottom = "auto";
+    return box;
+  }
+  placeIntro();
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", placeIntro);
+    window.visualViewport.addEventListener("scroll", placeIntro);
+  }
+
   const grid = DOT_GRIDS.find((g) => document.querySelector(`${g.host} ${g.canvas}`)) || {
     pitch: 12,
     size: 1.5,
@@ -45,6 +73,10 @@ function initIntro() {
     if (finished) return;
     finished = true;
     intro.classList.add("is-done");
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener("resize", placeIntro);
+      window.visualViewport.removeEventListener("scroll", placeIntro);
+    }
     document.documentElement.dataset.introDone = "";
     document.dispatchEvent(new Event("intro:done"));
     setTimeout(() => intro.remove(), 450);
@@ -63,8 +95,9 @@ function initIntro() {
   img
     .decode()
     .then(() => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const screen = placeIntro();
+      const width = screen.width;
+      const height = screen.height;
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
@@ -921,9 +954,11 @@ function initHubNetwork() {
   let raf = 0;
   const STAGE_LEAVE = 0.6;
   const MAP_DELAY = 0.3;
+  // Below this the scroll is native and syncMobileScroll drives the motion.
+  const wideLayout = window.matchMedia("(min-width: 901px)");
 
   function applyStage(value) {
-    if (!stage) return;
+    if (!stage || !wideLayout.matches) return;
     // Moves off from the first scroll and is gone by mid-wave 1, clear of the
     // map before it starts sliding left (applyMap).
     const leave = Math.min(1, Math.max(0, value / STAGE_LEAVE));
@@ -933,7 +968,7 @@ function initHubNetwork() {
   }
 
   function applyStory(value) {
-    if (!storyStage) return;
+    if (!storyStage || !wideLayout.matches) return;
     // Show once wave-1 neighbors light (~0.92), then hold through later waves.
     const enter = Math.min(1, Math.max(0, (value - 0.92) / 0.28));
     storyStage.style.opacity = String(enter);
@@ -951,13 +986,8 @@ function initHubNetwork() {
   // on the right.
   const mapSection = document.querySelector(".map-section");
   const heroEl = document.querySelector(".hero");
-  const wideLayout = window.matchMedia("(min-width: 901px)");
   function applyMap(value) {
-    if (!mapSection || !heroEl) return;
-    if (!wideLayout.matches) {
-      mapSection.style.transform = "";
-      return;
-    }
+    if (!wideLayout.matches || !mapSection || !heroEl) return;
     const t = Math.min(1, Math.max(0, (value - MAP_DELAY) / (1.2 - MAP_DELAY)));
     const eased = t * t * (3 - 2 * t);
     const shift = Math.max(0, mapSection.offsetLeft - heroEl.offsetLeft);
@@ -981,6 +1011,7 @@ function initHubNetwork() {
   });
 
   function applyReveal(value) {
+    if (!wideLayout.matches) return;
     // After all neighbors: lift the blue by its overhang to reveal its bottom
     // edge, the black bar, and the top of the white section below.
     const t = Math.min(1, Math.max(0, (value - waveCount) / 0.3));
@@ -992,7 +1023,7 @@ function initHubNetwork() {
   // Native page scrolling only takes over once the animation has finished,
   // and hands back when scrolled to the top.
   function syncHijack() {
-    document.documentElement.classList.toggle("is-hijacked", target < maxProgress);
+    document.documentElement.classList.toggle("is-hijacked", wideLayout.matches && target < maxProgress);
   }
   // The animation always starts at the top, so a reload mustn't restore a
   // scroll position below it (page scrolling would be locked out there).
@@ -1056,7 +1087,7 @@ function initHubNetwork() {
     "wheel",
     (event) => {
       // Trackpad pinch arrives as ctrl+wheel; leave it to the browser's zoom.
-      if (event.deltaY === 0 || event.ctrlKey) return;
+      if (!wideLayout.matches || event.deltaY === 0 || event.ctrlKey) return;
       const consumed =
         (event.deltaY > 0 && target < maxProgress) || (event.deltaY < 0 && target > 0 && window.scrollY <= 0);
       if (!consumed) return;
@@ -1079,7 +1110,7 @@ function initHubNetwork() {
     "touchmove",
     (event) => {
       // Two-finger gestures are pinch-zoom; don't hijack them.
-      if (touchY == null || event.touches.length > 1) return;
+      if (!wideLayout.matches || touchY == null || event.touches.length > 1) return;
       if (!event.touches.length) return;
       const y = event.touches[0].clientY;
       const dy = touchY - y;
@@ -1092,6 +1123,143 @@ function initHubNetwork() {
     },
     { passive: false }
   );
+
+  // On a phone the page scrolls natively. Scroll position drives the motion:
+  // the headline lifts away, the next lines and the map rise in, and the
+  // routes light up as the map crosses the screen.
+  const heroCopy = stage && stage.querySelector(".hero__copy");
+  const heroFacts = stage && stage.querySelector(".hero__facts");
+  const riseEls = [...document.querySelectorAll(".modes > li, .services > li")];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function clearMobileMotion() {
+    [heroCopy, heroFacts, storyStage, mapSection, backed, ...riseEls].forEach((el) => {
+      if (!el) return;
+      el.style.opacity = "";
+      el.style.transform = "";
+    });
+  }
+
+  function rise(el, trigger) {
+    const top = el.getBoundingClientRect().top;
+    const t = Math.min(1, Math.max(0, (trigger - top) / (window.innerHeight * 0.4)));
+    const eased = t * t * (3 - 2 * t);
+    el.style.opacity = String(eased);
+    el.style.transform = `translateY(${((1 - eased) * 28).toFixed(1)}px)`;
+    return t;
+  }
+
+  let mobileRaf = 0;
+  function syncMobileScroll() {
+    if (wideLayout.matches) return;
+    if (storyStage) storyStage.setAttribute("aria-hidden", "false");
+    if (backed) backed.setAttribute("aria-hidden", "false");
+    if (reduceMotion.matches) {
+      clearMobileMotion();
+      applyProgress(maxProgress);
+      return;
+    }
+    const vh = window.innerHeight;
+    const y = window.scrollY;
+    if (heroCopy) {
+      const leave = Math.min(1, Math.max(0, y / (vh * 0.42)));
+      heroCopy.style.opacity = String(1 - leave);
+      heroCopy.style.transform = `translateY(${(-leave * 42).toFixed(1)}px)`;
+    }
+    if (heroFacts) {
+      const leave = Math.min(1, Math.max(0, (y - vh * 0.06) / (vh * 0.4)));
+      heroFacts.style.opacity = String(1 - leave);
+      heroFacts.style.transform = `translateY(${(-leave * 28).toFixed(1)}px)`;
+    }
+    if (storyStage) rise(storyStage, vh * 0.96);
+    let through = 0;
+    if (mapSection) {
+      const entered = rise(mapSection, vh * 0.94);
+      const top = mapSection.getBoundingClientRect().top;
+      through = Math.min(1, Math.max(entered, (vh * 0.82 - top) / (vh * 0.85)));
+    }
+    if (backed) revealBacked();
+    riseEls.forEach((el) => rise(el, vh * 0.94));
+    applyProgress(through * maxProgress);
+    updateBackedGate();
+  }
+
+  // The white section stays below the fold until Backed by is entirely on
+  // screen. Once it has been, scrolling on into the white is free, and
+  // scrolling back above it arms the hold again.
+  let backedDone = false;
+  function backedFullyInView() {
+    if (!backed) return false;
+    const box = backed.getBoundingClientRect();
+    return box.height > 0 && box.top >= -1 && box.bottom <= window.innerHeight - 16;
+  }
+
+  function revealBacked() {
+    const box = backed.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const margin = 16;
+    const travel = Math.max(box.height + margin, 1);
+    // 0 as the block enters at the bottom, 1 once it sits fully inside.
+    const t = Math.min(1, Math.max(0, (vh - box.top) / travel));
+    const eased = t * t * (3 - 2 * t);
+    backed.style.opacity = String(eased);
+    backed.style.transform = `translateY(${((1 - eased) * 28).toFixed(1)}px)`;
+  }
+
+  function updateBackedGate() {
+    if (wideLayout.matches || !backed) return;
+    const white = document.querySelector(".services-track");
+    if (!white) return;
+    if (backedFullyInView()) backedDone = true;
+    else if (white.getBoundingClientRect().top >= window.innerHeight - 1) backedDone = false;
+    if (backedDone) return;
+    const limit = Math.max(0, white.getBoundingClientRect().top + window.scrollY - window.innerHeight - 2);
+    if (window.scrollY > limit) window.scrollTo(0, limit);
+  }
+
+  let gateTouchY = null;
+  window.addEventListener("touchstart", (event) => {
+    gateTouchY = event.touches.length ? event.touches[0].clientY : null;
+  }, { passive: true });
+  window.addEventListener("touchmove", (event) => {
+    if (wideLayout.matches || backedDone || gateTouchY == null || event.touches.length !== 1) return;
+    const y = event.touches[0].clientY;
+    const pullingUp = gateTouchY - y > 0;
+    gateTouchY = y;
+    const white = document.querySelector(".services-track");
+    if (!white || !pullingUp || backedFullyInView()) return;
+    const limit = Math.max(0, white.getBoundingClientRect().top + window.scrollY - window.innerHeight - 2);
+    if (window.scrollY >= limit) event.preventDefault();
+  }, { passive: false });
+  window.addEventListener("wheel", (event) => {
+    if (wideLayout.matches || backedDone || event.deltaY <= 0 || backedFullyInView()) return;
+    const white = document.querySelector(".services-track");
+    if (!white) return;
+    const limit = Math.max(0, white.getBoundingClientRect().top + window.scrollY - window.innerHeight - 2);
+    if (window.scrollY >= limit) event.preventDefault();
+  }, { passive: false });
+
+  function requestMobileScroll() {
+    if (mobileRaf) return;
+    mobileRaf = requestAnimationFrame(() => {
+      mobileRaf = 0;
+      syncMobileScroll();
+    });
+  }
+
+  window.addEventListener("scroll", requestMobileScroll, { passive: true });
+  window.addEventListener("resize", requestMobileScroll);
+  syncMobileScroll();
+
+  // Crossing the breakpoint restarts the hero from its first beat, at the top.
+  wideLayout.addEventListener("change", () => {
+    target = 0;
+    clearMobileMotion();
+    applyProgress(0);
+    syncHijack();
+    if (wideLayout.matches) window.scrollTo(0, 0);
+    else syncMobileScroll();
+  });
 }
 
 initHubNetwork();
@@ -1223,8 +1391,11 @@ function initContactMenu() {
     toggle.setAttribute("aria-expanded", String(open));
   }
 
+  const inPanel = window.matchMedia("(max-width: 900px)");
   toggle.addEventListener("click", () => setOpen(!menu.classList.contains("is-open")));
-  menu.addEventListener("mouseleave", () => setOpen(false));
+  menu.addEventListener("mouseleave", () => {
+    if (!inPanel.matches) setOpen(false);
+  });
   // Tabbing into the links keeps it open; tabbing out of the menu closes it.
   menu.addEventListener("focusin", (event) => {
     if (event.target !== toggle) setOpen(true);
@@ -1244,6 +1415,40 @@ function initContactMenu() {
 }
 
 initContactMenu();
+
+// Mobile header: the three-line button opens both navs as a panel under the
+// header. Following a link, clicking outside, Escape or widening past the
+// mobile breakpoint closes it.
+function initSiteMenu() {
+  const header = document.querySelector(".site-header");
+  const toggle = header && header.querySelector(".site-menu-toggle");
+  const panel = header && header.querySelector(".site-menu");
+  if (!toggle || !panel) return;
+  const mobile = window.matchMedia("(max-width: 900px)");
+
+  function setOpen(open) {
+    header.classList.toggle("is-menu-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Menu");
+  }
+
+  toggle.addEventListener("click", () => setOpen(!header.classList.contains("is-menu-open")));
+  panel.addEventListener("click", (event) => {
+    if (event.target.closest("a")) setOpen(false);
+  });
+  document.addEventListener("click", (event) => {
+    if (!header.contains(event.target)) setOpen(false);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && header.classList.contains("is-menu-open")) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  mobile.addEventListener("change", () => setOpen(false));
+}
+
+initSiteMenu();
 
 // A white dot grid drawn on `canvas` over `host`. Dots near the mouse are
 // pushed away from it and ease back to their grid spots once it moves on or
